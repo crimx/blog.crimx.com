@@ -7,261 +7,267 @@
 <!--<![endif]-->
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-  <title>理解 Anki 基础概念 | CRIMX</title>
-  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-  <meta name="description" content="在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>理解 Anki 基础概念 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。
 Anki 是一个卡片记忆系统，基于 SuperMemo 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。
 Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解的话用起来就">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="理解 Anki 基础概念">
-    <meta property="og:url" content="https://blog.crimx.com/2016/03/20/understanding-anki/index.html">
-    <meta property="og:site_name" content="CRIMX">
-    <meta property="og:description" content="在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解 Anki 基础概念">
+<meta property="og:url" content="https://blog.crimx.com/2016/03/20/understanding-anki/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。
 Anki 是一个卡片记忆系统，基于 SuperMemo 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。
 Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解的话用起来就">
-      <meta property="og:updated_time" content="2016-12-28T11:04:33.473Z">
-      <meta name="twitter:card" content="summary">
-      <meta name="twitter:title" content="理解 Anki 基础概念">
-      <meta name="twitter:description" content="在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。
+<meta property="og:updated_time" content="2016-12-28T11:04:33.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解 Anki 基础概念">
+<meta name="twitter:description" content="在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。
 Anki 是一个卡片记忆系统，基于 SuperMemo 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。
 Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解的话用起来就">
-        <meta name="twitter:creator" content="@straybugs">
-        <link rel="stylesheet" href="/static/style.css">
-        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
-        <script>
-          ! function() {
-            var e = document.getElementsByTagName("html")[0];
-            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
-          }()
-
-        </script>
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+! function() {
+    var e = document.getElementsByTagName("html")[0];
+    e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+}()
+</script>
 </head>
 
 <body>
-  <!--[if lte IE 9]>
+<!--[if lte IE 9]>
     <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
   <![endif]-->
-  <div class="site-container">
-    <div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/alarm-clock-1842652_1920-portrait.jpg) 51.47% 38.73%/cover">
-      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAIBBAUDBv/EACgQAAICAQMDAQkAAAAAAAAAAAECAAMEBREhExUxQRIUIjJRUlNUkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBA//EAB4RAAIBAwUAAAAAAAAAAAAAAAABEQISIhMUITJR/9oADAMBAAIRAxEAPwBiABvuJBRXHw+PWLdiNl3JStprXySJNOF7pn7GxrEdeATK2RKXAdAfWEvdNfsH9hJKHYzFbOoblc1Ay+G3nCvUFe5mt1GtmHy8+kyMXS8K7TTeaiGAO/MpLp+P3WmoKfZZQSIe3CNHhk0em7lX+/XCJ2HE/GsItCoO5Xh//9k=) 51.47% 38.73%/cover"></div>
-      <div class="site-menu-inner-wrapper">
-        <div class="menu-logo">
-          <a class="icon-logo" href="/"></a>
-        </div>
-        <ul class="menu-social-icons">
-          <li>
-            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-rss" href="/atom.xml"></a>
-          </li>
-        </ul>
-        <ul class="menu-navs">
-          <li><a href="/categories/">Categories</a></li>
-          <li><a href="/archives/">Archives</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/search/">Search</a></li>
-          <li><a href="/about/">About</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="site-menu-mask"></div>
-    <div class="main-content">
-      <header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/alarm-clock-1842652_1920-portrait.jpg) 51.47% 38.73%/cover">
-        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAIBBAUDBv/EACgQAAICAQMDAQkAAAAAAAAAAAECAAMEBREhExUxQRIUIjJRUlNUkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBA//EAB4RAAIBAwUAAAAAAAAAAAAAAAABEQISIhMUITJR/9oADAMBAAIRAxEAPwBiABvuJBRXHw+PWLdiNl3JStprXySJNOF7pn7GxrEdeATK2RKXAdAfWEvdNfsH9hJKHYzFbOoblc1Ay+G3nCvUFe5mt1GtmHy8+kyMXS8K7TTeaiGAO/MpLp+P3WmoKfZZQSIe3CNHhk0em7lX+/XCJ2HE/GsItCoO5Xh//9k=) 51.47% 38.73%/cover"></div>
-        <a class="cover-logo" href="/"></a>
-        <div class="title-wrapper">
-          <h1 class="site-title" itemprop="name">理解 Anki 基础概念</h1>
-          <div class="article-meta">
-            <div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2016/03/20/understanding-anki/" class="article-date"><time datetime="2016-03-19T16:00:00.000Z" itemprop="datePublished">2016-03-20</time></a>
-            <a rel="license"
-              class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-          </div>
-        </div>
-      </header>
-      <div class="toc-mousearea"></div>
-      <div class="toc-wrapper">
-        <div class="toc-container">
-          <ol class="toc">
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#得到问题"><span class="toc-text">得到问题</span></a></li>
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#录入数据"><span class="toc-text">录入数据</span></a>
-              <ol class="toc-child">
-                <li class="toc-item toc-level-3"><a class="toc-link" href="#Cards-和-Decks"><span class="toc-text">Cards 和 Decks</span></a></li>
-                <li class="toc-item toc-level-3"><a class="toc-link" href="#Notes-和-Fields"><span class="toc-text">Notes 和 Fields</span></a></li>
-                <li class="toc-item toc-level-3"><a class="toc-link" href="#Card-Types"><span class="toc-text">Card Types</span></a></li>
-                <li class="toc-item toc-level-3"><a class="toc-link" href="#Note-Types"><span class="toc-text">Note Types</span></a></li>
-              </ol>
-            </li>
-          </ol>
-        </div>
-      </div>
-      <article id="post-understanding-anki" class="article--post" itemscope="" itemprop="blogPost">
-        <div class="article-inner js-no-wrap-menu">
-          <div class="article-entry" itemprop="articleBody">
-            <p>在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。</p>
-            <p>Anki 是一个卡片记忆系统，基于 <a href="https://www.supermemo.com" target="_blank">SuperMemo</a> 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。</p>
-            <p>Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解的话用起来就会无从下手。看了<a href="http://ankisrs.net/docs/manual.html" target="_blank">官方的文档</a>后，解决了很多疑惑和误解，并试图在本文用自己的理解总结一遍。<strong>但这篇文章不是操作说明书</strong>，如何操作这个网上已经有很多中文资料和视频，就不重复劳动了。</p>
-            <p>可以把 Anki 的使用分成四个步骤：</p>
-            <ol>
-              <li>得到问题</li>
-              <li>录入数据</li>
-              <li>使用卡片</li>
-              <li>循环记忆</li>
-            </ol>
-            <p>主要需要理解前两个。</p>
-            <h2 id="得到问题">
-              <a href="#得到问题" class="headerlink" title="得到问题"></a>得到问题</h2>
-            <p>把想要记忆的材料整理出一道道“问题-答案”对，参照 <a href="https://www.supermemo.com/en/articles/20rules" target="_blank">SuperMemo 的 20 条规则</a>。</p>
-            <p>这些规则核心的概念是</p>
-            <p><a href="https://www.supermemo.com/en/articles/20rules#Do not learn if you do not understand" target="_blank">1、先理解再记忆</a>。</p>
-            <p><a href="https://www.supermemo.com/en/articles/20rules#minimum information principle" target="_blank">4、最小信息原则</a>。这个规则与 <a href="https://www.supermemo.com/en/articles/20rules#Avoid sets" target="_blank">9、避免使用集合</a>和
-              <a href="https://www.supermemo.com/en/articles/20rules#Enumerations"
-                target="_blank">10、避免使用枚举</a>都是一个道理：保证每次的答案都是固定的，不一定是一模一样，但必须是有固定的顺序，且尽可能的细化，这样可以减少无必要的记忆负担，提高重复记忆的效果。</p>
-            <p><a href="https://www.supermemo.com/en/articles/20rules#Use imagery" target="_blank">6、使用图像</a>、 <a href="https://www.supermemo.com/en/articles/20rules#mnemonic techniques" target="_blank">7、使用思维导图</a>和
-              <a href="https://www.supermemo.com/en/articles/20rules#Personalize and provide examples"
-                target="_blank">14、私人化定制例子</a> 提到了耳熟能详的右脑记忆和联想记忆。</p>
-            <p><a href="https://www.supermemo.com/en/articles/20rules#Cloze deletion" target="_blank">5、填空题</a> 以及变种 <a href="https://www.supermemo.com/en/articles/20rules#Graphic deletion" target="_blank">8、图像填空题</a>提到了填空题的好处。Anki 有自己的一套方式录入填空题，后面会提到。</p>
-            <h2
-              id="录入数据">
-              <a href="#录入数据" class="headerlink" title="录入数据"></a>录入数据</h2>
-            <p>录入数据最常用的方法就是在软件的上一条条的填入，但 Anki 提供了更方便的导入方式，结合 HTML 可以更灵活地控制显示方式。但必须注意，导入功能不是为了方便直接使用别人分享的数据；根据先理解再记忆的原则，最好还是手动用文本记录好，然后利用文本编辑器或者编写脚本批量添加样式，最后导入到 Anki 里。</p>
-            <p>在录入之前需要理解 Anki 数据的一些概念：</p>
-            <p>Anki 一个最大的亮点就是“用户负责录入数据，Anki 负责生成卡片”。这也是我一开始没有注意并误解了的地方。Anki 将数据和卡片分开提供了巨大的灵活性，可以用一组数据产生不同的卡片。</p>
-            <h3 id="Cards-和-Decks">
-              <a href="#Cards-和-Decks" class="headerlink" title="Cards 和 Decks"></a>Cards 和 Decks</h3>
-            <p><a href="http://ankisrs.net/docs/manual.html#cards" target="_blank">Cards</a> 就是卡片，每张卡片包含了正面和背面，一般正面会放问题，背面放问题和答案，但都是可以改的，很灵活。</p>
-            <p><a href="http://ankisrs.net/docs/manual.html#decks" target="_blank">Decks</a> 就是牌组，卡片放牌组里面，牌组也可以放牌组里面，方便分类整理，用 <code>::</code> 分隔。</p>
-            <h3 id="Notes-和-Fields">
-              <a href="#Notes-和-Fields" class="headerlink" title="Notes 和 Fields"></a>Notes 和 Fields</h3>
-            <p>Anki 中的数据主要分为 <a href="http://ankisrs.net/docs/manual.html#notes-&amp;-fields" target="_blank">Notes（记录） 和 Fields（字段）</a>。</p>
-            <p>如果把数据看成表格，字段就是表格的表头，代表了都有什么类型的数据，一条记录就是一组数据，包含了每种字段的一个取值。</p>
-            <p>使用文本导入时，文本里的一行就是一条记录，每条记录里面的各个字段用分隔符分隔。分隔符可以是逗号、分号或 tab ，Anki 会以第一条记录判断用什么分隔符，并判断有多少个字段。而字段的名称最后在要导入的那个牌组上面设置。</p>
-            <p>比如记忆英文，可以有三个字段：英文、中文、例句，文本中的一行记录就可以是：<code>Apple; 苹果; I love apple.</code> 。这里就代表了：</p>
-            <p></p>
-            <figure class="highlight plain">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line">英文: Apple</div><div class="line">中文: 苹果</div><div class="line">例句：I love apple.</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>这样的好处就是可以非常灵活地生成卡片。比如可以将英文作为卡片正面，将中文和例句放在背面；也可以将中文放在正面，英文和例句放在背面。非常的方便。</p>
-            <p>得到了数据以后，就可以对卡片的样式和类型进行调整。</p>
-            <h3 id="Card-Types">
-              <a href="#Card-Types" class="headerlink" title="Card Types"></a>Card Types</h3>
-            <p>可以将一套卡片统一成一个类型，然后对这个类型套用一个模板去显示。</p>
-            <h3 id="Note-Types">
-              <a href="#Note-Types" class="headerlink" title="Note Types"></a>Note Types</h3>
-            <p>卡片的类型也是可以很方便修改，这个视频除了介绍添加答案输入，后面还提到了如何改成填空题</p>
-            <p><a href="https://www.youtube.com/watch?v=5tYObQ3ocrw" target="_blank">https://www.youtube.com/watch?v=5tYObQ3ocrw</a></p>
-            <p>理解了这些基本概念就可以开始使用 Anki 了，遇到了其它问题可以查<a href="http://ankisrs.net/docs/manual.html" target="_blank">文档</a>、<a href="http://ankisrs.net/docs/manual.html#_intro_videos" target="_blank">视频</a>、<a href="https://anki.tenderapp.com/discussions" target="_blank">支持</a>和<a
-                href="http://bbs.ankichina.net/forum.php" target="_blank">中文论坛</a>。</p>
-          </div>
-        </div>
-        <footer class="article-footer">
-          <ul class="article-tag-list">
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Anki/">Anki</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GTD/">GTD</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Time-Management/">Time Management</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Todo-List/">Todo List</a></li>
-          </ul>
-          <nav id="article-nav"><a href="/2016/04/18/document-scrollingelement-polyfill/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">闲读源码：ScrollingElement Polyfill</div></a>
-            <a href="/2016/02/13/router-time-reset/"
-              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-              <div class="article-nav-title">路由器时间同步服务器</div>
-              </a>
-          </nav>
-        </footer>
-      </article>
-      <section id="comments">
-        <div id="disqus_thread">
-          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
-      </section>
-      <script>
-        var disqus_config = function() {
-          this.page.url = "https://blog.crimx.com/2016/03/20/understanding-anki/", this.page.identifier = "2016/03/20/understanding-anki/"
-        };
-        ! function() {
-          var t = document,
-            e = t.createElement("script");
-          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
-        }()
-
-      </script>
-      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
-      <footer class="site-footer">
-        <ul class="recommended-post">
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-        </ul>
-        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-        <div
-          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
-      </footer>
-    </div>
-  </div>
-  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/alarm-clock-1842652_1920-portrait.jpg) 51.47% 38.73%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAIBBAUDBv/EACgQAAICAQMDAQkAAAAAAAAAAAECAAMEBREhExUxQRIUIjJRUlNUkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBA//EAB4RAAIBAwUAAAAAAAAAAAAAAAABEQISIhMUITJR/9oADAMBAAIRAxEAPwBiABvuJBRXHw+PWLdiNl3JStprXySJNOF7pn7GxrEdeATK2RKXAdAfWEvdNfsH9hJKHYzFbOoblc1Ay+G3nCvUFe5mt1GtmHy8+kyMXS8K7TTeaiGAO/MpLp+P3WmoKfZZQSIe3CNHhk0em7lX+/XCJ2HE/GsItCoO5Xh//9k=) 51.47% 38.73%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/alarm-clock-1842652_1920-portrait.jpg) 51.47% 38.73%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAIBBAUDBv/EACgQAAICAQMDAQkAAAAAAAAAAAECAAMEBREhExUxQRIUIjJRUlNUkf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBA//EAB4RAAIBAwUAAAAAAAAAAAAAAAABEQISIhMUITJR/9oADAMBAAIRAxEAPwBiABvuJBRXHw+PWLdiNl3JStprXySJNOF7pn7GxrEdeATK2RKXAdAfWEvdNfsH9hJKHYzFbOoblc1Ay+G3nCvUFe5mt1GtmHy8+kyMXS8K7TTeaiGAO/MpLp+P3WmoKfZZQSIe3CNHhk0em7lX+/XCJ2HE/GsItCoO5Xh//9k=) 51.47% 38.73%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">理解 Anki 基础概念</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2016/03/20/understanding-anki/" class="article-date"><time datetime="2016-03-19T16:00:00.000Z" itemprop="datePublished">2016-03-20</time></a>
+<a rel="license" class="cc-license-wrapper"
+href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#得到问题"><span class="toc-text">得到问题</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#录入数据"><span class="toc-text">录入数据</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#Cards-和-Decks"><span class="toc-text">Cards 和 Decks</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#Notes-和-Fields"><span class="toc-text">Notes 和 Fields</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#Card-Types"><span class="toc-text">Card Types</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#Note-Types"><span class="toc-text">Note Types</span></a></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<article id="post-understanding-anki" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry" itemprop="articleBody">
+<p>在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。</p>
+<p>Anki 是一个卡片记忆系统，基于 <a href="https://www.supermemo.com" target="_blank">SuperMemo</a> 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。</p>
+<p>Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解的话用起来就会无从下手。看了<a href="http://ankisrs.net/docs/manual.html" target="_blank">官方的文档</a>后，解决了很多疑惑和误解，并试图在本文用自己的理解总结一遍。<strong>但这篇文章不是操作说明书</strong>，如何操作这个网上已经有很多中文资料和视频，就不重复劳动了。</p>
+<p>可以把 Anki 的使用分成四个步骤：</p>
+<ol>
+<li>得到问题</li>
+<li>录入数据</li>
+<li>使用卡片</li>
+<li>循环记忆</li>
+</ol>
+<p>主要需要理解前两个。</p>
+<h2 id="得到问题">
+<a href="#得到问题" class="headerlink" title="得到问题"></a>得到问题</h2>
+<p>把想要记忆的材料整理出一道道“问题-答案”对，参照 <a href="https://www.supermemo.com/en/articles/20rules" target="_blank">SuperMemo 的 20 条规则</a>。</p>
+<p>这些规则核心的概念是</p>
+<p><a href="https://www.supermemo.com/en/articles/20rules#Do not learn if you do not understand" target="_blank">1、先理解再记忆</a>。</p>
+<p><a href="https://www.supermemo.com/en/articles/20rules#minimum information principle" target="_blank">4、最小信息原则</a>。这个规则与 <a href="https://www.supermemo.com/en/articles/20rules#Avoid sets" target="_blank">9、避免使用集合</a>和
+<a href="https://www.supermemo.com/en/articles/20rules#Enumerations"
+target="_blank">10、避免使用枚举</a>都是一个道理：保证每次的答案都是固定的，不一定是一模一样，但必须是有固定的顺序，且尽可能的细化，这样可以减少无必要的记忆负担，提高重复记忆的效果。</p>
+<p><a href="https://www.supermemo.com/en/articles/20rules#Use imagery" target="_blank">6、使用图像</a>、 <a href="https://www.supermemo.com/en/articles/20rules#mnemonic techniques" target="_blank">7、使用思维导图</a>和
+<a href="https://www.supermemo.com/en/articles/20rules#Personalize and provide examples"
+target="_blank">14、私人化定制例子</a> 提到了耳熟能详的右脑记忆和联想记忆。</p>
+<p><a href="https://www.supermemo.com/en/articles/20rules#Cloze deletion" target="_blank">5、填空题</a> 以及变种 <a href="https://www.supermemo.com/en/articles/20rules#Graphic deletion" target="_blank">8、图像填空题</a>提到了填空题的好处。Anki 有自己的一套方式录入填空题，后面会提到。</p>
+<h2 id="录入数据">
+<a href="#录入数据" class="headerlink" title="录入数据"></a>录入数据</h2>
+<p>录入数据最常用的方法就是在软件的上一条条的填入，但 Anki 提供了更方便的导入方式，结合 HTML 可以更灵活地控制显示方式。但必须注意，导入功能不是为了方便直接使用别人分享的数据；根据先理解再记忆的原则，最好还是手动用文本记录好，然后利用文本编辑器或者编写脚本批量添加样式，最后导入到 Anki 里。</p>
+<p>在录入之前需要理解 Anki 数据的一些概念：</p>
+<p>Anki 一个最大的亮点就是“用户负责录入数据，Anki 负责生成卡片”。这也是我一开始没有注意并误解了的地方。Anki 将数据和卡片分开提供了巨大的灵活性，可以用一组数据产生不同的卡片。</p>
+<h3 id="Cards-和-Decks">
+<a href="#Cards-和-Decks" class="headerlink" title="Cards 和 Decks"></a>Cards 和 Decks</h3>
+<p><a href="http://ankisrs.net/docs/manual.html#cards" target="_blank">Cards</a> 就是卡片，每张卡片包含了正面和背面，一般正面会放问题，背面放问题和答案，但都是可以改的，很灵活。</p>
+<p><a href="http://ankisrs.net/docs/manual.html#decks" target="_blank">Decks</a> 就是牌组，卡片放牌组里面，牌组也可以放牌组里面，方便分类整理，用 <code>::</code> 分隔。</p>
+<h3 id="Notes-和-Fields">
+<a href="#Notes-和-Fields" class="headerlink" title="Notes 和 Fields"></a>Notes 和 Fields</h3>
+<p>Anki 中的数据主要分为 <a href="http://ankisrs.net/docs/manual.html#notes-&amp;-fields" target="_blank">Notes（记录） 和 Fields（字段）</a>。</p>
+<p>如果把数据看成表格，字段就是表格的表头，代表了都有什么类型的数据，一条记录就是一组数据，包含了每种字段的一个取值。</p>
+<p>使用文本导入时，文本里的一行就是一条记录，每条记录里面的各个字段用分隔符分隔。分隔符可以是逗号、分号或 tab ，Anki 会以第一条记录判断用什么分隔符，并判断有多少个字段。而字段的名称最后在要导入的那个牌组上面设置。</p>
+<p>比如记忆英文，可以有三个字段：英文、中文、例句，文本中的一行记录就可以是：<code>Apple; 苹果; I love apple.</code> 。这里就代表了：</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">英文: Apple</div><div class="line">中文: 苹果</div><div class="line">例句：I love apple.</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这样的好处就是可以非常灵活地生成卡片。比如可以将英文作为卡片正面，将中文和例句放在背面；也可以将中文放在正面，英文和例句放在背面。非常的方便。</p>
+<p>得到了数据以后，就可以对卡片的样式和类型进行调整。</p>
+<h3 id="Card-Types">
+<a href="#Card-Types" class="headerlink" title="Card Types"></a>Card Types</h3>
+<p>可以将一套卡片统一成一个类型，然后对这个类型套用一个模板去显示。</p>
+<h3 id="Note-Types">
+<a href="#Note-Types" class="headerlink" title="Note Types"></a>Note Types</h3>
+<p>卡片的类型也是可以很方便修改，这个视频除了介绍添加答案输入，后面还提到了如何改成填空题</p>
+<p><a href="https://www.youtube.com/watch?v=5tYObQ3ocrw" target="_blank">https://www.youtube.com/watch?v=5tYObQ3ocrw</a></p>
+<p>理解了这些基本概念就可以开始使用 Anki 了，遇到了其它问题可以查<a href="http://ankisrs.net/docs/manual.html" target="_blank">文档</a>、<a href="http://ankisrs.net/docs/manual.html#_intro_videos" target="_blank">视频</a>、<a href="https://anki.tenderapp.com/discussions" target="_blank">支持</a>和<a
+href="http://bbs.ankichina.net/forum.php" target="_blank">中文论坛</a>。</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Anki/">Anki</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GTD/">GTD</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Time-Management/">Time Management</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Todo-List/">Todo List</a></li>
+</ul>
+<nav id="article-nav"><a href="/2016/04/18/document-scrollingelement-polyfill/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">闲读源码：ScrollingElement Polyfill</div></a>
+<a href="/2016/02/13/router-time-reset/"
+id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<div class="article-nav-title">路由器时间同步服务器</div>
+</a>
+</nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread">
+<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<script>
+var disqus_config = function() {
+    this.page.url = "https://blog.crimx.com/2016/03/20/understanding-anki/", this.page.identifier = "2016/03/20/understanding-anki/"
+};
+! function() {
+    var t = document,
+        e = t.createElement("script");
+    e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+}()
+</script>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+! function(e, a, t, n, c, o, s) {
+    e.GoogleAnalyticsObject = c, e[c] = e[c] || function() {
+        (e[c].q = e[c].q || []).push(arguments)
+    }, e[c].l = 1 * new Date, o = a.createElement(t), s = a.getElementsByTagName(t)[0], o.async = 1, o.src = n, s.parentNode.insertBefore(o, s)
+}(window, document, "script", "//www.google-analytics.com/analytics.js", "ga"), ga("create", "UA-49163616-1", "auto"), ga("send", "pageview")
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
 
 </html>

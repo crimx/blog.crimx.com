@@ -7,401 +7,412 @@
 <!--<![endif]-->
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-  <title>NFA与DFA的转换与优化 | CRIMX</title>
-  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-  <meta name="description" content="上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>NFA与DFA的转换与优化 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。
 
   转换方法
 这里主要涉及到对状态集合I的两个操作：
 
   求&amp;#949;-闭包。表示为&amp;#949;-closure(I)，是指I中的任何状态S经过任意条&amp;#949;弧能到达的状态的集合。
   求I的&amp;#">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="NFA与DFA的转换与优化">
-    <meta property="og:url" content="https://blog.crimx.com/2014/03/16/nfa-to-dfa/index.html">
-    <meta property="og:site_name" content="CRIMX">
-    <meta property="og:description" content="上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。
+<meta property="og:type" content="article">
+<meta property="og:title" content="NFA与DFA的转换与优化">
+<meta property="og:url" content="https://blog.crimx.com/2014/03/16/nfa-to-dfa/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。
 
   转换方法
 这里主要涉及到对状态集合I的两个操作：
 
   求&amp;#949;-闭包。表示为&amp;#949;-closure(I)，是指I中的任何状态S经过任意条&amp;#949;弧能到达的状态的集合。
   求I的&amp;#">
-      <meta property="og:image" content="https://blog.crimx.com/images/post/nfa-to-dfa/nfa.jpg">
-      <meta property="og:image" content="https://blog.crimx.com/images/post/nfa-to-dfa/dfa.jpg">
-      <meta property="og:updated_time" content="2016-12-29T13:25:18.971Z">
-      <meta name="twitter:card" content="summary">
-      <meta name="twitter:title" content="NFA与DFA的转换与优化">
-      <meta name="twitter:description" content="上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。
+<meta property="og:image" content="https://blog.crimx.com/images/post/nfa-to-dfa/nfa.jpg">
+<meta property="og:image" content="https://blog.crimx.com/images/post/nfa-to-dfa/dfa.jpg">
+<meta property="og:updated_time" content="2016-12-29T13:25:18.971Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NFA与DFA的转换与优化">
+<meta name="twitter:description" content="上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。
 
   转换方法
 这里主要涉及到对状态集合I的两个操作：
 
   求&amp;#949;-闭包。表示为&amp;#949;-closure(I)，是指I中的任何状态S经过任意条&amp;#949;弧能到达的状态的集合。
   求I的&amp;#">
-        <meta name="twitter:image" content="https://blog.crimx.com/images/post/nfa-to-dfa/nfa.jpg">
-        <meta name="twitter:creator" content="@straybugs">
-        <link rel="stylesheet" href="/static/style.css">
-        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
-        <script>
-          ! function() {
-            var e = document.getElementsByTagName("html")[0];
-            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
-          }()
-
-        </script>
+<meta name="twitter:image" content="https://blog.crimx.com/images/post/nfa-to-dfa/nfa.jpg">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+! function() {
+    var e = document.getElementsByTagName("html")[0];
+    e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+}()
+</script>
 </head>
 
 <body>
-  <!--[if lte IE 9]>
+<!--[if lte IE 9]>
     <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
   <![endif]-->
-  <div class="site-container">
-    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
-      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
-      <div class="site-menu-inner-wrapper">
-        <div class="menu-logo">
-          <a class="icon-logo" href="/"></a>
-        </div>
-        <ul class="menu-social-icons">
-          <li>
-            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-rss" href="/atom.xml"></a>
-          </li>
-        </ul>
-        <ul class="menu-navs">
-          <li><a href="/categories/">Categories</a></li>
-          <li><a href="/archives/">Archives</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/search/">Search</a></li>
-          <li><a href="/about/">About</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="site-menu-mask"></div>
-    <div class="main-content">
-      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
-        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
-        <a class="cover-logo" href="/"></a>
-        <div class="title-wrapper">
-          <h1 class="site-title" itemprop="name">NFA与DFA的转换与优化</h1>
-          <div class="article-meta">
-            <div class="article-category"><a class="article-category-link" href="/categories/Compiler/">Compiler</a></div><a href="/2014/03/16/nfa-to-dfa/" class="article-date"><time datetime="2014-03-15T16:00:00.000Z" itemprop="datePublished">2014-03-16</time></a>
-            <a rel="license"
-              class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-          </div>
-        </div>
-      </header>
-      <div class="tagline-wrap">
-        <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
-          <blockquote class="tagline-content">"If it wasn't hard, everyone would do it. It's the hard that makes it great."</blockquote>
-          <footer class="tagline-cite"><cite>Tom Hanks</cite></footer>
-        </section>
-      </div>
-      <div class="toc-mousearea"></div>
-      <div class="toc-wrapper">
-        <div class="toc-container">
-          <ol class="toc">
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#转换方法"><span class="toc-text">转换方法</span></a></li>
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li>
-          </ol>
-        </div>
-      </div>
-      <article id="post-nfa-to-dfa" class="article--post" itemscope="" itemprop="blogPost">
-        <div class="article-inner js-no-wrap-menu">
-          <div class="article-entry" itemprop="articleBody">
-            <p>上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。</p>
-            <h2 id="转换方法">
-              <a href="#转换方法" class="headerlink" title="转换方法"></a>转换方法</h2>
-            <p>这里主要涉及到对状态集合I的两个操作：</p>
-            <ol>
-              <li>求&#949;-闭包。表示为&#949;-closure(I)，是指I中的任何状态S经过任意条&#949;弧能到达的状态的集合。</li>
-              <li>求I的&#945;弧转换。表示为move(I,&#945;)，是指I中某一状态经过一条&#945;弧到达的状态的集合。</li>
-            </ol>
-            <p>比如说这里有一个NFA N：</p>
-            <p><img src="/images/post/nfa-to-dfa/nfa.jpg" alt="NFA"></p>
-            <p>因为NFA是一个五元组，N=(K,E,f,S,Z),即为(状态集合，弧集合，转换集合，开始状态集合，终结状态集合)，所以由图可知：</p>
-            <p>NFA N = ({0,1,2,3,4,5,6,7,8,9,10},{a,b},f,{0},{10})，其中</p>
-            <ul>
-              <li>f(0,&#949;) = {1}</li>
-              <li>f(1,&#949;) = {2,4}</li>
-              <li>f(2,a) = {3}</li>
-              <li>f(3,&#949;) = {6}</li>
-              <li>f(4,b) = {5}</li>
-              <li>f(5,&#949;) = {6}</li>
-              <li>f(6,&#949;) = {1,7}</li>
-              <li>f{7,a} = {8}</li>
-              <li>f(8,b) = {9}</li>
-              <li>f(9,b) = {10}</li>
-            </ul>
-            <p>那么&#949;-closure(0)={0,1,2,4,7}</p>
-            <p>move({0,1,2,4,7},a) = {3,8}</p>
-            <p>&#949;-closure({3,8})={1,2,3,4,6,7,8}</p>
-            <p>可以借助表格来观察整个求解过程，每次求解后如果产生新集合，就会记录下来继续算，直到没有新集合为止。</p>
-            <p></p>
-            <p>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <th>T</th>
-                  <th>A=&#949;-closure(move(T,a))</th>
-                  <th>B=&#949;-closure(move(T,b))</th>
-                </thead>
-                <tr>
-                  <td>&#949;-closure(s)={0,1,2,4,7}=T0</td>
-                  <td>{1,2,3,4,6,7,8}=T1</td>
-                  <td>{1,2,4,5,6,7}=T2</td>
-                </tr>
-                <tr>
-                  <td>T1</td>
-                  <td>T1</td>
-                  <td>{1,2,4,5,6,7,9}=T3</td>
-                </tr>
-                <tr>
-                  <td>T2</td>
-                  <td>T1</td>
-                  <td>T2</td>
-                </tr>
-                <tr>
-                  <td>T3</td>
-                  <td>T1</td>
-                  <td>{1,2,4,5,6,7,10}=T4</td>
-                </tr>
-                <tr>
-                  <td>T4</td>
-                  <td>T1</td>
-                  <td>T2</td>
-                </tr>
-              </table>
-            </p>
-            <p></p>
-            <p>此时T列下的集合{T0,T1,T2,T3,T4}就是DFA的状态，其中含有NFA初始状态的集合为DFA的初始状态（{T0}），含有NFA终结状态的集合为DFA的终结状态（{T4}）。</p>
-            <p>所以由NFA转换后的DFA为：</p>
-            <p><img src="/images/post/nfa-to-dfa/dfa.jpg" alt="DFA"></p>
-            <h2 id="实现">
-              <a href="#实现" class="headerlink" title="实现"></a>实现</h2>
-            <p>首先是数据存储格式，使用json存储NFA的五元组：</p>
-            <p></p>
-            <figure class="highlight json">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line">&#123;</div><div class="line">  <span class="attr">"k"</span> : [<span class="string">"0"</span>,<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>,<span class="string">"5"</span>,<span class="string">"6"</span>,<span class="string">"7"</span>,<span class="string">"8"</span>,<span class="string">"9"</span>,<span class="string">"10"</span>],</div><div class="line">  <span class="attr">"e"</span> : [<span class="string">"a"</span>,<span class="string">"b"</span>],</div><div class="line">  <span class="attr">"f"</span> : &#123;</div><div class="line">    <span class="attr">"0"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"1"</span>, <span class="string">"7"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"1"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"2"</span>, <span class="string">"4"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"2"</span> : &#123;</div><div class="line">      <span class="attr">"a"</span> : [<span class="string">"3"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"3"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"6"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"4"</span> : &#123;</div><div class="line">      <span class="attr">"b"</span> : [<span class="string">"5"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"5"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"6"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"6"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"1"</span>, <span class="string">"7"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"7"</span> : &#123;</div><div class="line">      <span class="attr">"a"</span> : [<span class="string">"8"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"8"</span> : &#123;</div><div class="line">      <span class="attr">"b"</span> : [<span class="string">"9"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"9"</span> : &#123;</div><div class="line">      <span class="attr">"b"</span> : [<span class="string">"10"</span>]</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"s"</span> : [<span class="string">"0"</span>],</div><div class="line">  <span class="attr">"z"</span> : [<span class="string">"10"</span>]</div><div class="line">&#125;</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>读入时做了一些简单的判断，其实还可以做得更加周全，比如初始集s和终结集z是否被状态集k包含，等等。<code>read()</code>了之后就会把五元组包装返回。</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(input)</span>:</span></div><div class="line">  <span class="keyword">try</span>:</div><div class="line">    nfa = json.load(open(input,<span class="string">"r"</span>))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> nfa[<span class="string">"f"</span>]:</div><div class="line">      <span class="keyword">if</span> <span class="keyword">not</span> i <span class="keyword">in</span> nfa[<span class="string">"k"</span>]:</div><div class="line">        <span class="keyword">raise</span> Exception(<span class="string">"Set f contains iterms that not belongs to set k."</span>)</div><div class="line">      <span class="keyword">for</span> j <span class="keyword">in</span> nfa[<span class="string">"f"</span>][i]:</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> j <span class="keyword">in</span> nfa[<span class="string">"e"</span>] <span class="keyword">and</span> <span class="keyword">not</span> j == <span class="string">'#'</span>:</div><div class="line">          <span class="keyword">raise</span> Exception(<span class="string">"Set f contains iterms that not belongs to set e."</span>)</div><div class="line">    <span class="keyword">return</span> (set(nfa[<span class="string">"k"</span>]), set(nfa[<span class="string">"e"</span>]), nfa[<span class="string">"f"</span>], set(nfa[<span class="string">"s"</span>]), set(nfa[<span class="string">"z"</span>]))</div><div class="line">  <span class="keyword">except</span> IOError:</div><div class="line">    <span class="keyword">print</span> <span class="string">"File no found!"</span></div><div class="line">    sys.exit(<span class="number">1</span>)</div><div class="line">  <span class="keyword">except</span> (KeyError, TypeError):</div><div class="line">    <span class="keyword">print</span> <span class="string">"Input data error!"</span></div><div class="line">    sys.exit(<span class="number">1</span>)</div><div class="line">  <span class="keyword">except</span> Exception, e:</div><div class="line">    print(e.args[<span class="number">0</span>])</div><div class="line">    sys.exit(<span class="number">1</span>)</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>使用<code>creat_memo()</code>接下来为计算创建缓存，因为计算闭包有大量的重复计算。<code>memo</code>是一个字典，以e集合（弧集合）的元素为键，每一个键对应的值也是一个字典，在计算闭包的过程中缓存该状态的闭包。（见<code>closure()</code>）</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">creat_memo</span><span class="params">(e_set)</span>:</span></div><div class="line">  memo = &#123;&#125;</div><div class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> e_set:</div><div class="line">    memo[i] = &#123;&#125;</div><div class="line">  memo[<span class="string">'#'</span>] = &#123;&#125;</div><div class="line">  <span class="keyword">return</span> memo</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>从文章开始时提到的转换方法很容易可以看到，两个操作有很大的相似性，所以我把它们封装成一个函数<code>closure()</code>了，调用时使用各自的接口。对应上面提到的弧转换操作，<code>move()</code>中的参数s和arc表示求move(s,arc)，而<code>ph_closure()</code>的arc默认为&#949;，这里用<code>&quot;#&quot;</code>表示。</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">move</span><span class="params">(f, memo, s, arc)</span>:</span></div><div class="line">  <span class="keyword">return</span> closure(f, memo[arc], s, arc)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ep_closure</span><span class="params">(f, memo, s)</span>:</span></div><div class="line">  <span class="keyword">return</span> closure(f, memo[<span class="string">"#"</span>], s, <span class="string">'#'</span>)</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p><code>closure()</code>是本程序的核心部分，当它接受了一个集合<code>c_set</code>时，会对<code>c_set</code>中的元素一一进行求闭包或者弧转换，再合并集合。在进行计算之前先查看缓存<code>memo</code>，看看之前有没有计算过，有就直接合并，没有就先计算出结果，在<code>memo</code>记录之后再进行合并。对于求闭包，因为是&#949;，所以每次要先包含本身，而弧转换则不需要。</p>
-            <p>注意<code>memo[s] = set([s])</code>，必须是<code>set([s])</code>不能是<code>set(s)</code>,因为<code>s</code>为字符串，<code>set(s)</code>会把<code>s</code>中的每个字符都拆开。</p>
-            <p>接下来判断f转换中是否存在有关f(s,arc)的定义，存在的话：</p>
-            <ol>
-              <li>闭包情况：深度优先递归的计算集合f(s,arc)的闭包，将它们合并回来。比如上面的NFA例子，一开始求&#949;-closure(0)的时候，发现f(0,&#949;)={1,7}，所以继续计算&#949;-closure(1)和&#949;-closure(7)。.....一直计算到尽头。每次递归计算过程中也会在<code>memo</code>上记录，所以整个计算过程会越来越快。</li>
-              <li>弧转换情况：由于弧只需要判断状态<code>s</code>的下个一个<code>arc</code>弧连接的状态，所以不需要递归，直接得出结果。</li>
-            </ol>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">closure</span><span class="params">(f, memo, c_set, arc)</span>:</span></div><div class="line">  res = set()</div><div class="line">  <span class="keyword">for</span> s <span class="keyword">in</span> c_set:</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> s <span class="keyword">in</span> memo:</div><div class="line">      memo[s] = set()</div><div class="line">      <span class="keyword">if</span> arc == <span class="string">'#'</span>:</div><div class="line">        <span class="comment">#Attention here. Has to be a list</span></div><div class="line">        memo[s] = set([s])</div><div class="line">      <span class="keyword">if</span> s <span class="keyword">in</span> f:</div><div class="line">        <span class="keyword">if</span> arc <span class="keyword">in</span> f[s]:</div><div class="line">          <span class="keyword">if</span> arc == <span class="string">'#'</span>:</div><div class="line">            memo[s] |= closure(f, memo, set(f[s][arc]), arc)</div><div class="line">          <span class="keyword">else</span>:</div><div class="line">            memo[s] = set(f[s][arc])</div><div class="line">    res |= memo[s]</div><div class="line">  <span class="keyword">return</span> res</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p><code>creat_dfa</code>返回一个空的dfa结构，<code>calc_dfa</code>代表了上面提到的表格的运算过程，并把表格的内容保存到dfa结构中。先对初始状态集k求闭包，接下来为每个弧求弧转换闭包&#949;-closure(move(s, arc))。出现新集合就交给<code>queue</code>队列，并在<code>dfa[&quot;k&quot;]</code>中做记录。我这里是利用集合在<code>dfa[&quot;k&quot;]</code>中的index作为dfa状态的命名。</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">creat_dfa</span><span class="params">(e_set)</span>:</span></div><div class="line">  dfa = &#123;&#125;</div><div class="line">  dfa[<span class="string">"k"</span>] = []</div><div class="line">  dfa[<span class="string">"e"</span>] = list(e_set)</div><div class="line">  dfa[<span class="string">"f"</span>] = &#123;&#125;</div><div class="line">  dfa[<span class="string">"s"</span>] = []</div><div class="line">  dfa[<span class="string">"z"</span>] = []</div><div class="line">  <span class="keyword">return</span> dfa</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_dfa</span><span class="params">(k_set, e_set, f, s_set, z_set)</span>:</span></div><div class="line">  dfa = creat_dfa(e_set)</div><div class="line">  dfa_set = []</div><div class="line">  memo = creat_memo(e_set)</div><div class="line">  ep = ep_closure(f, memo, s_set)</div><div class="line">  <span class="comment">#Attention here. Has to be a list</span></div><div class="line">  queue = deque([ep])</div><div class="line"></div><div class="line">  dfa_set.append([ep])</div><div class="line">  dfa[<span class="string">"k"</span>].append(<span class="string">"0"</span>)</div><div class="line">  dfa[<span class="string">"s"</span>].append(<span class="string">"0"</span>)</div><div class="line">  <span class="keyword">if</span> <span class="keyword">not</span> len(ep&amp;z_set) == <span class="number">0</span>:</div><div class="line">    dfa[<span class="string">"z"</span>].append(<span class="string">"0"</span>)</div><div class="line">  i = <span class="number">0</span></div><div class="line"></div><div class="line">  <span class="keyword">while</span> queue:</div><div class="line">    T = queue.popleft()</div><div class="line">    j = <span class="string">""</span></div><div class="line">    index = str(i)</div><div class="line">    i = i + <span class="number">1</span></div><div class="line">    dfa[<span class="string">"f"</span>][index] = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> e_set:</div><div class="line">      t = ep_closure(f, memo, move(f, memo, T, s))</div><div class="line">      <span class="keyword">try</span>:</div><div class="line">        j = str(dfa_set.index(t))</div><div class="line">      <span class="keyword">except</span> ValueError:</div><div class="line">        queue.append(t)</div><div class="line">        j = str(len(dfa_set))</div><div class="line">        dfa_set.append(t)</div><div class="line">        dfa[<span class="string">"k"</span>].append(j)</div><div class="line">      dfa[<span class="string">"f"</span>][index][s] = j</div><div class="line">      <span class="keyword">if</span> <span class="keyword">not</span> len(t&amp;s_set) == <span class="number">0</span>:</div><div class="line">        dfa[<span class="string">"s"</span>].append(j)</div><div class="line">      <span class="keyword">if</span> <span class="keyword">not</span> len(t&amp;z_set) == <span class="number">0</span>:</div><div class="line">        dfa[<span class="string">"z"</span>].append(j)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> dfa</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>生成json的<code>write_dfa</code>和程序的其余代码：</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_dfa</span><span class="params">(dfa, f)</span>:</span></div><div class="line">  f = open(f, <span class="string">"w"</span>)</div><div class="line">  f.write(json.dumps(dfa))</div><div class="line">  f.close()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">  (k_set, e_set, f, s_set, z_set) = read(<span class="string">"NFA.json"</span>)</div><div class="line">  dfa = calc_dfa(k_set, e_set, f, s_set, z_set)</div><div class="line">  write_dfa(dfa, <span class="string">"DFA.json"</span>)</div><div class="line">  </div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>附上最后生成的json代码，就是上面的图DFA M</p>
-            <p></p>
-            <figure class="highlight json">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line">&#123;</div><div class="line">  <span class="attr">"k"</span>: [<span class="string">"0"</span>, <span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span>], </div><div class="line">  <span class="attr">"z"</span>: [<span class="string">"4"</span>], </div><div class="line">  <span class="attr">"e"</span>: [<span class="string">"a"</span>, <span class="string">"b"</span>], </div><div class="line">  <span class="attr">"s"</span>: [<span class="string">"0"</span>], </div><div class="line">  <span class="attr">"f"</span>: &#123;</div><div class="line">    <span class="attr">"1"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"3"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"0"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"2"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"3"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"4"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"2"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"2"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"4"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"2"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-          </div>
-        </div>
-        <footer class="article-footer">
-          <ul class="article-tag-list">
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动态规划/">动态规划</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译原理/">编译原理</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动机/">自动机</a></li>
-          </ul>
-          <nav id="article-nav"><a href="/2014/03/20/jekyll-bootstrap-not-updating/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Jekyll-Bootstrap Not Updating Problem Fixed</div></a><a
-              href="/2014/03/15/simple-calculator/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">编译原理与计算器</div></a></nav>
-        </footer>
-      </article>
-      <section id="comments">
-        <div id="disqus_thread">
-          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
-      </section>
-      <script>
-        var disqus_config = function() {
-          this.page.url = "https://blog.crimx.com/2014/03/16/nfa-to-dfa/", this.page.identifier = "2014/03/16/nfa-to-dfa/"
-        };
-        ! function() {
-          var t = document,
-            e = t.createElement("script");
-          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
-        }()
-
-      </script>
-      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
-      <footer class="site-footer">
-        <ul class="recommended-post">
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-        </ul>
-        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-        <div
-          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
-      </footer>
-    </div>
-  </div>
-  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">NFA与DFA的转换与优化</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/Compiler/">Compiler</a></div><a href="/2014/03/16/nfa-to-dfa/" class="article-date"><time datetime="2014-03-15T16:00:00.000Z" itemprop="datePublished">2014-03-16</time></a>
+<a rel="license" class="cc-license-wrapper"
+href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"If it wasn't hard, everyone would do it. It's the hard that makes it great."</blockquote>
+<footer class="tagline-cite"><cite>Tom Hanks</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#转换方法"><span class="toc-text">转换方法</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-nfa-to-dfa" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry" itemprop="articleBody">
+<p>上一节《编译原理》课讲到了NFA（不确定的有穷自动机）向DFA（确定的有穷自动机）转换。考试要考，所以要手写变换过程，很繁琐，也很有趣。所以周末用python给实现了，并利用动态规划进行优化。</p>
+<h2 id="转换方法">
+<a href="#转换方法" class="headerlink" title="转换方法"></a>转换方法</h2>
+<p>这里主要涉及到对状态集合I的两个操作：</p>
+<ol>
+<li>求&#949;-闭包。表示为&#949;-closure(I)，是指I中的任何状态S经过任意条&#949;弧能到达的状态的集合。</li>
+<li>求I的&#945;弧转换。表示为move(I,&#945;)，是指I中某一状态经过一条&#945;弧到达的状态的集合。</li>
+</ol>
+<p>比如说这里有一个NFA N：</p>
+<p><img src="/images/post/nfa-to-dfa/nfa.jpg" alt="NFA"></p>
+<p>因为NFA是一个五元组，N=(K,E,f,S,Z),即为(状态集合，弧集合，转换集合，开始状态集合，终结状态集合)，所以由图可知：</p>
+<p>NFA N = ({0,1,2,3,4,5,6,7,8,9,10},{a,b},f,{0},{10})，其中</p>
+<ul>
+<li>f(0,&#949;) = {1}</li>
+<li>f(1,&#949;) = {2,4}</li>
+<li>f(2,a) = {3}</li>
+<li>f(3,&#949;) = {6}</li>
+<li>f(4,b) = {5}</li>
+<li>f(5,&#949;) = {6}</li>
+<li>f(6,&#949;) = {1,7}</li>
+<li>f{7,a} = {8}</li>
+<li>f(8,b) = {9}</li>
+<li>f(9,b) = {10}</li>
+</ul>
+<p>那么&#949;-closure(0)={0,1,2,4,7}</p>
+<p>move({0,1,2,4,7},a) = {3,8}</p>
+<p>&#949;-closure({3,8})={1,2,3,4,6,7,8}</p>
+<p>可以借助表格来观察整个求解过程，每次求解后如果产生新集合，就会记录下来继续算，直到没有新集合为止。</p>
+<p></p>
+<p>
+<table class="table table-bordered table-striped table-condensed">
+<thead>
+<th>T</th>
+<th>A=&#949;-closure(move(T,a))</th>
+<th>B=&#949;-closure(move(T,b))</th>
+</thead>
+<tr>
+<td>&#949;-closure(s)={0,1,2,4,7}=T0</td>
+<td>{1,2,3,4,6,7,8}=T1</td>
+<td>{1,2,4,5,6,7}=T2</td>
+</tr>
+<tr>
+<td>T1</td>
+<td>T1</td>
+<td>{1,2,4,5,6,7,9}=T3</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>T1</td>
+<td>T2</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>T1</td>
+<td>{1,2,4,5,6,7,10}=T4</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>T1</td>
+<td>T2</td>
+</tr>
+</table>
+</p>
+<p></p>
+<p>此时T列下的集合{T0,T1,T2,T3,T4}就是DFA的状态，其中含有NFA初始状态的集合为DFA的初始状态（{T0}），含有NFA终结状态的集合为DFA的终结状态（{T4}）。</p>
+<p>所以由NFA转换后的DFA为：</p>
+<p><img src="/images/post/nfa-to-dfa/dfa.jpg" alt="DFA"></p>
+<h2 id="实现">
+<a href="#实现" class="headerlink" title="实现"></a>实现</h2>
+<p>首先是数据存储格式，使用json存储NFA的五元组：</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"k"</span> : [<span class="string">"0"</span>,<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>,<span class="string">"5"</span>,<span class="string">"6"</span>,<span class="string">"7"</span>,<span class="string">"8"</span>,<span class="string">"9"</span>,<span class="string">"10"</span>],</div><div class="line">  <span class="attr">"e"</span> : [<span class="string">"a"</span>,<span class="string">"b"</span>],</div><div class="line">  <span class="attr">"f"</span> : &#123;</div><div class="line">    <span class="attr">"0"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"1"</span>, <span class="string">"7"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"1"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"2"</span>, <span class="string">"4"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"2"</span> : &#123;</div><div class="line">      <span class="attr">"a"</span> : [<span class="string">"3"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"3"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"6"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"4"</span> : &#123;</div><div class="line">      <span class="attr">"b"</span> : [<span class="string">"5"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"5"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"6"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"6"</span> : &#123;</div><div class="line">      <span class="attr">"#"</span> : [<span class="string">"1"</span>, <span class="string">"7"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"7"</span> : &#123;</div><div class="line">      <span class="attr">"a"</span> : [<span class="string">"8"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"8"</span> : &#123;</div><div class="line">      <span class="attr">"b"</span> : [<span class="string">"9"</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"9"</span> : &#123;</div><div class="line">      <span class="attr">"b"</span> : [<span class="string">"10"</span>]</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">"s"</span> : [<span class="string">"0"</span>],</div><div class="line">  <span class="attr">"z"</span> : [<span class="string">"10"</span>]</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>读入时做了一些简单的判断，其实还可以做得更加周全，比如初始集s和终结集z是否被状态集k包含，等等。<code>read()</code>了之后就会把五元组包装返回。</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(input)</span>:</span></div><div class="line">  <span class="keyword">try</span>:</div><div class="line">    nfa = json.load(open(input,<span class="string">"r"</span>))</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> nfa[<span class="string">"f"</span>]:</div><div class="line">      <span class="keyword">if</span> <span class="keyword">not</span> i <span class="keyword">in</span> nfa[<span class="string">"k"</span>]:</div><div class="line">        <span class="keyword">raise</span> Exception(<span class="string">"Set f contains iterms that not belongs to set k."</span>)</div><div class="line">      <span class="keyword">for</span> j <span class="keyword">in</span> nfa[<span class="string">"f"</span>][i]:</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> j <span class="keyword">in</span> nfa[<span class="string">"e"</span>] <span class="keyword">and</span> <span class="keyword">not</span> j == <span class="string">'#'</span>:</div><div class="line">          <span class="keyword">raise</span> Exception(<span class="string">"Set f contains iterms that not belongs to set e."</span>)</div><div class="line">    <span class="keyword">return</span> (set(nfa[<span class="string">"k"</span>]), set(nfa[<span class="string">"e"</span>]), nfa[<span class="string">"f"</span>], set(nfa[<span class="string">"s"</span>]), set(nfa[<span class="string">"z"</span>]))</div><div class="line">  <span class="keyword">except</span> IOError:</div><div class="line">    <span class="keyword">print</span> <span class="string">"File no found!"</span></div><div class="line">    sys.exit(<span class="number">1</span>)</div><div class="line">  <span class="keyword">except</span> (KeyError, TypeError):</div><div class="line">    <span class="keyword">print</span> <span class="string">"Input data error!"</span></div><div class="line">    sys.exit(<span class="number">1</span>)</div><div class="line">  <span class="keyword">except</span> Exception, e:</div><div class="line">    print(e.args[<span class="number">0</span>])</div><div class="line">    sys.exit(<span class="number">1</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>使用<code>creat_memo()</code>接下来为计算创建缓存，因为计算闭包有大量的重复计算。<code>memo</code>是一个字典，以e集合（弧集合）的元素为键，每一个键对应的值也是一个字典，在计算闭包的过程中缓存该状态的闭包。（见<code>closure()</code>）</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">creat_memo</span><span class="params">(e_set)</span>:</span></div><div class="line">  memo = &#123;&#125;</div><div class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> e_set:</div><div class="line">    memo[i] = &#123;&#125;</div><div class="line">  memo[<span class="string">'#'</span>] = &#123;&#125;</div><div class="line">  <span class="keyword">return</span> memo</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>从文章开始时提到的转换方法很容易可以看到，两个操作有很大的相似性，所以我把它们封装成一个函数<code>closure()</code>了，调用时使用各自的接口。对应上面提到的弧转换操作，<code>move()</code>中的参数s和arc表示求move(s,arc)，而<code>ph_closure()</code>的arc默认为&#949;，这里用<code>&quot;#&quot;</code>表示。</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">move</span><span class="params">(f, memo, s, arc)</span>:</span></div><div class="line">  <span class="keyword">return</span> closure(f, memo[arc], s, arc)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">ep_closure</span><span class="params">(f, memo, s)</span>:</span></div><div class="line">  <span class="keyword">return</span> closure(f, memo[<span class="string">"#"</span>], s, <span class="string">'#'</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p><code>closure()</code>是本程序的核心部分，当它接受了一个集合<code>c_set</code>时，会对<code>c_set</code>中的元素一一进行求闭包或者弧转换，再合并集合。在进行计算之前先查看缓存<code>memo</code>，看看之前有没有计算过，有就直接合并，没有就先计算出结果，在<code>memo</code>记录之后再进行合并。对于求闭包，因为是&#949;，所以每次要先包含本身，而弧转换则不需要。</p>
+<p>注意<code>memo[s] = set([s])</code>，必须是<code>set([s])</code>不能是<code>set(s)</code>,因为<code>s</code>为字符串，<code>set(s)</code>会把<code>s</code>中的每个字符都拆开。</p>
+<p>接下来判断f转换中是否存在有关f(s,arc)的定义，存在的话：</p>
+<ol>
+<li>闭包情况：深度优先递归的计算集合f(s,arc)的闭包，将它们合并回来。比如上面的NFA例子，一开始求&#949;-closure(0)的时候，发现f(0,&#949;)={1,7}，所以继续计算&#949;-closure(1)和&#949;-closure(7)。.....一直计算到尽头。每次递归计算过程中也会在<code>memo</code>上记录，所以整个计算过程会越来越快。</li>
+<li>弧转换情况：由于弧只需要判断状态<code>s</code>的下个一个<code>arc</code>弧连接的状态，所以不需要递归，直接得出结果。</li>
+</ol>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">closure</span><span class="params">(f, memo, c_set, arc)</span>:</span></div><div class="line">  res = set()</div><div class="line">  <span class="keyword">for</span> s <span class="keyword">in</span> c_set:</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> s <span class="keyword">in</span> memo:</div><div class="line">      memo[s] = set()</div><div class="line">      <span class="keyword">if</span> arc == <span class="string">'#'</span>:</div><div class="line">        <span class="comment">#Attention here. Has to be a list</span></div><div class="line">        memo[s] = set([s])</div><div class="line">      <span class="keyword">if</span> s <span class="keyword">in</span> f:</div><div class="line">        <span class="keyword">if</span> arc <span class="keyword">in</span> f[s]:</div><div class="line">          <span class="keyword">if</span> arc == <span class="string">'#'</span>:</div><div class="line">            memo[s] |= closure(f, memo, set(f[s][arc]), arc)</div><div class="line">          <span class="keyword">else</span>:</div><div class="line">            memo[s] = set(f[s][arc])</div><div class="line">    res |= memo[s]</div><div class="line">  <span class="keyword">return</span> res</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p><code>creat_dfa</code>返回一个空的dfa结构，<code>calc_dfa</code>代表了上面提到的表格的运算过程，并把表格的内容保存到dfa结构中。先对初始状态集k求闭包，接下来为每个弧求弧转换闭包&#949;-closure(move(s, arc))。出现新集合就交给<code>queue</code>队列，并在<code>dfa[&quot;k&quot;]</code>中做记录。我这里是利用集合在<code>dfa[&quot;k&quot;]</code>中的index作为dfa状态的命名。</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">creat_dfa</span><span class="params">(e_set)</span>:</span></div><div class="line">  dfa = &#123;&#125;</div><div class="line">  dfa[<span class="string">"k"</span>] = []</div><div class="line">  dfa[<span class="string">"e"</span>] = list(e_set)</div><div class="line">  dfa[<span class="string">"f"</span>] = &#123;&#125;</div><div class="line">  dfa[<span class="string">"s"</span>] = []</div><div class="line">  dfa[<span class="string">"z"</span>] = []</div><div class="line">  <span class="keyword">return</span> dfa</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_dfa</span><span class="params">(k_set, e_set, f, s_set, z_set)</span>:</span></div><div class="line">  dfa = creat_dfa(e_set)</div><div class="line">  dfa_set = []</div><div class="line">  memo = creat_memo(e_set)</div><div class="line">  ep = ep_closure(f, memo, s_set)</div><div class="line">  <span class="comment">#Attention here. Has to be a list</span></div><div class="line">  queue = deque([ep])</div><div class="line"></div><div class="line">  dfa_set.append([ep])</div><div class="line">  dfa[<span class="string">"k"</span>].append(<span class="string">"0"</span>)</div><div class="line">  dfa[<span class="string">"s"</span>].append(<span class="string">"0"</span>)</div><div class="line">  <span class="keyword">if</span> <span class="keyword">not</span> len(ep&amp;z_set) == <span class="number">0</span>:</div><div class="line">    dfa[<span class="string">"z"</span>].append(<span class="string">"0"</span>)</div><div class="line">  i = <span class="number">0</span></div><div class="line"></div><div class="line">  <span class="keyword">while</span> queue:</div><div class="line">    T = queue.popleft()</div><div class="line">    j = <span class="string">""</span></div><div class="line">    index = str(i)</div><div class="line">    i = i + <span class="number">1</span></div><div class="line">    dfa[<span class="string">"f"</span>][index] = &#123;&#125;</div><div class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> e_set:</div><div class="line">      t = ep_closure(f, memo, move(f, memo, T, s))</div><div class="line">      <span class="keyword">try</span>:</div><div class="line">        j = str(dfa_set.index(t))</div><div class="line">      <span class="keyword">except</span> ValueError:</div><div class="line">        queue.append(t)</div><div class="line">        j = str(len(dfa_set))</div><div class="line">        dfa_set.append(t)</div><div class="line">        dfa[<span class="string">"k"</span>].append(j)</div><div class="line">      dfa[<span class="string">"f"</span>][index][s] = j</div><div class="line">      <span class="keyword">if</span> <span class="keyword">not</span> len(t&amp;s_set) == <span class="number">0</span>:</div><div class="line">        dfa[<span class="string">"s"</span>].append(j)</div><div class="line">      <span class="keyword">if</span> <span class="keyword">not</span> len(t&amp;z_set) == <span class="number">0</span>:</div><div class="line">        dfa[<span class="string">"z"</span>].append(j)</div><div class="line"></div><div class="line">  <span class="keyword">return</span> dfa</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>生成json的<code>write_dfa</code>和程序的其余代码：</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_dfa</span><span class="params">(dfa, f)</span>:</span></div><div class="line">  f = open(f, <span class="string">"w"</span>)</div><div class="line">  f.write(json.dumps(dfa))</div><div class="line">  f.close()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">  (k_set, e_set, f, s_set, z_set) = read(<span class="string">"NFA.json"</span>)</div><div class="line">  dfa = calc_dfa(k_set, e_set, f, s_set, z_set)</div><div class="line">  write_dfa(dfa, <span class="string">"DFA.json"</span>)</div><div class="line">  </div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>附上最后生成的json代码，就是上面的图DFA M</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"k"</span>: [<span class="string">"0"</span>, <span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span>], </div><div class="line">  <span class="attr">"z"</span>: [<span class="string">"4"</span>], </div><div class="line">  <span class="attr">"e"</span>: [<span class="string">"a"</span>, <span class="string">"b"</span>], </div><div class="line">  <span class="attr">"s"</span>: [<span class="string">"0"</span>], </div><div class="line">  <span class="attr">"f"</span>: &#123;</div><div class="line">    <span class="attr">"1"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"3"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"0"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"2"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"3"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"4"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"2"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"2"</span></div><div class="line">    &#125;, </div><div class="line">    <span class="attr">"4"</span>: &#123;</div><div class="line">      <span class="attr">"a"</span>: <span class="string">"1"</span>, </div><div class="line">      <span class="attr">"b"</span>: <span class="string">"2"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动态规划/">动态规划</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译原理/">编译原理</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自动机/">自动机</a></li>
+</ul>
+<nav id="article-nav"><a href="/2014/03/20/jekyll-bootstrap-not-updating/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Jekyll-Bootstrap Not Updating Problem Fixed</div></a>
+<a href="/2014/03/15/simple-calculator/"
+id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<div class="article-nav-title">编译原理与计算器</div>
+</a>
+</nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread">
+<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<script>
+var disqus_config = function() {
+    this.page.url = "https://blog.crimx.com/2014/03/16/nfa-to-dfa/", this.page.identifier = "2014/03/16/nfa-to-dfa/"
+};
+! function() {
+    var t = document,
+        e = t.createElement("script");
+    e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+}()
+</script>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+! function(e, a, t, n, c, o, s) {
+    e.GoogleAnalyticsObject = c, e[c] = e[c] || function() {
+        (e[c].q = e[c].q || []).push(arguments)
+    }, e[c].l = 1 * new Date, o = a.createElement(t), s = a.getElementsByTagName(t)[0], o.async = 1, o.src = n, s.parentNode.insertBefore(o, s)
+}(window, document, "script", "//www.google-analytics.com/analytics.js", "ga"), ga("create", "UA-49163616-1", "auto"), ga("send", "pageview")
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
 
 </html>

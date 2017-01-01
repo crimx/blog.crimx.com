@@ -7,345 +7,352 @@
 <!--<![endif]-->
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-  <title>为Mp3更新高清封面 | CRIMX</title>
-  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-  <meta name="description" content="我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>为Mp3更新高清封面 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。
 
   遍历mp3
 开始的时候当然是要先找到mp3文件了。使用os.walk递归的查找mp3，把文件名和路径存下来：">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="为Mp3更新高清封面">
-    <meta property="og:url" content="https://blog.crimx.com/2014/03/29/font-cover-catch-in-python/index.html">
-    <meta property="og:site_name" content="CRIMX">
-    <meta property="og:description" content="我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。
+<meta property="og:type" content="article">
+<meta property="og:title" content="为Mp3更新高清封面">
+<meta property="og:url" content="https://blog.crimx.com/2014/03/29/font-cover-catch-in-python/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。
 
   遍历mp3
 开始的时候当然是要先找到mp3文件了。使用os.walk递归的查找mp3，把文件名和路径存下来：">
-      <meta property="og:image" content="https://blog.crimx.com/images/post/font-cover-catch-in-python/before.png">
-      <meta property="og:image" content="https://blog.crimx.com/images/post/font-cover-catch-in-python/after.png">
-      <meta property="og:updated_time" content="2016-12-29T13:26:03.231Z">
-      <meta name="twitter:card" content="summary">
-      <meta name="twitter:title" content="为Mp3更新高清封面">
-      <meta name="twitter:description" content="我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。
+<meta property="og:image" content="https://blog.crimx.com/images/post/font-cover-catch-in-python/before.png">
+<meta property="og:image" content="https://blog.crimx.com/images/post/font-cover-catch-in-python/after.png">
+<meta property="og:updated_time" content="2016-12-29T13:26:03.231Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为Mp3更新高清封面">
+<meta name="twitter:description" content="我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。
 
   遍历mp3
 开始的时候当然是要先找到mp3文件了。使用os.walk递归的查找mp3，把文件名和路径存下来：">
-        <meta name="twitter:image" content="https://blog.crimx.com/images/post/font-cover-catch-in-python/before.png">
-        <meta name="twitter:creator" content="@straybugs">
-        <link rel="stylesheet" href="/static/style.css">
-        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
-        <script>
-          ! function() {
-            var e = document.getElementsByTagName("html")[0];
-            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
-          }()
-
-        </script>
+<meta name="twitter:image" content="https://blog.crimx.com/images/post/font-cover-catch-in-python/before.png">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+! function() {
+    var e = document.getElementsByTagName("html")[0];
+    e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+}()
+</script>
 </head>
 
 <body>
-  <!--[if lte IE 9]>
+<!--[if lte IE 9]>
     <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
   <![endif]-->
-  <div class="site-container">
-    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
-      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
-      <div class="site-menu-inner-wrapper">
-        <div class="menu-logo">
-          <a class="icon-logo" href="/"></a>
-        </div>
-        <ul class="menu-social-icons">
-          <li>
-            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-rss" href="/atom.xml"></a>
-          </li>
-        </ul>
-        <ul class="menu-navs">
-          <li><a href="/categories/">Categories</a></li>
-          <li><a href="/archives/">Archives</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/search/">Search</a></li>
-          <li><a href="/about/">About</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="site-menu-mask"></div>
-    <div class="main-content">
-      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
-        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
-        <a class="cover-logo" href="/"></a>
-        <div class="title-wrapper">
-          <h1 class="site-title" itemprop="name">为Mp3更新高清封面</h1>
-          <div class="article-meta">
-            <div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2014/03/29/font-cover-catch-in-python/" class="article-date"><time datetime="2014-03-28T16:00:00.000Z" itemprop="datePublished">2014-03-29</time></a>
-            <a rel="license"
-              class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-          </div>
-        </div>
-      </header>
-      <div class="tagline-wrap">
-        <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
-          <blockquote class="tagline-content">"Don't judge yourself by your past. You don't live there anymore."</blockquote>
-          <footer class="tagline-cite"><cite>Lessons Learned in Life</cite></footer>
-        </section>
-      </div>
-      <div class="toc-mousearea"></div>
-      <div class="toc-wrapper">
-        <div class="toc-container">
-          <ol class="toc">
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#遍历mp3"><span class="toc-text">遍历mp3</span></a></li>
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#读取id3信息"><span class="toc-text">读取id3信息</span></a></li>
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#搜索"><span class="toc-text">搜索</span></a></li>
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#写入封面"><span class="toc-text">写入封面</span></a></li>
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li>
-            <li class="toc-item toc-level-2"><a class="toc-link" href="#后话"><span class="toc-text">后话</span></a></li>
-          </ol>
-        </div>
-      </div>
-      <article id="post-font-cover-catch-in-python" class="article--post" itemscope="" itemprop="blogPost">
-        <div class="article-inner js-no-wrap-menu">
-          <div class="article-entry" itemprop="articleBody">
-            <p>我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。</p>
-            <h2 id="遍历mp3">
-              <a href="#遍历mp3" class="headerlink" title="遍历mp3"></a>遍历mp3</h2>
-            <p>开始的时候当然是要先找到mp3文件了。使用<code>os.walk</code>递归的查找mp3，把文件名和路径存下来：</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_find</span><span class="params">(source_path)</span>:</span></div><div class="line">  mp3_list = []</div><div class="line">  <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(source_path):</div><div class="line">    map(<span class="keyword">lambda</span> x: mp3_list.append((root, x[:<span class="number">-4</span>])),</div><div class="line">      filter(<span class="keyword">lambda</span> x: x[<span class="number">-4</span>:] == <span class="string">'.mp3'</span>, files))</div><div class="line">  <span class="keyword">return</span> mp3_list</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>测试一下，放一些mp3文件在test文件夹：</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  mp3_list = mp3_find(<span class="string">r'test'</span>)</div><div class="line">  <span class="keyword">print</span> mp3_list</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="读取id3信息">
-              <a href="#读取id3信息" class="headerlink" title="读取id3信息"></a>读取id3信息</h2>
-            <p>接下来要读取mp3的id3信息，我用了<a href="http://eyed3.nicfit.net/" target="_blank">eyed3</a>，它不支持python3所以我用的是python2.7</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">import</span> eyed3,sys</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_load</span><span class="params">(mp3_path, mp3_name)</span>:</span></div><div class="line">  <span class="keyword">try</span>:</div><div class="line">    id3 = eyed3.load(os.path.join(mp3_path, mp3_name+<span class="string">'.mp3'</span>))</div><div class="line">    <span class="keyword">return</span> id3</div><div class="line">  <span class="keyword">except</span> IOError:</div><div class="line">    <span class="keyword">print</span> <span class="string">' '</span>.join([mp3_name,<span class="string">'read error.'</span>])</div><div class="line">    sys.exit(<span class="number">1</span>)</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>测试一下<code>mp3_process</code>：</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_process</span><span class="params">(mp3_list)</span>:</span></div><div class="line">  <span class="keyword">for</span> path, name <span class="keyword">in</span> mp3_list:</div><div class="line">    id3 = mp3_load(path, name)</div><div class="line">    <span class="keyword">print</span> <span class="string">' '</span>.join(map(str,</div><div class="line">      [id3.tag.title,id3.tag.artist,id3.tag.album]))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  mp3_process(mp3_find(<span class="string">r'test'</span>))</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="搜索">
-              <a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2>
-            <p>得到名字之后就要从网络抓取图片，这里使用了豆瓣音乐<a href="http://developers.douban.com/wiki/?title=music_v2" target="_blank">Api v2</a>，参看音乐的返回格式，默认返回到是小图<code>spic</code>来的，手动改成大图<code>lpic</code>。这里使用了比较肮脏的手段去除<code>ident</code>的标点符号。</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">import</span> json,re</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(ident)</span>:</span></div><div class="line">  ident = ident.translate(string.maketrans(string.punctuation,</div><div class="line">    <span class="string">'                                '</span>))</div><div class="line">  url = <span class="string">r'http://api.douban.com/v2/music/search?q='</span> + ident</div><div class="line">  mp3_json = json.load(urllib2.urlopen(url), encoding=<span class="string">"utf-8"</span>)</div><div class="line">  <span class="keyword">try</span>:</div><div class="line">    <span class="keyword">if</span> mp3_json[<span class="string">'count'</span>] &gt; <span class="number">0</span>:</div><div class="line">      <span class="keyword">return</span> re.sub(<span class="string">r'/spic/'</span>, <span class="string">r'/lpic/'</span>, mp3_json[<span class="string">'musics'</span>][<span class="number">0</span>][<span class="string">'image'</span>])</div><div class="line">  <span class="keyword">except</span> (KeyError, ValueError): <span class="keyword">pass</span></div><div class="line">  <span class="keyword">return</span> <span class="keyword">False</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>有的mp3可能没有id3标签，所以如果<code>search</code>返回<code>False</code>的话还要按文件名搜一遍。修改<code>mp3_process</code>测试一下</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_process</span><span class="params">(mp3_list)</span>:</span></div><div class="line">  <span class="keyword">for</span> path, name <span class="keyword">in</span> mp3_list:</div><div class="line">    id3 = mp3_load(path, name)</div><div class="line">    img = search(<span class="string">' '</span>.join(map(str,</div><div class="line">      [id3.tag.title,id3.tag.artist,id3.tag.album])))</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> img: img = search(name)</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> img: <span class="keyword">continue</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="写入封面">
-              <a href="#写入封面" class="headerlink" title="写入封面"></a>写入封面</h2>
-            <p>因为我的音乐都是英语的，所以编码用<code>latin1</code>保持最大的可用性，<code>utf-8</code>和<code>utf-16</code>有的移动设备会显示不出封面，注意<strong>中文不能使用latin1</strong>。</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_burn</span><span class="params">(id3, img)</span>:</span></div><div class="line">    id3.tag.images.set(</div><div class="line">      type=<span class="number">3</span>,</div><div class="line">      img_url=<span class="keyword">None</span>,</div><div class="line">      img_data=urllib2.urlopen(img).read(),</div><div class="line">      mime_type=<span class="string">'image/jpeg'</span>,</div><div class="line">      description=<span class="string">u"Front cover"</span>)</div><div class="line">    id3.tag.save(version = (<span class="number">2</span>, <span class="number">3</span>, <span class="number">0</span>), encoding = <span class="string">'latin1'</span>)</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>再次修改<code>mp3_process</code>测试一下，这次是最终版了</p>
-            <p></p>
-            <figure class="highlight python">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_process</span><span class="params">(mp3_list)</span>:</span></div><div class="line">  faild_list = []</div><div class="line">  <span class="keyword">for</span> path, name <span class="keyword">in</span> mp3_list:</div><div class="line">    <span class="keyword">print</span> <span class="string">'-- %s:'</span> %name</div><div class="line">    id3 = mp3_load(path, name)</div><div class="line">    img = search(<span class="string">' '</span>.join(map(str,filter(<span class="keyword">lambda</span> x: x,</div><div class="line">      [id3.tag.title,id3.tag.artist,id3.tag.album]))))</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> img: img = search(name)</div><div class="line">    <span class="keyword">if</span> img: mp3_burn(id3, img)</div><div class="line">    <span class="keyword">else</span>: faild_list.append(name)</div><div class="line">  <span class="keyword">return</span> faild_list</div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="效果">
-              <a href="#效果" class="headerlink" title="效果"></a>效果</h2>
-            <p>随机找来一坨mp3，如图，可以看到是没有封面的。</p>
-            <p><img src="/images/post/font-cover-catch-in-python/before.png" alt="mp3 before"></p>
-            <p>跑一遍程序，再查看，（ubuntu下不知道怎么刷新缩略图缓存，我是把文件夹复制一份）</p>
-            <p><img src="/images/post/font-cover-catch-in-python/after.png" alt="mp3 after"></p>
-            <h2 id="后话">
-              <a href="#后话" class="headerlink" title="后话"></a>后话</h2>
-            <p>豆瓣的api是有频率限制的，最好申请一个<a href="http://developers.douban.com/wiki/?title=tutorial" target="_blank">APIKey</a>，或者使用代理，也可以在循环中加入<code>sleep</code>凑合用，一般情况都会没问题。</p>
-            <p>完整源码在<a href="/images/post/font-cover-catch-in-python/front_catch.py">这里</a>。</p>
-          </div>
-        </div>
-        <footer class="article-footer">
-          <ul class="article-tag-list">
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MP3/">MP3</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/豆瓣/">豆瓣</a></li>
-          </ul>
-          <nav id="article-nav"><a href="/2014/04/06/college-life/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">脆弱的力量</div></a>
-            <a href="/2014/03/21/lcc-source-learning/" id="article-nav-older"
-              class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-              <div class="article-nav-title">Lcc内存对齐代码</div>
-              </a>
-          </nav>
-        </footer>
-      </article>
-      <section id="comments">
-        <div id="disqus_thread">
-          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
-      </section>
-      <script>
-        var disqus_config = function() {
-          this.page.url = "https://blog.crimx.com/2014/03/29/font-cover-catch-in-python/", this.page.identifier = "2014/03/29/font-cover-catch-in-python/"
-        };
-        ! function() {
-          var t = document,
-            e = t.createElement("script");
-          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
-        }()
-
-      </script>
-      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
-      <footer class="site-footer">
-        <ul class="recommended-post">
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-        </ul>
-        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-        <div
-          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
-      </footer>
-    </div>
-  </div>
-  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">为Mp3更新高清封面</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2014/03/29/font-cover-catch-in-python/" class="article-date"><time datetime="2014-03-28T16:00:00.000Z" itemprop="datePublished">2014-03-29</time></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"Don't judge yourself by your past. You don't live there anymore."</blockquote>
+<footer class="tagline-cite"><cite>Lessons Learned in Life</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#遍历mp3"><span class="toc-text">遍历mp3</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#读取id3信息"><span class="toc-text">读取id3信息</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#搜索"><span class="toc-text">搜索</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#写入封面"><span class="toc-text">写入封面</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#后话"><span class="toc-text">后话</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-font-cover-catch-in-python" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry" itemprop="articleBody">
+<p>我是个受不了安静的人，干活的时候没有音乐不行。我也是欧美音乐fans，多年来积累了不少或热门或冷门的音乐。无奈这些音乐大多没有封面，或者供应商为了节约流量用了压缩的小图，于是在移动设备上显示得惨不忍睹。忍了一段时间后终于忍不住了，亲自改一下。</p>
+<h2 id="遍历mp3">
+<a href="#遍历mp3" class="headerlink" title="遍历mp3"></a>遍历mp3</h2>
+<p>开始的时候当然是要先找到mp3文件了。使用<code>os.walk</code>递归的查找mp3，把文件名和路径存下来：</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_find</span><span class="params">(source_path)</span>:</span></div><div class="line">  mp3_list = []</div><div class="line">  <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(source_path):</div><div class="line">    map(<span class="keyword">lambda</span> x: mp3_list.append((root, x[:<span class="number">-4</span>])),</div><div class="line">      filter(<span class="keyword">lambda</span> x: x[<span class="number">-4</span>:] == <span class="string">'.mp3'</span>, files))</div><div class="line">  <span class="keyword">return</span> mp3_list</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>测试一下，放一些mp3文件在test文件夹：</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  mp3_list = mp3_find(<span class="string">r'test'</span>)</div><div class="line">  <span class="keyword">print</span> mp3_list</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="读取id3信息">
+<a href="#读取id3信息" class="headerlink" title="读取id3信息"></a>读取id3信息</h2>
+<p>接下来要读取mp3的id3信息，我用了<a href="http://eyed3.nicfit.net/" target="_blank">eyed3</a>，它不支持python3所以我用的是python2.7</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">import</span> eyed3,sys</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_load</span><span class="params">(mp3_path, mp3_name)</span>:</span></div><div class="line">  <span class="keyword">try</span>:</div><div class="line">    id3 = eyed3.load(os.path.join(mp3_path, mp3_name+<span class="string">'.mp3'</span>))</div><div class="line">    <span class="keyword">return</span> id3</div><div class="line">  <span class="keyword">except</span> IOError:</div><div class="line">    <span class="keyword">print</span> <span class="string">' '</span>.join([mp3_name,<span class="string">'read error.'</span>])</div><div class="line">    sys.exit(<span class="number">1</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>测试一下<code>mp3_process</code>：</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_process</span><span class="params">(mp3_list)</span>:</span></div><div class="line">  <span class="keyword">for</span> path, name <span class="keyword">in</span> mp3_list:</div><div class="line">    id3 = mp3_load(path, name)</div><div class="line">    <span class="keyword">print</span> <span class="string">' '</span>.join(map(str,</div><div class="line">      [id3.tag.title,id3.tag.artist,id3.tag.album]))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">  mp3_process(mp3_find(<span class="string">r'test'</span>))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="搜索">
+<a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2>
+<p>得到名字之后就要从网络抓取图片，这里使用了豆瓣音乐<a href="http://developers.douban.com/wiki/?title=music_v2" target="_blank">Api v2</a>，参看音乐的返回格式，默认返回到是小图<code>spic</code>来的，手动改成大图<code>lpic</code>。这里使用了比较肮脏的手段去除<code>ident</code>的标点符号。</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">import</span> json,re</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(ident)</span>:</span></div><div class="line">  ident = ident.translate(string.maketrans(string.punctuation,</div><div class="line">    <span class="string">'                                '</span>))</div><div class="line">  url = <span class="string">r'http://api.douban.com/v2/music/search?q='</span> + ident</div><div class="line">  mp3_json = json.load(urllib2.urlopen(url), encoding=<span class="string">"utf-8"</span>)</div><div class="line">  <span class="keyword">try</span>:</div><div class="line">    <span class="keyword">if</span> mp3_json[<span class="string">'count'</span>] &gt; <span class="number">0</span>:</div><div class="line">      <span class="keyword">return</span> re.sub(<span class="string">r'/spic/'</span>, <span class="string">r'/lpic/'</span>, mp3_json[<span class="string">'musics'</span>][<span class="number">0</span>][<span class="string">'image'</span>])</div><div class="line">  <span class="keyword">except</span> (KeyError, ValueError): <span class="keyword">pass</span></div><div class="line">  <span class="keyword">return</span> <span class="keyword">False</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>有的mp3可能没有id3标签，所以如果<code>search</code>返回<code>False</code>的话还要按文件名搜一遍。修改<code>mp3_process</code>测试一下</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_process</span><span class="params">(mp3_list)</span>:</span></div><div class="line">  <span class="keyword">for</span> path, name <span class="keyword">in</span> mp3_list:</div><div class="line">    id3 = mp3_load(path, name)</div><div class="line">    img = search(<span class="string">' '</span>.join(map(str,</div><div class="line">      [id3.tag.title,id3.tag.artist,id3.tag.album])))</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> img: img = search(name)</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> img: <span class="keyword">continue</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="写入封面">
+<a href="#写入封面" class="headerlink" title="写入封面"></a>写入封面</h2>
+<p>因为我的音乐都是英语的，所以编码用<code>latin1</code>保持最大的可用性，<code>utf-8</code>和<code>utf-16</code>有的移动设备会显示不出封面，注意<strong>中文不能使用latin1</strong>。</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_burn</span><span class="params">(id3, img)</span>:</span></div><div class="line">    id3.tag.images.set(</div><div class="line">      type=<span class="number">3</span>,</div><div class="line">      img_url=<span class="keyword">None</span>,</div><div class="line">      img_data=urllib2.urlopen(img).read(),</div><div class="line">      mime_type=<span class="string">'image/jpeg'</span>,</div><div class="line">      description=<span class="string">u"Front cover"</span>)</div><div class="line">    id3.tag.save(version = (<span class="number">2</span>, <span class="number">3</span>, <span class="number">0</span>), encoding = <span class="string">'latin1'</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>再次修改<code>mp3_process</code>测试一下，这次是最终版了</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">mp3_process</span><span class="params">(mp3_list)</span>:</span></div><div class="line">  faild_list = []</div><div class="line">  <span class="keyword">for</span> path, name <span class="keyword">in</span> mp3_list:</div><div class="line">    <span class="keyword">print</span> <span class="string">'-- %s:'</span> %name</div><div class="line">    id3 = mp3_load(path, name)</div><div class="line">    img = search(<span class="string">' '</span>.join(map(str,filter(<span class="keyword">lambda</span> x: x,</div><div class="line">      [id3.tag.title,id3.tag.artist,id3.tag.album]))))</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> img: img = search(name)</div><div class="line">    <span class="keyword">if</span> img: mp3_burn(id3, img)</div><div class="line">    <span class="keyword">else</span>: faild_list.append(name)</div><div class="line">  <span class="keyword">return</span> faild_list</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="效果">
+<a href="#效果" class="headerlink" title="效果"></a>效果</h2>
+<p>随机找来一坨mp3，如图，可以看到是没有封面的。</p>
+<p><img src="/images/post/font-cover-catch-in-python/before.png" alt="mp3 before"></p>
+<p>跑一遍程序，再查看，（ubuntu下不知道怎么刷新缩略图缓存，我是把文件夹复制一份）</p>
+<p><img src="/images/post/font-cover-catch-in-python/after.png" alt="mp3 after"></p>
+<h2 id="后话">
+<a href="#后话" class="headerlink" title="后话"></a>后话</h2>
+<p>豆瓣的api是有频率限制的，最好申请一个<a href="http://developers.douban.com/wiki/?title=tutorial" target="_blank">APIKey</a>，或者使用代理，也可以在循环中加入<code>sleep</code>凑合用，一般情况都会没问题。</p>
+<p>完整源码在<a href="/images/post/font-cover-catch-in-python/front_catch.py">这里</a>。</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MP3/">MP3</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/爬虫/">爬虫</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/豆瓣/">豆瓣</a></li>
+</ul>
+<nav id="article-nav"><a href="/2014/04/06/college-life/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">脆弱的力量</div></a>
+<a href="/2014/03/21/lcc-source-learning/" id="article-nav-older"
+class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<div class="article-nav-title">Lcc内存对齐代码</div>
+</a>
+</nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread">
+<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<script>
+var disqus_config = function() {
+    this.page.url = "https://blog.crimx.com/2014/03/29/font-cover-catch-in-python/", this.page.identifier = "2014/03/29/font-cover-catch-in-python/"
+};
+! function() {
+    var t = document,
+        e = t.createElement("script");
+    e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+}()
+</script>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+! function(e, a, t, n, c, o, s) {
+    e.GoogleAnalyticsObject = c, e[c] = e[c] || function() {
+        (e[c].q = e[c].q || []).push(arguments)
+    }, e[c].l = 1 * new Date, o = a.createElement(t), s = a.getElementsByTagName(t)[0], o.async = 1, o.src = n, s.parentNode.insertBefore(o, s)
+}(window, document, "script", "//www.google-analytics.com/analytics.js", "ga"), ga("create", "UA-49163616-1", "auto"), ga("send", "pageview")
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
 
 </html>

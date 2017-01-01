@@ -119,14 +119,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/2016/05/20/understanding-scope/</loc>
-        <lastmod>2016-12-29T18:07:52.515Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/2014/12/10/whats-in-a-function-name/</loc>
         <lastmod>2016-12-29T17:40:51.480Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -377,22 +369,6 @@
     <url>
         <loc>https://blog.crimx.com/2015/05/14/understanding-prototype/</loc>
         <lastmod>2016-12-28T11:04:11.296Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2016/11/19/hexo-categories/</loc>
-        <lastmod>2016-11-20T07:53:23.142Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2016/08/06/stream-adventure-trumpet-misunderstood%20-%20%E5%89%AF%E6%9C%AC/</loc>
-        <lastmod>2016-08-06T01:28:27.196Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

@@ -7,29 +7,29 @@
 <!--<![endif]-->
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-  <title>JavaScript This 的六道坎 | CRIMX</title>
-  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
-  <link rel="manifest" href="/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-  <meta name="description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>JavaScript This 的六道坎 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
 
   首先
 
@@ -40,11 +40,11 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
 
   第一层：世界尽头
 权力最小的大佬是作为备胎的存在">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="JavaScript This 的六道坎">
-    <meta property="og:url" content="https://blog.crimx.com/2016/05/12/understanding-this/index.html">
-    <meta property="og:site_name" content="CRIMX">
-    <meta property="og:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript This 的六道坎">
+<meta property="og:url" content="https://blog.crimx.com/2016/05/12/understanding-this/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
 
   首先
 
@@ -55,10 +55,10 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
 
   第一层：世界尽头
 权力最小的大佬是作为备胎的存在">
-      <meta property="og:updated_time" content="2016-12-30T12:44:23.955Z">
-      <meta name="twitter:card" content="summary">
-      <meta name="twitter:title" content="JavaScript This 的六道坎">
-      <meta name="twitter:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
+<meta property="og:updated_time" content="2016-12-30T12:44:23.955Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript This 的六道坎">
+<meta name="twitter:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
 
   首先
 
@@ -69,340 +69,347 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
 
   第一层：世界尽头
 权力最小的大佬是作为备胎的存在">
-        <meta name="twitter:creator" content="@straybugs">
-        <link rel="stylesheet" href="/static/style.css">
-        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
-        <script>
-          ! function() {
-            var e = document.getElementsByTagName("html")[0];
-            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
-          }()
-
-        </script>
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+! function() {
+    var e = document.getElementsByTagName("html")[0];
+    e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+}()
+</script>
 </head>
 
 <body>
-  <!--[if lte IE 9]>
+<!--[if lte IE 9]>
     <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
   <![endif]-->
-  <div class="site-container">
-    <div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/architecture-1851496_1920-portrait.jpg) 51.15% 50.1%/cover">
-      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==) 51.15% 50.1%/cover"></div>
-      <div class="site-menu-inner-wrapper">
-        <div class="menu-logo">
-          <a class="icon-logo" href="/"></a>
-        </div>
-        <ul class="menu-social-icons">
-          <li>
-            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-          </li>
-          <li>
-            <a class="icon-rss" href="/atom.xml"></a>
-          </li>
-        </ul>
-        <ul class="menu-navs">
-          <li><a href="/categories/">Categories</a></li>
-          <li><a href="/archives/">Archives</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/search/">Search</a></li>
-          <li><a href="/about/">About</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="site-menu-mask"></div>
-    <div class="main-content">
-      <header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/architecture-1851496_1920-portrait.jpg) 51.15% 50.1%/cover">
-        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==) 51.15% 50.1%/cover"></div>
-        <a class="cover-logo" href="/"></a>
-        <div class="title-wrapper">
-          <h1 class="site-title" itemprop="name">JavaScript This 的六道坎</h1>
-          <div class="article-meta">
-            <div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2016/05/12/understanding-this/" class="article-date"><time datetime="2016-05-11T16:00:00.000Z" itemprop="datePublished">2016-05-12</time></a>
-            <a
-              rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-          </div>
-        </div>
-      </header>
-      <div class="tagline-wrap">
-        <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
-          <blockquote class="tagline-content">"This is indeed a mystery," I remarked. "What do you imagine that it means?"</blockquote>
-          <footer class="tagline-cite"><cite>Dr. Watson, "A Scandal In Bohemia"</cite></footer>
-        </section>
-      </div>
-      <div class="toc-mousearea"></div>
-      <div class="toc-wrapper">
-        <div class="toc-container">
-          <ol class="toc">
-            <li class="toc-item toc-level-1"><a class="toc-link" href="#首先"><span class="toc-text">首先</span></a>
-              <ol class="toc-child">
-                <li class="toc-item toc-level-2"><a class="toc-link" href="#第一层：世界尽头"><span class="toc-text">第一层：世界尽头</span></a></li>
-                <li class="toc-item toc-level-2"><a class="toc-link" href="#第二层：点石成金"><span class="toc-text">第二层：点石成金</span></a></li>
-                <li class="toc-item toc-level-2"><a class="toc-link" href="#第三层：指腹为婚"><span class="toc-text">第三层：指腹为婚</span></a></li>
-                <li class="toc-item toc-level-2"><a class="toc-link" href="#第四层：海誓山盟"><span class="toc-text">第四层：海誓山盟</span></a></li>
-                <li class="toc-item toc-level-2"><a class="toc-link" href="#第五层：内有乾坤"><span class="toc-text">第五层：内有乾坤</span></a></li>
-                <li class="toc-item toc-level-2"><a class="toc-link" href="#第六层：军令如山"><span class="toc-text">第六层：军令如山</span></a></li>
-              </ol>
-            </li>
-            <li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li>
-          </ol>
-        </div>
-      </div>
-      <article id="post-understanding-this" class="article--post" itemscope="" itemprop="blogPost">
-        <div class="article-inner js-no-wrap-menu">
-          <div class="article-entry" itemprop="articleBody">
-            <p>鉴于<code>this</code>风骚的运作方式，对<code>this</code>的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。</p>
-            <h1 id="首先">
-              <a href="#首先" class="headerlink" title="首先"></a>首先</h1>
-            <blockquote>
-              <p><code>this</code> is all about context.</p>
-            </blockquote>
-            <p><code>this</code>说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。</p>
-            <p>大佬可以分为六层，层数越高权力越大，<code>this</code>只会认最大的。</p>
-            <h2 id="第一层：世界尽头">
-              <a href="#第一层：世界尽头" class="headerlink" title="第一层：世界尽头"></a>第一层：世界尽头</h2>
-            <p>权力最小的大佬是作为备胎的存在，在普通情况下就是全局，浏览器里就是<code>window</code>；在<code>use strict</code>的情况下就是<code>undefined</code>。</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showStrictThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">  'use strict'</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line">showStrictThis() <span class="comment">// undefined</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="第二层：点石成金">
-              <a href="#第二层：点石成金" class="headerlink" title="第二层：点石成金"></a>第二层：点石成金</h2>
-            <p>第二层大佬说白了就是找这个函数前面的点<code>.</code>。</p>
-            <p>如果用到<code>this</code>的那个函数是属于某个 context object 的，那么这个 context object 绑定到<code>this</code>。</p>
-            <p>比如下面的例子，<code>boss</code>是<code>returnThis</code>的 context object ，或者说<code>returnThis</code>属于<code>boss</code>。</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">var</span> boss = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss.returnThis() === boss <span class="comment">// true</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>下面这个例子就要小心点咯，能想出答案么？</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> boss1.returnThis()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss3 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss3'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">var</span> returnThis = boss1.returnThis</div><div class="line">    <span class="keyword">return</span> returnThis()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss1.returnThis() <span class="comment">// boss1</span></div><div class="line">boss2.returnThis() <span class="comment">// ?</span></div><div class="line">boss3.returnThis() <span class="comment">// ?</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>答案是<code>boss1</code>和<code>window</code>哦，猜对了吗。</p>
-            <p>只要看使用<code>this</code>的那个函数。</p>
-            <p>在<code>boss2.returnThis</code>里，使用<code>this</code>的函数是<code>boss1.returnThis</code>，所以<code>this</code>绑定到<code>boss1</code>；</p>
-            <p>在<code>boss3.returnThis</code>里，使用<code>this</code>的函数是<code>returnThis</code>，所以<code>this</code>绑定到备胎。</p>
-            <p>要想把<code>this</code>绑定到<code>boss2</code>怎么做呢？</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  <span class="attr">returnThis</span>: boss1.returnThis</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss2.returnThis() <span class="comment">//boss2</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>没错，只要让使用<code>this</code>的函数是属于<code>boss2</code>就行。</p>
-            <h2 id="第三层：指腹为婚">
-              <a href="#第三层：指腹为婚" class="headerlink" title="第三层：指腹为婚"></a>第三层：指腹为婚</h2>
-            <p>第三层大佬是<code>Object.prototype.call</code>和<code>Object.prototype.apply</code>，它们可以通过参数指定<code>this</code>。（注意<code>this</code>是不可以直接赋值的哦，<code>this = 2</code>会报<code>ReferenceError</code>。）</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line"></div><div class="line">returnThis() <span class="comment">// window</span></div><div class="line">returnThis.call(boss1) <span class="comment">// boss1</span></div><div class="line">returnThis.apply(boss1) <span class="comment">// boss1</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="第四层：海誓山盟">
-              <a href="#第四层：海誓山盟" class="headerlink" title="第四层：海誓山盟"></a>第四层：海誓山盟</h2>
-            <p>第四层大佬是<code>Object.prototype.bind</code>，他不但通过一个新函数来提供永久的绑定，还会覆盖第三层大佬的命令。</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</div><div class="line"></div><div class="line">boss1returnThis() <span class="comment">// boss1</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123; <span class="attr">name</span>: <span class="string">'boss2'</span> &#125;</div><div class="line">boss1returnThis.call(boss2) <span class="comment">// still boss1</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="第五层：内有乾坤">
-              <a href="#第五层：内有乾坤" class="headerlink" title="第五层：内有乾坤"></a>第五层：内有乾坤</h2>
-            <p>一个比较容易忽略的会绑定<code>this</code>的地方就是<code>new</code>。当我们<code>new</code>一个函数时，就会自动把<code>this</code>绑定在新对象上，然后再调用这个函数。它会覆盖<code>bind</code>的绑定。</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line">showThis.call(boss1) <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</div><div class="line">boss1showThis() <span class="comment">// showThis</span></div><div class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <h2 id="第六层：军令如山">
-              <a href="#第六层：军令如山" class="headerlink" title="第六层：军令如山"></a>第六层：军令如山</h2>
-            <p>最后一个法力无边的大佬就是 ES2015 的箭头函数。箭头函数里的<code>this</code>不再妖艳，被永远封印到当前词法作用域之中，称作 Lexical this ，在代码运行前就可以确定。没有其他大佬可以覆盖。</p>
-            <p>这样的好处就是方便让回调函数的<code>this</code>使用当前的作用域，不怕引起混淆。</p>
-            <p>所以对于箭头函数，只要看它在哪里创建的就行。</p>
-            <p>补充：如果对 Javascript 的词法作用域不太理解的可以看我另外一篇文章。</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span> (<span class="params">cb</span>) </span>&#123;</div><div class="line">  cb()</div><div class="line">&#125;</div><div class="line"></div><div class="line">callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// window</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  <span class="attr">callback</span>: callback,</div><div class="line">  callback2 () &#123;</div><div class="line">    callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss1.callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// still window</span></div><div class="line">boss1.callback2(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// boss1</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>下面这种奇葩的使用方式就需要注意：</p>
-            <p></p>
-            <figure class="highlight javascript">
-              <table>
-                <tr>
-                  <td class="gutter">
-                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
-                  </td>
-                  <td class="code">
-                    <pre><div class="line"><span class="keyword">var</span> returnThis = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></div><div class="line"></div><div class="line">returnThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> returnThis() <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">var</span> func = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></div><div class="line">    <span class="keyword">return</span> func()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">returnThis.call(boss1) <span class="comment">// still window</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</div><div class="line">boss1returnThis() <span class="comment">// still window</span></div><div class="line"></div><div class="line">boss1.returnThis() <span class="comment">// boss1</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  <span class="attr">returnThis</span>: boss1.returnThis</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss2.returnThis() <span class="comment">// boss2</span></div></pre>
-                  </td>
-                </tr>
-              </table>
-            </figure>
-            <p></p>
-            <p>如果你不知道最后为什么会是 boss2，继续理解“对于箭头函数，只要看它在哪里创建”这句话。</p>
-            <h1 id="参考">
-              <a href="#参考" class="headerlink" title="参考"></a>参考</h1>
-            <ol>
-              <li>Mozilla Developer Network</li>
-              <li>Kyle Simpson, <em>this &amp; object prototypes</em></li>
-              <li>Axel Rauschmayer, <em>Speaking JavaScript</em></li>
-            </ol>
-            <p>[完]</p>
-          </div>
-        </div>
-        <footer class="article-footer">
-          <ul class="article-tag-list">
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/This/">This</a></li>
-            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
-          </ul>
-          <nav id="article-nav"><a href="/2016/05/27/sublime-text-title-case/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Sublime Text Title Case 快捷键</div></a>
-            <a href="/2016/04/18/document-scrollingelement-polyfill/"
-              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-              <div class="article-nav-title">闲读源码：ScrollingElement Polyfill</div>
-              </a>
-          </nav>
-        </footer>
-      </article>
-      <section id="comments">
-        <div id="disqus_thread">
-          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
-      </section>
-      <script>
-        var disqus_config = function() {
-          this.page.url = "https://blog.crimx.com/2016/05/12/understanding-this/", this.page.identifier = "2016/05/12/understanding-this/"
-        };
-        ! function() {
-          var t = document,
-            e = t.createElement("script");
-          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
-        }()
-
-      </script>
-      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
-      <footer class="site-footer">
-        <ul class="recommended-post">
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-          <li class="recommended-post__item">
-            <a class="recommended-post__link" href="#">
-              <div class="recommended-post__cover js-progressive-bg-container">
-                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
-              </div>
-              <h1 class="recommended-post__title"></h1>
-            </a>
-          </li>
-        </ul>
-        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-        <div
-          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
-      </footer>
-    </div>
-  </div>
-  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/architecture-1851496_1920-portrait.jpg) 51.15% 50.1%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==) 51.15% 50.1%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/architecture-1851496_1920-portrait.jpg) 51.15% 50.1%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==) 51.15% 50.1%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">JavaScript This 的六道坎</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2016/05/12/understanding-this/" class="article-date"><time datetime="2016-05-11T16:00:00.000Z" itemprop="datePublished">2016-05-12</time></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"This is indeed a mystery," I remarked. "What do you imagine that it means?"</blockquote>
+<footer class="tagline-cite"><cite>Dr. Watson, "A Scandal In Bohemia"</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-1"><a class="toc-link" href="#首先"><span class="toc-text">首先</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#第一层：世界尽头"><span class="toc-text">第一层：世界尽头</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#第二层：点石成金"><span class="toc-text">第二层：点石成金</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#第三层：指腹为婚"><span class="toc-text">第三层：指腹为婚</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#第四层：海誓山盟"><span class="toc-text">第四层：海誓山盟</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#第五层：内有乾坤"><span class="toc-text">第五层：内有乾坤</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#第六层：军令如山"><span class="toc-text">第六层：军令如山</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-understanding-this" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry" itemprop="articleBody">
+<p>鉴于<code>this</code>风骚的运作方式，对<code>this</code>的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。</p>
+<h1 id="首先">
+<a href="#首先" class="headerlink" title="首先"></a>首先</h1>
+<blockquote>
+<p><code>this</code> is all about context.</p>
+</blockquote>
+<p><code>this</code>说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。</p>
+<p>大佬可以分为六层，层数越高权力越大，<code>this</code>只会认最大的。</p>
+<h2 id="第一层：世界尽头">
+<a href="#第一层：世界尽头" class="headerlink" title="第一层：世界尽头"></a>第一层：世界尽头</h2>
+<p>权力最小的大佬是作为备胎的存在，在普通情况下就是全局，浏览器里就是<code>window</code>；在<code>use strict</code>的情况下就是<code>undefined</code>。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showStrictThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">  'use strict'</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line">showStrictThis() <span class="comment">// undefined</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="第二层：点石成金">
+<a href="#第二层：点石成金" class="headerlink" title="第二层：点石成金"></a>第二层：点石成金</h2>
+<p>第二层大佬说白了就是找这个函数前面的点<code>.</code>。</p>
+<p>如果用到<code>this</code>的那个函数是属于某个 context object 的，那么这个 context object 绑定到<code>this</code>。</p>
+<p>比如下面的例子，<code>boss</code>是<code>returnThis</code>的 context object ，或者说<code>returnThis</code>属于<code>boss</code>。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">var</span> boss = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss.returnThis() === boss <span class="comment">// true</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>下面这个例子就要小心点咯，能想出答案么？</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> boss1.returnThis()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss3 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss3'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">var</span> returnThis = boss1.returnThis</div><div class="line">    <span class="keyword">return</span> returnThis()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss1.returnThis() <span class="comment">// boss1</span></div><div class="line">boss2.returnThis() <span class="comment">// ?</span></div><div class="line">boss3.returnThis() <span class="comment">// ?</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>答案是<code>boss1</code>和<code>window</code>哦，猜对了吗。</p>
+<p>只要看使用<code>this</code>的那个函数。</p>
+<p>在<code>boss2.returnThis</code>里，使用<code>this</code>的函数是<code>boss1.returnThis</code>，所以<code>this</code>绑定到<code>boss1</code>；</p>
+<p>在<code>boss3.returnThis</code>里，使用<code>this</code>的函数是<code>returnThis</code>，所以<code>this</code>绑定到备胎。</p>
+<p>要想把<code>this</code>绑定到<code>boss2</code>怎么做呢？</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  <span class="attr">returnThis</span>: boss1.returnThis</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss2.returnThis() <span class="comment">//boss2</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>没错，只要让使用<code>this</code>的函数是属于<code>boss2</code>就行。</p>
+<h2 id="第三层：指腹为婚">
+<a href="#第三层：指腹为婚" class="headerlink" title="第三层：指腹为婚"></a>第三层：指腹为婚</h2>
+<p>第三层大佬是<code>Object.prototype.call</code>和<code>Object.prototype.apply</code>，它们可以通过参数指定<code>this</code>。（注意<code>this</code>是不可以直接赋值的哦，<code>this = 2</code>会报<code>ReferenceError</code>。）</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line"></div><div class="line">returnThis() <span class="comment">// window</span></div><div class="line">returnThis.call(boss1) <span class="comment">// boss1</span></div><div class="line">returnThis.apply(boss1) <span class="comment">// boss1</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="第四层：海誓山盟">
+<a href="#第四层：海誓山盟" class="headerlink" title="第四层：海誓山盟"></a>第四层：海誓山盟</h2>
+<p>第四层大佬是<code>Object.prototype.bind</code>，他不但通过一个新函数来提供永久的绑定，还会覆盖第三层大佬的命令。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</div><div class="line"></div><div class="line">boss1returnThis() <span class="comment">// boss1</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123; <span class="attr">name</span>: <span class="string">'boss2'</span> &#125;</div><div class="line">boss1returnThis.call(boss2) <span class="comment">// still boss1</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="第五层：内有乾坤">
+<a href="#第五层：内有乾坤" class="headerlink" title="第五层：内有乾坤"></a>第五层：内有乾坤</h2>
+<p>一个比较容易忽略的会绑定<code>this</code>的地方就是<code>new</code>。当我们<code>new</code>一个函数时，就会自动把<code>this</code>绑定在新对象上，然后再调用这个函数。它会覆盖<code>bind</code>的绑定。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line">showThis.call(boss1) <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</div><div class="line">boss1showThis() <span class="comment">// showThis</span></div><div class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="第六层：军令如山">
+<a href="#第六层：军令如山" class="headerlink" title="第六层：军令如山"></a>第六层：军令如山</h2>
+<p>最后一个法力无边的大佬就是 ES2015 的箭头函数。箭头函数里的<code>this</code>不再妖艳，被永远封印到当前词法作用域之中，称作 Lexical this ，在代码运行前就可以确定。没有其他大佬可以覆盖。</p>
+<p>这样的好处就是方便让回调函数的<code>this</code>使用当前的作用域，不怕引起混淆。</p>
+<p>所以对于箭头函数，只要看它在哪里创建的就行。</p>
+<p>补充：如果对 Javascript 的词法作用域不太理解的可以看我另外一篇文章。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span> (<span class="params">cb</span>) </span>&#123;</div><div class="line">  cb()</div><div class="line">&#125;</div><div class="line"></div><div class="line">callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// window</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  <span class="attr">callback</span>: callback,</div><div class="line">  callback2 () &#123;</div><div class="line">    callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss1.callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// still window</span></div><div class="line">boss1.callback2(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// boss1</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>下面这种奇葩的使用方式就需要注意：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">var</span> returnThis = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></div><div class="line"></div><div class="line">returnThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> returnThis() <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">var</span> func = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></div><div class="line">    <span class="keyword">return</span> func()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">returnThis.call(boss1) <span class="comment">// still window</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</div><div class="line">boss1returnThis() <span class="comment">// still window</span></div><div class="line"></div><div class="line">boss1.returnThis() <span class="comment">// boss1</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  <span class="attr">returnThis</span>: boss1.returnThis</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss2.returnThis() <span class="comment">// boss2</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>如果你不知道最后为什么会是 boss2，继续理解“对于箭头函数，只要看它在哪里创建”这句话。</p>
+<h1 id="参考">
+<a href="#参考" class="headerlink" title="参考"></a>参考</h1>
+<ol>
+<li>Mozilla Developer Network</li>
+<li>Kyle Simpson, <em>this &amp; object prototypes</em></li>
+<li>Axel Rauschmayer, <em>Speaking JavaScript</em></li>
+</ol>
+<p>[完]</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/This/">This</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
+</ul>
+<nav id="article-nav"><a href="/2016/05/27/sublime-text-title-case/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Sublime Text Title Case 快捷键</div></a>
+<a href="/2016/04/18/document-scrollingelement-polyfill/"
+id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<div class="article-nav-title">闲读源码：ScrollingElement Polyfill</div>
+</a>
+</nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread">
+<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<script>
+var disqus_config = function() {
+    this.page.url = "https://blog.crimx.com/2016/05/12/understanding-this/", this.page.identifier = "2016/05/12/understanding-this/"
+};
+! function() {
+    var t = document,
+        e = t.createElement("script");
+    e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+}()
+</script>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+! function(e, a, t, n, c, o, s) {
+    e.GoogleAnalyticsObject = c, e[c] = e[c] || function() {
+        (e[c].q = e[c].q || []).push(arguments)
+    }, e[c].l = 1 * new Date, o = a.createElement(t), s = a.getElementsByTagName(t)[0], o.async = 1, o.src = n, s.parentNode.insertBefore(o, s)
+}(window, document, "script", "//www.google-analytics.com/analytics.js", "ga"), ga("create", "UA-49163616-1", "auto"), ga("send", "pageview")
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
 
 </html>
