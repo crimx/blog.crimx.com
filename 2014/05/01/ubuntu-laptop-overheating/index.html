@@ -1,0 +1,365 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>解决 Ubuntu 笔记本发热问题 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="笔记本发热绝大多数情况是因为CPU和双显卡。
+
+  先排除双显卡问题
+ubuntu自带双显卡控制，该功能还在debug状态，但是在13.10上已经比较稳定了。
+13.10之前的需要先加载进来
+
+
+  
+    
+      
+        1
+      
+      
+        mount -t debugfs debugfs /sys/kernel/debug">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="解决 Ubuntu 笔记本发热问题">
+    <meta property="og:url" content="https://blog.crimx.com/2014/05/01/ubuntu-laptop-overheating/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="笔记本发热绝大多数情况是因为CPU和双显卡。
+
+  先排除双显卡问题
+ubuntu自带双显卡控制，该功能还在debug状态，但是在13.10上已经比较稳定了。
+13.10之前的需要先加载进来
+
+
+  
+    
+      
+        1
+      
+      
+        mount -t debugfs debugfs /sys/kernel/debug">
+      <meta property="og:updated_time" content="2016-12-29T11:44:37.399Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="解决 Ubuntu 笔记本发热问题">
+      <meta name="twitter:description" content="笔记本发热绝大多数情况是因为CPU和双显卡。
+
+  先排除双显卡问题
+ubuntu自带双显卡控制，该功能还在debug状态，但是在13.10上已经比较稳定了。
+13.10之前的需要先加载进来
+
+
+  
+    
+      
+        1
+      
+      
+        mount -t debugfs debugfs /sys/kernel/debug">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">解决 Ubuntu 笔记本发热问题</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2014/05/01/ubuntu-laptop-overheating/" class="article-date"><time datetime="2014-04-30T16:00:00.000Z" itemprop="datePublished">2014-05-01</time></a>
+            <a rel="license"
+              class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="tagline-wrap">
+        <section class="tagline">
+          <blockquote class="tagline-content">"Eventually, everything connects."</blockquote>
+        </section>
+      </div>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container">
+          <ol class="toc">
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#先排除双显卡问题"><span class="toc-text">先排除双显卡问题</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#CPU情况"><span class="toc-text">CPU情况</span></a></li>
+          </ol>
+        </div>
+      </div>
+      <article id="post-ubuntu-laptop-overheating" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>笔记本发热绝大多数情况是因为CPU和双显卡。</p>
+            <h2 id="先排除双显卡问题">
+              <a href="#先排除双显卡问题" class="headerlink" title="先排除双显卡问题"></a>先排除双显卡问题</h2>
+            <p>ubuntu自带双显卡控制，该功能还在debug状态，但是在13.10上已经比较稳定了。</p>
+            <p>13.10之前的需要先加载进来</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">mount -t debugfs debugfs /sys/kernel/debug</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>查看显卡情况</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">sudo cat /sys/kernel/debug/vgaswitcheroo/switch</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>可以看到</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">0:IGD:+:Pwr:0000:00:02.0</div><div class="line">1:DIS: :Off:0000:01:00.0</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>IGD就是集成显卡,DIS是独立显卡。<br>Pwr为通电的显卡，off为关掉的显卡。<br>加号为正在使用的显卡。</p>
+            <p>以下操作需要在 <code>root</code> 权限下进行。但是如果不需要切换显卡，只是切断电源，可以直接进行最后一步然后重启。</p>
+            <p>切换到独立显卡</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">echo</span> DDIS &gt; /sys/kernel/debug/vgaswitcheroo/switch</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>切换到集成显卡</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">echo</span> DIGD &gt; /sys/kernel/debug/vgaswitcheroo/switch</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>关闭不使用的显卡</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">echo</span> OFF &gt; /sys/kernel/debug/vgaswitcheroo/switch</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>搞定之后，在 <code>rc.local</code> 上添加最后一个，开机自动关闭不用的显卡</p>
+            <h2 id="CPU情况">
+              <a href="#CPU情况" class="headerlink" title="CPU情况"></a>CPU情况</h2>
+            <p>有的博客推荐<code>jupiter</code>，我的源里没有，懒得找所以用了 <code>cpufreqd</code>，效果也是扛扛的。</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">sudo apt-get install cpufreqd</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>它支持情景模式，配置 <code>/etc/cpufreqd.conf</code>。里面已经有样例了，可以仿照它自己定义。</p>
+            <p>下面的是我的设置，懒得自己改的可以复制粘贴。</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="comment"># this is a comment</span></div><div class="line"><span class="comment"># see CPUFREQD.CONF(5) manpage for a complete reference</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment"># Note: ondemand/conservative Profiles are disabled because</span></div><div class="line"><span class="comment">#       they are not available on many platforms.</span></div><div class="line"></div><div class="line">[General]</div><div class="line">pidfile=/var/run/cpufreqd.pid</div><div class="line">poll_interval=2</div><div class="line">verbosity=4</div><div class="line"><span class="comment">#enable_remote=1</span></div><div class="line"><span class="comment">#remote_group=root</span></div><div class="line">[/General]</div><div class="line"></div><div class="line"><span class="comment">#[acpi]</span></div><div class="line"><span class="comment">#acpid_socket=/var/run/acpid.socket</span></div><div class="line"><span class="comment">#[/acpi]</span></div><div class="line"></div><div class="line"><span class="comment">#[nforce2_atxp1]</span></div><div class="line"><span class="comment">#vcore_path=/some/path</span></div><div class="line"><span class="comment">#vcore_default=1500</span></div><div class="line"><span class="comment">#[/nforce2_atxp1]</span></div><div class="line"></div><div class="line"><span class="comment">#[sensors_plugin]</span></div><div class="line"><span class="comment">#sensors_conf=/some/file</span></div><div class="line"><span class="comment">#[/sensors_plugin]</span></div><div class="line"></div><div class="line"><span class="comment">#[Profile]</span></div><div class="line"><span class="comment">#name=On Demand High</span></div><div class="line"><span class="comment">#minfreq=40%</span></div><div class="line"><span class="comment">#maxfreq=100%</span></div><div class="line"><span class="comment">#policy=ondemand</span></div><div class="line"><span class="comment">#[/Profile]</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment">#[Profile]</span></div><div class="line"><span class="comment">#name=On Demand Low</span></div><div class="line"><span class="comment">#minfreq=20%</span></div><div class="line"><span class="comment">#maxfreq=80%</span></div><div class="line"><span class="comment">#policy=ondemand</span></div><div class="line"><span class="comment">#[/Profile]</span></div><div class="line"></div><div class="line">[Profile]</div><div class="line">name=Performance High</div><div class="line">minfreq=100%</div><div class="line">maxfreq=100%</div><div class="line">policy=performance</div><div class="line"><span class="comment">#exec_post=echo 8 &gt; /proc/acpi/sony/brightness</span></div><div class="line">[/Profile]</div><div class="line"></div><div class="line">[Profile]</div><div class="line">name=Performance Low</div><div class="line">minfreq=80%</div><div class="line">maxfreq=80%</div><div class="line">policy=performance</div><div class="line">[/Profile]</div><div class="line"></div><div class="line">[Profile]</div><div class="line">name=Powersave High</div><div class="line">minfreq=60%</div><div class="line">maxfreq=60%</div><div class="line">policy=powersave</div><div class="line">[/Profile]</div><div class="line"></div><div class="line">[Profile]</div><div class="line">name=Powersave Low</div><div class="line">minfreq=40%</div><div class="line">maxfreq=40%</div><div class="line">policy=powersave</div><div class="line">[/Profile]</div><div class="line"></div><div class="line"><span class="comment">#[Profile]</span></div><div class="line"><span class="comment">#name=Conservative High</span></div><div class="line"><span class="comment">#minfreq=33%</span></div><div class="line"><span class="comment">#maxfreq=100%</span></div><div class="line"><span class="comment">#policy=conservative</span></div><div class="line"><span class="comment">#[/Profile]</span></div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment">#[Profile]</span></div><div class="line"><span class="comment">#name=Conservative Low</span></div><div class="line"><span class="comment">#minfreq=0%</span></div><div class="line"><span class="comment">#maxfreq=66%</span></div><div class="line"><span class="comment">#policy=conservative</span></div><div class="line"><span class="comment">#[/Profile]</span></div><div class="line"></div><div class="line"><span class="comment">##</span></div><div class="line"><span class="comment"># Basic states</span></div><div class="line"><span class="comment">##</span></div><div class="line"><span class="comment"># when AC use Conservative mode</span></div><div class="line">[Rule]</div><div class="line">name=AC Rule</div><div class="line">ac=on                    <span class="comment"># (on/off)</span></div><div class="line">profile=Conservative High</div><div class="line">[/Rule]</div><div class="line"> </div><div class="line"><span class="comment"># stay in Conservative mode for the first minutes</span></div><div class="line">[Rule]</div><div class="line">name=AC Off - High Power</div><div class="line">ac=off                   <span class="comment"># (on/off)</span></div><div class="line">battery_interval=70-100</div><div class="line"><span class="comment">#exec_post=echo 5 &gt; /proc/acpi/sony/brightness</span></div><div class="line">profile=Conservative Low</div><div class="line">[/Rule]</div><div class="line"></div><div class="line"><span class="comment"># conservative mode when not AC</span></div><div class="line">[Rule]</div><div class="line">name=AC Off - Medium Battery</div><div class="line">ac=off                   <span class="comment"># (on/off)</span></div><div class="line">battery_interval=30-70</div><div class="line"><span class="comment">#exec_post=echo 3 &gt; /proc/acpi/sony/brightness</span></div><div class="line">profile=Powersave High</div><div class="line">[/Rule]</div><div class="line"></div><div class="line"><span class="comment"># conservative mode when not AC</span></div><div class="line">[Rule]</div><div class="line">name=AC Off - Low Battery</div><div class="line">ac=off                   <span class="comment"># (on/off)</span></div><div class="line">battery_interval=0-30</div><div class="line"><span class="comment">#exec_post=echo 3 &gt; /proc/acpi/sony/brightness</span></div><div class="line">profile=Powersave Low</div><div class="line">[/Rule]</div><div class="line"></div><div class="line"><span class="comment">##</span></div><div class="line"><span class="comment"># Special Rules</span></div><div class="line"><span class="comment">##</span></div><div class="line"><span class="comment"># CPU Too hot!</span></div><div class="line">[Rule]</div><div class="line">name=CPU Too Hot</div><div class="line">acpi_temperature=55-100</div><div class="line">cpu_interval=50-100</div><div class="line">profile=Conservative Low</div><div class="line">[/Rule]</div><div class="line"></div><div class="line"><span class="comment"># use performance mode if I'm watching a movie</span></div><div class="line"><span class="comment"># I don't care for batteries! </span></div><div class="line"><span class="comment"># But don't heat too much.</span></div><div class="line">[Rule]</div><div class="line">name=Movie Watcher</div><div class="line">programs=xine,mplayer,gmplayer</div><div class="line">battery_interval=0-100</div><div class="line">acpi_temperature=0-60</div><div class="line">cpu_interval=0-100</div><div class="line">profile=Performance High</div><div class="line">[/Rule]</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/双显卡/">双显卡</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/发热/">发热</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/散热/">散热</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记本/">笔记本</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/05/15/how-to-learn-javascript-properly/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">如何正确学习 JavaScript</div></a>
+            <a href="/2014/04/28/damson-differential-privacy-for-analysis-of-large-data/"
+              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">Damson演示：用于大数据分析的差分隐私</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/05/01/ubuntu-laptop-overheating/", this.page.identifier = "2014/05/01/ubuntu-laptop-overheating/"
+        };
+        ! function() {
+          var t = document,
+            e = t.createElement("script");
+          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

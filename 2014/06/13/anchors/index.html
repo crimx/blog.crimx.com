@@ -1,0 +1,360 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>Qt Quick 笔记 - Anchors | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="看到许多 Qt Quick 样例中都会用到 Anchors，在官网这里找到了资料。还有这里也有详细的说明。
+除了Grid, Row, and Column，Anchors 也可以用来布局。
+注意只能对兄弟或父母 item 使用 anchors
+Anchors 是 Item 中的属性，所以大多数类型都可以使用 Anchors。
+一图胜千言：
+
+简单的例子：">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Qt Quick 笔记 - Anchors">
+    <meta property="og:url" content="https://blog.crimx.com/2014/06/13/anchors/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="看到许多 Qt Quick 样例中都会用到 Anchors，在官网这里找到了资料。还有这里也有详细的说明。
+除了Grid, Row, and Column，Anchors 也可以用来布局。
+注意只能对兄弟或父母 item 使用 anchors
+Anchors 是 Item 中的属性，所以大多数类型都可以使用 Anchors。
+一图胜千言：
+
+简单的例子：">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/edges_qml.jpg">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/edge1.jpg">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/edge3.jpg">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/margins_qml.jpg">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/edge2.jpg">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/anchor_ordering.jpg">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/anchor_ordering_bad.jpg">
+      <meta property="og:updated_time" content="2016-12-29T10:38:52.194Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="Qt Quick 笔记 - Anchors">
+      <meta name="twitter:description" content="看到许多 Qt Quick 样例中都会用到 Anchors，在官网这里找到了资料。还有这里也有详细的说明。
+除了Grid, Row, and Column，Anchors 也可以用来布局。
+注意只能对兄弟或父母 item 使用 anchors
+Anchors 是 Item 中的属性，所以大多数类型都可以使用 Anchors。
+一图胜千言：
+
+简单的例子：">
+        <meta name="twitter:image" content="https://blog.crimx.com/images/post/qt-quick-anchors/edges_qml.jpg">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">Qt Quick 笔记 - Anchors</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/Qt/">Qt</a></div><a href="/2014/06/13/anchors/" class="article-date"><time datetime="2014-06-12T16:00:00.000Z" itemprop="datePublished">2014-06-13</time></a>
+            <a rel="license" class="cc-license-wrapper"
+              href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container"></div>
+      </div>
+      <article id="post-anchors" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>看到许多 Qt Quick 样例中都会用到 Anchors，在<a href="http://qt-project.org/doc/qt-5/qtquick-positioning-anchors.html" target="_blank">官网这里</a>找到了资料。还有<a href="http://qt-project.org/doc/qt-5/qml-qtquick-item.html#anchors.margins-prop" target="_blank">这里</a>也有详细的说明。</p>
+            <p>除了Grid, Row, and Column，Anchors 也可以用来布局。</p>
+            <p>注意只能对兄弟或父母 item 使用 anchors</p>
+            <p>Anchors 是 <a href="http://qt-project.org/doc/qt-5/qml-qtquick-item.html#anchors.margins-prop" target="_blank">Item</a> 中的属性，所以大多数类型都可以使用 Anchors。</p>
+            <p>一图胜千言：</p>
+            <p><img src="/images/post/qt-quick-anchors/edges_qml.jpg" alt="edges_qml"></p>
+            <p>简单的例子：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="comment">// ...</span></div><div class="line">Rectangle &#123; </div><div class="line">    <span class="attr">id</span>: rect1</div><div class="line">    <span class="comment">//... </span></div><div class="line">&#125;</div><div class="line"></div><div class="line">Rectangle &#123; </div><div class="line">    <span class="attr">id</span>: rect2</div><div class="line">    anchors.left: rect1.right</div><div class="line">    <span class="comment">//... </span></div><div class="line">&#125;</div><div class="line"><span class="comment">//...</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>布局就会是这样子：</p>
+            <p><img src="/images/post/qt-quick-anchors/edge1.jpg" alt="edge1"></p>
+            <p>换一下</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="comment">//...</span></div><div class="line">Rectangle &#123; </div><div class="line">    <span class="attr">id</span>: rect1</div><div class="line">    <span class="comment">//... </span></div><div class="line">&#125;</div><div class="line"></div><div class="line">Rectangle &#123; </div><div class="line">    <span class="attr">id</span>: rect2</div><div class="line">    anchors.left: rect1.right</div><div class="line">    anchors.top: rect1.bottom</div><div class="line">    <span class="comment">//... </span></div><div class="line">&#125;</div><div class="line"><span class="comment">//...</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>布局就会是这样子</p>
+            <p><img src="/images/post/qt-quick-anchors/edge3.jpg" alt="edge3"></p>
+            <p><code>anchors.baseline</code> 是一条假想的线，代表文本的位置。对于无文本的 item 它跟 top 一致。</p>
+            <p>还有一些比较方便的属性</p>
+            <p><code>anchors.fill: something</code> 就是去填满 something，即 left,right,top, bottom 值都相等。</p>
+            <p><code>anchors.centerIn: something</code> 就是中心与 something 相等，即 verticalCenter, horizontalCenter 值相等。</p>
+            <p><code>anchors.margins: 实数</code> 以像素为单位设置间距，再次一图胜千言：</p>
+            <p><img src="/images/post/qt-quick-anchors/margins_qml.jpg" alt="margins_qml"></p>
+            <p>例子</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="comment">//...</span></div><div class="line">Rectangle &#123; </div><div class="line">    <span class="attr">id</span>: rect1</div><div class="line">    <span class="comment">//... </span></div><div class="line">&#125;</div><div class="line"></div><div class="line">Rectangle &#123; </div><div class="line">    <span class="attr">id</span>: rect2</div><div class="line">    anchors.left: rect1.right</div><div class="line">    anchors.leftMargin: <span class="number">5</span></div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//...</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p><img src="/images/post/qt-quick-anchors/edge2.jpg" alt="edge2"></p>
+            <p>注意 margins 是按 anchors 来设置间距，假如没有设置 anchor，margins 就会失效。</p>
+            <p>此时可以用偏移值来设置间距，共三种：</p>
+            <ul>
+              <li>
+                <p>anchors.horizontalCenterOffset : 实数</p>
+              </li>
+              <li>
+                <p>anchors.verticalCenterOffset : 实数</p>
+              </li>
+              <li>
+                <p>anchors.baselineOffset : 实数</p>
+              </li>
+            </ul>
+            <p>使用 AnchorChanges 去处理状态</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">State &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"anchorRight"</span></div><div class="line">    AnchorChanges &#123;</div><div class="line">        <span class="attr">target</span>: rect2</div><div class="line">        anchors.right: parent.right</div><div class="line">        anchors.left: <span class="literal">undefined</span>  <span class="comment">//remove the left anchor</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>使用 AnchorAnimation 激活 AnchorChanges：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"> Transition &#123;</div><div class="line">    AnchorAnimation &#123;&#125;  <span class="comment">//animates any AnchorChanges in the corresponding state change</span></div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p><img src="/images/post/qt-quick-anchors/anchor_ordering.jpg" alt="anchor_ordering"></p>
+            <p>可以直接用 JavaScript 代替，但是要小心使用，会有很多坑</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"> <span class="comment">//会出问题</span></div><div class="line">Rectangle &#123;</div><div class="line">    <span class="attr">width</span>: <span class="number">50</span></div><div class="line">    anchors.left: parent.left</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reanchorToRight</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        anchors.right = parent.right</div><div class="line">        anchors.left = <span class="literal">undefined</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>会变成这样：</p>
+            <p><img src="/images/post/qt-quick-anchors/anchor_ordering_bad.jpg" alt="anchor_ordering_bad"></p>
+            <p>要先释放不需要的属性再去更新其它属性</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">Rectangle &#123;</div><div class="line">    <span class="attr">width</span>: <span class="number">50</span></div><div class="line">    anchors.left: parent.left</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reanchorToRight</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        anchors.left = <span class="literal">undefined</span></div><div class="line">        anchors.right = parent.right</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>还有这种代码</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="comment">//bad code</span></div><div class="line">Rectangle &#123;</div><div class="line">    <span class="attr">width</span>: <span class="number">50</span>; height: <span class="number">50</span></div><div class="line">    anchors.left: state == <span class="string">"right"</span> ? <span class="literal">undefined</span> : parent.left;</div><div class="line">    anchors.right: state == <span class="string">"right"</span> ? parent.right : <span class="literal">undefined</span>;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>不推荐这么写，因为在 AnchorChanges 内部就会自动处理了。</p>
+            <p>最后说明，不要跟绝对坐标混用，要用绝对坐标时先把冲突的 anchor 设置为 undefined ​</p>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Qt/">Qt</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Quick/">Quick</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/07/07/nodejs-application-made-with-express-and-absurdjs/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">使用 Express 与 AbsurdJS 构建 Node.js 应用</div></a><a
+              href="/2014/06/11/a-first-person-engine-in-265-lines/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">265行代码实现第一人称引擎</div></a></nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/06/13/anchors/", this.page.identifier = "2014/06/13/anchors/"
+        };
+        ! function() {
+          var t = document,
+            e = t.createElement("script");
+          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

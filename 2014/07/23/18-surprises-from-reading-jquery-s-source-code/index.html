@@ -1,0 +1,289 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>阅读 jQuery 源码的18个惊喜 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="原文：18 Surprises From Reading jQuery&amp;#39;s Source Code（2014-7-23）
+我热爱 jQuery，且尽管我认为自己算是一名高级 JavaScript 开发者，我从来没有试过由头到尾把 jQuery 的源码看一遍，直到现在。这里分享一些我一路下来学到的东西：
+注意：我使用 $.fn.method() 语法来表示调用一组匹配元素的方法。比如当我说">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="阅读 jQuery 源码的18个惊喜">
+    <meta property="og:url" content="https://blog.crimx.com/2014/07/23/18-surprises-from-reading-jquery-s-source-code/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="原文：18 Surprises From Reading jQuery&amp;#39;s Source Code（2014-7-23）
+我热爱 jQuery，且尽管我认为自己算是一名高级 JavaScript 开发者，我从来没有试过由头到尾把 jQuery 的源码看一遍，直到现在。这里分享一些我一路下来学到的东西：
+注意：我使用 $.fn.method() 语法来表示调用一组匹配元素的方法。比如当我说">
+      <meta property="og:updated_time" content="2016-12-29T11:43:51.631Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="阅读 jQuery 源码的18个惊喜">
+      <meta name="twitter:description" content="原文：18 Surprises From Reading jQuery&amp;#39;s Source Code（2014-7-23）
+我热爱 jQuery，且尽管我认为自己算是一名高级 JavaScript 开发者，我从来没有试过由头到尾把 jQuery 的源码看一遍，直到现在。这里分享一些我一路下来学到的东西：
+注意：我使用 $.fn.method() 语法来表示调用一组匹配元素的方法。比如当我说">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">阅读 jQuery 源码的18个惊喜</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/07/23/18-surprises-from-reading-jquery-s-source-code/" class="article-date"><time datetime="2014-07-22T16:00:00.000Z" itemprop="datePublished">2014-07-23</time></a>
+            <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="tagline-wrap">
+        <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+          <blockquote class="tagline-content">"Anyone who has never made a mistake has never tried anything new."</blockquote>
+          <footer class="tagline-cite"><cite>Einstein</cite></footer>
+        </section>
+      </div>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container"></div>
+      </div>
+      <article id="post-18-surprises-from-reading-jquery-s-source-code" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>原文：<a href="http://quickleft.com/blog/18-surprises-from-reading-jquery-s-source-code" target="_blank">18 Surprises From Reading jQuery&#39;s Source Code</a>（2014-7-23）</p>
+            <p>我热爱 jQuery，且尽管我认为自己算是一名高级 JavaScript 开发者，我从来没有试过由头到尾把 jQuery 的源码看一遍，直到现在。这里分享一些我一路下来学到的东西：</p>
+            <p>注意：我使用 <code>$.fn.method()</code> 语法来表示调用一组匹配元素的方法。比如当我说 <code>$.fn.addClass</code>，则表示 <code>$(&#39;div&#39;).addClass(&#39;blue&#39;)</code> 或者 <code>$(&#39;a.active&#39;).addClass(&#39;in-use&#39;)</code> 此类的用法。<code>$.fn</code> 是 jQuery
+              包装元素的原型。</p>
+            <ol>
+              <li>
+                <p><strong>Sizzle 的权重：</strong><a href="http://sizzlejs.com/" target="_blank">Sizzle</a> 是 jQuery 用于在 DOM 找元素的的选择器引擎，基于 CSS 选择器。正是它将 <code>$(&#39;div.active&#39;)</code> 转换成可操作的元素数组。我知道 Sizzle 占了 jQuery 相当大的部分，但它的庞大还是吓到了我。按行数来说它很无疑是 jQuery
+                  中唯一最庞大的特性。我估计它占了总代码库的 22%，而第二大的特性—— <code>$.ajax</code> 只占了 8%。</p>
+              </li>
+              <li>
+                <p><strong>$.grep：</strong><a href="http://api.jquery.com/jquery.grep/" target="_blank">这个方法</a>与 Underscore 的 <code>_.filter</code> 类似。接受两个参数，一个元素数组和一个函数，对每个元素依次执行函数，返回执行结果为 true 的元素数组。</p>
+              </li>
+              <li>
+                <p><strong>冒泡禁令：</strong>jQuery 明文禁止 <code>load</code> 事件冒泡。从内部看，jQuery 在所有的 <code>load</code> 事件中传入特殊的 <code>noBubble: true</code> 标记，所以 <code>image.load</code> 事件才不会冒泡到 <code>window</code> 上错误地触发 <code>window.load</code> 事件。</p>
+              </li>
+              <li>
+                <p><strong>默认动画速度：</strong>jQuery 通过快速连续地改变样式属性来实现元素动画效果。每一次小改变被称作一个 <code>tick</code>。默认动画速度是每13毫秒运行一次 <code>tick</code>，要改变速度你可以重写 <code>jQuery.fx.interval</code> 成你想要的整数。</p>
+              </li>
+              <li>
+                <p><strong>fn.addClass 可以接受函数：</strong>我们通常向 <code>$.fn.addClass</code> 提供一个包含类名的字符串来创建元素。但它也可以接受一个函数。这个函数必须返回一个字符串，多个类名间要以空格隔开。这里还有个彩蛋，这个函数接受已匹配元素的索引作为参数，你可以用这个特性来构造智能变化的类名。</p>
+              </li>
+              <li>
+                <p><strong>fn.removeClass 也一样：</strong>与上文的一样，它也可以接受一个函数。这个函数也会自动接收元素的索引。</p>
+              </li>
+              <li>
+                <p><strong>:empty 伪选择器：</strong>可以方便地用来匹配没有孩子的元素。</p>
+              </li>
+              <li>
+                <p><strong>:lt 与 :gt 伪选择器：</strong>它们会根据元素在匹配集合中的索引来匹配元素。比如 <code>$(&#39;div:gt(2)&#39;)</code> 会返回所有的 <code>div</code>，除了前三个（从0开始）。如果你传入一个负数，它会倒过来从尾开始数。</p>
+              </li>
+              <li>
+                <p><strong>$(document).ready() 的承诺：</strong> jQuery 貌似是用回了自己的东西。在内部，可信赖的 <code>$(document).ready()</code> 使用了一个 jQuery 延迟来确定 DOM 在什么时候完全加载。</p>
+              </li>
+              <li>
+                <p><strong>$.type：</strong> 大家肯定能熟练使用 <code>typeof</code> 来确定数据类型，但你知不知道 jQuery 提供了一个 <code>.type()</code> 方法？jQuery 版比原生版更加智能。比如 <code>typeof (new Number(3))</code> 返回 <code>object</code>，而 <code>$.type(new Number(3))</code> 则返回 <code>number</code>。更新：正如
+                  ShirtlessKirk 在评论中指出，<code>$.type</code> 返回其对象的 <code>.valueOf()</code> 属性。所以更准确的说法应该是 <code>$.type</code> 告诉你一个对象的返回值的类型。</p>
+              </li>
+              <li>
+                <p><strong>$.fn.queue：</strong>你可以通过 <code>$(‘div’).queue()</code> 查看一个元素的效果队列，很方便地了解元素还剩余多少效果。更有用的是，你可以直接操作队列去添加效果。从 jQuery 文档摘录的：</p>
+              </li>
+            </ol>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$( <span class="built_in">document</span>.body ).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">$( <span class="string">"div"</span> )</div><div class="line">    .show( <span class="string">"slow"</span> )</div><div class="line">    .animate(&#123; <span class="attr">left</span>: <span class="string">"+=200"</span> &#125;, <span class="number">2000</span> )</div><div class="line">    .queue(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        $( <span class="keyword">this</span> ).addClass( <span class="string">"newcolor"</span> ).dequeue();</div><div class="line">    &#125;)</div><div class="line">    .animate(&#123; <span class="attr">left</span>: <span class="string">"-=200"</span> &#125;, <span class="number">500</span> )</div><div class="line">    .queue(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        $( <span class="keyword">this</span> ).removeClass( <span class="string">"newcolor"</span> ).dequeue();</div><div class="line">    &#125;)</div><div class="line">    .slideUp();</div><div class="line">&#125;);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <ol>
+              <li>
+                <p><strong>禁用元素不会触发 click 事件：</strong>jQuery 默认不会为禁用的元素执行 <code>click</code> 事件，有了这个优化，你无需自己用代码再检查一遍。</p>
+              </li>
+              <li>
+                <p><strong>$.fn.on 可以接受对象：</strong>你知道 <code>$.fn.on</code> 可以接受一个对象来一次过连接多个事件吗？jQuery 文档的例子：</p>
+              </li>
+            </ol>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$( <span class="string">"div.test"</span> ).on(&#123;</div><div class="line"><span class="attr">click</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $( <span class="keyword">this</span> ).toggleClass( <span class="string">"active"</span> );</div><div class="line">&#125;, <span class="attr">mouseenter</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $( <span class="keyword">this</span> ).addClass( <span class="string">"inside"</span> );</div><div class="line">&#125;, <span class="attr">mouseleave</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $( <span class="keyword">this</span> ).removeClass( <span class="string">"inside"</span> );</div><div class="line">&#125;</div><div class="line">&#125;);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <ol>
+              <li>
+                <p><strong>$.camelCase：</strong>这个有用的方法可以将连字符式的字符串转换成驼峰式的字符串。</p>
+              </li>
+              <li>
+                <p><strong>$.active：</strong>调用 <code>$.active</code> 返回 XHR (XML Http Request) 查询的个数。利用它可以手动制定 AJAX 请求的并发上限。</p>
+              </li>
+              <li>
+                <p><strong>$.fn.parentsUntil / $.fn.nextUntil / $.fn.prevUntil：</strong>我比较熟悉 <code>.parents()</code>、<code>.next()</code> 和 <code>.prev()</code>，却不知道原来还有其它的方法。它们会匹配所有的 双亲/下一个/前一个 元素直到（until）遇到符合终止条件的元素。</p>
+              </li>
+              <li>
+                <p><strong>$.fn.clone 参数：</strong>当你用 <code>.clone()</code> 克隆一个元素，你可以用 <code>true</code> 作为第一个参数来克隆该元素的数据属性（data attributes）和事件。</p>
+              </li>
+              <li>
+                <p><strong>更多的 $.fn.clone 参数：</strong>除了上面的方法外，你还可以再传多一个 <code>true</code> 参数来克隆该元素所有孩子的数据属性和事件。这叫做“深克隆”。第二个参数的默认值与第一个一样（第一个默认false）。所以当第一个参数是 <code>true</code> 而你想让第二个参数也是 <code>true</code> 时，完全可以忽略第二个参数。</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Translation/">Translation</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/">jQuery</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/07/25/javascript-object-creation/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">JavaScript 创建对象总结</div></a>
+            <a href="/2014/07/17/google-chrome-hegemony/"
+              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">Google Chrome 霸权主义</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/07/23/18-surprises-from-reading-jquery-s-source-code/", this.page.identifier = "2014/07/23/18-surprises-from-reading-jquery-s-source-code/"
+        };
+        ! function() {
+          var e = document,
+            r = e.createElement("script");
+          r.src = "//crimx.disqus.com/embed.js", r.setAttribute("data-timestamp", +new Date), (e.head || e.body).appendChild(r)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

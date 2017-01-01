@@ -1,0 +1,218 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>路由器时间同步服务器 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="最近路由器重启了之后时间总是卡在 1970 年不能自动同步。还以为是路由器哪里设置错了，后来发现应该是同步服务器连不上，换了新的服务器好了，摘下一些常用的列表：
+
+  ntp.sjtu.edu.cn 202.120.2.101 (上海交通大学网络中心NTP服务器地址）
+  s1a.time.edu.cn 北京邮电大学
+  s1b.time.edu.cn 清华大学
+  s1c.time.edu.cn">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="路由器时间同步服务器">
+    <meta property="og:url" content="https://blog.crimx.com/2016/02/13/router-time-reset/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="最近路由器重启了之后时间总是卡在 1970 年不能自动同步。还以为是路由器哪里设置错了，后来发现应该是同步服务器连不上，换了新的服务器好了，摘下一些常用的列表：
+
+  ntp.sjtu.edu.cn 202.120.2.101 (上海交通大学网络中心NTP服务器地址）
+  s1a.time.edu.cn 北京邮电大学
+  s1b.time.edu.cn 清华大学
+  s1c.time.edu.cn">
+      <meta property="og:updated_time" content="2016-12-28T11:04:31.641Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="路由器时间同步服务器">
+      <meta name="twitter:description" content="最近路由器重启了之后时间总是卡在 1970 年不能自动同步。还以为是路由器哪里设置错了，后来发现应该是同步服务器连不上，换了新的服务器好了，摘下一些常用的列表：
+
+  ntp.sjtu.edu.cn 202.120.2.101 (上海交通大学网络中心NTP服务器地址）
+  s1a.time.edu.cn 北京邮电大学
+  s1b.time.edu.cn 清华大学
+  s1c.time.edu.cn">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/pexels-photo-70298-portrait.jpg) 54.67% 40.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAUGBwT/xAAmEAABBAEEAgAHAAAAAAAAAAACAAEDBBEFBhIxExYUISJBUVJT/8QAGAEAAwEBAAAAAAAAAAAAAAAAAAIDAQT/xAAbEQACAgMBAAAAAAAAAAAAAAAAAQIRAxJBMf/aAAwDAQACEQMRAD8AU7h0VjEnB/qbpZnd8rSnFIT4F+lpNjWZbFwoZcc+WMN9kn3DteKTyWadkZTEecg/hDdtso40kiC4oXR8OSEWhKKo554LL3RbJH267dPsRmE8cOfLODs7k/SZU9PjsicT4x0yc6FsyMtXFymZwb54wpzT4dEZLvhCevW/0dC331qj/NkLKkLtjP/Z) 54.67% 40.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/pexels-photo-70298-portrait.jpg) 54.67% 40.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAUGBwT/xAAmEAABBAEEAgAHAAAAAAAAAAACAAEDBBEFBhIxExYUISJBUVJT/8QAGAEAAwEBAAAAAAAAAAAAAAAAAAIDAQT/xAAbEQACAgMBAAAAAAAAAAAAAAAAAQIRAxJBMf/aAAwDAQACEQMRAD8AU7h0VjEnB/qbpZnd8rSnFIT4F+lpNjWZbFwoZcc+WMN9kn3DteKTyWadkZTEecg/hDdtso40kiC4oXR8OSEWhKKo554LL3RbJH267dPsRmE8cOfLODs7k/SZU9PjsicT4x0yc6FsyMtXFymZwb54wpzT4dEZLvhCevW/0dC331qj/NkLKkLtjP/Z) 54.67% 40.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">路由器时间同步服务器</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2016/02/13/router-time-reset/" class="article-date"><time datetime="2016-02-12T16:00:00.000Z" itemprop="datePublished">2016-02-13</time></a>
+            <a rel="license"
+              class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container"></div>
+      </div>
+      <article id="post-router-time-reset" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>最近路由器重启了之后时间总是卡在 1970 年不能自动同步。还以为是路由器哪里设置错了，后来发现应该是同步服务器连不上，换了<a href="https://www.douban.com/note/171309770/" target="_blank">新的服务器</a>好了，摘下一些常用的列表：</p>
+            <ul>
+              <li>ntp.sjtu.edu.cn 202.120.2.101 (上海交通大学网络中心NTP服务器地址）</li>
+              <li>s1a.time.edu.cn 北京邮电大学</li>
+              <li>s1b.time.edu.cn 清华大学</li>
+              <li>s1c.time.edu.cn 北京大学</li>
+              <li>s1d.time.edu.cn 东南大学</li>
+              <li>s1e.time.edu.cn 清华大学</li>
+              <li>s2a.time.edu.cn 清华大学</li>
+              <li>s2b.time.edu.cn 清华大学</li>
+              <li>s2c.time.edu.cn 北京邮电大学</li>
+              <li>s2d.time.edu.cn 西南地区网络中心</li>
+              <li>s2e.time.edu.cn 西北地区网络中心</li>
+              <li>s2f.time.edu.cn 东北地区网络中心</li>
+              <li>s2g.time.edu.cn 华东南地区网络中心</li>
+              <li>s2h.time.edu.cn 四川大学网络管理中心</li>
+              <li>s2j.time.edu.cn 大连理工大学网络中心</li>
+              <li>s2k.time.edu.cn CERNET桂林主节点</li>
+              <li>s2m.time.edu.cn 北京大学</li>
+            </ul>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Router/">Router</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Time/">Time</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2016/03/20/understanding-anki/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">理解 Anki 基础概念</div></a>
+            <a href="/2015/05/14/understanding-prototype/"
+              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">理解 Prototype</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2016/02/13/router-time-reset/", this.page.identifier = "2016/02/13/router-time-reset/"
+        };
+        ! function() {
+          var e = document,
+            t = e.createElement("script");
+          t.src = "//crimx.disqus.com/embed.js", t.setAttribute("data-timestamp", +new Date), (e.head || e.body).appendChild(t)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

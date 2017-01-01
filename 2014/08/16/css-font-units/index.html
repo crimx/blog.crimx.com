@@ -1,0 +1,285 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>CSS Font 单位 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="了解 CSS font 各个单位的意义，搜了一些资料。
+[1]
+
+  绝对单位
+
+  cm (centimeter 厘米)
+  mm (millimeter 毫米)
+  in (inch 英寸)
+  pt (point 点)
+  pc (pica 派卡)
+
+
+  相对单位
+
+  em (em = 目标元素像素值 / 父元素 font-size 的像素值) [3]
+  ex (约为小写字母 a, c">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CSS Font 单位">
+    <meta property="og:url" content="https://blog.crimx.com/2014/08/16/css-font-units/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="了解 CSS font 各个单位的意义，搜了一些资料。
+[1]
+
+  绝对单位
+
+  cm (centimeter 厘米)
+  mm (millimeter 毫米)
+  in (inch 英寸)
+  pt (point 点)
+  pc (pica 派卡)
+
+
+  相对单位
+
+  em (em = 目标元素像素值 / 父元素 font-size 的像素值) [3]
+  ex (约为小写字母 a, c">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/css/font-units-recommended.png">
+      <meta property="og:updated_time" content="2016-12-29T17:14:16.740Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="CSS Font 单位">
+      <meta name="twitter:description" content="了解 CSS font 各个单位的意义，搜了一些资料。
+[1]
+
+  绝对单位
+
+  cm (centimeter 厘米)
+  mm (millimeter 毫米)
+  in (inch 英寸)
+  pt (point 点)
+  pc (pica 派卡)
+
+
+  相对单位
+
+  em (em = 目标元素像素值 / 父元素 font-size 的像素值) [3]
+  ex (约为小写字母 a, c">
+        <meta name="twitter:image" content="https://blog.crimx.com/images/post/css/font-units-recommended.png">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">CSS Font 单位</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2014/08/16/css-font-units/" class="article-date"><time datetime="2014-08-15T16:00:00.000Z" itemprop="datePublished">2014-08-16</time></a>
+            <a rel="license" class="cc-license-wrapper"
+              href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container">
+          <ol class="toc">
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#绝对单位"><span class="toc-text">绝对单位</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#相对单位"><span class="toc-text">相对单位</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#em"><span class="toc-text">em</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#只用-em-和-px"><span class="toc-text">只用 em 和 px</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#新型单位"><span class="toc-text">新型单位</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li>
+          </ol>
+        </div>
+      </div>
+      <article id="post-css-font-units" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>了解 CSS font 各个单位的意义，搜了一些资料。</p>
+            <p><a href="#w3">[1]</a><br><img src="/images/post/css/font-units-recommended.png" alt="recommended"></p>
+            <h2 id="绝对单位">
+              <a href="#绝对单位" class="headerlink" title="绝对单位"></a>绝对单位</h2>
+            <ul>
+              <li>cm (centimeter 厘米)</li>
+              <li>mm (millimeter 毫米)</li>
+              <li>in (inch 英寸)</li>
+              <li>pt (point 点)</li>
+              <li>pc (pica 派卡)</li>
+            </ul>
+            <h2 id="相对单位">
+              <a href="#相对单位" class="headerlink" title="相对单位"></a>相对单位</h2>
+            <ul>
+              <li>em (em = 目标元素像素值 / 父元素 font-size 的像素值) <a href="#mozilla">[3]</a></li>
+              <li>ex (约为小写字母 a, c, m, o 之类的高度) <a href="#w3">[1]</a></li>
+              <li>px (pixel 像素)</li>
+            </ul>
+            <h2 id="em">
+              <a href="#em" class="headerlink" title="em"></a>em</h2>
+            <p>有的文章（书）会提到 em 是指大写字母 M 的宽度（<a href="#css-design">[4]</a> P57）。那是已经过时的说法，现在很多字体的 M 其实占不到 1em 的宽度。<a href="#wikipedia">[2]</a></p>
+            <h2 id="只用-em-和-px">
+              <a href="#只用-em-和-px" class="headerlink" title="只用 em 和 px"></a>只用 em 和 px</h2>
+            <p>例子来自 <a href="http://www.w3.org/Style/Examples/007/units.en.html" target="_blank">www.w3.org</a></p>
+            <p></p>
+            <p style="line-height:3.2;text-shadow:0 0"><span style="padding:1em 0;border-left:.5pt solid">0.5pt,</span> <span style="padding:1em 0;border-left:1px solid">1px,</span> <span style="padding:1em 0;border-left:1pt solid">1pt,</span> <span style="padding:1em 0;border-left:1.5px solid">1.5px,</span>              <span style="padding:1em 0;border-left:2px solid">2px</span></p>
+            <p></p>
+            <p>如果前面四根线看起来一样（或者 0.5pt 的看不见了），你应该是在用不能显示小于 1px 点的电脑显示屏。如果能看到线的厚度递增，你应该在看高质量电脑显示器或打印的纸张。如果 1pt 看起来比 1.5px 厚，你可能在用手持设备。</p>
+            <p>当需要排列文字与图片的时候用 px 比较合适。</p>
+            <p>而字体更好是用 em 。（一）不要设置 body 的 font 大小，因为默认大小是读者可以舒适阅读的大小。（二）用 em 设置其它元素大小，比如 2.5em 就是 body 字体的 2.5 倍大小。</p>
+            <p>只有在设置打印字体的时候才用 pt/cm/in 单位。</p>
+            <h2 id="新型单位">
+              <a href="#新型单位" class="headerlink" title="新型单位"></a>新型单位</h2>
+            <ul>
+              <li>rem (root em 就是依据根元素字体大小的比值，em 会叠加，rem 不会)</li>
+              <li>vw (window 宽度的 1/100)</li>
+              <li>vh (window 高度的 1/100)</li>
+            </ul>
+            <h2 id="参考">
+              <a href="#参考" class="headerlink" title="参考"></a>参考</h2>
+            <ol>
+              <li><a href="http://www.w3.org/Style/Examples/007/units.en.html" id="w3" target="_blank">www.w3.org</a></li>
+              <li><a id="wikipedia" href="http://en.wikipedia.org/wiki/Em_(typography)" target="_blank">wikipedia</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font-size" id="mozilla" target="_blank">developer.mozilla.org</a></li>
+              <li><a href="http://www.amazon.cn/%E5%9B%BE%E7%81%B5%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E4%B8%9B%E4%B9%A6-CSS%E8%AE%BE%E8%AE%A1%E6%8C%87%E5%8D%97-%E5%8F%B2%E5%AF%86%E6%96%AF/dp/B00COG3VRC/ref=sr_1_1" id="css-design" target="_blank">《CSS设计指南(第3版)》</a></li>
+            </ol>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Font/">Font</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/08/30/important-announcement-regarding-yui/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">关于 YUI 的重要公告</div></a>
+            <a href="/2014/08/11/git-branch-module/"
+              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">Git 分支模式笔记</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/08/16/css-font-units/", this.page.identifier = "2014/08/16/css-font-units/"
+        };
+        ! function() {
+          var t = document,
+            e = t.createElement("script");
+          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

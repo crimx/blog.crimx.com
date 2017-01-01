@@ -1,0 +1,599 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>使用 Express 与 AbsurdJS 构建 Node.js 应用 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="原文：Node.js application made with Express and AbsurdJS（2014-7-7）
+当今有许多新技术吸引着越来越多的开发者，Node.js 便是其中之一。主要因为它是 JavaScript 驱动的，许多人都很感兴趣。在本教程中，我将会教你结合 Express 去使用 AbsurdJS。Express
+  是流行的 Node.js 框架，而 AbsurdJ">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="使用 Express 与 AbsurdJS 构建 Node.js 应用">
+    <meta property="og:url" content="https://blog.crimx.com/2014/07/07/nodejs-application-made-with-express-and-absurdjs/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="原文：Node.js application made with Express and AbsurdJS（2014-7-7）
+当今有许多新技术吸引着越来越多的开发者，Node.js 便是其中之一。主要因为它是 JavaScript 驱动的，许多人都很感兴趣。在本教程中，我将会教你结合 Express 去使用 AbsurdJS。Express
+  是流行的 Node.js 框架，而 AbsurdJ">
+      <meta property="og:updated_time" content="2016-12-29T17:07:18.609Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="使用 Express 与 AbsurdJS 构建 Node.js 应用">
+      <meta name="twitter:description" content="原文：Node.js application made with Express and AbsurdJS（2014-7-7）
+当今有许多新技术吸引着越来越多的开发者，Node.js 便是其中之一。主要因为它是 JavaScript 驱动的，许多人都很感兴趣。在本教程中，我将会教你结合 Express 去使用 AbsurdJS。Express
+  是流行的 Node.js 框架，而 AbsurdJ">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">使用 Express 与 AbsurdJS 构建 Node.js 应用</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/Node/">Node</a></div><a href="/2014/07/07/nodejs-application-made-with-express-and-absurdjs/" class="article-date"><time datetime="2014-07-06T16:00:00.000Z" itemprop="datePublished">2014-07-07</time></a>
+            <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container">
+          <ol class="toc">
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-text">简介</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#步骤"><span class="toc-text">步骤</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#运行服务器"><span class="toc-text">运行服务器</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#添加路由"><span class="toc-text">添加路由</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#提供-HTML"><span class="toc-text">提供 HTML</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#提供-CSS"><span class="toc-text">提供 CSS</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#资源"><span class="toc-text">资源</span></a></li>
+          </ol>
+        </div>
+      </div>
+      <article id="post-nodejs-application-made-with-express-and-absurdjs" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>原文：<a href="http://krasimirtsonev.com/blog/article/Nodejs-application-made-with-Express-and-AbsurdJS" target="_blank">Node.js application made with Express and AbsurdJS</a>（2014-7-7）</p>
+            <p>当今有许多新技术吸引着越来越多的开发者，<a href="http://nodejs.org/" target="_blank">Node.js</a> 便是其中之一。主要因为它是 JavaScript 驱动的，许多人都很感兴趣。在本教程中，我将会教你结合 <a href="http://expressjs.com/" target="_blank">Express</a> 去使用 <a href="http://absurdjs.com/" target="_blank">AbsurdJS</a>。Express
+              是流行的 Node.js 框架，而 AbsurdJS 则比较新鲜，希望你看完后会发现它很有用。</p>
+            <p>本文中出现的源码都可以从<a href="http://krasimirtsonev.com/blog/articles/AbsurdJSExpress/source.zip" target="_blank">这里</a>下载。</p>
+            <h2 id="简介">
+              <a href="#简介" class="headerlink" title="简介"></a>简介</h2>
+            <p>正如我提到的，Express 很流行。因为它是最早的 Node.js 框架之一。它把所有琐碎的事情都包办了，比如路由选择、参数解析、模板、向浏览器发送响应。它的库基于 <a href="http://www.senchalabs.org/connect/" target="_blank">Connect</a> 提供的中间件架构对原生的 Node.js 进行了较好的封装。</p>
+            <p>AbsurdJS 一开始是一个 CSS 预处理器。目的是为 CSS 开发者带来更好的灵活性。它接受纯 JavaScript 代码并转换为 CSS。大家对它的反馈都比较积极，我也在努力继续完善它。现在它不仅能预处理 CSS，还可以处理 HTML。它接受 JSON 和 YAML 并成功导出作客户端使用。</p>
+            <h2 id="步骤">
+              <a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2>
+            <p>为了使最后做出的项目能跑起来，我们需要安装 Node.js。只需打开 <a href="http://nodejs.org" target="_blank">http://nodejs.org</a> 并点击大大的绿色“INSTALL”按钮。下载并安装完成后你就可以调用 Node.js 脚本，用npm（Node 的包管理器）安装依赖包。</p>
+            <p>为你的项目新建一个文件夹，里面再新建一个空的“package.json”文件。包管理器会以这个文件为起点去安装我们需要的包。我们只需两个包，所以 json 文件应该是这个样子：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">&#123;</div><div class="line">    <span class="string">"name"</span>: <span class="string">"AbsurdJSAndExpress"</span>,</div><div class="line">    <span class="string">"description"</span>: <span class="string">"AbsurdJS + Express app"</span>,</div><div class="line">    <span class="string">"version"</span>: <span class="string">"0.0.1"</span>,</div><div class="line">    <span class="string">"dependencies"</span>: &#123;</div><div class="line">        <span class="string">"express"</span>: <span class="string">"3.4.4"</span>,</div><div class="line">        <span class="string">"absurd"</span>: <span class="string">"*"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>当然，这里还有许多其它的参数可以配置，但为了方便举例我们就先按上面的配置吧。打开终端，定位包含到 Package.json 的目录，执行：</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">npm install</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>会在当前目录生成 node_modules 文件夹，并自动下载 Express 和 AbsurdJS。</p>
+            <h2 id="运行服务器">
+              <a href="#运行服务器" class="headerlink" title="运行服务器"></a>运行服务器</h2>
+            <p>有了 Express 你只需要简单几行代码就可以运行一个 http 服务器。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>),</div><div class="line">    app = express();</div><div class="line"> </div><div class="line">app.listen(<span class="number">3303</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'Listening on port 3303'</span>);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>保存以上代码为 app.js 并运行：</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">node app.js</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>这时控制台应该显示 “Listening on port 3303”。浏览器打开 <a href="http://localhost:3303/" target="_blank">http://localhost:3303/</a> 会看到：</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">Cannot GET /</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>不用担心，这很正常，因为我们还没有添加路由。</p>
+            <h2 id="添加路由">
+              <a href="#添加路由" class="headerlink" title="添加路由"></a>添加路由</h2>
+            <p>Express 提供了友好的 API 去定义 URL 路由。我们在这里简单地添加一个，把下面的代码贴到 app.js 中。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">app.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">    res.setHeader(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>);</div><div class="line">    res.send(<span class="string">"application"</span>);</div><div class="line">&#125;);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>这里做了几件事。.get 方法的第一个参数定义了路径；第二个参数是个方法，用来处理请求，它接受三个参数 – request、response、next。这里的好处是我们可以传入多个函数，它们会一个接一个的被调用。我们需要做的只是执行 next()，否者 next 方法不会被调用。比如：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">app.get(</div><div class="line">    <span class="string">'/'</span>, </div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"do some other stuff here"</span>);</div><div class="line">        next();</div><div class="line">    &#125;,</div><div class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">        res.send(<span class="string">"application"</span>);</div><div class="line">    &#125;</div><div class="line">);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>路由定义中通用的做法是添加一些可重用的任务作为中间件。比如说，我们有两种 Content-Type, HTML 和 CSS。用下面的方法就显得更加灵活。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> setContentType = <span class="function"><span class="keyword">function</span>(<span class="params">type</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">        res.setHeader(<span class="string">'Content-Type'</span>, <span class="string">'text/'</span> + type);</div><div class="line">        next();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">app.get(<span class="string">'/'</span>, setContentType(<span class="string">"html"</span>), <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">    res.send(<span class="string">"application"</span>);</div><div class="line">&#125;);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>如果我们需要提供 CSS，只要用 setContentType(“css”) 即可。</p>
+            <h2 id="提供-HTML">
+              <a href="#提供-HTML" class="headerlink" title="提供 HTML"></a>提供 HTML</h2>
+            <p>很多 Express 的教程和文章都会介绍一些模板引擎。通常是 Jade、Hogan 或者 Mustache。然而，如果用 AbsurdJS 我们不需要模板引擎。我们可以用纯 JavaScript 编写 HTML。更具体的说，是用 JavaScript 对象。我们先从实现着陆页开始。新建文件夹 pages，在里面新建 landing.js 文件。我们在用 Node.js 所以文件里应该包含：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">api</span>) </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>注意返回的函数接受 AbsurdJS API 的引用。这正是我们所要的。现在再加点 HTML：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">api</span>) </span>&#123;</div><div class="line">    api.add(&#123;</div><div class="line">        <span class="attr">_</span>:<span class="string">"&lt;!DOCTYPE html&gt;"</span>,</div><div class="line">        <span class="attr">html</span>: &#123;</div><div class="line">            <span class="attr">head</span>: &#123;</div><div class="line">                <span class="string">'meta[http-equiv="Content-Type" content="text/html; charset=utf-8"]'</span>: &#123;&#125;,</div><div class="line">                <span class="string">'link[rel="stylesheet" type="text/css" href="styles.css"]'</span>: &#123;&#125;</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">body</span>: &#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>“_” 属性添加的字符串在编译成HTML时不会被转换；其它的属性各定义了一个标签。还可以用其它方法去定义标签属性，但我认为用上面的方式更好。这个想法是从 Sublime 的 <a href="http://emmet.io/" target="_blank">Emmet</a> 插件中获得的。编译完成后会生成：</p>
+            <p></p>
+            <figure class="highlight html">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"styles.css"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>本次教程只有一个页面，而在现实中你可能会在多个页面中使用相同的HTML。此时更合理的做法是将这部分代码移到外部的文件中，在需要的时候引用进来。当然，这里还可以使用可重复模板。创建文件 /pages/partials/layout.js ：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">title</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">_</span>:<span class="string">"&lt;!DOCTYPE html&gt;"</span>,</div><div class="line">        <span class="attr">html</span>: &#123;</div><div class="line">            <span class="attr">head</span>: &#123;</div><div class="line">                <span class="string">'meta[http-equiv="Content-Type" content="text/html; charset=utf-8"]'</span>: &#123;&#125;,</div><div class="line">                <span class="string">'link[rel="stylesheet" type="text/css" href="styles.css"]'</span>: &#123;&#125;,</div><div class="line">                <span class="attr">title</span>: title</div><div class="line">            &#125;,</div><div class="line">            <span class="attr">body</span>: &#123;&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>这里其实就是一个返回对象的函数。所以，之前的 landing.js 可以修改为：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">api</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> layout = <span class="built_in">require</span>(<span class="string">"./partials/layout.js"</span>)(<span class="string">"Home page"</span>);</div><div class="line">    api.add(layout);</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>可以看到，layout 模板接受 title 变量。这样就可以动态地生成一部分内容。</p>
+            <p>接下来是向 body 标签添加内容。非常简单，因为所有内容都是纯 JavaScript 对象。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">api</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> layout = <span class="built_in">require</span>(<span class="string">"./partials/layout.js"</span>)(<span class="string">"Home page"</span>);</div><div class="line">    layout.html.body = &#123;</div><div class="line">        <span class="attr">h1</span>: <span class="string">"Page content"</span></div><div class="line">    &#125;</div><div class="line">    api.add(layout);</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>生成的结果：</p>
+            <p></p>
+            <figure class="highlight html">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"styles.css"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Home page<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Page content<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>本文的代码看起来都很短、不完整，是因为全写的话文章就太长了。接下来我只会介绍一下建立无序列表的思想，因为这里比较有意思。剩余的部分跟 layout 类似，就不再敖述。</p>
+            <p>下面就是生成无序列表的片段。<code>&lt;ul&gt;&lt;/ul&gt;</code>标签：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> html = &#123; <span class="attr">ul</span>: [] &#125;;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; item=data[i]; i++) &#123;</div><div class="line">        html.ul.push(&#123; <span class="attr">li</span>: item &#125;);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> html;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>这里只用了一个 ul 属性定义一个对象。ul 其实就是一个数组，装满列表中的项。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> list = <span class="built_in">require</span>(<span class="string">"./partials/list.js"</span>);</div><div class="line"><span class="keyword">var</span> link = <span class="built_in">require</span>(<span class="string">"./partials/link.js"</span>);</div><div class="line">list([</div><div class="line">    link(<span class="string">"http://krasimir.github.io/absurd"</span>, <span class="string">"Official library site"</span>),</div><div class="line">    link(<span class="string">"https://github.com/krasimir/absurd"</span>, <span class="string">"Official repository"</span>)</div><div class="line">]);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>link 也是片段，类似这样子：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">href, label</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123; </div><div class="line">        <span class="attr">a</span>: &#123; <span class="attr">_attrs</span>: &#123; <span class="attr">href</span>: href &#125;, <span class="attr">_</span>: label &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>组合起来后就会生成：</p>
+            <p></p>
+            <figure class="highlight html">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://krasimir.github.io/absurd"</span>&gt;</span></div><div class="line">            Official library site</div><div class="line">        <span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://github.com/krasimir/absurd"</span>&gt;</span></div><div class="line">            Official repository</div><div class="line">        <span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>现在，想象我们有一堆可以使用的片段。如果它们编写得足够灵活，只需创建一次就可以在项目之间传递了。AbsurdJS 是如此强大，只要我们拥有一堆足够好的预定义集合，就可以快速、更具描述性地编写 HTNL 标记。</p>
+            <p>最后，当 HTML 已经完成后，我们只需编译并发送给用户。于是，对 app.js 做小小的变动使得我们的应用响应正确的标记：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> absurd = <span class="built_in">require</span>(<span class="string">"absurd"</span>);</div><div class="line"><span class="keyword">var</span> homePage = <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">    absurd().morph(<span class="string">"html"</span>).import(__dirname + <span class="string">"/pages/landing.js"</span>).compile(<span class="function"><span class="keyword">function</span>(<span class="params">err, html</span>) </span>&#123;</div><div class="line">        res.send(html);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line">app.get(<span class="string">'/'</span>, setContentType(<span class="string">"html"</span>), homePage);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <h2 id="提供-CSS">
+              <a href="#提供-CSS" class="headerlink" title="提供 CSS"></a>提供 CSS</h2>
+            <p>与 HTML 类型，先在 app.js 为 style.css 添加路由。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> styles = <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">    absurd().import(__dirname + <span class="string">"/styles/styles.js"</span>).compile(<span class="function"><span class="keyword">function</span>(<span class="params">err, css</span>) </span>&#123;</div><div class="line">        res.send(css);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line">app.get(<span class="string">'/styles.css'</span>, setContentType(<span class="string">"css"</span>), styles);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>使用 JavaScript 定义 CSS。任何东西都可以放在分好的 Node.js 模块中。让我们创建 /styles/styles.js 并加入代码：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">api</span>) </span>&#123;</div><div class="line">    api.add(&#123;</div><div class="line">        <span class="attr">body</span>: &#123;</div><div class="line">            <span class="attr">width</span>: <span class="string">"100%"</span>,</div><div class="line">            <span class="attr">height</span>: <span class="string">"100%"</span>,</div><div class="line">            <span class="attr">margin</span>: <span class="number">0</span>,</div><div class="line">            <span class="attr">padding</span>: <span class="number">0</span>,</div><div class="line">            <span class="attr">fontSize</span>: <span class="string">"16px"</span>,</div><div class="line">            <span class="attr">fontFamily</span>: <span class="string">"Arial"</span>,</div><div class="line">            <span class="attr">lineHeight</span>: <span class="string">"30px"</span></div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>一个简单的 <code>&lt;body&gt;</code> 样式控制。注意带有破折号的属性被改写成驼峰式大小写风格。否则不能创建有效对象，会得警告。</p>
+            <p>现在假设要控制 <code>&lt;h1&gt;</code> 和 <code>&lt;h2&gt;</code> 标签的样式。它们都是标题，颜色和字体相同；但是大小不一样。通过下面的方法，AbsurdJS会智能地输出正确的样式。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> title = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        <span class="attr">color</span>: <span class="string">"#2C6125"</span>,</div><div class="line">        <span class="attr">fontWeight</span>: <span class="string">"normal"</span>,</div><div class="line">        <span class="attr">fontSize</span>: <span class="string">"40px"</span>,</div><div class="line">        <span class="attr">fontFamily</span>: <span class="string">"Georgia"</span>,</div><div class="line">        <span class="attr">padding</span>: <span class="string">"20px 10px"</span></div><div class="line">    &#125;</div><div class="line">&#125; </div><div class="line">api.add(&#123;</div><div class="line">    <span class="attr">h1</span>: title(),</div><div class="line">    <span class="attr">h2</span>: [</div><div class="line">        title(), </div><div class="line">        &#123; <span class="attr">fontSize</span>: <span class="string">"30px"</span> &#125;</div><div class="line">    ]</div><div class="line">&#125;);</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>输出结果：</p>
+            <p></p>
+            <figure class="highlight css">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="selector-tag">h1</span>, <span class="selector-tag">h2</span> &#123;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#2C6125</span>;</div><div class="line">    <span class="attribute">font-weight</span>: normal;</div><div class="line">    <span class="attribute">font-family</span>: Georgia;</div><div class="line">    <span class="attribute">padding</span>: <span class="number">20px</span> <span class="number">10px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">40px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">h2</span> &#123;</div><div class="line">    <span class="attribute">font-size</span>: <span class="number">30px</span>;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>预处理器会收集只定义了一次的相同样式，并为不同的样式创建新的定义。</p>
+            <h2 id="结论">
+              <a href="#结论" class="headerlink" title="结论"></a>结论</h2>
+            <p>如果打算使用 Node.js，Express 会是最好的起点之一。它虽然不是超级强大，但依然很好用。它具备了开发 web 应用所需的基本要素。然后去扩展它，使用 AbsurdJS 会为开发带来不少趣味性，因为整个应用都是用纯 JavaScript 编写的。</p>
+            <h2 id="资源">
+              <a href="#资源" class="headerlink" title="资源"></a>资源</h2>
+            <ul>
+              <li>Express 官网 – <a href="http://expressjs.com/" target="_blank">http://expressjs.com/</a></li>
+              <li>Express GitHub 仓库 - <a href="https://github.com/visionmedia/express" target="_blank">https://github.com/visionmedia/express</a></li>
+              <li>AbsurdJS 官网与在线编译器 – <a href="http://absurdjs.com" target="_blank">http://absurdjs.com</a></li>
+              <li>AbsurdJS GitHub 仓库 – <a href="https://github.com/krasimir/absurd" target="_blank">https://github.com/krasimir/absurd</a></li>
+            </ul>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Express/">Express</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node/">Node</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Translation/">Translation</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/07/17/google-chrome-hegemony/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Google Chrome 霸权主义</div></a>
+            <a href="/2014/06/13/anchors/" id="article-nav-older"
+              class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">Qt Quick 笔记 - Anchors</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/07/07/nodejs-application-made-with-express-and-absurdjs/", this.page.identifier = "2014/07/07/nodejs-application-made-with-express-and-absurdjs/"
+        };
+        ! function() {
+          var e = document,
+            t = e.createElement("script");
+          t.src = "//crimx.disqus.com/embed.js", t.setAttribute("data-timestamp", +new Date), (e.head || e.body).appendChild(t)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

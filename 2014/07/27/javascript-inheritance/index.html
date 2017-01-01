@@ -1,0 +1,413 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>JavaScript 继承总结 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="先用一个简单的 Person 类作为文章其它例子的前提。
+
+
+  
+    
+      
+        123456789101112
+      
+      
+        function Person(name) &amp;#123;    if(name !== undefined) &amp;#123;        this.name = name;    &amp;#125; else &amp;#123;">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="JavaScript 继承总结">
+    <meta property="og:url" content="https://blog.crimx.com/2014/07/27/javascript-inheritance/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="先用一个简单的 Person 类作为文章其它例子的前提。
+
+
+  
+    
+      
+        123456789101112
+      
+      
+        function Person(name) &amp;#123;    if(name !== undefined) &amp;#123;        this.name = name;    &amp;#125; else &amp;#123;">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/javascript/inheritance-sen2.png">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/javascript/inheritance-sen3.png">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/javascript/inheritance-sen4.png">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/javascript/inheritance-sen5.png">
+      <meta property="og:updated_time" content="2016-12-29T10:46:19.479Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="JavaScript 继承总结">
+      <meta name="twitter:description" content="先用一个简单的 Person 类作为文章其它例子的前提。
+
+
+  
+    
+      
+        123456789101112
+      
+      
+        function Person(name) &amp;#123;    if(name !== undefined) &amp;#123;        this.name = name;    &amp;#125; else &amp;#123;">
+        <meta name="twitter:image" content="https://blog.crimx.com/images/post/javascript/inheritance-sen2.png">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">JavaScript 继承总结</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/07/27/javascript-inheritance/" class="article-date"><time datetime="2014-07-26T16:00:00.000Z" itemprop="datePublished">2014-07-27</time></a>
+            <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="tagline-wrap">
+        <section class="tagline">
+          <blockquote class="tagline-content">对 JavaScript 中各种继承方法的总结，《JavaScript高级程序设计》笔记</blockquote>
+        </section>
+      </div>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container">
+          <ol class="toc">
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#原型链"><span class="toc-text">原型链</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#借用构造函数"><span class="toc-text">借用构造函数</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#组合继承"><span class="toc-text">组合继承</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#原型式继承"><span class="toc-text">原型式继承</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#寄生式继承"><span class="toc-text">寄生式继承</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#寄生组合式继承"><span class="toc-text">寄生组合式继承</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li>
+          </ol>
+        </div>
+      </div>
+      <article id="post-javascript-inheritance" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>先用一个简单的 Person 类作为文章其它例子的前提。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(name !== <span class="literal">undefined</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">"StrayBugs"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.age = <span class="number">22</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Person.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.name);</div><div class="line">&#125;;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <h2 id="原型链">
+              <a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2>
+            <p>JavaScript 中实现继承第一个方法是利用原型链。</p>
+            <p>继承就是要让子类获得父类的属性和方法。原型链的思路是利用原型共享的特点，让父类的一个实例充当子类的原型。父类的实例必然包括了父类的属性与方法，那么子类的所有实例都可以通过原型链一层层找到父类的属性与方法了。</p>
+            <p>新手很可能会在这里混淆，请分析出下面三种代码中原型与实例的属性与方法。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Man</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//第一种</span></div><div class="line">Man.prototype = Person;</div><div class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Man();</div><div class="line"></div><div class="line"><span class="comment">//第二种</span></div><div class="line">Man.prototype = Person();</div><div class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Man();</div><div class="line"></div><div class="line"><span class="comment">//第三种</span></div><div class="line">Man.prototype = <span class="keyword">new</span> Person();</div><div class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Man();</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>第一种：<code>Man.prototype</code> 获得的是 <code>Person</code> 函数的指针，也就是说，<code>Man.prototype</code> 就是 <code>Person</code> 函数。这里没有任何调用 <code>Man.prototype</code> 的代码，且 <code>Man</code> 是个空函数，所以其实例 <code>man</code> 的内部属性 <code>[[prototype]]</code>              值指向 <code>Person</code> 函数。</p>
+            <p><img src="/images/post/javascript/inheritance-sen2.png" alt="sen2"></p>
+            <p>第二种：构造函数本质也是函数。<code>Person()</code> 相当于执行了构造函数并将返回值赋给原型。因为 <code>Person()</code> 没有 <code>return</code>，故返回值为 <code>undefined</code>，于是代码等价于 <code>Man.prototype = undefined;</code>，所以 <code>man</code> 的 <code>[[prototype]]</code> 值为 <code>Object</code>。</p>
+            <p>第三种：正解。创建了一个 <code>Person</code> 实例，有了属性与方法。<code>Man</code> 的所有实例将共享这个 <code>Person</code> 实例。</p>
+            <p><img src="/images/post/javascript/inheritance-sen3.png" alt="sen3"></p>
+            <p>原型链的缺点与创建对象的原型模式一样，适合用来继承方法，不适合继承属性。因为一般情况下我们都希望各个实例的属性值是独立的。而且，因为属性是共用的，大家的值都一样，无法针对某个实例去初始化。</p>
+            <h2 id="借用构造函数">
+              <a href="#借用构造函数" class="headerlink" title="借用构造函数"></a>借用构造函数</h2>
+            <p>与创建对象的思路类似，这里对应构造器模式的是借用构造函数（Constructor Stealing）技术。就是在子类的构造函数中通过 <code>父类.apply(this)</code> 或者 <code>父类.call(this)</code> 来借用父类构造器。这时每个实例都有单独的副本，互不影响，所以可以在构造函数中传入参数进行初始化。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Man</span>(<span class="params">name</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//每个实例都可以有自己的名字</span></div><div class="line">    Person.call(<span class="keyword">this</span>, name);</div><div class="line"></div><div class="line">    <span class="comment">//子类增加的属性</span></div><div class="line">    <span class="keyword">this</span>.job = <span class="string">'student'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> man1 = <span class="keyword">new</span> Man();</div><div class="line"><span class="keyword">var</span> man2 = <span class="keyword">new</span> Man(<span class="string">'Jesse'</span>);</div><div class="line"></div><div class="line">alert(man1.name); <span class="comment">//"StrayBugs"</span></div><div class="line">alert(man2.name); <span class="comment">//"Jesse"</span></div><div class="line"></div><div class="line">alert(man1.sayName); <span class="comment">//undefined</span></div><div class="line">alert(man2.sayName); <span class="comment">//undefined</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>其缺点与构造函数模式一样，没有继承原型链，方法没有共享。</p>
+            <h2 id="组合继承">
+              <a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2>
+            <p>参考创建对象的“组合使用构造函数模式和原型模式”，这里也可以组合构造函数与原型链来实现继承，叫做组合继承（Combination Inheritance）。是 JavaScript 中最常用的继承模式。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Man</span>(<span class="params">name</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//每个实例都可以有自己的名字</span></div><div class="line">    Person.call(<span class="keyword">this</span>, name);</div><div class="line"></div><div class="line">    <span class="comment">//子类增加的属性</span></div><div class="line">    <span class="keyword">this</span>.job = <span class="string">'student'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//继承方法</span></div><div class="line">Man.prototype = <span class="keyword">new</span> Person();</div><div class="line">Man.prototype.constructor = Man;</div><div class="line"></div><div class="line"><span class="comment">//子类增加的方法</span></div><div class="line">Man.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.age);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> man1 = <span class="keyword">new</span> Man();</div><div class="line"><span class="keyword">var</span> man2 = <span class="keyword">new</span> Man(<span class="string">'Jesse'</span>);</div><div class="line"></div><div class="line">man1.sayName(); <span class="comment">//"StrayBugs"</span></div><div class="line">man2.sayName(); <span class="comment">//"Jesse"</span></div><div class="line">man2.sayAge();  <span class="comment">//22</span></div><div class="line"></div><div class="line">alert(man1 <span class="keyword">instanceof</span> Man);    <span class="comment">//true</span></div><div class="line">alert(man1 <span class="keyword">instanceof</span> Person); <span class="comment">//true</span></div><div class="line">alert(man1.constructor.prototype.isPrototypeOf(man2)); <span class="comment">//true</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>可以看到 <code>instanceof</code> 与 <code>isPrototypeOf</code> 都可以正常工作。</p>
+            <p>再画个图加深理解。</p>
+            <p><img src="/images/post/javascript/inheritance-sen4.png" alt="sen4"></p>
+            <p>可以看到，这个方法还是有点小缺陷。就是子类的原型上还保留了一份无用的共用属性。</p>
+            <h2 id="原型式继承">
+              <a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h2>
+            <p>原型式继承（Prototypal Inheritance）很特别，它希望利用现有的对象去继承该对象的类。说白了，就是前文的原型链继承那里，将 <code>new Person()</code> 换成一个现有的对象（比如 <code>Person</code>的一个现有的实例）。封装起来就是这个样子：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">o</span>) </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">    F.prototype = o;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F();</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>可以看到，原理上是跟原型链一样的，可以看做是原型链的简化版，在只需简单地浅复制一个对象时很有用。但同时要注意原型的潜在问题，如下面的例子：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</div><div class="line"></div><div class="line"><span class="keyword">var</span> man = object(person);</div><div class="line">man.name = <span class="string">'Jesse'</span>;</div><div class="line"></div><div class="line">man.sayName(); <span class="comment">//"Jesse"</span></div><div class="line">alert(man.age);  <span class="comment">//22</span></div><div class="line"></div><div class="line">person.name = <span class="string">'StrayBugs'</span>;</div><div class="line">person.age = <span class="number">101</span>;</div><div class="line"></div><div class="line">man.sayName(); <span class="comment">//"Jesse"</span></div><div class="line">alert(man.age);  <span class="comment">//101</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>ECMAScript5 新增 <code>Object.create()</code> 方法规范化了原型式继承。</p>
+            <h2 id="寄生式继承">
+              <a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h2>
+            <p>这时你也许会想，可不可以在原型式继承的基础上再添加方法？当然可以，这就是寄生式继承（Parasitic Inheritance），且寄生式继承不局限于原型式继承。</p>
+            <p>顾名思义，这里可以联想起寄生构造函数模式，也就是工厂模式的变种。寄生式继承可以看做是原型式继承的增强版。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createMan</span>(<span class="params">person</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//这里不一定是 object()，可以是任意能返回新对象的函数</span></div><div class="line">    <span class="keyword">var</span> man = object(person);</div><div class="line">    man.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        alert(<span class="keyword">this</span>.age);</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> man;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> Person();</div><div class="line"></div><div class="line"><span class="keyword">var</span> man = createMan(person);</div><div class="line">man.sayAge(); <span class="comment">//22</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>这里也可以看到，寄生式继承对象的方法没有复用。</p>
+            <h2 id="寄生组合式继承">
+              <a href="#寄生组合式继承" class="headerlink" title="寄生组合式继承"></a>寄生组合式继承</h2>
+            <p>前面组合继承结尾的时候提了一下，子类的原型上会保留了一份无用的属性。这是因为使用组合继承会调用两次父类构造函数。第一次调用是为子类添加原型 <code>new Person()</code> 的时候，第二次是子类构造函数内部调用 <code>Person.call(this, name)</code> 。寄生组合式继承解决了这个问题。第一次调用构造函数的目的就是为了得到父类的原型，那么有了原型式继承的浅复制方法，我们就可以直接复制原型了嘛。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritPrototype</span>(<span class="params">Man, Person</span>) </span>&#123;</div><div class="line">    <span class="comment">//只复制原型</span></div><div class="line">    <span class="keyword">var</span> p = object(Person.prototype);</div><div class="line">    p.constructor = Man;</div><div class="line">    Man.prototype = p;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>定义：</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Man</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    Person.call(<span class="keyword">this</span>, name);</div><div class="line">    <span class="keyword">this</span>.job = <span class="string">'student'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">inheritPrototype(Man, Person);</div><div class="line"></div><div class="line">Man.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.age);</div><div class="line">&#125;;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>抛开这个函数去看其实就是原型链继承中将 <code>new Person()</code> 换成 <code>object(Person.prototype)</code>。 <code>instanceof</code> 与 <code>isPrototypeOf</code> 对 <code>Person</code> 依然有效。</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> man = <span class="keyword">new</span> Man(<span class="string">'Jesse'</span>);</div><div class="line">man.sayAge();  <span class="comment">//22</span></div><div class="line"></div><div class="line">alert(man <span class="keyword">instanceof</span> Man);    <span class="comment">//true</span></div><div class="line">alert(man <span class="keyword">instanceof</span> Person); <span class="comment">//true</span></div><div class="line"></div><div class="line">alert(Man.prototype.isPrototypeOf(man));    <span class="comment">//true</span></div><div class="line">alert(Person.prototype.isPrototypeOf(man)); <span class="comment">//true</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>再画个图加深理解，跟原型链比较。</p>
+            <p><img src="/images/post/javascript/inheritance-sen5.png" alt="sen5"></p>
+            <h2 id="总结">
+              <a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+            <p>可见原型几乎贯穿了各种 JavaScript 继承方式。理解以及灵活利用原型是写出优秀代码的关键。无论是继承还是创建对象，最终理想的方案都是将几种不同方式的优点结合在一起，这正是 JavaScript 灵活的魅力。</p>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Inheritance/">Inheritance</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/08/05/javascript-module-pattern-in-depth/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">深入理解 JavaScript 模块模式</div></a>
+            <a href="/2014/07/25/javascript-object-creation/"
+              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">JavaScript 创建对象总结</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/07/27/javascript-inheritance/", this.page.identifier = "2014/07/27/javascript-inheritance/"
+        };
+        ! function() {
+          var t = document,
+            e = t.createElement("script");
+          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

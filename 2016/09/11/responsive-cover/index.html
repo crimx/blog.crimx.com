@@ -1,0 +1,215 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>自适应封面 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。
+居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。
+这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。
+感兴趣地去看了一下，感觉还是太重了。但我有个">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="自适应封面">
+    <meta property="og:url" content="https://blog.crimx.com/2016/09/11/responsive-cover/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。
+居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。
+这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。
+感兴趣地去看了一下，感觉还是太重了。但我有个">
+      <meta property="og:updated_time" content="2016-12-31T16:56:44.744Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="自适应封面">
+      <meta name="twitter:description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。
+居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。
+这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。
+感兴趣地去看了一下，感觉还是太重了。但我有个">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/pexels-photo-230716-portrait.jpg) 67.82% 59.53%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHAgT/xAArEAACAQIDBgUFAAAAAAAAAAABAgADEQQFBhIUFSExQRMiUVKRVGFicaH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAdEQACAQQDAAAAAAAAAAAAAAAAAQIREjFREyEi/9oADAMBAAIRAxEAPwCuLmyNTLKL262nHUzum1xyvFSjqI4bBqEUebuYu5jqK7NZlVieoMjkllijBvBReLL9vmEk/GW+q/sJL47FxS0YzrJc2ydR4zs3Plb0irjKzU2BqElmPQx11Nq6vs0wae1+4iY7G8UqktTCEdxMaJ+mK5rpGt6/EfMJw7uvuaENIiumf//Z) 67.82% 59.53%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/pexels-photo-230716-portrait.jpg) 67.82% 59.53%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHAgT/xAArEAACAQIDBgUFAAAAAAAAAAABAgADEQQFBhIUFSExQRMiUVKRVGFicaH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAdEQACAQQDAAAAAAAAAAAAAAAAAQIREjFREyEi/9oADAMBAAIRAxEAPwCuLmyNTLKL262nHUzum1xyvFSjqI4bBqEUebuYu5jqK7NZlVieoMjkllijBvBReLL9vmEk/GW+q/sJL47FxS0YzrJc2ydR4zs3Plb0irjKzU2BqElmPQx11Nq6vs0wae1+4iY7G8UqktTCEdxMaJ+mK5rpGt6/EfMJw7uvuaENIiumf//Z) 67.82% 59.53%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">自适应封面</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2016/09/11/responsive-cover/" class="article-date"><time datetime="2016-09-10T16:00:00.000Z" itemprop="datePublished">2016-09-11</time></a>
+            <a rel="license" class="cc-license-wrapper"
+              href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="tagline-wrap">
+        <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+          <blockquote class="tagline-content">"It's not necessary to go far and wide. I mean, you can really find exciting and inspiring things within your hometown."</blockquote>
+          <footer class="tagline-cite"><cite>Daryl Hannah</cite></footer>
+        </section>
+      </div>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container"></div>
+      </div>
+      <article id="post-responsive-cover" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。</p>
+            <p>居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。</p>
+            <p>这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 <a href="https://github.com/wentin/ResponsifyJS" target="_blank">https://github.com/wentin/ResponsifyJS</a>，主要就是为了实现这种效果。</p>
+            <p>感兴趣地去看了一下，感觉还是太重了。但我有个缺点就是一旦开始了就不容易停下来，就继续找了一下资料。发现其实浏览器本身就有很好的实现。</p>
+            <p></p>
+            <p style="text-align:center;font-size:1.29rem"><span>Background Positon!</span></p>
+            <p></p>
+            <p><code>background-position</code> 支持百分比属性。当使用百分比属性的时候，就是将背景图片与元素在百分比指定的位置重合。比如说 <code>20% 40%</code>，在横向上背景图片的 20% 与元素的 20% 对齐，竖向上背景图片的 40% 与元素的 40% 对齐。</p>
+            <p>这就相当于指定了一个焦点。把焦点放到主体上，那么无论元素怎么变化，主体都会有较好的显示效果。而且这些计算都是浏览器来干的！</p>
+            <p>现在唯一麻烦的地方就是要指定焦点。我继续找了一些资料，JavaScript 上也有人实现一些 Content Aware 的算法，比如这个 <a href="https://github.com/jwagner/smartcrop.js/" target="_blank">Smartcrop.js</a>。但是由于我没有批量的图片需要调整，就没有折腾去研究这个，而是研究怎么方便手动选择。</p>
+            <p>后来就做了这个所见即所得工具，<a href="http://www.crimx.com/portrait-crop/" target="_blank">http://www.crimx.com/portrait-crop/</a>，除了标记焦点以外还可以进行竖向的裁剪，节省空间。</p>
+            <p>移动焦点的时候右边会实时计算 <code>background-position</code>，包括了横向和竖向的结果。不需要裁剪的话只用横向的就行。</p>
+            <p>右下还提供了 json 格式。我的博客就是为所有封面保存了一个 json 文件，在 hexo 中设钩子去读再作为 inline css 写入。每次添加的时候复制粘贴就可以。</p>
+            <p>裁剪框是基于 <a href="https://github.com/fengyuanchen/cropperjs" target="_blank">cropperjs</a> 实现的，添加了个焦点。实现的时候还顺便修了 bug 提交了个 pr 给原作者哈哈。</p>
+            <p><strong>2016年12月31日按</strong>：他今天才 merge …… <span class="github-emoji" title=":sweat_smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f605.png?v7">&#x1f605;</span> 都忘记有提过这个 pr 了</p>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Background/">Background</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Responsive/">Responsive</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2016/09/25/photoshop-pen-tool/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Photoshop Pen Tool</div></a>
+            <a href="/2016/08/07/gulp-console-arguments/"
+              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">Gulp 使用命令号参数</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2016/09/11/responsive-cover/", this.page.identifier = "2016/09/11/responsive-cover/"
+        };
+        ! function() {
+          var e = document,
+            t = e.createElement("script");
+          t.src = "//crimx.disqus.com/embed.js", t.setAttribute("data-timestamp", +new Date), (e.head || e.body).appendChild(t)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

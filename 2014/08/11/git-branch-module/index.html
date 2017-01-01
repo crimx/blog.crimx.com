@@ -1,0 +1,447 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>Git 分支模式笔记 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="正想了解 Git 开发流程方面的资料，就碰上了这篇 2010 年的好文。没有时间翻译，就做一下笔记。
+
+
+  主要内容
+
+可以看到，该模型分支的组成主要有 5 种类型：
+
+  master
+  develop
+  release
+  feature
+  hotfix
+
+开发主要在 develop 上做，稳定版本释放由 develop 派生 release 分支。发布一段时间确定可以后，就合并回 d">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Git 分支模式笔记">
+    <meta property="og:url" content="https://blog.crimx.com/2014/08/11/git-branch-module/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="正想了解 Git 开发流程方面的资料，就碰上了这篇 2010 年的好文。没有时间翻译，就做一下笔记。
+
+
+  主要内容
+
+可以看到，该模型分支的组成主要有 5 种类型：
+
+  master
+  develop
+  release
+  feature
+  hotfix
+
+开发主要在 develop 上做，稳定版本释放由 develop 派生 release 分支。发布一段时间确定可以后，就合并回 d">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/git/branch-module/git-module.png">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/git/branch-module/main_branches.png">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/git/branch-module/feature-branches.png">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/git/branch-module/merge-with-without-ff.png">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/git/branch-module/hotfix-branches.png">
+      <meta property="og:updated_time" content="2016-12-29T17:13:37.340Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="Git 分支模式笔记">
+      <meta name="twitter:description" content="正想了解 Git 开发流程方面的资料，就碰上了这篇 2010 年的好文。没有时间翻译，就做一下笔记。
+
+
+  主要内容
+
+可以看到，该模型分支的组成主要有 5 种类型：
+
+  master
+  develop
+  release
+  feature
+  hotfix
+
+开发主要在 develop 上做，稳定版本释放由 develop 派生 release 分支。发布一段时间确定可以后，就合并回 d">
+        <meta name="twitter:image" content="https://blog.crimx.com/images/post/git/branch-module/git-module.png">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">Git 分支模式笔记</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2014/08/11/git-branch-module/" class="article-date"><time datetime="2014-08-10T16:00:00.000Z" itemprop="datePublished">2014-08-11</time></a>
+            <a rel="license"
+              class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container">
+          <ol class="toc">
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#主要内容"><span class="toc-text">主要内容</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#主要分支（The-main-branches）"><span class="toc-text">主要分支（The main branches）</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#辅助分支（Supporting-branches）"><span class="toc-text">辅助分支（Supporting branches）</span></a>
+              <ol class="toc-child">
+                <li class="toc-item toc-level-3"><a class="toc-link" href="#feature-分支"><span class="toc-text">feature 分支</span></a></li>
+                <li class="toc-item toc-level-3"><a class="toc-link" href="#release-分支"><span class="toc-text">release 分支</span></a></li>
+                <li class="toc-item toc-level-3"><a class="toc-link" href="#hotfix-分支"><span class="toc-text">hotfix 分支</span></a></li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </div>
+      <article id="post-git-branch-module" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>正想了解 Git 开发流程方面的资料，就碰上了这篇 2010 年的<a href="http://nvie.com/posts/a-successful-git-branching-model/" target="_blank">好文</a>。没有时间翻译，就做一下笔记。</p>
+            <hr>
+            <h2 id="主要内容">
+              <a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h2>
+            <p><img src="/images/post/git/branch-module/git-module.png" alt="git-module"></p>
+            <p>可以看到，该模型分支的组成主要有 5 种类型：</p>
+            <ul>
+              <li>master</li>
+              <li>develop</li>
+              <li>release</li>
+              <li>feature</li>
+              <li>hotfix</li>
+            </ul>
+            <p>开发主要在 develop 上做，稳定版本释放由 develop 派生 release 分支。发布一段时间确定可以后，就合并回 develop 和 master 并打 tag。</p>
+            <p>若以后 master 出现问题需要修改，就派生 hotfix 分支修复，最后合并回 master 和 develop。</p>
+            <p>feature 派生自 develop，主要是尝试新特性。成功的话合并回 develop。</p>
+            <p>下面是各个分支的细节：</p>
+            <h2 id="主要分支（The-main-branches）">
+              <a href="#主要分支（The-main-branches）" class="headerlink" title="主要分支（The main branches）"></a>主要分支（The main branches）</h2>
+            <p><img src="/images/post/git/branch-module/main_branches.png" alt="main_branches"></p>
+            <p>主要分支是 master 和 develop 分支。</p>
+            <p>约定 origin/master 上的 HEAD 总是代表“生产就绪（production-ready）状态”。<br>约定 origin/develop 上的 HEAD 总是代表“下一个 release 的最新开发进展”。</p>
+            <p>具体怎么从 develop 合并到 master 在 <a href="#release-branches">release 分支</a>中会讲到。</p>
+            <h2 id="辅助分支（Supporting-branches）">
+              <a href="#辅助分支（Supporting-branches）" class="headerlink" title="辅助分支（Supporting branches）"></a>辅助分支（Supporting branches）</h2>
+            <p>辅助分支是 feature、release 和 hotfix 分支。</p>
+            <h3 id="feature-分支">
+              <a href="#feature-分支" class="headerlink" title="feature 分支"></a>feature 分支</h3>
+            <p><img src="/images/post/git/branch-module/feature-branches.png" alt="feature-branches"></p>
+            <p>可能派生自：develop<br>必须合并到：develop<br>分支命名惯例：除了 <code>master</code>, <code>develop</code>, <code>release-*</code> 或 <code>hotfix-*</code> 的其它名字</p>
+            <p>feature 分支一般不会出现在 origin 中。如果尝试失败的话甚至不会合并到 develop 分支中。</p>
+            <p>1、创建 feature 分支，从 develop 分支中派发：</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout -b myfeature develop</div><div class="line">Switched to a new branch <span class="string">"myfeature"</span></div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>2、成功的 feature 分支最终合并回 develop 分支：</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout develop</div><div class="line">Switched to a new branch <span class="string">"develop"</span></div><div class="line"></div><div class="line">$ git merge --no-ff myfeature</div><div class="line">Updating ea1b82a..05e9557</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git branch <span class="_">-d</span> myfeature</div><div class="line">Deleted branch myfeature (was 05e9557)</div><div class="line"></div><div class="line">$ git push origin develop</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p><code>--no-ff</code> 会阻止 Git 进行 fast-farward（下图右），并在 develop 分支上产生新的结点标识 feature 分支的合并。这么做以后更容易回头查看变更。</p>
+            <p><img src="/images/post/git/branch-module/merge-with-without-ff.png" alt="merge-with-without-ff"></p>
+            <h3 id="release-分支">
+              <a href="#release-分支" class="headerlink" title="release 分支"></a>release 分支</h3>
+            <p>可能派生自：develop<br>必须合并到：develop 与 master<br>分支命名惯例：<code>release-*</code></p>
+            <p>当为本次发布的功能（几乎）都完成了之后，就可以派生 release 分支等待正式发布。可以在 release 分支上做些小修复。其它的修改最好提到下次的发布上。</p>
+            <p>1、创建分支，第一时间就要修改版本号：</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout -b release-1.2 develop</div><div class="line">Switched to a new branch <span class="string">"release-1.2"</span></div><div class="line"></div><div class="line">$ ./bump-version.sh 1.2</div><div class="line">Files modified successfully, version bumped to 1.2.</div><div class="line"></div><div class="line">$ git commit <span class="_">-a</span> -m <span class="string">"Bumped version number to 1.2"</span></div><div class="line">[release-1.2 74d9424] Bumped version number to 1.2</div><div class="line">1 files changed, 1 insertions(+), 1 deletions(-)</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p><code>bump-version.sh</code> 是虚构的一个脚本用来在项目相关文件上修改版本号。</p>
+            <p>2、真正发布后，合并到 master 分支上并打 tag</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout master</div><div class="line">Switched to branch <span class="string">'master'</span></div><div class="line"></div><div class="line">$ git merge --no-ff release-1.2</div><div class="line">Merge made by recursive.</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git tag <span class="_">-a</span> 1.2</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>3、如果 release 分支上修改了 bug，则也要合并会 develop 分支，注意版本号文件可能会冲突：</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout develop</div><div class="line">Switched to branch <span class="string">'develop'</span></div><div class="line"></div><div class="line">$ git merge --no-ff release-1.2</div><div class="line">Merge made by recursive.</div><div class="line">(Summary of changes)</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>4、删除 release 分支</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git branch <span class="_">-d</span> release-1.2</div><div class="line">Deleted branch release-1.2 (was ff452fe).</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <h3 id="hotfix-分支">
+              <a href="#hotfix-分支" class="headerlink" title="hotfix 分支"></a>hotfix 分支</h3>
+            <p><img src="/images/post/git/branch-module/hotfix-branches.png" alt="hotfix-branches"></p>
+            <p>可能派生自：master<br>必须合并到：develop 与 master<br>分支命名惯例：<code>hotfix-*</code></p>
+            <p>hotfix 与 release 一样也会产生新的 tag，只不过 hotfix 分支是被动出现的。</p>
+            <p>1、创建分支，记得提升版本号</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout -b hotfix-1.2.1 master</div><div class="line">Switched to a new branch <span class="string">"hotfix-1.2.1"</span></div><div class="line"></div><div class="line">$ ./bump-version.sh 1.2.1</div><div class="line">Files modified successfully, version bumped to 1.2.1.</div><div class="line"></div><div class="line">$ git commit <span class="_">-a</span> -m <span class="string">"Bumped version number to 1.2.1"</span></div><div class="line">[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1</div><div class="line">1 files changed, 1 insertions(+), 1 deletions(-)</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>2、提交修复</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git commit -m <span class="string">"Fixed severe production problem"</span></div><div class="line">[hotfix-1.2.1 abbe5d6] Fixed severe production problem</div><div class="line">5 files changed, 32 insertions(+), 17 deletions(-)</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>3、确定可以后合并回 master 分支，记得打 tag</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout master</div><div class="line">Switched to branch <span class="string">'master'</span></div><div class="line"></div><div class="line">$ git merge --no-ff hotfix-1.2.1</div><div class="line">Merge made by recursive.</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git tag <span class="_">-a</span> 1.2.1</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>4、再合并回 develop 分支</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git checkout develop</div><div class="line">Switched to branch <span class="string">'develop'</span></div><div class="line"></div><div class="line">$ git merge --no-ff hotfix-1.2.1</div><div class="line">Merge made by recursive</div><div class="line">(Summary of changes)</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>5、删除 hotfix 分支</p>
+            <p></p>
+            <figure class="highlight bash">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line">$ git branch <span class="_">-d</span> hotfix-1.2.1</div><div class="line">Deleted branch hotfix-1.2.1 (was abbe5d6).</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/08/16/css-font-units/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">CSS Font 单位</div></a>
+            <a href="/2014/08/05/javascript-module-pattern-in-depth/"
+              id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">深入理解 JavaScript 模块模式</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/08/11/git-branch-module/", this.page.identifier = "2014/08/11/git-branch-module/"
+        };
+        ! function() {
+          var t = document,
+            e = t.createElement("script");
+          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

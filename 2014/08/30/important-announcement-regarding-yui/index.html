@@ -1,0 +1,194 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>关于 YUI 的重要公告 | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="原文：Important Announcement Regarding YUI（2014-8-30）
+雅虎 UI 库（YUI）从 2005 年就开始在雅虎使用，并在 2006 年 2 月 13 日宣布公开。虽然对比现在变化了不少，但 YUI 一直都是致力于提供一个全面的工具集，让开发人员轻松地创建 web 富应用程序。同样的，YUI 在 Yahoo 历史中占有重要的地位：成千上万行依赖于 YUI">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="关于 YUI 的重要公告">
+    <meta property="og:url" content="https://blog.crimx.com/2014/08/30/important-announcement-regarding-yui/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="原文：Important Announcement Regarding YUI（2014-8-30）
+雅虎 UI 库（YUI）从 2005 年就开始在雅虎使用，并在 2006 年 2 月 13 日宣布公开。虽然对比现在变化了不少，但 YUI 一直都是致力于提供一个全面的工具集，让开发人员轻松地创建 web 富应用程序。同样的，YUI 在 Yahoo 历史中占有重要的地位：成千上万行依赖于 YUI">
+      <meta property="og:updated_time" content="2016-12-29T11:01:06.456Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="关于 YUI 的重要公告">
+      <meta name="twitter:description" content="原文：Important Announcement Regarding YUI（2014-8-30）
+雅虎 UI 库（YUI）从 2005 年就开始在雅虎使用，并在 2006 年 2 月 13 日宣布公开。虽然对比现在变化了不少，但 YUI 一直都是致力于提供一个全面的工具集，让开发人员轻松地创建 web 富应用程序。同样的，YUI 在 Yahoo 历史中占有重要的地位：成千上万行依赖于 YUI">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/cover/pexels-photo-19031-portrait.jpg) 33.69% 46.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==) 33.69% 46.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">关于 YUI 的重要公告</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/News/">News</a></div><a href="/2014/08/30/important-announcement-regarding-yui/" class="article-date"><time datetime="2014-08-29T16:00:00.000Z" itemprop="datePublished">2014-08-30</time></a>
+            <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container"></div>
+      </div>
+      <article id="post-important-announcement-regarding-yui" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>原文：<a href="http://yahooeng.tumblr.com/post/96098168666/important-announcement-regarding-yui" target="_blank">Important Announcement Regarding YUI</a>（2014-8-30）</p>
+            <p>雅虎 UI 库（YUI）从 2005 年就开始在雅虎使用，并在 2006 年 2 月 13 日宣布公开。虽然对比现在变化了不少，但 YUI 一直都是致力于提供一个全面的工具集，让开发人员轻松地创建 web 富应用程序。同样的，YUI 在 Yahoo 历史中占有重要的地位：成千上万行依赖于 YUI 的代码今天依然在雅虎中使用着。</p>
+            <p>然而，我们都清楚的知道产业正朝着新方向发展。众所周知，在过去几年 web 平台已经发生了急剧的转变，JavaScript 史无前例的流行。Node.js 的出现让 JavaScript 可以在服务器端使用，为创建同构单页应用（isomorphic single page application）打开大门。新型包管理器（npm、bower）有效地刺激了第三方生态系统的发展；开源、单一目的的工具相辅相成，拥抱着 UNIX 哲学，构建出极其复杂的开发用例。新型构建工具（Grunt
+              及其插件生态系统、Broccoli、Gulp）使一个个小模块很容易就可以组装成大型的集成应用程序。新型应用框架（Backbone、React、Ember、Polymer、Angular 等）帮助我们用新的方式构建可扩展、可维护的 web 应用程序。新型测试工具（Mocha、Casper、Karma 等）降低了构建可靠持续交付流水线的门槛。标准机构（W3C、Ecma）将近几年大型 JacaScript 框架搬上台面的内容进行了标准化，使大量的设备实现原生支持。最后，浏览器厂商现在都致力于不断改进其
+              web 浏览器，逐渐向标准看齐。且有了所谓的“常青 web 浏览器”（evergreen web browsers —— 让用户方便地运行最新稳定版的 web 浏览器），我们可以展望用户代理之间的差异性将显著减少。</p>
+            <p>在这种形势下，Web 技术发展的结果是 YUI 之类的大型 JavaScript 库已逐渐失去社区的青睐。许多开发者如今是把大型 JavaScript 库看做是束缚其发展的围墙。于是，YUI 的 issue 和 pull request 数量在过去几年一点点地减少。许多 YUI 核心模块都没有活跃的维护者，仅仅依赖外部参与者偶尔提交的补丁。且很少审核者能有时间保证提交的补丁能快速、完全地被审核。</p>
+            <p>因此，为了集中精力发展新技术，我们做出了一个艰难的决定，即刻终止所有 YUI 的新开发。这意味着此后 YUI 的新版本将少之又少，且只会包含对雅虎利益有重大影响的针对性补丁。</p>
+            <p>YUI 团队在雅虎的使命依然是针对内部开发者提供最佳的次世代表现技术。我们对 web 表现技术的未来保持乐观，并希望能继续与外部的前端社区一同分享和学习。</p>
+            <p>Julien Lecomte，雅虎表现技术工程部总监</p>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Translation/">Translation</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2014/08/30/handlebarsjs/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Handlebars.js 脑图</div></a>
+            <a href="/2014/08/16/css-font-units/" id="article-nav-older"
+              class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">CSS Font 单位</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2014/08/30/important-announcement-regarding-yui/", this.page.identifier = "2014/08/30/important-announcement-regarding-yui/"
+        };
+        ! function() {
+          var t = document,
+            e = t.createElement("script");
+          e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

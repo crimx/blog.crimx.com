@@ -1,0 +1,285 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+  <title>Progressive Background-Image With Ease | CRIMX</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+  <meta name="description" content="Everyone likes smooth loading. Lately I tried to make the background-image of the menu to load progressively(also to the cover if you view the blog on mobile).
+If you take a look at how Medium does pr">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Progressive Background-Image With Ease">
+    <meta property="og:url" content="https://blog.crimx.com/2016/12/26/progressive-background-image/index.html">
+    <meta property="og:site_name" content="CRIMX">
+    <meta property="og:description" content="Everyone likes smooth loading. Lately I tried to make the background-image of the menu to load progressively(also to the cover if you view the blog on mobile).
+If you take a look at how Medium does pr">
+      <meta property="og:image" content="https://blog.crimx.com/images/post/pexels-photo-24343-blocky-thumbnail.jpg">
+      <meta property="og:image" content="https://blog.crimx.com/images/cover/thumbnails/pexels-photo-24343.jpg">
+      <meta property="og:updated_time" content="2016-12-30T12:30:16.625Z">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="Progressive Background-Image With Ease">
+      <meta name="twitter:description" content="Everyone likes smooth loading. Lately I tried to make the background-image of the menu to load progressively(also to the cover if you view the blog on mobile).
+If you take a look at how Medium does pr">
+        <meta name="twitter:image" content="https://blog.crimx.com/images/post/pexels-photo-24343-blocky-thumbnail.jpg">
+        <meta name="twitter:creator" content="@straybugs">
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+        <script>
+          ! function() {
+            var e = document.getElementsByTagName("html")[0];
+            e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
+          }()
+
+        </script>
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+  <![endif]-->
+  <div class="site-container">
+    <div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/volcano-1807514_1920-portrait.jpg) 54.67% 52.93%/cover">
+      <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAQFBgEDB//EACYQAAEEAQEHBQAAAAAAAAAAAAEAAgMEEUEFBhMUUVJhEhUWMZH/xAAXAQADAQAAAAAAAAAAAAAAAAABAgQD/8QAHREAAgEEAwAAAAAAAAAAAAAAAAECERIUMQMEIf/aAAwDAQACEQMRAD8A6PLZrVR6uYa49Ao2zvRDHkNfkjTCTtWKsFjhuAwfoqFvTxML5A0FrdVPHirs2fYS0THy7w78Qqd71F2FCfHQMmQtb26HyAE56HK02trunqGNrceeqrM96NuGsiIJ1ymxbLaDZCMuBwrYxRDal7Qzx5ewISXPvQntQbmf/9k=) 54.67% 52.93%/cover"></div>
+      <div class="site-menu-inner-wrapper">
+        <div class="menu-logo">
+          <a class="icon-logo" href="/"></a>
+        </div>
+        <ul class="menu-social-icons">
+          <li>
+            <a class="icon-weibo" href="//www.weibo.com/straybugs" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+          </li>
+          <li>
+            <a class="icon-rss" href="/atom.xml"></a>
+          </li>
+        </ul>
+        <ul class="menu-navs">
+          <li><a href="/categories/">Categories</a></li>
+          <li><a href="/archives/">Archives</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/search/">Search</a></li>
+          <li><a href="/about/">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-menu-mask"></div>
+    <div class="main-content">
+      <header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/volcano-1807514_1920-portrait.jpg) 54.67% 52.93%/cover">
+        <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgIDAAAAAAAAAAAAAAAAAAQFBgEDB//EACYQAAEEAQEHBQAAAAAAAAAAAAEAAgMEEUEFBhMUUVJhEhUWMZH/xAAXAQADAQAAAAAAAAAAAAAAAAABAgQD/8QAHREAAgEEAwAAAAAAAAAAAAAAAAECERIUMQMEIf/aAAwDAQACEQMRAD8A6PLZrVR6uYa49Ao2zvRDHkNfkjTCTtWKsFjhuAwfoqFvTxML5A0FrdVPHirs2fYS0THy7w78Qqd71F2FCfHQMmQtb26HyAE56HK02trunqGNrceeqrM96NuGsiIJ1ymxbLaDZCMuBwrYxRDal7Qzx5ewISXPvQntQbmf/9k=) 54.67% 52.93%/cover"></div>
+        <a class="cover-logo" href="/"></a>
+        <div class="title-wrapper">
+          <h1 class="site-title" itemprop="name">Progressive Background-Image With Ease</h1>
+          <div class="article-meta">
+            <div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2016/12/26/progressive-background-image/" class="article-date"><time datetime="2016-12-25T16:00:00.000Z" itemprop="datePublished">2016-12-26</time></a>
+            <a
+              rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+          </div>
+        </div>
+      </header>
+      <div class="toc-mousearea"></div>
+      <div class="toc-wrapper">
+        <div class="toc-container">
+          <ol class="toc">
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#Blur-by-default"><span class="toc-text">Blur by default</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#Layers"><span class="toc-text">Layers</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#Image-onload"><span class="toc-text">Image onload</span></a></li>
+            <li class="toc-item toc-level-2"><a class="toc-link" href="#No-js"><span class="toc-text">No-js</span></a></li>
+          </ol>
+        </div>
+      </div>
+      <article id="post-progressive-background-image" class="article--post" itemscope="" itemprop="blogPost">
+        <div class="article-inner js-no-wrap-menu">
+          <div class="article-entry" itemprop="articleBody">
+            <p>Everyone likes smooth loading. Lately I tried to make the <code>background-image</code> of the menu to load progressively(also to the cover if you view the blog on mobile).</p>
+            <p>If you take a look at how <a href="https://medium.com/" target="_blank">Medium</a> does progressive image loading(or check out <a href="https://jmperezperez.com/medium-image-progressive-loading-placeholder/" target="_blank">this article</a>),
+              you&#39;ll notice that they use JavaScript and canvas to blur and store thumbnails. It seems a bit overkill to me. And when you need to do it on a <code>background-image</code> with <code>background-position</code>, things become even more
+              complicated.</p>
+            <p>So I needed to figure out a simpler solution. Here&#39;s what I came up with:</p>
+            <h2 id="Blur-by-default">
+              <a href="#Blur-by-default" class="headerlink" title="Blur by default"></a>Blur by default</h2>
+            <p>As the article above mentioned:</p>
+            <blockquote>
+              <p>By default, when a browser renders a small image scaled up, it applies a light blur effect to smooth the artefacts of the image. The effect can also be <a href="https://developers.google.com/web/updates/2015/01/pixelated" target="_blank">turned off</a>                for images like QR codes.</p>
+            </blockquote>
+            <p>But the default blur effect still feels blocky.</p>
+            <p></p>
+            <p><img src="/images/post/pexels-photo-24343-blocky-thumbnail.jpg" alt="thumbnail" style="width:100%"></p>
+            <p></p>
+            <p>To make it smoother, I applied blur effect to the thumbnails while generating them, using <a href="https://github.com/aheckmann/gm" target="_blank">GraphicsMagick for node</a>:</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">const</span> gm = <span class="built_in">require</span>(<span class="string">'gm'</span>)</div><div class="line"></div><div class="line">gm(coverPath)</div><div class="line">  .resize(<span class="number">30</span>) <span class="comment">// or .resize(null, 30) for portrait</span></div><div class="line">  .blur(<span class="number">5</span>)</div><div class="line">  .noProfile()</div><div class="line">  .write(thumbnailPath, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) &#123; <span class="built_in">console</span>.warn(err) &#125;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;)</div><div class="line"></div><div class="line"><span class="comment">// or to base64</span></div><div class="line">gm(coverPath)</div><div class="line">  .resize(<span class="number">30</span>) <span class="comment">// or .resize(null, 30) for portrait</span></div><div class="line">  .blur(<span class="number">5</span>)</div><div class="line">  .noProfile()</div><div class="line">  .toBuffer(<span class="function"><span class="keyword">function</span> (<span class="params">err, buffer</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) &#123; <span class="built_in">console</span>.warn(err) &#125;</div><div class="line">    <span class="keyword">var</span> base64 = <span class="string">'data:image/'</span> + ext + <span class="string">';base64,'</span> + buffer.toString(<span class="string">'base64'</span>)</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;)</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p></p>
+            <p><img src="/images/cover/thumbnails/pexels-photo-24343.jpg" alt="thumbnail" style="width:100%"></p>
+            <p></p>
+            <p>This looks acceptable to me. No need for a canvas or blur function. Already felt relieved! <span class="github-emoji" title=":smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v7">&#x1f604;</span></p>
+            <h2
+              id="Layers">
+              <a href="#Layers" class="headerlink" title="Layers"></a>Layers</h2>
+            <p>This method divides a component into four layers: container, thumbnail, mask and content.</p>
+            <ul>
+              <li>Container holds the full-size background image.</li>
+              <li>Thumbnail holds the blur thumbnail, as <code>background-image</code>.</li>
+              <li>Mask is a translucent black element, to darken the background.</li>
+              <li>Everything else lives in the content layer.</li>
+            </ul>
+            <p>Use <code>z-index</code> to separate the layers.</p>
+            <h2 id="Image-onload">
+              <a href="#Image-onload" class="headerlink" title="Image onload"></a>Image onload</h2>
+            <p>When full-size image is loaded, hide the thumbnail. You can use this technic(with jQuery/Zepto):</p>
+            <p></p>
+            <figure class="highlight javascript">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="keyword">var</span> $container = $(<span class="string">'.container'</span>)</div><div class="line"><span class="comment">// Matchs the "url(...)"</span></div><div class="line"><span class="keyword">var</span> bigBgSrc = $container.css(<span class="string">'background-image'</span>).match(<span class="regexp">/url\((.+?)\)/i</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> (bigBgSrc) &#123;</div><div class="line">  <span class="comment">// Removes quotations</span></div><div class="line">  bigBgSrc = bigBgSrc[<span class="number">1</span>].replace(<span class="regexp">/'|"/g</span>, <span class="string">''</span>)</div><div class="line"></div><div class="line">  $(<span class="string">'&lt;img&gt;'</span>)</div><div class="line">    .on(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      $container.find(<span class="string">'.thumbnail'</span>)</div><div class="line">        .addClass(<span class="string">'thumbnail--hide'</span>) <span class="comment">// Hides thumbnail</span></div><div class="line">    &#125;)</div><div class="line">    .prop(<span class="string">'src'</span>, bigBgSrc)</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>A live example:</p>
+            <p></p>
+            <p>
+              <iframe class="iframe-defer" height="437" scrolling="no" title="Progressive background-image Loading" src="" data-src="//codepen.io/straybugs/embed/preview/gLJyXW/?height=437&theme-id=0&default-tab=result&embed-version=2" frameborder="no"
+                allowtransparency="true" allowfullscreen="true" style="width:100%">See the Pen <a href="http://codepen.io/straybugs/pen/gLJyXW/" target="_blank">Progressive background-image Loading</a> by CrimX (<a href="http://codepen.io/straybugs" target="_blank">@straybugs</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe>
+            </p>
+            <p></p>
+            <h2 id="No-js">
+              <a href="#No-js" class="headerlink" title="No-js"></a>No-js</h2>
+            <p>No-js support is extremely easy. Just hide the thumbnail.</p>
+            <p></p>
+            <figure class="highlight css">
+              <table>
+                <tr>
+                  <td class="gutter">
+                    <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+                  </td>
+                  <td class="code">
+                    <pre><div class="line"><span class="selector-tag">html</span><span class="selector-class">.no-js</span> <span class="selector-class">.thumbnail</span> &#123;</div><div class="line">  <span class="attribute">display</span>: none <span class="meta">!important</span>;</div><div class="line">&#125;</div></pre>
+                  </td>
+                </tr>
+              </table>
+            </figure>
+            <p></p>
+            <p>For my blog I also made a <a href="https://github.com/crimx/blog/blob/master/themes/crimx/source/_scss/libs/_progressive-background-image.scss" target="_blank">Sass Mixin/Extend</a> with this method.</p>
+          </div>
+        </div>
+        <footer class="article-footer">
+          <ul class="article-tag-list">
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GraphicsMagick/">GraphicsMagick</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Image/">Image</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Progressive-Image/">Progressive Image</a></li>
+            <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
+          </ul>
+          <nav id="article-nav"><a href="/2017/01/01/new-blog-released/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">新年新博客！</div></a>
+            <a href="/2016/12/23/emojis-for-blog/" id="article-nav-older"
+              class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+              <div class="article-nav-title">在博客上使用 Emoji</div>
+              </a>
+          </nav>
+        </footer>
+      </article>
+      <section id="comments">
+        <div id="disqus_thread">
+          <div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+      </section>
+      <script>
+        var disqus_config = function() {
+          this.page.url = "https://blog.crimx.com/2016/12/26/progressive-background-image/", this.page.identifier = "2016/12/26/progressive-background-image/"
+        };
+        ! function() {
+          var e = document,
+            i = e.createElement("script");
+          i.src = "//crimx.disqus.com/embed.js", i.setAttribute("data-timestamp", +new Date), (e.head || e.body).appendChild(i)
+        }()
+
+      </script>
+      <div class="menu-icon"><i class="menu-icon__logo"></i></div>
+      <footer class="site-footer">
+        <ul class="recommended-post">
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+          <li class="recommended-post__item">
+            <a class="recommended-post__link" href="#">
+              <div class="recommended-post__cover js-progressive-bg-container">
+                <div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+              </div>
+              <h1 class="recommended-post__title"></h1>
+            </a>
+          </li>
+        </ul>
+        <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+        <div
+          class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+      </footer>
+    </div>
+  </div>
+  <script src="/static/bundle.js"></script><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>
