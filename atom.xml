@@ -56,7 +56,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 </blockquote>
 <p>But the default blur effect still feels blocky.</p>
 <p></p>
-<p><img src="/images/post/pexels-photo-24343-blocky-thumbnail.jpg" alt="thumbnail" style="width:100%"></p>
+<p><img src="/images/post/pexels-photo-24343-blocky-thumbnail.jpg" alt="thumbnail" style="width: 100%"></p>
 <p></p>
 <p>To make it smoother, I applied blur effect to the thumbnails while generating them, using <a href="https://github.com/aheckmann/gm" target="_blank">GraphicsMagick for node</a>:</p>
 <p></p>
@@ -74,7 +74,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 </figure>
 <p></p>
 <p></p>
-<p><img src="/images/cover/thumbnails/pexels-photo-24343.jpg" alt="thumbnail" style="width:100%"></p>
+<p><img src="/images/cover/thumbnails/pexels-photo-24343.jpg" alt="thumbnail" style="width: 100%"></p>
 <p></p>
 <p>This looks acceptable to me. No need for a canvas or blur function. Already felt relieved! <span class="github-emoji" title=":smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v7">&#x1f604;</span></p>
 <h2 id="Layers">
@@ -107,7 +107,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <p>A live example:</p>
 <p></p>
 <p>
-<iframe class="iframe-defer" height="437" scrolling="no" title="Progressive background-image Loading" src="" data-src="//codepen.io/straybugs/embed/preview/gLJyXW/?height=437&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width:100%">See the Pen <a href="http://codepen.io/straybugs/pen/gLJyXW/" target="_blank">Progressive background-image Loading</a> by CrimX (<a href="http://codepen.io/straybugs" target="_blank">@straybugs</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe>
+<iframe class="iframe-defer" height="437" scrolling="no" title="Progressive background-image Loading" src="" data-src="//codepen.io/straybugs/embed/preview/gLJyXW/?height=437&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%">See the Pen <a href="http://codepen.io/straybugs/pen/gLJyXW/" target="_blank">Progressive background-image Loading</a> by CrimX (<a href="http://codepen.io/straybugs" target="_blank">@straybugs</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe>
 </p>
 <p></p>
 <h2 id="No-js">
@@ -237,7 +237,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <p></p>
 <p>就是这个效果:</p>
 <p></p>
-<p style="text-align:center;max-height:150px"><svg fill="#000"><use xlink:href="/images/symbol-defs.svg#icon-codepen"/></svg></p>
+<p style="text-align: center; max-height: 150px"><svg fill="#000"><use xlink:href="/images/symbol-defs.svg#icon-codepen"/></svg></p>
 <p></p>
 <p>在<code>symbol-defs.svg</code>里还有它的另外一个版本，带圆圈的，只需要添加几行就可以：</p>
 <p></p>
@@ -256,7 +256,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <p></p>
 <p>同样的使用方式，既环保又方便：</p>
 <p></p>
-<p style="text-align:center;max-height:150px"><svg fill="#000"><use xlink:href="/images/symbol-defs.svg#icon-codepen-circle"/></svg></p>
+<p style="text-align: center; max-height: 150px"><svg fill="#000"><use xlink:href="/images/symbol-defs.svg#icon-codepen-circle"/></svg></p>
 <p></p>
 <h2 id="Symbol-坏处">
 <a href="#Symbol-坏处" class="headerlink" title="Symbol 坏处"></a>Symbol 坏处</h2>
@@ -332,7 +332,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <p>但对于过渡 <code>height</code> 未知的元素，暂时没有完美的方法，浏览器还不支持 <code>height</code> 过渡到 <code>auto</code>。而且这种方式也会造成这个元素后面的所有元素一并重绘，蛮耗资源的。</p>
 <p>以下是利用 <code>max-height</code> 来过渡，适合已知元素高度的范围。但也不是完美方法，<code>max-height</code> 固定了，那么同样的时间，元素高度越小过渡就会显得越快。所以只好尽量选最接近的 <code>max-height</code>。</p>
 <p></p>
-<p><iframe height="300" scrolling="no" title="css transition max-height" src="//codepen.io/straybugs/embed/preview/ObqVBy/?height=300&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width:100%">See the Pen <a href="http://codepen.io/straybugs/pen/ObqVBy/" target="_blank">css transition max-height</a> by CrimX (<a href="http://codepen.io/straybugs" target="_blank">@straybugs</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe></p>
+<p><iframe height="300" scrolling="no" title="css transition max-height" src="//codepen.io/straybugs/embed/preview/ObqVBy/?height=300&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%">See the Pen <a href="http://codepen.io/straybugs/pen/ObqVBy/" target="_blank">css transition max-height</a> by CrimX (<a href="http://codepen.io/straybugs" target="_blank">@straybugs</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe></p>
 <p></p>
 <p>写的时候犯了一个小错误，折腾了一会才发现时间 0 忘了加单位。CSS 时间里<code>0</code><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/time" target="_blank">是非法的值</a>。</p>]]></content>
     
@@ -388,7 +388,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <p>这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 <a href="https://github.com/wentin/ResponsifyJS" target="_blank">https://github.com/wentin/ResponsifyJS</a>，主要就是为了实现这种效果。</p>
 <p>感兴趣地去看了一下，感觉还是太重了。但我有个缺点就是一旦开始了就不容易停下来，就继续找了一下资料。发现其实浏览器本身就有很好的实现。</p>
 <p></p>
-<p style="text-align:center;font-size:1.29rem"><span>Background Positon!</span></p>
+<p style="text-align: center; font-size: 1.29rem"><span>Background Positon!</span></p>
 <p></p>
 <p><code>background-position</code> 支持百分比属性。当使用百分比属性的时候，就是将背景图片与元素在百分比指定的位置重合。比如说 <code>20% 40%</code>，在横向上背景图片的 20% 与元素的 20% 对齐，竖向上背景图片的 40% 与元素的 40% 对齐。</p>
 <p>这就相当于指定了一个焦点。把焦点放到主体上，那么无论元素怎么变化，主体都会有较好的显示效果。而且这些计算都是浏览器来干的！</p>
@@ -1332,9 +1332,9 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
       <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
@@ -1450,9 +1450,9 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
       <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
@@ -1654,7 +1654,7 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 </blockquote>
 <p>所以可以利用 <code>height = 0;</code> 并用 <code>padding-bottom = 100%;</code> 撑起一个正方形：</p>
 <p></p>
-<p><iframe height="265" scrolling="no" title="CSS Responsive Square" src="//codepen.io/Crimx/embed/VYdMWJ/?height=265&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width:100%">See the Pen <a href="http://codepen.io/Crimx/pen/VYdMWJ/" target="_blank">CSS Responsive Square</a> by Jesse Wong (<a href="http://codepen.io/Crimx" target="_blank">@Crimx</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe></p>
+<p><iframe height="265" scrolling="no" title="CSS Responsive Square" src="//codepen.io/Crimx/embed/VYdMWJ/?height=265&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%">See the Pen <a href="http://codepen.io/Crimx/pen/VYdMWJ/" target="_blank">CSS Responsive Square</a> by Jesse Wong (<a href="http://codepen.io/Crimx" target="_blank">@Crimx</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe></p>
 <p></p>
 <p></p>
 <figure class="highlight html">

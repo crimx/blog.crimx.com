@@ -14,8 +14,8 @@ if (url) {
         if (xmlReq.status === 200) {
             var posts = xmlReq.responseXML.getElementsByTagName('loc')
             for (var i = 0; i < posts.length; i += 1) {
-                if (posts[i].toLowerCase().indexOf(url) !== -1) {
-                    window.location.href = posts[i]
+                if (posts[i].innerHTML.toLowerCase().indexOf(url) !== -1) {
+                    window.location.href = posts[i].innerHTML
                     return
                 }
             }
