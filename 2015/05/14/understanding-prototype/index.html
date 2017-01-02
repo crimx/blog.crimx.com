@@ -31,37 +31,38 @@
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
 <meta name="description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。
 
-  混淆
+混淆
 混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。
 首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。
-然">
+然后是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解 Prototype">
 <meta property="og:url" content="https://blog.crimx.com/2015/05/14/understanding-prototype/index.html">
 <meta property="og:site_name" content="CRIMX">
 <meta property="og:description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。
 
-  混淆
+混淆
 混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。
 首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。
-然">
+然后是">
 <meta property="og:updated_time" content="2016-12-28T11:04:11.296Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解 Prototype">
 <meta name="twitter:description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。
 
-  混淆
+混淆
 混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。
 首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。
-然">
+然后是">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
 <script>
-! function() {
-    var e = document.getElementsByTagName("html")[0];
-    e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
-}()
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
 </script>
 </head>
 
@@ -70,8 +71,8 @@
     <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
   <![endif]-->
 <div class="site-container">
-<div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/railway-1245906_1920-portrait.jpg) 54.19% 60.43%/cover">
-<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACgQAAEDAgQEBwAAAAAAAAAAAAEAAgMEEQUSMUETFFFSFSEjU2Fxkf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAwL/xAAXEQEBAQEAAAAAAAAAAAAAAAAAERIB/9oADAMBAAIRAxEAPwDZjK0bhQqvFoqcWBDndFn8GP1s9eGOlOVx06J/Ep3Mns19z9qeldLZ467sQqLztT1QjRXqPAIGznI/1DoRslYgwxu86gF53Kh00kVIziGPM46fCbra+OWAuMRzbG6UanBeX32fqFxOff2hCIK//9k=) 54.19% 60.43%/cover"></div>
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/railway-1245906_1920-portrait.jpg') 54.19% 60.43%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACgQAAEDAgQEBwAAAAAAAAAAAAEAAgMEEQUSMUETFFFSFSEjU2Fxkf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAwL/xAAXEQEBAQEAAAAAAAAAAAAAAAAAERIB/9oADAMBAAIRAxEAPwDZjK0bhQqvFoqcWBDndFn8GP1s9eGOlOVx06J/Ep3Mns19z9qeldLZ467sQqLztT1QjRXqPAIGznI/1DoRslYgwxu86gF53Kh00kVIziGPM46fCbra+OWAuMRzbG6UanBeX32fqFxOff2hCIK//9k=') 54.19% 60.43%/cover"></div>
 <div class="site-menu-inner-wrapper">
 <div class="menu-logo">
 <a class="icon-logo" href="/"></a>
@@ -101,8 +102,8 @@
 </div>
 <div class="site-menu-mask"></div>
 <div class="main-content">
-<header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/railway-1245906_1920-portrait.jpg) 54.19% 60.43%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACgQAAEDAgQEBwAAAAAAAAAAAAEAAgMEEQUSMUETFFFSFSEjU2Fxkf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAwL/xAAXEQEBAQEAAAAAAAAAAAAAAAAAERIB/9oADAMBAAIRAxEAPwDZjK0bhQqvFoqcWBDndFn8GP1s9eGOlOVx06J/Ep3Mns19z9qeldLZ467sQqLztT1QjRXqPAIGznI/1DoRslYgwxu86gF53Kh00kVIziGPM46fCbra+OWAuMRzbG6UanBeX32fqFxOff2hCIK//9k=) 54.19% 60.43%/cover"></div>
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/railway-1245906_1920-portrait.jpg') 54.19% 60.43%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACgQAAEDAgQEBwAAAAAAAAAAAAEAAgMEEQUSMUETFFFSFSEjU2Fxkf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAwL/xAAXEQEBAQEAAAAAAAAAAAAAAAAAERIB/9oADAMBAAIRAxEAPwDZjK0bhQqvFoqcWBDndFn8GP1s9eGOlOVx06J/Ep3Mns19z9qeldLZ467sQqLztT1QjRXqPAIGznI/1DoRslYgwxu86gF53Kh00kVIziGPM46fCbra+OWAuMRzbG6UanBeX32fqFxOff2hCIK//9k=') 54.19% 60.43%/cover"></div>
 <a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">理解 Prototype</h1>
@@ -270,13 +271,21 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </section>
 <script>
 var disqus_config = function() {
-    this.page.url = "https://blog.crimx.com/2015/05/14/understanding-prototype/", this.page.identifier = "2015/05/14/understanding-prototype/"
+
+    this.page.url = 'https://blog.crimx.com/2015/05/14/understanding-prototype/';
+
+    this.page.identifier = '2015/05/14/understanding-prototype/';
 };
-! function() {
-    var t = document,
-        e = t.createElement("script");
-    e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
-}()
+
+(function() {
+    var d = document,
+        s = d.createElement('script');
+
+    s.src = '//crimx.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
 </script>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>
 <footer class="site-footer">
@@ -323,12 +332,33 @@ class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="ico
 <script src="/static/bundle.js"></script>
 <!-- Google Analytics -->
 <script type="text/javascript">
-! function(e, a, t, n, c, o, s) {
-    e.GoogleAnalyticsObject = c, e[c] = e[c] || function() {
-        (e[c].q = e[c].q || []).push(arguments)
-    }, e[c].l = 1 * new Date, o = a.createElement(t), s = a.getElementsByTagName(t)[0], o.async = 1, o.src = n, s.parentNode.insertBefore(o, s)
-}(window, document, "script", "//www.google-analytics.com/analytics.js", "ga"), ga("create", "UA-49163616-1", "auto"), ga("send", "pageview")
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-1', 'auto');
+ga('send', 'pageview');
 </script>
-<!-- End Google Analytics --><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
 
 </html>

@@ -31,52 +31,53 @@
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
 <meta name="description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
 
-  首先
+首先
 
-  this is all about context.
+this is all about context.
 
 this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。
 大佬可以分为六层，层数越高权力越大，this只会认最大的。
 
-  第一层：世界尽头
-权力最小的大佬是作为备胎的存在">
+第一层：世界尽头
+权力最小的大佬是作为备胎的存在，在普通情况">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript This 的六道坎">
 <meta property="og:url" content="https://blog.crimx.com/2016/05/12/understanding-this/index.html">
 <meta property="og:site_name" content="CRIMX">
 <meta property="og:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
 
-  首先
+首先
 
-  this is all about context.
+this is all about context.
 
 this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。
 大佬可以分为六层，层数越高权力越大，this只会认最大的。
 
-  第一层：世界尽头
-权力最小的大佬是作为备胎的存在">
+第一层：世界尽头
+权力最小的大佬是作为备胎的存在，在普通情况">
 <meta property="og:updated_time" content="2016-12-30T12:44:23.955Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript This 的六道坎">
 <meta name="twitter:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
 
-  首先
+首先
 
-  this is all about context.
+this is all about context.
 
 this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。
 大佬可以分为六层，层数越高权力越大，this只会认最大的。
 
-  第一层：世界尽头
-权力最小的大佬是作为备胎的存在">
+第一层：世界尽头
+权力最小的大佬是作为备胎的存在，在普通情况">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
 <script>
-! function() {
-    var e = document.getElementsByTagName("html")[0];
-    e.className = (" " + e.className + " ").replace(" no-js ", " ").slice(1, -1)
-}()
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
 </script>
 </head>
 
@@ -85,8 +86,8 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
     <p class="browser-warning" style="position:fixed;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
   <![endif]-->
 <div class="site-container">
-<div class="site-menu js-progressive-bg-container" style="background:url(/images/post/cover/architecture-1851496_1920-portrait.jpg) 51.15% 50.1%/cover">
-<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==) 51.15% 50.1%/cover"></div>
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/architecture-1851496_1920-portrait.jpg') 51.15% 50.10%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==') 51.15% 50.10%/cover"></div>
 <div class="site-menu-inner-wrapper">
 <div class="menu-logo">
 <a class="icon-logo" href="/"></a>
@@ -116,8 +117,8 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
 </div>
 <div class="site-menu-mask"></div>
 <div class="main-content">
-<header class="site-cover js-progressive-bg-container" style="background:url(/images/post/cover/architecture-1851496_1920-portrait.jpg) 51.15% 50.1%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==) 51.15% 50.1%/cover"></div>
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/architecture-1851496_1920-portrait.jpg') 51.15% 50.10%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==') 51.15% 50.10%/cover"></div>
 <a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">JavaScript This 的六道坎</h1>
@@ -351,13 +352,21 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </section>
 <script>
 var disqus_config = function() {
-    this.page.url = "https://blog.crimx.com/2016/05/12/understanding-this/", this.page.identifier = "2016/05/12/understanding-this/"
+
+    this.page.url = 'https://blog.crimx.com/2016/05/12/understanding-this/';
+
+    this.page.identifier = '2016/05/12/understanding-this/';
 };
-! function() {
-    var t = document,
-        e = t.createElement("script");
-    e.src = "//crimx.disqus.com/embed.js", e.setAttribute("data-timestamp", +new Date), (t.head || t.body).appendChild(e)
-}()
+
+(function() {
+    var d = document,
+        s = d.createElement('script');
+
+    s.src = '//crimx.disqus.com/embed.js';
+
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
 </script>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>
 <footer class="site-footer">
@@ -404,12 +413,33 @@ class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="ico
 <script src="/static/bundle.js"></script>
 <!-- Google Analytics -->
 <script type="text/javascript">
-! function(e, a, t, n, c, o, s) {
-    e.GoogleAnalyticsObject = c, e[c] = e[c] || function() {
-        (e[c].q = e[c].q || []).push(arguments)
-    }, e[c].l = 1 * new Date, o = a.createElement(t), s = a.getElementsByTagName(t)[0], o.async = 1, o.src = n, s.parentNode.insertBefore(o, s)
-}(window, document, "script", "//www.google-analytics.com/analytics.js", "ga"), ga("create", "UA-49163616-1", "auto"), ga("send", "pageview")
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-1', 'auto');
+ga('send', 'pageview');
 </script>
-<!-- End Google Analytics --><noscript><style>.noscript-warning{position:fixed;z-index:999999;top:0;left:0;right:0;margin:auto;padding:10px;font-size:1.2em;color:#fff;background:orange;text-align:center}</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
 
 </html>

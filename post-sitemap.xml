@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2016/12/26/progressive-background-image/</loc>
+        <lastmod>2017-01-02T05:52:02.046Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2017/01/01/new-blog-released/</loc>
         <lastmod>2016-12-31T18:50:16.914Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -65,14 +73,6 @@
     <url>
         <loc>https://blog.crimx.com/2016/11/28/svg-sprite/</loc>
         <lastmod>2016-12-30T12:32:20.306Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2016/12/26/progressive-background-image/</loc>
-        <lastmod>2016-12-30T12:30:16.625Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
