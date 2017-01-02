@@ -79,11 +79,20 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/architecture-1851496_1920-portrait.jpg') 51.15% 50.10%/cover">
@@ -155,7 +164,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 </div>
 <article id="post-understanding-this" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>鉴于<code>this</code>风骚的运作方式，对<code>this</code>的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。</p>
 <h1 id="首先">
 <a href="#首先" class="headerlink" title="首先"></a>首先</h1>

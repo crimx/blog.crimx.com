@@ -55,11 +55,20 @@
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -115,7 +124,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 </div>
 <article id="post-18-surprises-from-reading-jquery-s-source-code" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>原文：<a href="http://quickleft.com/blog/18-surprises-from-reading-jquery-s-source-code" target="_blank">18 Surprises From Reading jQuery&#39;s Source Code</a>（2014-7-23）</p>
 <p>我热爱 jQuery，且尽管我认为自己算是一名高级 JavaScript 开发者，我从来没有试过由头到尾把 jQuery 的源码看一遍，直到现在。这里分享一些我一路下来学到的东西：</p>
 <p>注意：我使用 <code>$.fn.method()</code> 语法来表示调用一组匹配元素的方法。比如当我说 <code>$.fn.addClass</code>，则表示 <code>$(&#39;div&#39;).addClass(&#39;blue&#39;)</code> 或者 <code>$(&#39;a.active&#39;).addClass(&#39;in-use&#39;)</code> 此类的用法。<code>$.fn</code> 是 jQuery 包装元素的原型。</p>

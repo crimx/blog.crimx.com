@@ -55,11 +55,20 @@ Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -122,7 +131,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 </div>
 <article id="post-es6-function-vs-block-scope" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <h2 id="作用域">
 <a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2>
 <p>作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章<a href="http://www.crimx.com/2014/08/05/javascript-module-pattern-in-depth/" target="_blank">《深入理解 JavaScript 模块模式 》</a>，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的

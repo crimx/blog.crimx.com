@@ -79,11 +79,20 @@ Symbol 好处
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/sprite-1242896_1920-portrait.jpg') 52.93% 47.56%/cover">
@@ -178,7 +187,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 </div>
 <article id="post-svg-sprite" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <h1 id="SVG-Symbol">
 <a href="#SVG-Symbol" class="headerlink" title="SVG Symbol"></a>SVG Symbol</h1>
 <p>用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。</p>

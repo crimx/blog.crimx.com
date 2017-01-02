@@ -61,11 +61,20 @@
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/silence-1209033_1920-portrait.jpg') 50.06% 50.35%/cover">
@@ -142,7 +151,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 </div>
 <article id="post-javascript-module-pattern-in-depth" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>拜读 2010 年神文，原文：<a href="http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html" target="_blank">JavaScript Module Pattern: In-Depth</a>（2010-03-12）</p>
 <p>模块模式（module pattern）是一种常见的 JavaScript 编程模式，大家一般都能很好地熟悉掌握。但其实这里还有不少高级用法没有得到关注。本文将带大家回顾一些基础知识，然后介绍一些值得关注的高级用法，包括一个我认为是我首创的用法。</p>
 <h2 id="基础知识">

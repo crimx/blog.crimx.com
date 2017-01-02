@@ -58,11 +58,20 @@ dig 了一下，这里有讲到用 data-author-key 可以设置提醒。
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -114,7 +123,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 </div>
 <article id="post-duoshuo-email" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>多说只有被人回复评论时才会有邮件提醒，博主是默认不造的（怪不得一直没有收到邮件提醒 T_T）。</p>
 <p>dig 了一下，<a href="http://dev.duoshuo.com/docs/5003ecd94cab3e7250000008/" target="_blank">这里</a>有讲到用 <code>data-author-key</code> 可以设置提醒。</p>
 <blockquote>

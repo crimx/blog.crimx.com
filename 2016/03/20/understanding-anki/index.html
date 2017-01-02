@@ -55,11 +55,20 @@ Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/alarm-clock-1842652_1920-portrait.jpg') 51.47% 38.73%/cover">
@@ -123,7 +132,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 </div>
 <article id="post-understanding-anki" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。</p>
 <p>Anki 是一个卡片记忆系统，基于 <a href="https://www.supermemo.com" target="_blank">SuperMemo</a> 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。</p>
 <p>Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解的话用起来就会无从下手。看了<a href="http://ankisrs.net/docs/manual.html" target="_blank">官方的文档</a>后，解决了很多疑惑和误解，并试图在本文用自己的理解总结一遍。<strong>但这篇文章不是操作说明书</strong>，如何操作这个网上已经有很多中文资料和视频，就不重复劳动了。</p>

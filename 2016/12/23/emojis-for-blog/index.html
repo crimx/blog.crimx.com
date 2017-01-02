@@ -52,11 +52,20 @@ Github 对 emoji 的支持就很好，所以去观摩了一下。它在生成网
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/emoji-love-portrait.jpg') 50% 50%/cover">
@@ -115,7 +124,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 </div>
 <article id="post-emojis-for-blog" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>Emoji 都要出电影了，博客怎么能不用。奇怪的是 hexo 上只有一个插件，要在文中添加 tag，还不支持 hexo3 。我不太喜欢在 markdown 里加各种 tag，所以就打算自己再写个插件。</p>
 <p>Github 对 emoji 的支持就很好，所以去观摩了一下。它在生成网页的时候将关键字替换成 emoji 的 unicode 字符，然后再利用 JavaScript 将字符替换成图片，这样即使图片加载失败还有字符 fallback。</p>
 <p>于是就参考这种方式写了 <a href="https://github.com/crimx/hexo-filter-github-emojis" target="_blank">hexo-filter-github-emojis</a> <span class="github-emoji" title=":tada:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png?v7">&#x1f389;</span>。</p>

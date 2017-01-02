@@ -52,11 +52,20 @@ scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性�
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/agriculture-1851510_1920-portrait.jpg') 34.76% 47.33%/cover">
@@ -122,7 +131,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 </div>
 <article id="post-document-scrollingelement-polyfill" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>今天看了<a href="https://imququ.com/post/document-scrollingelement-in-chrome.html" target="_blank">这篇文章</a>，讲到 WebKit <code>document.body.scrollTop</code> 的问题。还有这里 <a href="https://dev.opera.com/articles/fixing-the-scrolltop-bug/" target="_blank">Dev.Opera Blog : Fixing the scrollTop bug</a>。</p>
 <p><code>scrollTop</code>, <code>scrollLeft</code>, <code>scrollWidth</code>, <code>scrollHeight</code> 都是跟滚动相关的属性。设置 <code>scrollTop</code> 和 <code>scrollLeft</code> 还可以产生滚动。当这些属于用在根元素的时候，滚动是发生在 viewport 的。</p>
 <p>但是 WebKit/Blink 不走寻常路，它会一直让 <code>body</code> 来代替 viewport 滚动。所以根元素会一直返回 0，对它设值也不会有反应。</p>

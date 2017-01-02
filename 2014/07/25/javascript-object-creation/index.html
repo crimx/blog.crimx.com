@@ -78,11 +78,20 @@
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -151,7 +160,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 </div>
 <article id="post-javascript-object-creation" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>JavaScript 是一门灵活的语言，就创建对象而言就有各种各样的方法。本文是《JavaScript高级程序设计》（第3版）的笔记，主要是针对各种创建对象方法之间的关系、优缺点进行梳理。每种方法相关的其它细节不是本文重点，我会标记页码。</p>
 <h2 id="创建单个对象">
 <a href="#创建单个对象" class="headerlink" title="创建单个对象"></a>创建单个对象</h2>

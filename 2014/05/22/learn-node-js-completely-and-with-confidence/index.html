@@ -55,11 +55,20 @@
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -127,7 +136,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 </div>
 <article id="post-learn-node-js-completely-and-with-confidence" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>原文：<a href="http://javascriptissexy.com/learn-node-js-completely-and-with-confidence/" target="_blank">Learn Node.js Completely and with Confidence</a>（2013-2-4）</p>
 <p><strong>学习时长</strong>：约2周<br><strong>学习前提</strong>：JavaScript 知识掌握 5/10</p>
 <p>要成为 JavaScript 开发者现在是最好的时机了，而且会越来越好。主要是因为 HTML5 的来临， Flash 的逝去，移动设备的普及，以及最重要的 Node.js —— 开发者终于可以在服务器端使用 JavaScrpit 了。</p>

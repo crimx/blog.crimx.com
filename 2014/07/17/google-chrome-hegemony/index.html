@@ -68,11 +68,20 @@ Google Chrome 是当今互联网中最大的玩家之一。它快速、可靠、
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -150,7 +159,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 </div>
 <article id="post-google-chrome-hegemony" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>原文：<a href="http://code.tutsplus.com/tutorials/google-chrome-hegemony--cms-21478" target="_blank">Google Chrome Hegemony</a></p>
 <p><a href="https://www.google.com/intl/en/chrome/browser/" target="_blank">Google Chrome</a> 是当今互联网中最大的玩家之一。它快速、可靠、功能丰富；特别对 web 开发者来说非常好用。Chrome 也允许安装第三方扩展；Google 团队做得很不错，这些扩展只需 HTML、CSS 和 JavaScript 即可搭建。本文将介绍几个能帮助我们开发的 Chrome 利器。</p>
 <p>本文的源码在<a href="https://github.com/tutsplus/Google-Chrome-Hegemony/" target="_blank">[这里]</a>。</p>

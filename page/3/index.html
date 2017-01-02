@@ -45,11 +45,20 @@
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/mountains-407700_1920-portrait.jpg') 32.62% 41.80%/cover">
@@ -92,7 +101,7 @@
 <footer class="tagline-cite"><cite>Alice's Adventures in Wonderland</cite></footer>
 </section>
 </div>
-<div class="home-main">
+<div class="home-main postify">
 <p>欢迎光临本博客！这里主要是记录 Web 前端相关的一些内容，偶尔涉及其它方面。</p>
 <p>可以点击下面查看分类，移动设备上右滑即可出现菜单：</p>
 <a class="home-entry-wrap js-progressive-bg-container" href="/categories" style="background:url(/images/cover/nature-forest-trees-fog-2-portrait.jpg) 30.49% 71.53%/cover">
@@ -111,7 +120,7 @@
 </a>
 </div>
 <article class="site-about">
-<section class="about-intro">
+<section class="about-intro postify">
 <h1>关于</h1>
 <p>这个博客是我独自设计和手工编写的，基于 <a href="//hexo.io/" target="_blank">Hexo</a> 深度定制。Sass 模块的设计借鉴了 <a href="//itcss.io/" target="_blank">ITCSS</a> 思想。JavaScript 模块使用 <a href="//browserify.org/" target="_blank">Browserify</a> 打包。LOGO 使用 illustrator 设计，社交图案采用
 <a href="//github.com/nullice/NViconsLib_Silhouette"

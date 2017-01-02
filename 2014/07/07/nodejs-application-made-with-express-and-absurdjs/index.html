@@ -55,11 +55,20 @@
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -120,7 +129,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 </div>
 <article id="post-nodejs-application-made-with-express-and-absurdjs" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>原文：<a href="http://krasimirtsonev.com/blog/article/Nodejs-application-made-with-Express-and-AbsurdJS" target="_blank">Node.js application made with Express and AbsurdJS</a>（2014-7-7）</p>
 <p>当今有许多新技术吸引着越来越多的开发者，<a href="http://nodejs.org/" target="_blank">Node.js</a> 便是其中之一。主要因为它是 JavaScript 驱动的，许多人都很感兴趣。在本教程中，我将会教你结合 <a href="http://expressjs.com/" target="_blank">Express</a> 去使用 <a href="http://absurdjs.com/" target="_blank">AbsurdJS</a>。Express
 是流行的 Node.js 框架，而 AbsurdJS 则比较新鲜，希望你看完后会发现它很有用。</p>

@@ -57,11 +57,20 @@
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -126,7 +135,7 @@ target="_blank" title="This work is licensed under a Creative Commons Attributio
 </div>
 <article id="post-damson-differential-privacy-for-analysis-of-large-data" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data</p>
 <p>摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方图，边缘，数据立方体，分类，回归，聚类，点对点选择计数。此外，Damson包含一个高效的查询优化引擎，从而在获得高精度的分析结果同时最小化隐私成本。</p>
 <h2 id="简介">

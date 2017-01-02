@@ -55,11 +55,20 @@ JSHint 有一个很有意思但很少人知道的功能：代码分析报告。�
     h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
 }())
 </script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 </head>
 
 <body>
 <!--[if lt IE 9]>
     <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
   <![endif]-->
 <div class="site-container">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
@@ -124,7 +133,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 </div>
 <article id="post-whats-in-a-function-name" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
-<div class="article-entry" itemprop="articleBody">
+<div class="article-entry postify" itemprop="articleBody">
 <p>原文：<a href="http://bocoup.com/weblog/whats-in-a-function-name/" target="_blank">What&#39;s in a Function Name?</a>（2014-11-25）</p>
 <p>每次为 JSHint 提交代码我都会学到一些 JavaScript 的新东西。最近的一次知识之旅中我接触到了函数对象的 <code>name</code> 属性。</p>
 <p>JSHint 有一个很有意思但很少人知道的功能：代码分析报告。当以编程方式使用时，JSHint 会返回一个对象，描述已分析代码的数据。它包括（但不限于）代码中函数对象的信息：</p>
