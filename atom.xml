@@ -714,9 +714,9 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="This" scheme="https://blog.crimx.com/tags/This/"/>
     
@@ -727,7 +727,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
     <link href="https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/"/>
     <id>https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/</id>
     <published>2016-04-17T16:00:00.000Z</published>
-    <updated>2016-12-28T11:04:28.224Z</updated>
+    <updated>2017-01-04T06:55:10.898Z</updated>
     
     <content type="html"><![CDATA[<p>今天看了<a href="https://imququ.com/post/document-scrollingelement-in-chrome.html" target="_blank">这篇文章</a>，讲到 WebKit <code>document.body.scrollTop</code> 的问题。还有这里 <a href="https://dev.opera.com/articles/fixing-the-scrolltop-bug/" target="_blank">Dev.Opera Blog : Fixing the scrollTop bug</a>。</p>
 <p><code>scrollTop</code>, <code>scrollLeft</code>, <code>scrollWidth</code>, <code>scrollHeight</code> 都是跟滚动相关的属性。设置 <code>scrollTop</code> 和 <code>scrollLeft</code> 还可以产生滚动。当这些属于用在根元素的时候，滚动是发生在 viewport 的。</p>
@@ -808,7 +808,7 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 </table>
 </figure>
 <p></p>
-<p>正确实现规范的话就是返回根元素 <code>window.HTMLBodyElement</code>，比如 HTML 里的 <code>&lt;html&gt;</code>，否则返回 <code>body</code>。</p>
+<p>正确实现规范的话就是返回根元素 <code>document.documentElement</code>，比如 HTML 里的 <code>&lt;html&gt;</code>，否则返回 <code>body</code>。</p>
 <h2 id="isCompliant">
 <a href="#isCompliant" class="headerlink" title="isCompliant"></a>isCompliant</h2>
 <p>这里就是先判断浏览器有没有正确实现了规范。看看怎么判断的：</p>
@@ -1228,9 +1228,9 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="Prototype" scheme="https://blog.crimx.com/tags/Prototype/"/>
     
@@ -1332,11 +1332,11 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
+      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+    
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
       <category term="Array" scheme="https://blog.crimx.com/tags/Array/"/>
     
@@ -1347,7 +1347,7 @@ table. For XUL elements, the computed size of the element is always zero, regard
     <link href="https://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/"/>
     <id>https://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/</id>
     <published>2015-03-28T16:00:00.000Z</published>
-    <updated>2016-12-31T17:07:33.175Z</updated>
+    <updated>2017-01-04T06:54:15.914Z</updated>
     
     <content type="html"><![CDATA[<h2 id="首先">
 <a href="#首先" class="headerlink" title="首先"></a>首先</h2>
@@ -1450,11 +1450,13 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
+      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+    
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
-      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+      <category term="闲读源码" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
@@ -1633,9 +1635,9 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="Scope" scheme="https://blog.crimx.com/tags/Scope/"/>
     

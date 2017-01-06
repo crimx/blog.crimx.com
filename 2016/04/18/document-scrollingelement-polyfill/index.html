@@ -37,7 +37,7 @@ scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性�
 <meta property="og:site_name" content="CRIMX">
 <meta property="og:description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。
 scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性。设置 scrollTop 和 scrollLeft 还可以产生滚动。当这些属于用在根元素的">
-<meta property="og:updated_time" content="2016-12-28T11:04:28.224Z">
+<meta property="og:updated_time" content="2017-01-04T06:55:10.898Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闲读源码：ScrollingElement Polyfill">
 <meta name="twitter:description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。
@@ -211,7 +211,7 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 </table>
 </figure>
 <p></p>
-<p>正确实现规范的话就是返回根元素 <code>window.HTMLBodyElement</code>，比如 HTML 里的 <code>&lt;html&gt;</code>，否则返回 <code>body</code>。</p>
+<p>正确实现规范的话就是返回根元素 <code>document.documentElement</code>，比如 HTML 里的 <code>&lt;html&gt;</code>，否则返回 <code>body</code>。</p>
 <h2 id="isCompliant">
 <a href="#isCompliant" class="headerlink" title="isCompliant"></a>isCompliant</h2>
 <p>这里就是先判断浏览器有没有正确实现了规范。看看怎么判断的：</p>
@@ -451,7 +451,7 @@ class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="ico
     m.parentNode.insertBefore(a, m)
 })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-ga('create', 'UA-49163616-1', 'auto');
+ga('create', 'UA-49163616-3', 'auto');
 ga('send', 'pageview');
 </script>
 <!-- End Google Analytics --><noscript><style>.noscript-warning {
