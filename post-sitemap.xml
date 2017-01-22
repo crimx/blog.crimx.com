@@ -7,8 +7,24 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2017/01/22/es2015-default-parameters/</loc>
+        <lastmod>2017-01-22T12:28:33.219Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2014/05/15/how-to-learn-javascript-properly/</loc>
-        <lastmod>2017-01-04T08:53:54.639Z</lastmod>
+        <lastmod>2017-01-22T09:55:31.753Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2016/08/07/gulp-console-arguments/</loc>
+        <lastmod>2017-01-22T07:47:12.427Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -89,14 +105,6 @@
     <url>
         <loc>https://blog.crimx.com/2016/12/23/emojis-for-blog/</loc>
         <lastmod>2016-12-30T12:14:00.057Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2016/08/07/gulp-console-arguments/</loc>
-        <lastmod>2016-12-30T09:11:54.294Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

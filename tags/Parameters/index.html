@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-<title>Handlebars.js 脑图 | CRIMX</title>
+<title>Tag: Parameters | CRIMX</title>
 <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
@@ -29,18 +29,12 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="可以放大图片看，或者[这里]。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Handlebars.js 脑图">
-<meta property="og:url" content="https://blog.crimx.com/2014/08/30/handlebarsjs/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CRIMX">
+<meta property="og:url" content="https://blog.crimx.com/tags/Parameters/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="可以放大图片看，或者[这里]。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。">
-<meta property="og:image" content="https://blog.crimx.com/images/post/javascript/handlebars-mindmap.svg">
-<meta property="og:updated_time" content="2016-12-29T11:00:10.784Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Handlebars.js 脑图">
-<meta name="twitter:description" content="可以放大图片看，或者[这里]。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。">
-<meta name="twitter:image" content="https://blog.crimx.com/images/post/javascript/handlebars-mindmap.svg">
+<meta name="twitter:title" content="CRIMX">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -67,8 +61,8 @@
     </style>
   <![endif]-->
 <div class="site-container">
-<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/fog-1220491_1920-portrait.jpg') 65.69% 47.33%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAYEBQcD/8QAKBAAAQMDAgQHAQAAAAAAAAAAAQACAwQFEQYxExQVIRIWIiNRUlNB/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgH/xAAXEQEBAQEAAAAAAAAAAAAAAAAAARES/9oADAMBAAIRAxEAPwBmuOorXbh79QwH4B7quptVR3KUx0UDnM+52WPV9M7hxu4ks87t/wC4TRpijusU0c9S4w0sYyRtlClGh81P9ShVvmG3/ohHaWQn9YsVm9DzzM7Pgdsqiu2vKysD4qdoihOwASgSXHJOSurYstzlPmD1UrrFX+iFB8CFcg6//9k=') 65.69% 47.33%/cover"></div>
 <div class="site-menu-inner-wrapper">
 <div class="menu-logo">
 <a class="icon-logo" href="/"></a>
@@ -98,65 +92,15 @@
 </div>
 <div class="site-menu-mask"></div>
 <div class="main-content">
-<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
-<div class="title-wrapper">
-<h1 class="site-title" itemprop="name">Handlebars.js 脑图</h1>
-<div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/08/30/handlebarsjs/" class="article-date"><time datetime="2014-08-29T16:00:00.000Z" itemprop="datePublished">2014-08-30</time></a>
-<a rel="license" class="cc-license-wrapper"
-href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
-</div>
-</header>
-<div class="toc-mousearea"></div>
-<div class="toc-wrapper">
-<div class="toc-container"></div>
-</div>
-<article id="post-handlebarsjs" class="article--post" itemscope="" itemprop="blogPost">
-<div class="article-inner js-no-wrap-menu">
-<div class="article-entry postify" itemprop="articleBody">
-<p>可以放大图片看，或者<a href="http://naotu.baidu.com/?shareId=3url4o0offk" target="_blank">[这里]</a>。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。</p>
-<p><img src="/images/post/javascript/handlebars-mindmap.svg" alt="handlebarsjs"></p>
-</div>
-</div>
-<footer class="article-footer">
-<ul class="article-tag-list">
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handlebars/">Handlebars</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
-</ul>
-<nav id="article-nav"><a href="/2014/08/30/important-announcement-regarding-yui/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">关于 YUI 的重要公告</div></a>
-<a href="/2014/08/16/css-font-units/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">CSS Font 单位</div>
+<h1 class="post-list-header">Parameters</h1>
+<ul class="post-list">
+<li class="post-list-item js-progressive-bg-container" style="background:#795548 url('/images/post/cover/landscape-615429_1920-portrait.jpg') 31.22% 46.87%/cover">
+<div class="post-list-thumbnail js-progressive-bg-thumbnail" style="background:#795548 url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAUGAgME/8QAKxAAAQQAAwYFBQAAAAAAAAAAAQACAwQFERIGExYhIlIUMUFCUVNhYpGS/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIDBP/EABwRAAICAgMAAAAAAAAAAAAAAAABEiECAxExUf/aAAwDAQACEQMRAD8Ah6lOxSeyOaGRmo8swr/BdlsJkgNu612XuLuQWVrEKm6AmczpOZJHMLlsbTUblbcRuc4D0b5LPs3Nqhljx2PeHdj++P8ApCjvGVfpuQpTyDQiuOIc7U4kfkUikxE0rTXQAfcBLbeK2JT1OK0YdJqt9eZzWmFWBsoeJJfg/pCNMfYEKUF4Kf/Z') 31.22% 46.87%/cover"></div>
+<a class="post-list-link" href="/2017/01/22/es2015-default-parameters/">
+<h1 class="post-list-title">深入 ES2015 默认参数</h1>
 </a>
-</nav>
-</footer>
-</article>
-<section id="comments">
-<div id="disqus_thread">
-<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
-</section>
-<script>
-var disqus_config = function() {
-
-    this.page.url = 'https://blog.crimx.com/2014/08/30/handlebarsjs/';
-
-    this.page.identifier = '2014/08/30/handlebarsjs/';
-};
-
-(function() {
-    var d = document,
-        s = d.createElement('script');
-
-    s.src = '//crimx.disqus.com/embed.js';
-
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-</script>
-<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+</li>
+</ul>
 <footer class="site-footer">
 <ul class="recommended-post">
 <li class="recommended-post__item">
