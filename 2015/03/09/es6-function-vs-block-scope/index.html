@@ -30,21 +30,21 @@
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
 <meta name="description" content="作用域
-作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
-Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
+作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的 Traceur 也是这么实现的，我试了一下，发现
+Traceur 与 Babel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6 随笔：函数与块级作用域">
 <meta property="og:url" content="https://blog.crimx.com/2015/03/09/es6-function-vs-block-scope/index.html">
 <meta property="og:site_name" content="CRIMX">
 <meta property="og:description" content="作用域
-作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
-Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
+作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的 Traceur 也是这么实现的，我试了一下，发现
+Traceur 与 Babel">
 <meta property="og:updated_time" content="2016-12-29T11:14:41.540Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6 随笔：函数与块级作用域">
 <meta name="twitter:description" content="作用域
-作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
-Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
+作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的 Traceur 也是这么实现的，我试了一下，发现
+Traceur 与 Babel">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -109,8 +109,7 @@ Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
 <h1 class="site-title" itemprop="name">ES6 随笔：函数与块级作用域</h1>
 <div class="article-meta">
 <div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/03/09/es6-function-vs-block-scope/" class="article-date"><time datetime="2015-03-08T16:00:00.000Z" itemprop="datePublished">2015-03-09</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+<a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
 </div>
 </header>
@@ -297,8 +296,7 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
 <nav id="article-nav"><a href="/2015/03/29/javascript-hoist-under-the-hood/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">V8 是如何实现 JavaScript Hoist 的</div></a>
-<a href="/2015/02/28/css-square/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<a href="/2015/02/28/css-square/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 <div class="article-nav-title">CSS 自适应正方形</div>
 </a>
 </nav>
@@ -363,8 +361,7 @@ var disqus_config = function() {
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

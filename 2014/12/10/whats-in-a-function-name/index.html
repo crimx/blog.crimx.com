@@ -109,8 +109,7 @@ JSHint 有一个很有意思但很少人知道的功能：代码分析报告。�
 <h1 class="site-title" itemprop="name">JavaScript 函数名里面有什么？</h1>
 <div class="article-meta">
 <div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/12/10/whats-in-a-function-name/" class="article-date"><time datetime="2014-12-09T16:00:00.000Z" itemprop="datePublished">2014-12-10</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+<a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
 </div>
 </header>
@@ -201,8 +200,7 @@ record）中创建一个入口（entry），（跟 <code>var</code> 声明一样
 <h2 id="你根本不知道">
 <a href="#你根本不知道" class="headerlink" title="...你根本不知道"></a>...你根本不知道</h2>
 <p>碰巧下一代 JavaScript （即 ES6 ，<a href="https://people.mozilla.org/~jorendorff/es6-draft.html" target="_blank">工作草案在这里</a>）的说明中明确了函数 <code>name</code> 属性的初始化。很方便的是，它完全是依赖于一个叫
-<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-setfunctionname"
-target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-abstract-operations" target="_blank">抽象操作</a>。学习函数名赋值的来龙去脉其实就是简单（虽然也比较无聊）地去研究草案中关于这个操作的所有文献。对于平台实现者来说这必不可少，但对于我们来说，稍微学习几个例子就足够了。</p>
+<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-setfunctionname" target="_blank">SetFunctionName</a>的<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-abstract-operations" target="_blank">抽象操作</a>。学习函数名赋值的来龙去脉其实就是简单（虽然也比较无聊）地去研究草案中关于这个操作的所有文献。对于平台实现者来说这必不可少，但对于我们来说，稍微学习几个例子就足够了。</p>
 <p>首先，这个规范形式化了一些我们可以预料到的行为：</p>
 <p></p>
 <figure class="highlight javascript">
@@ -290,8 +288,7 @@ target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jore
 <h2 id="其它名字的函数">
 <a href="#其它名字的函数" class="headerlink" title="其它名字的函数"></a>其它名字的函数</h2>
 <p>我从不厌倦去阅读下一代 JavaScript 的各种炫酷新特性。即便如此，对比起 generator、class、module 和 promise ，函数名的确显得有些过时。悲观者甚至会认为这是语言中的一个没有必要的累赘。但正如任何优秀的标准，这个新特性实际上也是一种现实需求的体现。</p>
-<p>报错的栈跟踪里需要函数名。缺少函数名推断的情况下，平台一般会用一些通用的替换值如“(anonymous function)”去报告没有名字的函数。这往往会从整体上削弱了栈跟踪的实用性。现在的一些性能检测工具和控制台会识别一个叫 <code>displayName</code> 的非标准值，并在栈跟踪时回退到该值。<a href="https://medium.com/@cramforce/on-the-awesomeness-of-fn-displayname-9511933a714a" target="_blank">Malte Ubl 最近也赞成将此纳入 JavaScript 库代码</a>，<a
-href="https://github.com/emberjs/ember.js/blob/43423f6acd1abd4ffb0de6afb744d4897ae2f768/packages/ember-metal/lib/logger.js#L20" target="_blank">Ember.js 也对此稍作尝试</a>。</p>
+<p>报错的栈跟踪里需要函数名。缺少函数名推断的情况下，平台一般会用一些通用的替换值如“(anonymous function)”去报告没有名字的函数。这往往会从整体上削弱了栈跟踪的实用性。现在的一些性能检测工具和控制台会识别一个叫 <code>displayName</code> 的非标准值，并在栈跟踪时回退到该值。<a href="https://medium.com/@cramforce/on-the-awesomeness-of-fn-displayname-9511933a714a" target="_blank">Malte Ubl 最近也赞成将此纳入 JavaScript 库代码</a>，<a href="https://github.com/emberjs/ember.js/blob/43423f6acd1abd4ffb0de6afb744d4897ae2f768/packages/ember-metal/lib/logger.js#L20" target="_blank">Ember.js 也对此稍作尝试</a>。</p>
 <p>但随着 runtime 实现了新功能，诸如此类的非标准方法就变得没什么必要了。这个小小的改变可以帮助开发者专注于着手解决问题而无需担心怎么减少调试陷阱。所以即使在即将到来的各种 JavaScript 会议中你不太可能会见到标题为“ES6 中的函数名推断”之类的演讲，这个小小的特性依然值得庆祝。</p>
 <ul>
 <li>JSHint 的确会<a href="https://github.com/jshint/jshint/blob/d0b3cfd935c9445f14b37ea9694d8a172a52739a/src/jshint.js#L2335-L2348" target="_blank">对封闭字符串做连接操作</a>，但这基本算不上是代码执行。</li>
@@ -305,8 +302,7 @@ href="https://github.com/emberjs/ember.js/blob/43423f6acd1abd4ffb0de6afb744d4897
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
 <nav id="article-nav"><a href="/2015/02/27/duoshuo-email/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">多说评论邮件提醒</div></a>
-<a href="/2014/11/08/stream-adventure-html-stream-trumpet/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<a href="/2014/11/08/stream-adventure-html-stream-trumpet/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 <div class="article-nav-title">Stream-Adventure HTML-Stream 中对 Trumpet 的理解</div>
 </a>
 </nav>
@@ -371,8 +367,7 @@ var disqus_config = function() {
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>
