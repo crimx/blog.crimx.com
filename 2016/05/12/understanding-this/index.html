@@ -55,7 +55,7 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
 
 第一层：世界尽头
 权力最小的大佬是作为备胎的存在，在普通情况">
-<meta property="og:updated_time" content="2016-12-30T12:44:23.955Z">
+<meta property="og:updated_time" content="2017-01-26T11:01:38.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript This 的六道坎">
 <meta name="twitter:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
@@ -289,7 +289,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line">showThis.call(boss1) <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</div><div class="line">boss1showThis() <span class="comment">// showThis</span></div><div class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></div></pre>
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line">showThis.call(boss1) <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</div><div class="line">boss1showThis() <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></div></pre>
 </td>
 </tr>
 </table>
@@ -300,7 +300,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <p>最后一个法力无边的大佬就是 ES2015 的箭头函数。箭头函数里的<code>this</code>不再妖艳，被永远封印到当前词法作用域之中，称作 Lexical this ，在代码运行前就可以确定。没有其他大佬可以覆盖。</p>
 <p>这样的好处就是方便让回调函数的<code>this</code>使用当前的作用域，不怕引起混淆。</p>
 <p>所以对于箭头函数，只要看它在哪里创建的就行。</p>
-<p>补充：如果对 Javascript 的词法作用域不太理解的可以看我另外一篇文章。</p>
+<p>如果对 V8 实现的词法作用域感兴趣可以看看<a href="http://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/" target="_blank">这里</a>。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>

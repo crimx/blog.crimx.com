@@ -588,11 +588,11 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
   </entry>
   
   <entry>
-    <title>自适应封面</title>
+    <title>自适应背景图片</title>
     <link href="https://blog.crimx.com/2016/09/11/responsive-cover/"/>
     <id>https://blog.crimx.com/2016/09/11/responsive-cover/</id>
     <published>2016-09-10T16:00:00.000Z</published>
-    <updated>2016-12-31T16:56:44.744Z</updated>
+    <updated>2017-01-25T17:17:46.163Z</updated>
     
     <content type="html"><![CDATA[<p>很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。</p>
 <p>居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。</p>
@@ -737,7 +737,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
     <link href="https://blog.crimx.com/2016/05/12/understanding-this/"/>
     <id>https://blog.crimx.com/2016/05/12/understanding-this/</id>
     <published>2016-05-11T16:00:00.000Z</published>
-    <updated>2016-12-30T12:44:23.955Z</updated>
+    <updated>2017-01-26T11:01:38.169Z</updated>
     
     <content type="html"><![CDATA[<p>鉴于<code>this</code>风骚的运作方式，对<code>this</code>的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。</p>
 <h1 id="首先">
@@ -863,7 +863,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line">showThis.call(boss1) <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</div><div class="line">boss1showThis() <span class="comment">// showThis</span></div><div class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></div></pre>
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line">showThis.call(boss1) <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</div><div class="line">boss1showThis() <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></div></pre>
 </td>
 </tr>
 </table>
@@ -874,7 +874,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <p>最后一个法力无边的大佬就是 ES2015 的箭头函数。箭头函数里的<code>this</code>不再妖艳，被永远封印到当前词法作用域之中，称作 Lexical this ，在代码运行前就可以确定。没有其他大佬可以覆盖。</p>
 <p>这样的好处就是方便让回调函数的<code>this</code>使用当前的作用域，不怕引起混淆。</p>
 <p>所以对于箭头函数，只要看它在哪里创建的就行。</p>
-<p>补充：如果对 Javascript 的词法作用域不太理解的可以看我另外一篇文章。</p>
+<p>如果对 V8 实现的词法作用域感兴趣可以看看<a href="http://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/" target="_blank">这里</a>。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
@@ -1543,11 +1543,11 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="Array" scheme="https://blog.crimx.com/tags/Array/"/>
     
@@ -1661,11 +1661,11 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="闲读源码" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
     
@@ -1846,9 +1846,9 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
-    
       <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
       <category term="Scope" scheme="https://blog.crimx.com/tags/Scope/"/>
     

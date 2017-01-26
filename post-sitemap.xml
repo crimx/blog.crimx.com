@@ -7,6 +7,22 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2016/05/12/understanding-this/</loc>
+        <lastmod>2017-01-26T11:01:38.169Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2016/09/11/responsive-cover/</loc>
+        <lastmod>2017-01-25T17:17:46.163Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2017/01/22/es2015-default-parameters/</loc>
         <lastmod>2017-01-22T13:32:35.639Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -63,14 +79,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/2016/09/11/responsive-cover/</loc>
-        <lastmod>2016-12-31T16:56:44.744Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/2014/08/05/javascript-module-pattern-in-depth/</loc>
         <lastmod>2016-12-31T16:56:11.826Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -81,14 +89,6 @@
     <url>
         <loc>https://blog.crimx.com/2015/04/21/should-array-length-be-cached-or-not/</loc>
         <lastmod>2016-12-31T16:52:11.295Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2016/05/12/understanding-this/</loc>
-        <lastmod>2016-12-30T12:44:23.955Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
