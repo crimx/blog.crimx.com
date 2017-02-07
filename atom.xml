@@ -256,15 +256,14 @@ be the same again.”</p>
     <updated>2017-01-02T05:52:02.046Z</updated>
     
     <content type="html"><![CDATA[<p>Everyone likes smooth loading. Lately I tried to make the <code>background-image</code> of the menu to load progressively(also to the cover if you view the blog on mobile).</p>
-<p>If you take a look at how <a href="https://medium.com/" target="_blank">Medium</a> does progressive image loading(or check out <a href="https://jmperezperez.com/medium-image-progressive-loading-placeholder/" target="_blank">this article</a>), you&#39;ll notice that they use JavaScript
-and canvas to blur and store thumbnails. It seems a bit overkill to me. And when you need to do it on a <code>background-image</code> with <code>background-position</code>, things become even more complicated.</p>
+<p>If you take a look at how <a href="https://medium.com/" target="_blank">Medium</a> does progressive image loading(or check out <a href="https://jmperezperez.com/medium-image-progressive-loading-placeholder/" target="_blank">this article</a>), you&#39;ll
+notice that they use JavaScript and canvas to blur and store thumbnails. It seems a bit overkill to me. And when you need to do it on a <code>background-image</code> with <code>background-position</code>, things become even more complicated.</p>
 <p>So I needed to figure out a simpler solution. Here&#39;s what I came up with:</p>
 <h2 id="Blur-by-default">
 <a href="#Blur-by-default" class="headerlink" title="Blur by default"></a>Blur by default</h2>
 <p>As the article above mentioned:</p>
 <blockquote>
-<p>By default, when a browser renders a small image scaled up, it applies a light blur effect to smooth the artefacts of the image. The effect can also be <a href="https://developers.google.com/web/updates/2015/01/pixelated" target="_blank">turned off</a> for images like
-QR codes.</p>
+<p>By default, when a browser renders a small image scaled up, it applies a light blur effect to smooth the artefacts of the image. The effect can also be <a href="https://developers.google.com/web/updates/2015/01/pixelated" target="_blank">turned off</a>for images like QR codes.</p>
 </blockquote>
 <p>But the default blur effect still feels blocky.</p>
 <p></p>
@@ -350,9 +349,9 @@ QR codes.</p>
       <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
     
     
-      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
     
       <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
     
@@ -475,8 +474,8 @@ QR codes.</p>
 <h3 id="不完全支持">
 <a href="#不完全支持" class="headerlink" title="不完全支持"></a>不完全支持</h3>
 <p>这种方式并不完全支持 SVG 的各种特性。比如我开始就踩到了一个坑。我的 LOGO 里使用了<code>clippath</code>，使用这种方式就会失去效果。这个貌似是个<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=109212" target="_blank">陈年老 bug</a> 来的。</p>
-<p>解决方式就是利用工具合并路径，最好还压缩成一条，方便管理。编辑工具推荐 <a href="https://boxy-svg.com/main.html#download" target="_blank">Boxy SVG</a>，生成的代码非常轻盈，而且尽可能保留原来的样子，不会像 Illustrator 一样源码面目全非。压缩工具推荐 <a href="https://jakearchibald.github.io/svgomg/" target="_blank">SVGOMG!</a>，号称 <a href="https://github.com/svg/svgo" target="_blank">SVGO</a>&#39;s
-Missing GUI。</p>
+<p>解决方式就是利用工具合并路径，最好还压缩成一条，方便管理。编辑工具推荐 <a href="https://boxy-svg.com/main.html#download" target="_blank">Boxy SVG</a>，生成的代码非常轻盈，而且尽可能保留原来的样子，不会像 Illustrator 一样源码面目全非。压缩工具推荐 <a href="https://jakearchibald.github.io/svgomg/" target="_blank">SVGOMG!</a>，号称
+<a href="https://github.com/svg/svgo" target="_blank">SVGO</a>&#39;s Missing GUI。</p>
 <h3 id="奇怪的宽高">
 <a href="#奇怪的宽高" class="headerlink" title="奇怪的宽高"></a>奇怪的宽高</h3>
 <p>在宽和高是百分比的情况下，会出现跟<code>&lt;img&gt;</code>或者普通<code>&lt;svg&gt;</code>不一样的计算。有时高空出一段，有时宽空出一段。</p>
@@ -622,9 +621,9 @@ Missing GUI。</p>
       <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
     
     
-      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
     
       <category term="Responsive" scheme="https://blog.crimx.com/tags/Responsive/"/>
     
@@ -1043,7 +1042,8 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 <p>然后就用一个 iframe 来测试了，哇蛮重的。好处只能说是通用了。</p>
 <p>Standards Mode 下根元素的 <code>scrollHeight</code> 比 <code>body</code> 高就可以说明正确的实现了规范。</p>
 <p>因为这么重所以测试了一遍之后就把结果存起来了，以后就直接用。</p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> 从这里也对 <code>document.body</code> 有了<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body" target="_blank">新的认识</a>：</p>
+<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> 从这里也对 <code>document.body</code> 有了
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body" target="_blank">新的认识</a>：</p>
 <blockquote>
 <p>Returns the <code>&lt;body&gt;</code> or <code>&lt;frameset&gt;</code> node of the current document, or null if no such element exists.</p>
 </blockquote>
@@ -1204,8 +1204,10 @@ table. For XUL elements, the computed size of the element is always zero, regard
 <p>把想要记忆的材料整理出一道道“问题-答案”对，参照 <a href="https://www.supermemo.com/en/articles/20rules" target="_blank">SuperMemo 的 20 条规则</a>。</p>
 <p>这些规则核心的概念是</p>
 <p><a href="https://www.supermemo.com/en/articles/20rules#Do not learn if you do not understand" target="_blank">1、先理解再记忆</a>。</p>
-<p><a href="https://www.supermemo.com/en/articles/20rules#minimum information principle" target="_blank">4、最小信息原则</a>。这个规则与 <a href="https://www.supermemo.com/en/articles/20rules#Avoid sets" target="_blank">9、避免使用集合</a>和 <a href="https://www.supermemo.com/en/articles/20rules#Enumerations" target="_blank">10、避免使用枚举</a>都是一个道理：保证每次的答案都是固定的，不一定是一模一样，但必须是有固定的顺序，且尽可能的细化，这样可以减少无必要的记忆负担，提高重复记忆的效果。</p>
-<p><a href="https://www.supermemo.com/en/articles/20rules#Use imagery" target="_blank">6、使用图像</a>、 <a href="https://www.supermemo.com/en/articles/20rules#mnemonic techniques" target="_blank">7、使用思维导图</a>和 <a href="https://www.supermemo.com/en/articles/20rules#Personalize and provide examples" target="_blank">14、私人化定制例子</a>提到了耳熟能详的右脑记忆和联想记忆。</p>
+<p><a href="https://www.supermemo.com/en/articles/20rules#minimum information principle" target="_blank">4、最小信息原则</a>。这个规则与 <a href="https://www.supermemo.com/en/articles/20rules#Avoid sets" target="_blank">9、避免使用集合</a>和
+<a href="https://www.supermemo.com/en/articles/20rules#Enumerations" target="_blank">10、避免使用枚举</a>都是一个道理：保证每次的答案都是固定的，不一定是一模一样，但必须是有固定的顺序，且尽可能的细化，这样可以减少无必要的记忆负担，提高重复记忆的效果。</p>
+<p><a href="https://www.supermemo.com/en/articles/20rules#Use imagery" target="_blank">6、使用图像</a>、 <a href="https://www.supermemo.com/en/articles/20rules#mnemonic techniques" target="_blank">7、使用思维导图</a>和
+<a href="https://www.supermemo.com/en/articles/20rules#Personalize and provide examples" target="_blank">14、私人化定制例子</a> 提到了耳熟能详的右脑记忆和联想记忆。</p>
 <p><a href="https://www.supermemo.com/en/articles/20rules#Cloze deletion" target="_blank">5、填空题</a> 以及变种 <a href="https://www.supermemo.com/en/articles/20rules#Graphic deletion" target="_blank">8、图像填空题</a>提到了填空题的好处。Anki 有自己的一套方式录入填空题，后面会提到。</p>
 <h2 id="录入数据">
 <a href="#录入数据" class="headerlink" title="录入数据"></a>录入数据</h2>
@@ -1541,11 +1543,11 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="Array" scheme="https://blog.crimx.com/tags/Array/"/>
     
@@ -1659,11 +1661,11 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="闲读源码" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
     
@@ -1678,8 +1680,8 @@ table. For XUL elements, the computed size of the element is always zero, regard
     
     <content type="html"><![CDATA[<h2 id="作用域">
 <a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2>
-<p>作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章<a href="http://www.crimx.com/2014/08/05/javascript-module-pattern-in-depth/" target="_blank">《深入理解 JavaScript 模块模式 》</a>，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的 Traceur 也是这么实现的，我试了一下，发现
-Traceur 与 Babel 现在都没有采用这种方式了，而是直接检测 shadow 冲突再使用不同的变量名，这可能是考虑到性能的问题。</p>
+<p>作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章<a href="http://www.crimx.com/2014/08/05/javascript-module-pattern-in-depth/" target="_blank">《深入理解 JavaScript 模块模式 》</a>，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
+Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel 现在都没有采用这种方式了，而是直接检测 shadow 冲突再使用不同的变量名，这可能是考虑到性能的问题。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
@@ -1711,7 +1713,8 @@ Traceur 与 Babel 现在都没有采用这种方式了，而是直接检测 shad
 </table>
 </figure>
 <p></p>
-<p><code>let</code> 声明行到它所在 block 最开始之间的区域被称为 TDZ <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let" target="_blank">“Temporal dead zone”</a>，正常情况下，可以考虑用回上面的方法 hack ，把 TDZ 当做一个 block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank">这里</a>提到了一种坑爹的情况，函数。</p>
+<p><code>let</code> 声明行到它所在 block 最开始之间的区域被称为 TDZ <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let" target="_blank">“Temporal dead zone”</a>，正常情况下，可以考虑用回上面的方法 hack ，把 TDZ 当做一个
+block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank">这里</a>提到了一种坑爹的情况，函数。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
@@ -1843,9 +1846,9 @@ Traceur 与 Babel 现在都没有采用这种方式了，而是直接检测 shad
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="Scope" scheme="https://blog.crimx.com/tags/Scope/"/>
     
@@ -1928,7 +1931,8 @@ Traceur 与 Babel 现在都没有采用这种方式了，而是直接检测 shad
     <content type="html"><![CDATA[<p>多说只有被人回复评论时才会有邮件提醒，博主是默认不造的（怪不得一直没有收到邮件提醒 T_T）。</p>
 <p>dig 了一下，<a href="http://dev.duoshuo.com/docs/5003ecd94cab3e7250000008/" target="_blank">这里</a>有讲到用 <code>data-author-key</code> 可以设置提醒。</p>
 <blockquote>
-<p>作者在本站中的id。对于 wordpress 插件，文章如果填写该 id，可以识别作者，在收到评论时，会对该作者发出邮件提醒。通用代码用户及其他插件，如果需要通过这种方式获取邮件，请通过 <a href="http://dev.duoshuo.com/docs/51435552047fe92f490225de" target="_blank">http://dev.duoshuo.com/docs/51435552047fe92f490225de</a> 这个接口导入用户并且要有邮箱信息，指定的 <code>user_key</code>就是此处要填的 <code>data-author-key</code></p>
+<p>作者在本站中的id。对于 wordpress 插件，文章如果填写该 id，可以识别作者，在收到评论时，会对该作者发出邮件提醒。通用代码用户及其他插件，如果需要通过这种方式获取邮件，请通过 <a href="http://dev.duoshuo.com/docs/51435552047fe92f490225de" target="_blank">http://dev.duoshuo.com/docs/51435552047fe92f490225de</a> 这个接口导入用户并且要有邮箱信息，指定的
+<code>user_key</code> 就是此处要填的 <code>data-author-key</code></p>
 </blockquote>
 <p>进去那个接口看看，其实就是同步用户数据，按着那个接口发个 post 就可以了。以 nodejs 为例。</p>
 <p>安装 nodejs 然后在某个目录下打开终端，输入 <code>npm install --save-dev request</code></p>

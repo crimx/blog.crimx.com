@@ -114,7 +114,8 @@
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">深入理解 JavaScript 模块模式</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/08/05/javascript-module-pattern-in-depth/" class="article-date"><time datetime="2014-08-04T16:00:00.000Z" itemprop="datePublished">2014-08-05</time></a><a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/08/05/javascript-module-pattern-in-depth/" class="article-date"><time datetime="2014-08-04T16:00:00.000Z" itemprop="datePublished">2014-08-05</time></a><a
+rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -302,7 +303,8 @@
 </figure>
 <p></p>
 <p>所有文件都可以在其局部变量 <code>_private</code> 中设置属性，其它文件立即就可以使用。在模块加载完成后，程序应该调用 <code>MODULE._seal()</code> 阻止外部代码访问内部的 <code>_private</code>。在模块的生命周期里如果需要再次扩展模块，只需在加载新文件之前，先让任意文件中的一个内部方法调用 <code>_unseal()</code> 开放权限，执行完扩展后再调用 <code>_seal()</code> 封闭。这个模式是我今天工作时突然想到的，我还没有在其它地方见过。我认为这个模式很有用，值得在这里一提。</p>
-<h3 id="子模块">
+<h3
+id="子模块">
 <a href="#子模块" class="headerlink" title="子模块"></a>子模块</h3>
 <p>最后一个高级模式其实是最简单的。有许多创建子模块的好例子，跟创建普通模块一样：</p>
 <p></p>
@@ -349,34 +351,18 @@
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
 <nav id="article-nav"><a href="/2014/08/11/git-branch-module/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Git 分支模式笔记</div></a>
-<a href="/2014/07/27/javascript-inheritance/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<a href="/2014/07/27/javascript-inheritance/" id="article-nav-older"
+class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 <div class="article-nav-title">JavaScript 继承总结</div>
 </a>
 </nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread">
-<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+<div id="disqus_thread" data-url="https://blog.crimx.com/2014/08/05/javascript-module-pattern-in-depth/" data-identifier="2014/08/05/javascript-module-pattern-in-depth/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网，评论加载不了。</div>
+<div class="ds-thread" data-shortname="crimx" data-thread-key="2014/08/05/javascript-module-pattern-in-depth/" data-title="深入理解 JavaScript 模块模式" data-url="https://blog.crimx.com/2014/08/05/javascript-module-pattern-in-depth/"></div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
 </section>
-<script>
-var disqus_config = function() {
-
-    this.page.url = 'https://blog.crimx.com/2014/08/05/javascript-module-pattern-in-depth/';
-
-    this.page.identifier = '2014/08/05/javascript-module-pattern-in-depth/';
-};
-
-(function() {
-    var d = document,
-        s = d.createElement('script');
-
-    s.src = '//crimx.disqus.com/embed.js';
-
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-</script>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>
 <footer class="site-footer">
 <ul class="recommended-post">
@@ -414,7 +400,8 @@ var disqus_config = function() {
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

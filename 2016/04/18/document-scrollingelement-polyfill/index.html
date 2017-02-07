@@ -106,7 +106,8 @@ scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性�
 <h1 class="site-title" itemprop="name">闲读源码：ScrollingElement Polyfill</h1>
 <div class="article-meta">
 <div class="article-category"><a class="article-category-link" href="/categories/闲读源码/">闲读源码</a></div><a href="/2016/04/18/document-scrollingelement-polyfill/" class="article-date"><time datetime="2016-04-17T16:00:00.000Z" itemprop="datePublished">2016-04-18</time></a>
-<a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
 </div>
 </header>
@@ -235,7 +236,8 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 <p>Standards Mode 下根元素的 <code>scrollHeight</code> 比 <code>body</code> 高就可以说明正确的实现了规范。</p>
 <p>因为这么重所以测试了一遍之后就把结果存起来了，以后就直接用。</p>
 <p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> 从这里也对 <code>document.body</code> 有了
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body" target="_blank">新的认识</a>：</p>
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body"
+target="_blank">新的认识</a>：</p>
 <blockquote>
 <p>Returns the <code>&lt;body&gt;</code> or <code>&lt;frameset&gt;</code> node of the current document, or null if no such element exists.</p>
 </blockquote>
@@ -363,34 +365,18 @@ table. For XUL elements, the computed size of the element is always zero, regard
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读源码/">闲读源码</a></li>
 </ul>
 <nav id="article-nav"><a href="/2016/05/12/understanding-this/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">JavaScript This 的六道坎</div></a>
-<a href="/2016/03/20/understanding-anki/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<a href="/2016/03/20/understanding-anki/" id="article-nav-older"
+class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 <div class="article-nav-title">理解 Anki 基础概念</div>
 </a>
 </nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread">
-<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+<div id="disqus_thread" data-url="https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/" data-identifier="2016/04/18/document-scrollingelement-polyfill/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网，评论加载不了。</div>
+<div class="ds-thread" data-shortname="crimx" data-thread-key="2016/04/18/document-scrollingelement-polyfill/" data-title="闲读源码：ScrollingElement Polyfill" data-url="https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/"></div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
 </section>
-<script>
-var disqus_config = function() {
-
-    this.page.url = 'https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/';
-
-    this.page.identifier = '2016/04/18/document-scrollingelement-polyfill/';
-};
-
-(function() {
-    var d = document,
-        s = d.createElement('script');
-
-    s.src = '//crimx.disqus.com/embed.js';
-
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-</script>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>
 <footer class="site-footer">
 <ul class="recommended-post">
@@ -428,7 +414,8 @@ var disqus_config = function() {
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

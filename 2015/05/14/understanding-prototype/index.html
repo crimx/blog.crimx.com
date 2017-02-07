@@ -118,7 +118,8 @@
 <h1 class="site-title" itemprop="name">理解 Prototype</h1>
 <div class="article-meta">
 <div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/05/14/understanding-prototype/" class="article-date"><time datetime="2015-05-13T16:00:00.000Z" itemprop="datePublished">2015-05-14</time></a>
-<a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
 </div>
 </header>
@@ -155,7 +156,8 @@
 <p>混淆主要是因为 <code>[[prototype]]</code> 和 <code>prototype</code> 名字长得太像。看回以前总结的模拟继承<a href="/2014/07/27/javascript-inheritance">笔记</a>，基本就是照搬书，压根没搞清楚。</p>
 <p>首先是 <code>[[prototype]]</code>， <strong>每个对象</strong>都会有 <code>[[prototype]]</code>属性，它的本质就是指向另外一个对象。</p>
 <p>然后是 <code>prototype</code>。<code>prototype</code> 是 <code>function</code> 对象特有的属性。每个 <code>function</code> 都有一个 <code>prototype</code>（同时也会有 <code>[[prototype]]</code>）。<code>prototype</code> 里有个叫 <code>constructor</code> 的属性，一般情况下就是指回这个 <code>function</code>。</p>
-<h2 id="获取">
+<h2
+id="获取">
 <a href="#获取" class="headerlink" title="获取"></a>获取</h2>
 <p>ES5 提供 <code>Object.getPrototypeOf()</code> 方法来获取一个对象的 <code>[[prototype]]</code>；也可以访问 <code>Object.prototype.__proto__</code>，而且这个很早就存在了，但在 ES2015 才标准化。</p>
 <h2 id="创建">
@@ -265,34 +267,18 @@
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
 <nav id="article-nav"><a href="/2016/02/13/router-time-reset/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">路由器时间同步服务器</div></a>
-<a href="/2015/04/21/should-array-length-be-cached-or-not/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<a href="/2015/04/21/should-array-length-be-cached-or-not/"
+id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 <div class="article-nav-title">JavaScript 有必要缓存 for 循环中的 Array.length 吗？</div>
 </a>
 </nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread">
-<div class="no-disqus">由于某种不可跨越的鸿沟，评论可能加载不了。</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+<div id="disqus_thread" data-url="https://blog.crimx.com/2015/05/14/understanding-prototype/" data-identifier="2015/05/14/understanding-prototype/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网，评论加载不了。</div>
+<div class="ds-thread" data-shortname="crimx" data-thread-key="2015/05/14/understanding-prototype/" data-title="理解 Prototype" data-url="https://blog.crimx.com/2015/05/14/understanding-prototype/"></div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
 </section>
-<script>
-var disqus_config = function() {
-
-    this.page.url = 'https://blog.crimx.com/2015/05/14/understanding-prototype/';
-
-    this.page.identifier = '2015/05/14/understanding-prototype/';
-};
-
-(function() {
-    var d = document,
-        s = d.createElement('script');
-
-    s.src = '//crimx.disqus.com/embed.js';
-
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-</script>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>
 <footer class="site-footer">
 <ul class="recommended-post">
@@ -330,7 +316,8 @@ var disqus_config = function() {
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>
