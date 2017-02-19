@@ -1,0 +1,429 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>倒腾 Vue Webpack2 单元测试 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="vue-cli 提供的官方模板确实好用。但一直用下来手贱毛病又犯了，像穿了别人的内衣，总感觉不舒服。
+所以有机会就瞎倒腾了一遍，总算把各个流程摸了一把。这里分享一下配置带覆盖率的单元测试。
+
+文件结构
+基本的文件结构。
+
+
+
+
+
+1234567891011121314
+
+
+├─src│  ├─assets│  ├─components│  ├─app.vue│  └─main.js├─test│">
+<meta property="og:type" content="article">
+<meta property="og:title" content="倒腾 Vue Webpack2 单元测试">
+<meta property="og:url" content="https://blog.crimx.com/2017/02/19/vue-webpack2-unit-testing/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="vue-cli 提供的官方模板确实好用。但一直用下来手贱毛病又犯了，像穿了别人的内衣，总感觉不舒服。
+所以有机会就瞎倒腾了一遍，总算把各个流程摸了一把。这里分享一下配置带覆盖率的单元测试。
+
+文件结构
+基本的文件结构。
+
+
+
+
+
+1234567891011121314
+
+
+├─src│  ├─assets│  ├─components│  ├─app.vue│  └─main.js├─test│">
+<meta property="og:updated_time" content="2017-02-19T12:50:52.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="倒腾 Vue Webpack2 单元测试">
+<meta name="twitter:description" content="vue-cli 提供的官方模板确实好用。但一直用下来手贱毛病又犯了，像穿了别人的内衣，总感觉不舒服。
+所以有机会就瞎倒腾了一遍，总算把各个流程摸了一把。这里分享一下配置带覆盖率的单元测试。
+
+文件结构
+基本的文件结构。
+
+
+
+
+
+1234567891011121314
+
+
+├─src│  ├─assets│  ├─components│  ├─app.vue│  └─main.js├─test│">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/istanbul-775928_1920-portrait.jpg') 39.97% 50.40%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAMGAQQH/8QAJxAAAQMCBAUFAAAAAAAAAAAAAgABAwQRBQYTIRYxUVKRFCMyU6H/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAZEQADAQEBAAAAAAAAAAAAAAAAARESMVH/2gAMAwEAAhEDEQA/AK982UbO7M77Ips0xTQPMQ2FitsoM6kaeb3g57WTpYpYXDTJgjNr2ulM5Lriyi6v4Que6b/Z+oVqJkmZKqpGdnNiNm6qhHH4JqWOOaC5C1rrGI6MU5acQsDcmtutMRhOohB4/mVlbeoScY310HYXlCo+GKXudCaXgj9P/9k=') 39.97% 50.40%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/istanbul-775928_1920-portrait.jpg') 39.97% 50.40%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAMGAQQH/8QAJxAAAQMCBAUFAAAAAAAAAAAAAgABAwQRBQYTIRYxUVKRFCMyU6H/xAAWAQEBAQAAAAAAAAAAAAAAAAAAAQL/xAAZEQADAQEBAAAAAAAAAAAAAAAAARESMVH/2gAMAwEAAhEDEQA/AK982UbO7M77Ips0xTQPMQ2FitsoM6kaeb3g57WTpYpYXDTJgjNr2ulM5Lriyi6v4Que6b/Z+oVqJkmZKqpGdnNiNm6qhHH4JqWOOaC5C1rrGI6MU5acQsDcmtutMRhOohB4/mVlbeoScY310HYXlCo+GKXudCaXgj9P/9k=') 39.97% 50.40%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">倒腾 Vue Webpack2 单元测试</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2017/02/19/vue-webpack2-unit-testing/" class="article-date"><time datetime="2017-02-18T16:00:00.000Z" itemprop="datePublished">2017-02-19</time></a>
+<a rel="license" class="cc-license-wrapper"
+href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"The most powerful designs are always the result of a continuous process of simplification and refinement."</blockquote>
+<footer class="tagline-cite"><cite>Kevin Mullet</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#文件结构"><span class="toc-text">文件结构</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#依赖"><span class="toc-text">依赖</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#入口"><span class="toc-text">入口</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#配置-Babel"><span class="toc-text">配置 Babel</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Loader-配置"><span class="toc-text">Loader 配置</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Karma-配置"><span class="toc-text">Karma 配置</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#引入所有组件"><span class="toc-text">引入所有组件</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#开始测试"><span class="toc-text">开始测试</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Babeless-配置"><span class="toc-text">Babeless 配置</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-vue-webpack2-unit-testing" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p><code>vue-cli</code> 提供的官方模板确实好用。但一直用下来手贱毛病又犯了，像穿了别人的内衣，总感觉不舒服。</p>
+<p>所以有机会就瞎倒腾了一遍，总算把各个流程摸了一把。这里分享一下配置带覆盖率的单元测试。</p>
+<h2 id="文件结构">
+<a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h2>
+<p>基本的文件结构。</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">├─src</div><div class="line">│  ├─assets</div><div class="line">│  ├─components</div><div class="line">│  ├─app.vue</div><div class="line">│  └─main.js</div><div class="line">├─test</div><div class="line">│   └─unit</div><div class="line">│       ├─coverage</div><div class="line">│       ├─specs</div><div class="line">│       ├─index.js</div><div class="line">│       └─karma.conf.js</div><div class="line">├─.babelirc</div><div class="line">├─webpack.conf.js</div><div class="line">└─package.json</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="依赖">
+<a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2>
+<p>根据需要增删</p>
+<p></p>
+<figure class="highlight bash">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">yarn add -D \</div><div class="line">cross-env \</div><div class="line"><span class="comment"># webpack</span></div><div class="line">webpack \</div><div class="line">webpack-merge \</div><div class="line">vue-loader \</div><div class="line"><span class="comment"># babel</span></div><div class="line">babel-core \</div><div class="line">babel-loader \</div><div class="line">babel-plugin-transform-runtime \</div><div class="line">babel-preset-es2015 \</div><div class="line">babel-register \</div><div class="line">babel-plugin-istanbul \</div><div class="line"><span class="comment"># karma</span></div><div class="line">karma \</div><div class="line">karma-coverage \</div><div class="line">karma-phantomjs-launcher \</div><div class="line">karma-sourcemap-loader \</div><div class="line">karma-spec-reporter \</div><div class="line">karma-webpack \</div><div class="line">mocha \</div><div class="line">karma-mocha \</div><div class="line">sinon-chai \</div><div class="line">karma-sinon-chai \</div><div class="line">chai \</div><div class="line">sinon \</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="入口">
+<a href="#入口" class="headerlink" title="入口"></a>入口</h2>
+<p>先从 <code>package.json</code> 开始。跟官方的一致。设置 <code>BABEL_ENV</code> 可以在测试的时候才让 Babel 引入 <code>istanbul</code> 计算覆盖率。</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"scripts"</span>: &#123;</div><div class="line">    <span class="attr">"unit"</span>: <span class="string">"cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"</span>,</div><div class="line">    <span class="attr">"test"</span>: <span class="string">"npm run unit"</span>,</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="配置-Babel">
+<a href="#配置-Babel" class="headerlink" title="配置 Babel"></a>配置 Babel</h2>
+<p>在 <code>.babelirc</code> 中：</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"presets"</span>: [<span class="string">"es2015"</span>],</div><div class="line">  <span class="attr">"plugins"</span>: [<span class="string">"transform-runtime"</span>],</div><div class="line">  <span class="attr">"comments"</span>: <span class="literal">false</span>,</div><div class="line">  <span class="attr">"env"</span>: &#123;</div><div class="line">    <span class="attr">"test"</span>: &#123;</div><div class="line">      <span class="attr">"plugins"</span>: [ <span class="string">"istanbul"</span> ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>按需设置，写 Chrome Extension 的话用 <code>es2016</code> 就行。</p>
+<p>Babel 的 istanbul 插件是个很聪明的做法。</p>
+<h2 id="Loader-配置">
+<a href="#Loader-配置" class="headerlink" title="Loader 配置"></a>Loader 配置</h2>
+<p>从 Vue Loader 的文档可以看到，不需要额外配置，它非常贴心自动识别 Babel Loader。</p>
+<p>如果还测试 js 文件那么给源文件夹下的 js 文件配置 Babel Loader 就行。以 <code>src</code> 为例：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">module</span>: &#123;</div><div class="line">    <span class="attr">rules</span>: [</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.vue$/</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'vue-loader'</span></div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">        <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</div><div class="line">        <span class="attr">loader</span>: <span class="string">'babel-loader'</span>,</div><div class="line">        <span class="attr">include</span>: [</div><div class="line">          path.resolve(__dirname, <span class="string">'../src'</span>)</div><div class="line">        ],</div><div class="line">        <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span></div><div class="line">      &#125;</div><div class="line">    ]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Karma-配置">
+<a href="#Karma-配置" class="headerlink" title="Karma 配置"></a>Karma 配置</h2>
+<p>为 webpack 设置环境</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// karma.conf.js</span></div><div class="line"><span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">'webpack-merge'</span>)</div><div class="line"><span class="keyword">let</span> webpackConfig = merge(<span class="built_in">require</span>(<span class="string">'../../webpack.conf'</span>), &#123;</div><div class="line">  <span class="attr">devtool</span>: <span class="string">'#inline-source-map'</span>,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</div><div class="line">      <span class="string">'process.env'</span>: <span class="string">'"testing"'</span></div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// no need for app entry during tests</span></div><div class="line"><span class="keyword">delete</span> webpackConfig.entry</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>接着输出 karma 配置，基本沿用官方的配置。注意不同的浏览器需要安装不同的 karma 插件。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// karma.conf.js</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">config</span>) </span>&#123;</div><div class="line">  config.set(&#123;</div><div class="line">    <span class="comment">// to run in additional browsers:</span></div><div class="line">    <span class="comment">// 1. install corresponding karma launcher</span></div><div class="line">    <span class="comment">//    http://karma-runner.github.io/0.13/config/browsers.html</span></div><div class="line">    <span class="comment">// 2. add it to the `browsers` array below.</span></div><div class="line">    browsers: [<span class="string">'Chrome'</span>],</div><div class="line">    <span class="attr">frameworks</span>: [<span class="string">'mocha'</span>, <span class="string">'sinon-chai'</span>],</div><div class="line">    <span class="attr">reporters</span>: [<span class="string">'spec'</span>, <span class="string">'coverage'</span>],</div><div class="line">    <span class="attr">files</span>: [<span class="string">'./index.js'</span>],</div><div class="line">    <span class="attr">preprocessors</span>: &#123;</div><div class="line">      <span class="string">'./index.js'</span>: [<span class="string">'webpack'</span>, <span class="string">'sourcemap'</span>]</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">webpack</span>: webpackConfig,</div><div class="line">    <span class="attr">webpackMiddleware</span>: &#123;</div><div class="line">      <span class="attr">noInfo</span>: <span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">coverageReporter</span>: &#123;</div><div class="line">      <span class="attr">dir</span>: <span class="string">'./coverage'</span>,</div><div class="line">      <span class="attr">reporters</span>: [</div><div class="line">        &#123; <span class="attr">type</span>: <span class="string">'lcov'</span>, <span class="attr">subdir</span>: <span class="string">'.'</span> &#125;,</div><div class="line">        &#123; <span class="attr">type</span>: <span class="string">'text-summary'</span> &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="引入所有组件">
+<a href="#引入所有组件" class="headerlink" title="引入所有组件"></a>引入所有组件</h2>
+<p>在 <code>test/unit/index.js</code> 里，这是官方的配置：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// require all test files (files that ends with .spec.js)</span></div><div class="line"><span class="keyword">const</span> testsContext = <span class="built_in">require</span>.context(<span class="string">'./specs'</span>, <span class="literal">true</span>, /\.spec$/)</div><div class="line">testsContext.keys().forEach(testsContext)</div><div class="line"></div><div class="line"><span class="comment">// require all src files except main.js for coverage.</span></div><div class="line"><span class="comment">// you can also change this to match only the subset of files that</span></div><div class="line"><span class="comment">// you want coverage for.</span></div><div class="line"><span class="keyword">const</span> srcContext = <span class="built_in">require</span>.context(<span class="string">'src'</span>, <span class="literal">true</span>, /^\.\/(?!main(\.js)?$)/)</div><div class="line">srcContext.keys().forEach(srcContext)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>因为之前配置 loader 时 <code>src</code> 文件夹下的 js 才会被收集计算覆盖率，所以可以放心 require 。</p>
+<p>第二段 require 是为了所有源码一起算覆盖率。可以看到官方配置只排除了 <code>src</code> 目录里的 <code>main.js</code>，如果是多入口可以用 <code>/^(?!.*\/main(\.js)?$)/i</code> 排除所有的 <code>main.js</code> 文件。</p>
+<h2 id="开始测试">
+<a href="#开始测试" class="headerlink" title="开始测试"></a>开始测试</h2>
+<p>这基本上就是所有的配置了。其它的设置应该都是围绕插件本身，就不赘述。</p>
+<h2 id="Babeless-配置">
+<a href="#Babeless-配置" class="headerlink" title="Babeless 配置"></a>Babeless 配置</h2>
+<p>如果不需要 Babel 可以用 <code>istanbul-instrumenter-loader</code> 收集覆盖率。</p>
+<p>js 文件的配置同 Babel。 Vue 文件需要在 <code>options.loaders</code> 选项里为 <code>js</code> 补上：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">test</span>: <span class="regexp">/\.vue$/</span>,</div><div class="line">  <span class="attr">loader</span>: <span class="string">'vue-loader'</span>,</div><div class="line">  <span class="attr">options</span>: &#123;</div><div class="line">    <span class="attr">loaders</span>: &#123;</div><div class="line">      <span class="string">'js'</span>: <span class="string">'istanbul-instrumenter-loader'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>【完】</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Testing/">Testing</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Webpack/">Webpack</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/01/22/es2015-default-parameters/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">深入 ES2015 默认参数</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/02/19/vue-webpack2-unit-testing/" data-identifier="2017/02/19/vue-webpack2-unit-testing/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网，评论加载不了。</div>
+<div class="ds-thread" data-shortname="crimx" data-thread-key="2017/02/19/vue-webpack2-unit-testing/" data-title="倒腾 Vue Webpack2 单元测试" data-url="https://blog.crimx.com/2017/02/19/vue-webpack2-unit-testing/"></div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>
