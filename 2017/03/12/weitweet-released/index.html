@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-<title>Handlebars.js 脑图 | CRIMX</title>
+<title>微推 Weitweet 0.1.0 | CRIMX</title>
 <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
@@ -29,18 +29,30 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="可以放大图片看，或者[这里]。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。">
+<meta name="description" content="微推是一个基于 Vue、Vuex 的开源 Chrome 扩展。支持一键编辑发送微博和推特、网页图片分享、上传图片和粘贴图片链接。
+
+下载链接：
+Chrome 商店 https://chrome.google.com/webstore/detail/jcgjbjbbcjgkpdanbnafdbdlbjacdkln
+crx 打包 https://github.com/crimx/crx-weitwee">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Handlebars.js 脑图">
-<meta property="og:url" content="https://blog.crimx.com/2014/08/30/handlebarsjs/index.html">
+<meta property="og:title" content="微推 Weitweet 0.1.0">
+<meta property="og:url" content="https://blog.crimx.com/2017/03/12/weitweet-released/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="可以放大图片看，或者[这里]。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。">
-<meta property="og:image" content="https://blog.crimx.com/images/post/javascript/handlebars-mindmap.svg">
-<meta property="og:updated_time" content="2016-12-29T11:00:10.784Z">
+<meta property="og:description" content="微推是一个基于 Vue、Vuex 的开源 Chrome 扩展。支持一键编辑发送微博和推特、网页图片分享、上传图片和粘贴图片链接。
+
+下载链接：
+Chrome 商店 https://chrome.google.com/webstore/detail/jcgjbjbbcjgkpdanbnafdbdlbjacdkln
+crx 打包 https://github.com/crimx/crx-weitwee">
+<meta property="og:image" content="https://blog.crimx.com/images/post/crx-weitweet-1400x560.png">
+<meta property="og:updated_time" content="2017-03-11T18:05:01.240Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Handlebars.js 脑图">
-<meta name="twitter:description" content="可以放大图片看，或者[这里]。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。">
-<meta name="twitter:image" content="https://blog.crimx.com/images/post/javascript/handlebars-mindmap.svg">
+<meta name="twitter:title" content="微推 Weitweet 0.1.0">
+<meta name="twitter:description" content="微推是一个基于 Vue、Vuex 的开源 Chrome 扩展。支持一键编辑发送微博和推特、网页图片分享、上传图片和粘贴图片链接。
+
+下载链接：
+Chrome 商店 https://chrome.google.com/webstore/detail/jcgjbjbbcjgkpdanbnafdbdlbjacdkln
+crx 打包 https://github.com/crimx/crx-weitwee">
+<meta name="twitter:image" content="https://blog.crimx.com/images/post/crx-weitweet-1400x560.png">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -67,8 +79,8 @@
     </style>
   <![endif]-->
 <div class="site-container">
-<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/red-2097518_1920-portrait.jpg') 29.44% 35.72%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUDBAcG/8QAJxAAAQMCBQMFAQAAAAAAAAAAAgABAwQFBhESEyFRU5EUFiIyUmH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAHBEAAwEAAgMAAAAAAAAAAAAAAAECEQNREjFB/9oADAMBAAIRAxEAPwB9b8KBaKFvlqzfn+J9Z7fPDVhKbMMGfBEo8a3ILNWUc9OwkB8GPVly2IsazVm0FE7xxi3LMhUtwuuNzCv4zXtcPcHyhYN7nuXcPyhGvoz1CqvvFVcdO/MRaPrm6pbxATO/KoCZOo5ZiSab9EqnmDX1r/lCSbxdUI8a7HqP/9k=') 29.44% 35.72%/cover"></div>
 <div class="site-menu-inner-wrapper">
 <div class="menu-logo">
 <a class="icon-logo" href="/"></a>
@@ -98,46 +110,54 @@
 </div>
 <div class="site-menu-mask"></div>
 <div class="main-content">
-<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/red-2097518_1920-portrait.jpg') 29.44% 35.72%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAUDBAcG/8QAJxAAAQMCBQMFAQAAAAAAAAAAAgABAwQFBhESEyFRU5EUFiIyUmH/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAHBEAAwEAAgMAAAAAAAAAAAAAAAECEQNREjFB/9oADAMBAAIRAxEAPwB9b8KBaKFvlqzfn+J9Z7fPDVhKbMMGfBEo8a3ILNWUc9OwkB8GPVly2IsazVm0FE7xxi3LMhUtwuuNzCv4zXtcPcHyhYN7nuXcPyhGvoz1CqvvFVcdO/MRaPrm6pbxATO/KoCZOo5ZiSab9EqnmDX1r/lCSbxdUI8a7HqP/9k=') 29.44% 35.72%/cover"></div>
 <a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
-<h1 class="site-title" itemprop="name">Handlebars.js 脑图</h1>
+<h1 class="site-title" itemprop="name">微推 Weitweet 0.1.0</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/08/30/handlebarsjs/" class="article-date"><time datetime="2014-08-29T16:00:00.000Z" itemprop="datePublished">2014-08-30</time></a>
+<div class="article-category"><a class="article-category-link" href="/categories/Works/">Works</a></div><a href="/2017/03/12/weitweet-released/" class="article-date"><time datetime="2017-03-11T16:00:00.000Z" itemprop="datePublished">2017-03-12</time></a>
 <a rel="license" class="cc-license-wrapper"
 href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
 </div>
 </header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">I can resist everything except temptation.</blockquote>
+<footer class="tagline-cite"><cite>Oscar Wilde</cite></footer>
+</section>
+</div>
 <div class="toc-mousearea"></div>
 <div class="toc-wrapper">
 <div class="toc-container"></div>
 </div>
-<article id="post-handlebarsjs" class="article--post" itemscope="" itemprop="blogPost">
+<article id="post-weitweet-released" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<p>可以放大图片看，或者<a href="http://naotu.baidu.com/?shareId=3url4o0offk" target="_blank">[这里]</a>。总结了 Handlebars.js 的一些基本概念，时间不紧的话还要写个入门什么的一起加深理解。Handlebars 很容易上手，但其灵活性才是亮点，也是难点。</p>
-<p><img src="/images/post/javascript/handlebars-mindmap.svg" alt="handlebarsjs"></p>
+<p>微推是一个基于 Vue、Vuex 的开源 Chrome 扩展。支持一键编辑发送微博和推特、网页图片分享、上传图片和粘贴图片链接。</p>
+<p><img src="/images/post/crx-weitweet-1400x560.png" alt="logo"></p>
+<p>下载链接：</p>
+<p>Chrome 商店 <a href="https://chrome.google.com/webstore/detail/jcgjbjbbcjgkpdanbnafdbdlbjacdkln" target="_blank">https://chrome.google.com/webstore/detail/jcgjbjbbcjgkpdanbnafdbdlbjacdkln</a></p>
+<p>crx 打包 <a href="https://github.com/crimx/crx-weitweet/releases/tag/v0.1.0" target="_blank">https://github.com/crimx/crx-weitweet/releases/tag/v0.1.0</a></p>
 </div>
 </div>
 <footer class="article-footer">
 <ul class="article-tag-list">
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Handlebars/">Handlebars</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome/">Chrome</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Extension/">Extension</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Twitter/">Twitter</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/">Vue</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vuex/">Vuex</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微博/">微博</a></li>
 </ul>
-<nav id="article-nav"><a href="/2014/09/02/low-poly/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Low Poly 初体验</div></a>
-<a href="/2014/08/30/important-announcement-regarding-yui/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">关于 YUI 的重要公告</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/03/09/get-all-images-in-dom-including-background/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">获取 DOM 里所有图片（包括背景和Iframe）</div></a></nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread" data-url="https://blog.crimx.com/2014/08/30/handlebarsjs/" data-identifier="2014/08/30/handlebarsjs/" data-src="//crimx.disqus.com/embed.js">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/03/12/weitweet-released/" data-identifier="2017/03/12/weitweet-released/" data-src="//crimx.disqus.com/embed.js">
 <div class="no-comments">您还在局域网，评论加载不了。</div>
-<div class="ds-thread" data-shortname="crimx" data-thread-key="2014/08/30/handlebarsjs/" data-title="Handlebars.js 脑图" data-url="https://blog.crimx.com/2014/08/30/handlebarsjs/"></div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+<div class="ds-thread" data-shortname="crimx" data-thread-key="2017/03/12/weitweet-released/" data-title="微推 Weitweet 0.1.0" data-url="https://blog.crimx.com/2017/03/12/weitweet-released/"></div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
 </section>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>
 <footer class="site-footer">

@@ -1,0 +1,331 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-cmn-Hans">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>Get All Images in DOM (Including Background) | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="Quite useful if you are writing an browser extension or something.
+To get all the images in DOM there are actually three places we are going to look at: &amp;lt;img&amp;gt; element, background-image CSS prope">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Get All Images in DOM (Including Background)">
+<meta property="og:url" content="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="Quite useful if you are writing an browser extension or something.
+To get all the images in DOM there are actually three places we are going to look at: &amp;lt;img&amp;gt; element, background-image CSS prope">
+<meta property="og:updated_time" content="2017-03-11T17:43:08.615Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Get All Images in DOM (Including Background)">
+<meta name="twitter:description" content="Quite useful if you are writing an browser extension or something.
+To get all the images in DOM there are actually three places we are going to look at: &amp;lt;img&amp;gt; element, background-image CSS prope">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/snake-516507_1920-portrait.jpg') 18.04% 50.73%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAYBAwQFB//EACUQAAEDAgUEAwAAAAAAAAAAAAEAAgMEEQUGEyFTEhQVkTFRcf/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAGhEAAgMBAQAAAAAAAAAAAAAAAAECAxEhIv/aAAwDAQACEQMRAD8A4dicQZYJtoiyhy+9uoA6R9yEm0Tqifomc2+/yE7GOE0UDXNbqbEpVojNrSO4p+Q+kLXoD7Z6Qq9Dw87y9qyywwtJ3O6eMYpGwxUhD+l5eB+qfC0uHY2x0DbAi9lXmO76ugbewuhUsiOxejVpDlQqu2PK5CthI//Z') 18.04% 50.73%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/snake-516507_1920-portrait.jpg') 18.04% 50.73%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAYBAwQFB//EACUQAAEDAgUEAwAAAAAAAAAAAAEAAgMEEQUGEyFTEhQVkTFRcf/EABUBAQEAAAAAAAAAAAAAAAAAAAID/8QAGhEAAgMBAQAAAAAAAAAAAAAAAAECAxEhIv/aAAwDAQACEQMRAD8A4dicQZYJtoiyhy+9uoA6R9yEm0Tqifomc2+/yE7GOE0UDXNbqbEpVojNrSO4p+Q+kLXoD7Z6Qq9Dw87y9qyywwtJ3O6eMYpGwxUhD+l5eB+qfC0uHY2x0DbAi9lXmO76ugbewuhUsiOxejVpDlQqu2PK5CthI//Z') 18.04% 50.73%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">Get All Images in DOM (Including Background)</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/03/09/get-all-images-in-dom-including-background-en/" class="article-date"><time datetime="2017-03-08T16:00:00.000Z" itemprop="datePublished">2017-03-09</time></a><a
+rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">“If I could store lightnings in jars, I'd sell them to sick fireflies to light their way. Only they have nothing to pay for it with but life.”</blockquote>
+<footer class="tagline-cite"><cite>Will Advise, Nothing is here...</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-1"><a class="toc-link" href="#img"><span class="toc-text">img</span></a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#background-image"><span class="toc-text">background-image</span></a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#iframe"><span class="toc-text">iframe</span></a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#Together"><span class="toc-text">Together</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-get-all-images-in-dom-including-background-en" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>Quite useful if you are writing an browser extension or something.</p>
+<p>To get all the images in DOM there are actually three places we are going to look at: <code>&lt;img&gt;</code> element, <code>background-image</code> CSS property and, <code>&lt;iframe&gt;</code>. Yes, every iframe hides a magical kingdom.</p>
+<h1 id="img">
+<a href="#img" class="headerlink" title="img"></a>img</h1>
+<p>If you only want to get images in <code>&lt;img&gt;</code>, two options for you to choose:</p>
+<p>You can either search the DOM for <code>img</code> tag:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>Or just use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/images" target="_blank">document.images</a>:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="background-image">
+<a href="#background-image" class="headerlink" title="background-image"></a>background-image</h1>
+<p>For <code>background-image</code>, we need to check every node in DOM:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBgImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(</div><div class="line">    <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">getBgImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>We can&#39;t simply get the width and height of a background image. If you need them, you have to load it.</p>
+<p>Since the images you get in DOM are most likely already in the browser cache, the loading process should be fairly quick.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">    img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      resolve(&#123;</div><div class="line">        <span class="attr">src</span>: src,</div><div class="line">        <span class="attr">width</span>: img.naturalWidth,</div><div class="line">        <span class="attr">height</span>: img.naturalHeight</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    img.onerror = reject</div><div class="line">    img.src = src</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(reject, timeout)</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">Promise</span>.all(</div><div class="line">      imgList</div><div class="line">        .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">        .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">    ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadImgAll(getBgImgs(<span class="built_in">document</span>)).then(<span class="function"><span class="params">imgs</span> =&gt;</span> <span class="built_in">console</span>.log(imgs))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="iframe">
+<a href="#iframe" class="headerlink" title="iframe"></a>iframe</h1>
+<p>Just recursively search in all iframes</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchIframes</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgList = []</div><div class="line">  doc.querySelectorAll(<span class="string">'iframe'</span>)</div><div class="line">    .forEach(<span class="function"><span class="params">iframe</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        iframeDoc = iframe.contentDocument || iframe.contentWindow.document</div><div class="line">        imgList = imgList.concat(getImgs(iframeDoc) || []) <span class="comment">// or getBgImgs(iframeDoc)</span></div><div class="line">        imgList = imgList.concat(searchIframes(iframeDoc) || [])</div><div class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">        <span class="comment">// simply ignore errors (e.g. cross-origin)</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  <span class="keyword">return</span> imgList</div><div class="line">&#125;</div><div class="line"></div><div class="line">searchIframes(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="Together">
+<a href="#Together" class="headerlink" title="Together"></a>Together</h1>
+<p>Can be used out of the box. It was made when I was writing a <a href="https://github.com/crimx/crx-weitweet" target="_blank">Chrome Extension</a>.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgAll</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    loadImgAll(<span class="built_in">Array</span>.from(searchDOM(doc)))</div><div class="line">      .then(resolve, reject)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">searchDOM</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="comment">// bg src</span></div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="regexp">/^img$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// src from img tag</span></div><div class="line">          collection.add(node.src)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^frame$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// iframe</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            searchDOM(node.contentDocument || node.contentWindow.document)</div><div class="line">              .forEach(<span class="function"><span class="params">img</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (img) &#123; collection.add(img) &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">      img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(&#123;</div><div class="line">          <span class="attr">src</span>: src,</div><div class="line">          <span class="attr">width</span>: img.naturalWidth,</div><div class="line">          <span class="attr">height</span>: img.naturalHeight</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">      img.onerror = reject</div><div class="line">      img.src = src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      setTimeout(reject, timeout)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">Promise</span>.all(</div><div class="line">        imgList</div><div class="line">          .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">          .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">      ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgAll(<span class="built_in">document</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> <span class="built_in">console</span>.log(list))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>[EOF]</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOM/">DOM</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Image/">Image</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/03/09/get-all-images-in-dom-including-background/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">获取 DOM 里所有图片（包括背景和Iframe）</div></a>
+<a href="/2017/02/19/vue-webpack2-unit-testing/"
+id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<div class="article-nav-title">倒腾 Vue Webpack2 单元测试</div>
+</a>
+</nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/" data-identifier="2017/03/09/get-all-images-in-dom-including-background-en/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网，评论加载不了。</div>
+<div class="ds-thread" data-shortname="crimx" data-thread-key="2017/03/09/get-all-images-in-dom-including-background-en/" data-title="Get All Images in DOM (Including Background)" data-url="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/"></div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.crimx.com/"/>
-  <updated>2017-02-19T12:50:52.100Z</updated>
+  <updated>2017-03-11T18:05:01.240Z</updated>
   <id>https://blog.crimx.com/</id>
   
   <author>
@@ -14,6 +14,304 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>微推 Weitweet 0.1.0</title>
+    <link href="https://blog.crimx.com/2017/03/12/weitweet-released/"/>
+    <id>https://blog.crimx.com/2017/03/12/weitweet-released/</id>
+    <published>2017-03-11T16:00:00.000Z</published>
+    <updated>2017-03-11T18:05:01.240Z</updated>
+    
+    <content type="html"><![CDATA[<p>微推是一个基于 Vue、Vuex 的开源 Chrome 扩展。支持一键编辑发送微博和推特、网页图片分享、上传图片和粘贴图片链接。</p>
+<p><img src="/images/post/crx-weitweet-1400x560.png" alt="logo"></p>
+<p>下载链接：</p>
+<p>Chrome 商店 <a href="https://chrome.google.com/webstore/detail/jcgjbjbbcjgkpdanbnafdbdlbjacdkln" target="_blank">https://chrome.google.com/webstore/detail/jcgjbjbbcjgkpdanbnafdbdlbjacdkln</a></p>
+<p>crx 打包 <a href="https://github.com/crimx/crx-weitweet/releases/tag/v0.1.0" target="_blank">https://github.com/crimx/crx-weitweet/releases/tag/v0.1.0</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;微推是一个基于 Vue、Vuex 的开源 Chrome 扩展。支持一键编辑发送微博和推特、网页图片分享、上传图片和粘贴图片链接。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/post/crx-weitweet-1400x560.png&quot; alt=&quot;logo&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Works" scheme="https://blog.crimx.com/categories/Works/"/>
+    
+    
+      <category term="Chrome" scheme="https://blog.crimx.com/tags/Chrome/"/>
+    
+      <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
+    
+      <category term="Twitter" scheme="https://blog.crimx.com/tags/Twitter/"/>
+    
+      <category term="微博" scheme="https://blog.crimx.com/tags/%E5%BE%AE%E5%8D%9A/"/>
+    
+      <category term="Vue" scheme="https://blog.crimx.com/tags/Vue/"/>
+    
+      <category term="Vuex" scheme="https://blog.crimx.com/tags/Vuex/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>获取 DOM 里所有图片（包括背景和Iframe）</title>
+    <link href="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/"/>
+    <id>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/</id>
+    <published>2017-03-08T16:00:00.000Z</published>
+    <updated>2017-03-11T17:42:38.440Z</updated>
+    
+    <content type="html"><![CDATA[<p>在写浏览器扩展什么的时候可能会用上。</p>
+<p>获取 DOM 里的图片主要是在这几个地方里面找: <code>&lt;img&gt;</code> 元素, <code>background-image</code> CSS 属性和 <code>&lt;iframe&gt;</code>。</p>
+<h1 id="img">
+<a href="#img" class="headerlink" title="img"></a>img</h1>
+<p>如果只想获取 <code>&lt;img&gt;</code> 的图片，有两种方式:</p>
+<p>直接获取所有 <code>img</code> 标签:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// 用 img.src 如果要本来的 src</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>还可以用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/images" target="_blank">document.images</a>:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="background-image">
+<a href="#background-image" class="headerlink" title="background-image"></a>background-image</h1>
+<p>获得背景图片需要查看所有 DOM 节点的 <code>background-image</code> 属性:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBgImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(</div><div class="line">    <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">getBgImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>背景图片不能直接得到尺寸信息，如果需要的话要加载一遍。因为搜集的图片很有可能已经在浏览器缓存里，所以加载过程应该很快。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">    img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      resolve(&#123;</div><div class="line">        <span class="attr">src</span>: src,</div><div class="line">        <span class="attr">width</span>: img.naturalWidth,</div><div class="line">        <span class="attr">height</span>: img.naturalHeight</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    img.onerror = reject</div><div class="line">    img.src = src</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(reject, timeout)</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">Promise</span>.all(</div><div class="line">      imgList</div><div class="line">        .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">        .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">    ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadImgAll(getBgImgs(<span class="built_in">document</span>)).then(<span class="function"><span class="params">imgs</span> =&gt;</span> <span class="built_in">console</span>.log(imgs))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="iframe">
+<a href="#iframe" class="headerlink" title="iframe"></a>iframe</h1>
+<p>只需要递归遍历 iframe 的 document</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchIframes</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgList = []</div><div class="line">  doc.querySelectorAll(<span class="string">'iframe'</span>)</div><div class="line">    .forEach(<span class="function"><span class="params">iframe</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        iframeDoc = iframe.contentDocument || iframe.contentWindow.document</div><div class="line">        imgList = imgList.concat(getImgs(iframeDoc) || []) <span class="comment">// or getBgImgs(iframeDoc)</span></div><div class="line">        imgList = imgList.concat(searchIframes(iframeDoc) || [])</div><div class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">        <span class="comment">// 直接忽略错误的 iframe (e.g. cross-origin)</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  <span class="keyword">return</span> imgList</div><div class="line">&#125;</div><div class="line"></div><div class="line">searchIframes(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="整合一起">
+<a href="#整合一起" class="headerlink" title="整合一起"></a>整合一起</h1>
+<p>直接使用就行。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgAll</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    loadImgAll(<span class="built_in">Array</span>.from(searchDOM(doc)))</div><div class="line">      .then(resolve, reject)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">searchDOM</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="comment">// bg src</span></div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="regexp">/^img$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// src from img tag</span></div><div class="line">          collection.add(node.src)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^frame$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// iframe</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            searchDOM(node.contentDocument || node.contentWindow.document)</div><div class="line">              .forEach(<span class="function"><span class="params">img</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (img) &#123; collection.add(img) &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">      img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(&#123;</div><div class="line">          <span class="attr">src</span>: src,</div><div class="line">          <span class="attr">width</span>: img.naturalWidth,</div><div class="line">          <span class="attr">height</span>: img.naturalHeight</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">      img.onerror = reject</div><div class="line">      img.src = src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      setTimeout(reject, timeout)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">Promise</span>.all(</div><div class="line">        imgList</div><div class="line">          .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">          .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">      ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgAll(<span class="built_in">document</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> <span class="built_in">console</span>.log(list))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>如果是开发 Chrome 插件则不受跨域影响，可以直接使用 <a href="https://github.com/nodeca/probe-image-size" target="_blank">probe-image-size</a>，它支持 timeout 参数，就不需要自己写 timer 了。我在写一个 <a href="https://github.com/crimx/crx-weitweet" target="_blank">Chrome 扩展</a>时用上了，很方便。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在写浏览器扩展什么的时候可能会用上。&lt;/p&gt;
+&lt;p&gt;获取 DOM 里的图片主要是在这几个地方里面找: &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 元素, &lt;code&gt;background-image&lt;/code&gt; CSS 属性和 &lt;code&gt;&amp;lt;iframe&amp;gt
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
+    
+      <category term="DOM" scheme="https://blog.crimx.com/tags/DOM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Get All Images in DOM (Including Background)</title>
+    <link href="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/"/>
+    <id>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/</id>
+    <published>2017-03-08T16:00:00.000Z</published>
+    <updated>2017-03-11T17:43:08.615Z</updated>
+    
+    <content type="html"><![CDATA[<p>Quite useful if you are writing an browser extension or something.</p>
+<p>To get all the images in DOM there are actually three places we are going to look at: <code>&lt;img&gt;</code> element, <code>background-image</code> CSS property and, <code>&lt;iframe&gt;</code>. Yes, every iframe hides a magical kingdom.</p>
+<h1 id="img">
+<a href="#img" class="headerlink" title="img"></a>img</h1>
+<p>If you only want to get images in <code>&lt;img&gt;</code>, two options for you to choose:</p>
+<p>You can either search the DOM for <code>img</code> tag:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>Or just use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/images" target="_blank">document.images</a>:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="background-image">
+<a href="#background-image" class="headerlink" title="background-image"></a>background-image</h1>
+<p>For <code>background-image</code>, we need to check every node in DOM:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBgImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(</div><div class="line">    <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">getBgImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>We can&#39;t simply get the width and height of a background image. If you need them, you have to load it.</p>
+<p>Since the images you get in DOM are most likely already in the browser cache, the loading process should be fairly quick.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">    img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      resolve(&#123;</div><div class="line">        <span class="attr">src</span>: src,</div><div class="line">        <span class="attr">width</span>: img.naturalWidth,</div><div class="line">        <span class="attr">height</span>: img.naturalHeight</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    img.onerror = reject</div><div class="line">    img.src = src</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(reject, timeout)</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">Promise</span>.all(</div><div class="line">      imgList</div><div class="line">        .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">        .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">    ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadImgAll(getBgImgs(<span class="built_in">document</span>)).then(<span class="function"><span class="params">imgs</span> =&gt;</span> <span class="built_in">console</span>.log(imgs))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="iframe">
+<a href="#iframe" class="headerlink" title="iframe"></a>iframe</h1>
+<p>Just recursively search in all iframes</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchIframes</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgList = []</div><div class="line">  doc.querySelectorAll(<span class="string">'iframe'</span>)</div><div class="line">    .forEach(<span class="function"><span class="params">iframe</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        iframeDoc = iframe.contentDocument || iframe.contentWindow.document</div><div class="line">        imgList = imgList.concat(getImgs(iframeDoc) || []) <span class="comment">// or getBgImgs(iframeDoc)</span></div><div class="line">        imgList = imgList.concat(searchIframes(iframeDoc) || [])</div><div class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">        <span class="comment">// simply ignore errors (e.g. cross-origin)</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  <span class="keyword">return</span> imgList</div><div class="line">&#125;</div><div class="line"></div><div class="line">searchIframes(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="Together">
+<a href="#Together" class="headerlink" title="Together"></a>Together</h1>
+<p>Can be used out of the box. It was made when I was writing a <a href="https://github.com/crimx/crx-weitweet" target="_blank">Chrome Extension</a>.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgAll</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    loadImgAll(<span class="built_in">Array</span>.from(searchDOM(doc)))</div><div class="line">      .then(resolve, reject)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">searchDOM</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="comment">// bg src</span></div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="regexp">/^img$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// src from img tag</span></div><div class="line">          collection.add(node.src)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^frame$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// iframe</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            searchDOM(node.contentDocument || node.contentWindow.document)</div><div class="line">              .forEach(<span class="function"><span class="params">img</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (img) &#123; collection.add(img) &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">      img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(&#123;</div><div class="line">          <span class="attr">src</span>: src,</div><div class="line">          <span class="attr">width</span>: img.naturalWidth,</div><div class="line">          <span class="attr">height</span>: img.naturalHeight</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">      img.onerror = reject</div><div class="line">      img.src = src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      setTimeout(reject, timeout)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">Promise</span>.all(</div><div class="line">        imgList</div><div class="line">          .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">          .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">      ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgAll(<span class="built_in">document</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> <span class="built_in">console</span>.log(list))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>[EOF]</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Quite useful if you are writing an browser extension or something.&lt;/p&gt;
+&lt;p&gt;To get all the images in DOM there are actually three places we
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
+    
+      <category term="DOM" scheme="https://blog.crimx.com/tags/DOM/"/>
+    
+  </entry>
   
   <entry>
     <title>倒腾 Vue Webpack2 单元测试</title>
@@ -1379,7 +1677,7 @@ table. For XUL elements, the computed size of the element is always zero, regard
     <link href="https://blog.crimx.com/2016/03/20/understanding-anki/"/>
     <id>https://blog.crimx.com/2016/03/20/understanding-anki/</id>
     <published>2016-03-19T16:00:00.000Z</published>
-    <updated>2016-12-28T11:04:33.473Z</updated>
+    <updated>2017-02-26T04:18:41.822Z</updated>
     
     <content type="html"><![CDATA[<p>在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。</p>
 <p>Anki 是一个卡片记忆系统，基于 <a href="https://www.supermemo.com" target="_blank">SuperMemo</a> 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。</p>
@@ -1438,9 +1736,11 @@ table. For XUL elements, the computed size of the element is always zero, regard
 <p>可以将一套卡片统一成一个类型，然后对这个类型套用一个模板去显示。</p>
 <h3 id="Note-Types">
 <a href="#Note-Types" class="headerlink" title="Note Types"></a>Note Types</h3>
-<p>卡片的类型也是可以很方便修改，这个视频除了介绍添加答案输入，后面还提到了如何改成填空题</p>
-<p><a href="https://www.youtube.com/watch?v=5tYObQ3ocrw" target="_blank">https://www.youtube.com/watch?v=5tYObQ3ocrw</a></p>
-<p>理解了这些基本概念就可以开始使用 Anki 了，遇到了其它问题可以查<a href="http://ankisrs.net/docs/manual.html" target="_blank">文档</a>、<a href="http://ankisrs.net/docs/manual.html#_intro_videos" target="_blank">视频</a>、<a href="https://anki.tenderapp.com/discussions" target="_blank">支持</a>和<a href="http://bbs.ankichina.net/forum.php" target="_blank">中文论坛</a>。</p>]]></content>
+<p>卡片的类型也是可以很方便修改，<a href="https://www.youtube.com/watch?v=5tYObQ3ocrw" target="_blank">这个视频</a>除了介绍添加答案输入，后面还提到了如何改成填空题</p>
+<p></p>
+<p><iframe width="560" height="315" style="width:100%" src="" data-type="youtube" data-src="//www.youtube.com/embed/5tYObQ3ocrw" frameborder="0" allowfullscreen></iframe></p>
+<p></p>
+<p>理解了这些基本概念就可以开始使用 Anki 了，遇到了其它问题可以查<a href="http://ankisrs.net/docs/manual.html" target="_blank">文档</a>、<a href="http://ankisrs.net/docs/manual.html#_intro_videos" target="_blank">视频</a>、<a href="https://anki.tenderapp.com/discussions" target="_blank">支持</a>和<a href="http://bbs.ankichina.net/" target="_blank">中文论坛</a>。</p>]]></content>
     
     <summary type="html">
     
@@ -1451,6 +1751,8 @@ table. For XUL elements, the computed size of the element is always zero, regard
     
       <category term="Tools" scheme="https://blog.crimx.com/categories/Tools/"/>
     
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="Anki" scheme="https://blog.crimx.com/tags/Anki/"/>
     
@@ -1736,381 +2038,13 @@ table. For XUL elements, the computed size of the element is always zero, regard
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
       <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
     
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="Array" scheme="https://blog.crimx.com/tags/Array/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>V8 是如何实现 JavaScript Hoist 的</title>
-    <link href="https://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/"/>
-    <id>https://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/</id>
-    <published>2015-03-28T16:00:00.000Z</published>
-    <updated>2017-01-04T06:54:15.914Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="首先">
-<a href="#首先" class="headerlink" title="首先"></a>首先</h2>
-<p>今天在知乎上看到一个问题“<a href="http://www.zhihu.com/question/29105940/answer/43277384" target="_blank">JavaScript有预编译吗？</a>”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。</p>
-<h2 id="Hoist">
-<a href="#Hoist" class="headerlink" title="Hoist"></a>Hoist</h2>
-<p>var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，<a href="https://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes" target="_blank">JavaScript 秘密花园</a></p>
-<h2 id="V8-源码">
-<a href="#V8-源码" class="headerlink" title="V8 源码"></a>V8 源码</h2>
-<p>墙外：<a href="https://code.google.com/p/chromium" target="_blank">Chromium</a><br>墙内：<a href="https://github.com/v8/v8-git-mirror/blob/master/src/dateparser.cc" target="_blank">GitHub</a></p>
-<h2 id="V8-的-Hoist">
-<a href="#V8-的-Hoist" class="headerlink" title="V8 的 Hoist"></a>V8 的 Hoist</h2>
-<p>V8 中变量提升涉及到两个步骤，Parse 和 Analyze 。先 Parse 一遍代码得出 AST （抽象语法树）等信息，再把信息 Analyze 一遍。虽然 V8 有“预语法分析”,「preparser.h」， 只是为了收集信息辅助后续加速的，不属于预编译。</p>
-<p>Talk is cheap, let me show you the code.</p>
-<h2 id="Parse-部分">
-<a href="#Parse-部分" class="headerlink" title="Parse 部分"></a>Parse 部分</h2>
-<p>在「<code>parser.cc</code>」里</p>
-<p>var 声明的处理在 <code>Parser::ParseVariableDeclarations</code> 函数中，对于 <code>var a = 2</code>，V8 是将声明和赋值分开处理的，即转换为 <code>var a; a = 2;</code> ，然后前者由 <code>Parser::Declare</code> 提升。提升就是将每一层作用域用户声明的变量都放在该层的 <code>variables_</code> 表中。</p>
-<p></p>
-<figure class="highlight cpp">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">Block* Parser::ParseVariableDeclarations( <span class="comment">/*...*/</span> ) &#123;</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 一层层地向外找合适的声明作用域</span></div><div class="line">  Scope* declaration_scope = DeclarationScope(mode);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 分析出变量名</span></div><div class="line">  name = ParseIdentifier(kDontAllowEvalOrArguments, CHECK_OK);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 下面会详细讲 proxy</span></div><div class="line">  VariableProxy* proxy = NewUnresolved(name, mode);</div><div class="line">  <span class="comment">// 进一步封装</span></div><div class="line">  Declaration* declaration =</div><div class="line">      factory()-&gt;NewVariableDeclaration(proxy, mode, scope_, pos);</div><div class="line">  <span class="comment">// 声明变量，注意 VAR 声明时第二个参数是 false</span></div><div class="line">  Variable* var = Declare(declaration, mode != VAR, CHECK_OK);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 如果接下来还有等号的话（带赋值的变量声明）</span></div><div class="line">  <span class="keyword">if</span> (peek() == Token::ASSIGN <span class="comment">/*...*/</span> ) &#123;</div><div class="line">    <span class="comment">/*...*/</span></div><div class="line">    <span class="comment">// 解析出待赋的值</span></div><div class="line">    value = ParseAssignmentExpression(var_context != kForStatement, CHECK_OK);</div><div class="line">    <span class="comment">/*...*/</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 按正常的赋值表达式语句解析</span></div><div class="line">  VariableProxy* proxy = initialization_scope-&gt;NewUnresolved(factory(), name);</div><div class="line">    Assignment* assignment = factory()-&gt;NewAssignment(init_op, proxy, value, pos);</div><div class="line">    block-&gt;AddStatement(</div><div class="line">        factory()-&gt;NewExpressionStatement(assignment, RelocInfo::kNoPosition),</div><div class="line">        zone());</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>function 声明在 <code>Parser::ParseFunctionDeclaration</code> 中，</p>
-<p></p>
-<figure class="highlight cpp">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">Statement* Parser::ParseFunctionDeclaration( <span class="comment">/*...*/</span> ) &#123;</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 可以看到函数体在这里也一并读取了</span></div><div class="line">  FunctionLiteral* fun = ParseFunctionLiteral( <span class="comment">/*...*/</span> );</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 与var 声明大同小异</span></div><div class="line">  VariableProxy* proxy = NewUnresolved(name, mode);</div><div class="line">  Declaration* declaration =</div><div class="line">      factory()-&gt;NewFunctionDeclaration(proxy, mode, fun, scope_, pos);</div><div class="line">  <span class="comment">// 注意这里的 true</span></div><div class="line">  Declare(declaration, <span class="literal">true</span>, CHECK_OK);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>注意两者传入 <code>Parser::Declare</code> 函数的第二个参数值（<code>resolve</code>）不一样。</p>
-<p>前面提过，对于“var a = 2”，V8 是将声明和赋值分开处理的，即转换为 <code>var a; a = 2;</code> 。<code>var a;</code> 提升后， <code>a = 2;</code> 还在原来的位置，相当于拆散了。</p>
-<p>在 ES5 中，除了 <code>function</code> 作用域外还有 <code>with</code> 和 <code>catch</code> 可以产生作用域的（最近也做了<a href="http://www.crimx.com/2015/03/09/es6-function-vs-block-scope" target="_blank">笔记</a>）。而 var 的 hoist 是提升到函数作用域的最前面，所以会有下面的情况：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">(<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">1</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">    <span class="built_in">console</span>.log(a); <span class="comment">// 1 ,这里的 a 是 catch 的</span></div><div class="line">    <span class="keyword">var</span> a = <span class="number">3</span>; <span class="comment">// 这里的 a 也是 catch 的</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(a); <span class="comment">// undefined ,这里的 a 是 fn 的</span></div><div class="line"></div><div class="line">&#125;());</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>所以对于 var 的声明，不可以在读到 <code>var a = 3;</code> 时就绑定，于是 V8 的 proxy 变量代理的机制就显得十分有用了。</p>
-<p>对于 var 声明， proxy 不跟变量绑定，而是在 Parse 一遍后的 Analyze 阶段再统一进行绑定，所以传入 false；而由于函数没有上面的情况，在 Parse 的时候就可以将其 proxy 与变量绑定，于是传入的 resolve 为 true。</p>
-<p>看看 <code>Parser::Declare</code> 如何处理变量：</p>
-<p></p>
-<figure class="highlight cpp">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">Variable* Parser::Declare(Declaration* declaration, <span class="keyword">bool</span> resolve, <span class="keyword">bool</span>* ok) &#123;</div><div class="line">  VariableProxy* proxy = declaration-&gt;proxy();</div><div class="line">  DCHECK(proxy-&gt;raw_name() != <span class="literal">NULL</span>);</div><div class="line">  <span class="keyword">const</span> AstRawString* name = proxy-&gt;raw_name();</div><div class="line">  VariableMode mode = declaration-&gt;mode();</div><div class="line"></div><div class="line">  <span class="comment">// 层层向外找最近的声明作用域</span></div><div class="line">  Scope* declaration_scope = DeclarationScope(mode);</div><div class="line"></div><div class="line">  <span class="comment">// 只有符合以下几个声明作用域才会进行注册</span></div><div class="line">  <span class="keyword">if</span> (declaration_scope-&gt;is_function_scope() ||</div><div class="line">      declaration_scope-&gt;is_strict_eval_scope() ||</div><div class="line">      declaration_scope-&gt;is_block_scope() ||</div><div class="line">      declaration_scope-&gt;is_module_scope() ||</div><div class="line">      declaration_scope-&gt;is_script_scope()) &#123;</div><div class="line">    <span class="comment">// 看看有没有被注册了</span></div><div class="line">    var = declaration_scope-&gt;LookupLocal(name);</div><div class="line">    <span class="comment">// 如果没有就新注册一个</span></div><div class="line">    <span class="keyword">if</span> (var == <span class="literal">NULL</span>) &#123;</div><div class="line">      <span class="comment">// var 和 function 还有 ES6 的 let const 等等都会在这里做标记</span></div><div class="line">      var = declaration_scope-&gt;DeclareLocal(</div><div class="line">          name, mode, declaration-&gt;initialization(),</div><div class="line">          declaration-&gt;IsFunctionDeclaration() ? Variable::FUNCTION</div><div class="line">                                               : Variable::NORMAL,</div><div class="line">          kNotAssigned);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( <span class="comment">/*...*/</span> ) &#123;</div><div class="line">      <span class="comment">/*...*/</span> <span class="comment">// ES6 相关</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mode == VAR) &#123;</div><div class="line">      <span class="comment">// 如果之前已经注册了的话，就可能被赋过值了</span></div><div class="line">      var-&gt;set_maybe_assigned();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/*...*/</span></div><div class="line"></div><div class="line">  <span class="comment">// 对于每次声明 V8 都会挂载一个 declaration 节点</span></div><div class="line">  <span class="comment">// 虽然只有在必要的时候才会生成相应代码</span></div><div class="line">  <span class="comment">// 但对于一个变量有过多的 declaration 节点必然会影响查找性能</span></div><div class="line">  <span class="comment">// 所以尽量不要重复声明</span></div><div class="line">  declaration_scope-&gt;AddDeclaration(declaration);</div><div class="line"></div><div class="line">  <span class="comment">/*...*/</span></div><div class="line"></div><div class="line">  <span class="comment">// 前面提到的传入的 resolve </span></div><div class="line">  <span class="comment">// function 为 true</span></div><div class="line">  <span class="comment">// var 为 false</span></div><div class="line">  <span class="keyword">if</span> (resolve &amp;&amp; var != <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="comment">// 绑定在一起</span></div><div class="line">    proxy-&gt;BindTo(var);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> var;</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Analyze-部分">
-<a href="#Analyze-部分" class="headerlink" title="Analyze 部分"></a>Analyze 部分</h2>
-<p>在「<code>scope.cc</code>」里</p>
-<p>Analyze 是由最外层 <code>Scope::Analyze</code> 开始，一层层向里递归的查看需要 resolve 的作用域，然后对该作用域的每一个需要 resolve 的 proxy 再一层层向外递归查找最近的同名变量进行绑定。</p>
-<h2 id="总结">
-<a href="#总结" class="headerlink" title="总结"></a>总结</h2>
-<p>V8 为了处理声明提升，在每层作用域都会维护一个独立的声明作用域（<code>variables_</code> 表），这样运行时就可以从声明作用域中递归查找变量。为了处理一些不能确定的特殊情况，V8 会将 proxy 与变量的绑定推迟到 Analyze 阶段。</p>
-<p>所以对 var 和 function 提升的处理在语法分析阶段就搞定了，不需要预编译。</p>
-<p>【完】</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;首先&quot;&gt;
-&lt;a href=&quot;#首先&quot; class=&quot;headerlink&quot; title=&quot;首先&quot;&gt;&lt;/a&gt;首先&lt;/h2&gt;
-&lt;p&gt;今天在知乎上看到一个问题“&lt;a href=&quot;http://www.zhihu.com/question/29105940/answer/
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="闲读源码" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ES6 随笔：函数与块级作用域</title>
-    <link href="https://blog.crimx.com/2015/03/09/es6-function-vs-block-scope/"/>
-    <id>https://blog.crimx.com/2015/03/09/es6-function-vs-block-scope/</id>
-    <published>2015-03-08T16:00:00.000Z</published>
-    <updated>2016-12-29T11:14:41.540Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="作用域">
-<a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2>
-<p>作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章<a href="http://www.crimx.com/2014/08/05/javascript-module-pattern-in-depth/" target="_blank">《深入理解 JavaScript 模块模式 》</a>，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
-Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel 现在都没有采用这种方式了，而是直接检测 shadow 冲突再使用不同的变量名，这可能是考虑到性能的问题。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// ES6 代码</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">2</span>;</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">let</span> a = <span class="number">3</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line"><span class="comment">// Try/Catch 方式</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">1</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">  <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">2</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">    <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">3</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">      </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line"><span class="comment">// Traceur</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">var</span> a$__0 = <span class="number">2</span>;</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">var</span> a$__1 = <span class="number">3</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line"><span class="comment">// Babel</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">var</span> _a = <span class="number">2</span>;</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">var</span> _a2 = <span class="number">3</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="TDZ">
-<a href="#TDZ" class="headerlink" title="TDZ"></a>TDZ</h2>
-<p>有意思的是，这几种 hack 都不能解决 <code>let</code> 变量不许提升 (hoist) 的问题。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="built_in">console</span>.log(a); <span class="comment">// ReferenceError</span></div><div class="line"><span class="keyword">let</span> a;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p><code>let</code> 声明行到它所在 block 最开始之间的区域被称为 TDZ <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let" target="_blank">“Temporal dead zone”</a>，正常情况下，可以考虑用回上面的方法 hack ，把 TDZ 当做一个
-block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank">这里</a>提到了一种坑爹的情况，函数。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  x; <span class="comment">// 合法</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> x;</div><div class="line">foo();</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  x; <span class="comment">// 不合法</span></div><div class="line">&#125;</div><div class="line">foo();</div><div class="line"><span class="keyword">let</span> x;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">foo();</div><div class="line"><span class="keyword">let</span> x;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  x; <span class="comment">// 不合法</span></div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>这么一来静态分析出错误就变得很麻烦，在 Traceur 的一个 issue 中 <strong>@arv</strong> 提到了<a href="https://github.com/google/traceur-compiler/issues/1382" target="_blank">牺牲运行时来检测的方式</a>：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// ES6</span></div><div class="line"><span class="keyword">let</span> a = f();</div><div class="line"><span class="keyword">const</span> b = <span class="number">2</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> b; &#125;</div><div class="line"></div><div class="line"><span class="comment">// hack</span></div><div class="line">$traceurRuntime.UNITIALIZED = &#123;&#125;;</div><div class="line">$traceurRuntime.assertInitialized = <span class="function"><span class="keyword">function</span>(<span class="params">v</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (v === UNITIALIZED) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">ReferenceError</span>();</div><div class="line">  <span class="keyword">return</span> v;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = $traceurRuntime.UNITIALIZED;</div><div class="line"><span class="keyword">var</span> b = $traceurRuntime.UNITIALIZED;</div><div class="line">a = f();</div><div class="line">b = <span class="number">2</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> $traceurRuntime.assertInitialized(b);</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>这在 Babel 中需要开启 <code>es6.blockScopingTDZ</code> 特性：</p>
-<p></p>
-<figure class="highlight bash">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">$ babel-node --optional es6.blockScopingTDZ test.js</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>（3 月 19 日 补）<br>注意 <code>for</code> 循环闭包的坑，现在还没有好的 polyfill 方案</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// 0 1 2 3 4</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i += <span class="number">1</span>) &#123;</div><div class="line">  <span class="comment">// 忽略我在循环中声明函数</span></div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timer</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;, <span class="number">1</span>*<span class="number">1000</span>);</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="块级作用域">
-<a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2>
-<p>作者提到几个块级作用域的好处，比较有意思的一个是对垃圾回收的优化：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> someReallyBigData = &#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">process(someReallyBigData);</div><div class="line"></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'a_button'</span>);</div><div class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>这里 <code>btn</code> 的回调函数虽然没有直接用到 <code>someReallyBigData</code> ，但 JS 引擎很可能会继续保留 <code>someReallyBigData</code> 因为闭包使回调函数引用了 <code>someReallyBigData</code> 所在的作用域。ES6 中，使用显式的块则可以向引擎明确回收时机：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> someReallyBigData = &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  process(someReallyBigData);</div><div class="line">&#125;<span class="comment">// 这里就可以回收 someReallyBigData 了</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'a_button'</span>);</div><div class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;作用域&quot;&gt;
-&lt;a href=&quot;#作用域&quot; class=&quot;headerlink&quot; title=&quot;作用域&quot;&gt;&lt;/a&gt;作用域&lt;/h2&gt;
-&lt;p&gt;作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
-    
-      <category term="Scope" scheme="https://blog.crimx.com/tags/Scope/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CSS 自适应正方形</title>
-    <link href="https://blog.crimx.com/2015/02/28/css-square/"/>
-    <id>https://blog.crimx.com/2015/02/28/css-square/</id>
-    <published>2015-02-27T16:00:00.000Z</published>
-    <updated>2016-12-29T12:24:39.981Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/padding#Syntax" target="_blank">padding 使用百分数值时是根据其包含块的 width 值计算的。</a></p>
-<blockquote>
-<p>With respect to the width of the containing block.</p>
-</blockquote>
-<p>所以可以利用 <code>height = 0;</code> 并用 <code>padding-bottom = 100%;</code> 撑起一个正方形：</p>
-<p></p>
-<p><iframe height="265" scrolling="no" title="CSS Responsive Square" src="//codepen.io/Crimx/embed/VYdMWJ/?height=265&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%">See the Pen <a href="http://codepen.io/Crimx/pen/VYdMWJ/" target="_blank">CSS Responsive Square</a> by Jesse Wong (<a href="http://codepen.io/Crimx" target="_blank">@Crimx</a>) on <a href="http://codepen.io" target="_blank">CodePen</a>.</iframe></p>
-<p></p>
-<p></p>
-<figure class="highlight html">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"spacer"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span>item<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p></p>
-<figure class="highlight css">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">width</span>: <span class="number">20%</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.spacer</span> &#123;</div><div class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">padding-bottom</span>: <span class="number">100%</span>;</div><div class="line">  <span class="attribute">background</span>: orange;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.content</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>参考资料</p>
-<ul>
-<li><a href="http://qiita.com/usp/items/96f3cf9997ebb5b3dbb9" target="_blank">CSSだけで正方形を作る</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/padding#Syntax" target="_blank">padding-CSS MDN</a></li>
-</ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/padding#Syntax&quot; target=&quot;_blank&quot;&gt;padding 使用百分数值时是根据其包含块的 width 值计算的。&lt;/a&gt;&lt;/p&gt;
-&lt;bl
-    
-    </summary>
-    
-      <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
-    
-    
-      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
-      <category term="Responsive" scheme="https://blog.crimx.com/tags/Responsive/"/>
-    
-      <category term="Square" scheme="https://blog.crimx.com/tags/Square/"/>
     
   </entry>
   

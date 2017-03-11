@@ -7,6 +7,38 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2017/03/12/weitweet-released/</loc>
+        <lastmod>2017-03-11T18:05:01.240Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/</loc>
+        <lastmod>2017-03-11T17:43:08.615Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/</loc>
+        <lastmod>2017-03-11T17:42:38.440Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2016/03/20/understanding-anki/</loc>
+        <lastmod>2017-02-26T04:18:41.822Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2017/02/19/vue-webpack2-unit-testing/</loc>
         <lastmod>2017-02-19T12:50:52.100Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -361,14 +393,6 @@
     <url>
         <loc>https://blog.crimx.com/2016/05/27/sublime-text-title-case/</loc>
         <lastmod>2016-12-29T09:24:51.197Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2016/03/20/understanding-anki/</loc>
-        <lastmod>2016-12-28T11:04:33.473Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
