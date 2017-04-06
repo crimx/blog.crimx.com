@@ -549,28 +549,56 @@
 
     <url>
         <loc>https://blog.crimx.com/tags/Recommended/</loc>
-        <lastmod>2017-03-11T17:43:08.615Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
-        <lastmod>2017-03-11T17:43:08.615Z</lastmod>
+        <lastmod>2017-03-15T16:05:43.352Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/Image/</loc>
-        <lastmod>2017-03-11T17:43:08.615Z</lastmod>
+        <lastmod>2017-03-15T16:05:43.352Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/DOM/</loc>
-        <lastmod>2017-03-11T17:43:08.615Z</lastmod>
+        <lastmod>2017-03-15T16:05:43.352Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
+        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/iframe/</loc>
+        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/postMessage/</loc>
+        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Drag/</loc>
+        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Extension/</loc>
+        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

@@ -37,7 +37,7 @@ To get all the images in DOM there are actually three places we are going to loo
 <meta property="og:site_name" content="CRIMX">
 <meta property="og:description" content="Quite useful if you are writing an browser extension or something.
 To get all the images in DOM there are actually three places we are going to look at: &amp;lt;img&amp;gt; element, background-image CSS prope">
-<meta property="og:updated_time" content="2017-03-11T17:43:08.615Z">
+<meta property="og:updated_time" content="2017-03-15T16:05:31.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Get All Images in DOM (Including Background)">
 <meta name="twitter:description" content="Quite useful if you are writing an browser extension or something.
@@ -143,7 +143,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
 </td>
 </tr>
 </table>
@@ -158,7 +158,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
 </td>
 </tr>
 </table>

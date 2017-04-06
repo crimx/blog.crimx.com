@@ -63,7 +63,7 @@ img
 
 
 function getImgs (doc) &amp;#123;">
-<meta property="og:updated_time" content="2017-03-11T17:42:38.440Z">
+<meta property="og:updated_time" content="2017-03-15T16:05:43.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="获取 DOM 里所有图片（包括背景和Iframe）">
 <meta name="twitter:description" content="在写浏览器扩展什么的时候可能会用上。
@@ -182,7 +182,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// 用 img.src 如果要本来的 src</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// 用 img.src 如果要本来的 src</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
 </td>
 </tr>
 </table>
@@ -197,7 +197,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
 </td>
 </tr>
 </table>
@@ -279,7 +279,12 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
 </ul>
-<nav id="article-nav"><a href="/2017/03/09/get-all-images-in-dom-including-background-en/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Get All Images in DOM (Including Background)</div></a></nav>
+<nav id="article-nav"><a href="/2017/04/06/position-and-drag-iframe/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">定位与拖动 Iframe</div></a>
+<a href="/2017/03/09/get-all-images-in-dom-including-background-en/"
+id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
+<div class="article-nav-title">Get All Images in DOM (Including Background)</div>
+</a>
+</nav>
 </footer>
 </article>
 <section id="comments">
