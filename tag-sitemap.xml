@@ -289,14 +289,14 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Tips/</loc>
+        <loc>https://blog.crimx.com/tags/Sublime-Text-2/</loc>
         <lastmod>2016-12-29T17:34:58.440Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Sublime-Text-2/</loc>
+        <loc>https://blog.crimx.com/tags/Tips/</loc>
         <lastmod>2016-12-29T17:34:58.440Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -548,13 +548,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Recommended/</loc>
-        <lastmod>2017-03-15T16:05:43.352Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Image/</loc>
         <lastmod>2017-03-15T16:05:43.352Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -569,36 +562,43 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/tags/Recommended/</loc>
+        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/tags/JavaScript/</loc>
-        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/iframe/</loc>
-        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/postMessage/</loc>
-        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/Drag/</loc>
-        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/Extension/</loc>
-        <lastmod>2017-04-06T09:55:52.633Z</lastmod>
+        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
