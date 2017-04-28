@@ -464,13 +464,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/CSS/</loc>
-        <lastmod>2017-01-25T17:17:46.163Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Responsive/</loc>
         <lastmod>2017-01-25T17:17:46.163Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -562,14 +555,14 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Recommended/</loc>
+        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
         <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
+        <loc>https://blog.crimx.com/tags/Recommended/</loc>
         <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -599,6 +592,13 @@
     <url>
         <loc>https://blog.crimx.com/tags/Extension/</loc>
         <lastmod>2017-04-20T15:58:09.585Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/CSS/</loc>
+        <lastmod>2017-04-28T16:25:53.369Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
