@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-<title>CSS Font 单位 | CRIMX</title>
+<title>CSS VFM 中易混淆的名词概念 | CRIMX</title>
 <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
@@ -29,63 +29,33 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="了解 CSS font 各个单位的意义，搜了一些资料。
-[1]
+<meta name="description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。
 
-绝对单位
-
-cm (centimeter 厘米)
-mm (millimeter 毫米)
-in (inch 英寸)
-pt (point 点)
-pc (pica 派卡)
+Element 与 Box
 
 
-相对单位
-
-em (em = 目标元素像素值 / 父元素 font-size 的像素值) [3]
-ex (约为小写字母 a, c, m, o 之类的高度) [1]">
+第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSS Font 单位">
-<meta property="og:url" content="https://blog.crimx.com/2014/08/16/css-font-units/index.html">
+<meta property="og:title" content="CSS VFM 中易混淆的名词概念">
+<meta property="og:url" content="https://blog.crimx.com/2017/05/29/css-vfm-concepts/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="了解 CSS font 各个单位的意义，搜了一些资料。
-[1]
+<meta property="og:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。
 
-绝对单位
-
-cm (centimeter 厘米)
-mm (millimeter 毫米)
-in (inch 英寸)
-pt (point 点)
-pc (pica 派卡)
+Element 与 Box
 
 
-相对单位
-
-em (em = 目标元素像素值 / 父元素 font-size 的像素值) [3]
-ex (约为小写字母 a, c, m, o 之类的高度) [1]">
-<meta property="og:image" content="https://blog.crimx.com/images/post/css/font-units-recommended.png">
-<meta property="og:updated_time" content="2016-12-29T17:14:16.740Z">
+第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docu">
+<meta property="og:image" content="https://blog.crimx.com/images/post/box-model.png">
+<meta property="og:updated_time" content="2017-05-29T12:27:50.742Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSS Font 单位">
-<meta name="twitter:description" content="了解 CSS font 各个单位的意义，搜了一些资料。
-[1]
+<meta name="twitter:title" content="CSS VFM 中易混淆的名词概念">
+<meta name="twitter:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。
 
-绝对单位
-
-cm (centimeter 厘米)
-mm (millimeter 毫米)
-in (inch 英寸)
-pt (point 点)
-pc (pica 派卡)
+Element 与 Box
 
 
-相对单位
-
-em (em = 目标元素像素值 / 父元素 font-size 的像素值) [3]
-ex (约为小写字母 a, c, m, o 之类的高度) [1]">
-<meta name="twitter:image" content="https://blog.crimx.com/images/post/css/font-units-recommended.png">
+第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docu">
+<meta name="twitter:image" content="https://blog.crimx.com/images/post/box-model.png">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -147,100 +117,116 @@ ex (约为小写字母 a, c, m, o 之类的高度) [1]">
 <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
-<h1 class="site-title" itemprop="name">CSS Font 单位</h1>
+<h1 class="site-title" itemprop="name">CSS VFM 中易混淆的名词概念</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2014/08/16/css-font-units/" class="article-date"><time datetime="2014-08-15T16:00:00.000Z" itemprop="datePublished">2014-08-16</time></a>
+<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2017/05/29/css-vfm-concepts/" class="article-date"><time datetime="2017-05-28T16:00:00.000Z" itemprop="datePublished">2017-05-29</time></a>
 <a rel="license" class="cc-license-wrapper"
 href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
 </div>
 </header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"When your values are clear to you, making decisions becomes easier."</blockquote>
+<footer class="tagline-cite"><cite>Roy E. Disney</cite></footer>
+</section>
+</div>
 <div class="toc-mousearea"></div>
 <div class="toc-wrapper">
 <div class="toc-container">
 <ol class="toc">
-<li class="toc-item toc-level-2"><a class="toc-link" href="#绝对单位"><span class="toc-text">绝对单位</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#相对单位"><span class="toc-text">相对单位</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#em"><span class="toc-text">em</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#只用-em-和-px"><span class="toc-text">只用 em 和 px</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#新型单位"><span class="toc-text">新型单位</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Element-与-Box"><span class="toc-text">Element 与 Box</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Block-level-Element"><span class="toc-text">Block-level Element</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Inline-level-element"><span class="toc-text">Inline-level element</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Flow"><span class="toc-text">Flow</span></a></li>
 </ol>
 </div>
 </div>
-<article id="post-css-font-units" class="article--post" itemscope="" itemprop="blogPost">
+<article id="post-css-vfm-concepts" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<p>了解 CSS font 各个单位的意义，搜了一些资料。</p>
-<p><a href="#w3">[1]</a><br><img src="/images/post/css/font-units-recommended.png" alt="recommended"></p>
-<h2 id="绝对单位">
-<a href="#绝对单位" class="headerlink" title="绝对单位"></a>绝对单位</h2>
+<p><span class="github-emoji" title=":warning:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v7">&#x26a0;</span>第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的<a href="http://book.mixu.net/css/" target="_blank">笔记</a>，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。</p>
+<h2
+id="Element-与-Box">
+<a href="#Element-与-Box" class="headerlink" title="Element 与 Box"></a>Element 与 Box</h2>
 <ul>
-<li>cm (centimeter 厘米)</li>
-<li>mm (millimeter 毫米)</li>
-<li>in (inch 英寸)</li>
-<li>pt (point 点)</li>
-<li>pc (pica 派卡)</li>
+<li>
+<p>第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 document tree （文档树）的节点，Box 则是指元素根据 VFM 和 Box Model 生成的盒子。一个元素可能生成零个或多个盒子。</p>
+</li>
+<li>
+<p>Box Model 描述了一个矩形的盒子。每个盒子都有 content area，可能有 padding, border, margin areas。</p>
+</li>
 </ul>
-<h2 id="相对单位">
-<a href="#相对单位" class="headerlink" title="相对单位"></a>相对单位</h2>
+<p><img src="/images/post/box-model.png" alt="box-model"></p>
+<h2 id="Block-level-Element">
+<a href="#Block-level-Element" class="headerlink" title="Block-level Element"></a>Block-level Element</h2>
 <ul>
-<li>em (em = 目标元素像素值 / 父元素 font-size 的像素值) <a href="#mozilla">[3]</a></li>
-<li>ex (约为小写字母 a, c, m, o 之类的高度) <a href="#w3">[1]</a></li>
-<li>px (pixel 像素)</li>
+<li>
+<p>display 值为 &#39;block/list-item/table&#39; 的元素叫 <em>block-level element</em>。</p>
+</li>
+<li>
+<p>每个 block-level element 都会生成一个 principal <em>block-level box</em> （list-item 还会生成其它盒子）。</p>
+</li>
+<li>
+<p>除了 table box 和 replaced element，block-level box 都是 <em>block container box</em>。</p>
+<p>Block container box 要么只包含 block-level boxes （宣布了 BFC），要么只包含 inline-level boxes （宣布了 IFC）。（BFC: Block Formatting Context, IFC: Inline Formatting Context）</p>
+<p>（Block-level box 指的是这个盒子本身，它参与的是 BFC；而 block container box 说的是这个盒子内部，宣布了 BFC 或 IFC）。</p>
+<p>反过来 block container box 则不一定是 block-level box，还可以是 non-replaced inline block 和 non-replaced table cell（即这些盒子参与 IFC ，内部也可以宣布 BFC 或 IFC）。</p>
+</li>
+<li>
+<p>同时是 block-level box 和 block container box 的盒子也叫做 <em>block box</em>。</p>
+</li>
 </ul>
-<h2 id="em">
-<a href="#em" class="headerlink" title="em"></a>em</h2>
-<p>有的文章（书）会提到 em 是指大写字母 M 的宽度（<a href="#css-design">[4]</a> P57）。那是已经过时的说法，现在很多字体的 M 其实占不到 1em 的宽度。<a href="#wikipedia">[2]</a></p>
-<h2 id="只用-em-和-px">
-<a href="#只用-em-和-px" class="headerlink" title="只用 em 和 px"></a>只用 em 和 px</h2>
-<p>例子来自 <a href="http://www.w3.org/Style/Examples/007/units.en.html" target="_blank">www.w3.org</a></p>
-<p></p>
-<p style="line-height: 3.2; text-shadow: 0 0"><span style="padding: 1em 0; border-left: 0.5pt solid">0.5pt,</span> <span style="padding: 1em 0; border-left: 1px solid">1px,</span> <span style="padding: 1em 0; border-left: 1pt solid">1pt,</span> <span style="padding: 1em 0; border-left: 1.5px solid">1.5px,</span><span
-style="padding: 1em 0; border-left: 2px solid">2px</span></p>
-<p></p>
-<p>如果前面四根线看起来一样（或者 0.5pt 的看不见了），你应该是在用不能显示小于 1px 点的电脑显示屏。如果能看到线的厚度递增，你应该在看高质量电脑显示器或打印的纸张。如果 1pt 看起来比 1.5px 厚，你可能在用手持设备。</p>
-<p>当需要排列文字与图片的时候用 px 比较合适。</p>
-<p>而字体更好是用 em 。（一）不要设置 body 的 font 大小，因为默认大小是读者可以舒适阅读的大小。（二）用 em 设置其它元素大小，比如 2.5em 就是 body 字体的 2.5 倍大小。</p>
-<p>只有在设置打印字体的时候才用 pt/cm/in 单位。</p>
-<h2 id="新型单位">
-<a href="#新型单位" class="headerlink" title="新型单位"></a>新型单位</h2>
+<h2 id="Inline-level-element">
+<a href="#Inline-level-element" class="headerlink" title="Inline-level element"></a>Inline-level element</h2>
 <ul>
-<li>rem (root em 就是依据根元素字体大小的比值，em 会叠加，rem 不会)</li>
-<li>vw (window 宽度的 1/100)</li>
-<li>vh (window 高度的 1/100)</li>
+<li>
+<p>display 值为 &#39;inline/inline-table/inline-block&#39; 的元素叫 <em>inline-level element</em>。</p>
+</li>
+<li>
+<p>Inline-level element 会生成 <em>inline-level box</em>。</p>
+</li>
+<li>
+<p>display 为 &#39;inline&#39; 的 non-replaced element 生成的盒子也叫 <em>inline box</em>，指其内部参与的与其自身所在的是同个 IFC。</p>
+<p>（同样，Inline-level box 说的是盒子本身，inline box 说的是盒子内部）。</p>
+</li>
+<li>
+<p>不是 inline box 的 inline-level box （如 replaced inline-level element, inline-block element, inline-table element）叫做 <em>atomic inline-level box</em>，它们以不透明的方式参与到 IFC 中，内部不参与自身所在的 IFC。</p>
+</li>
+<li>
+<p>Inline-level boxes 打横排成一行行的 <em>line boxes</em>。</p>
+</li>
 </ul>
-<h2 id="参考">
-<a href="#参考" class="headerlink" title="参考"></a>参考</h2>
-<ol>
-<li><a href="http://www.w3.org/Style/Examples/007/units.en.html" id="w3" target="_blank">www.w3.org</a></li>
-<li><a id="wikipedia" href="http://en.wikipedia.org/wiki/Em_(typography)" target="_blank">wikipedia</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/font-size" id="mozilla" target="_blank">developer.mozilla.org</a></li>
-<li><a href="http://www.amazon.cn/%E5%9B%BE%E7%81%B5%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E4%B8%9B%E4%B9%A6-CSS%E8%AE%BE%E8%AE%A1%E6%8C%87%E5%8D%97-%E5%8F%B2%E5%AF%86%E6%96%AF/dp/B00COG3VRC/ref=sr_1_1" id="css-design" target="_blank">《CSS设计指南(第3版)》</a></li>
-</ol>
+<h2 id="Flow">
+<a href="#Flow" class="headerlink" title="Flow"></a>Flow</h2>
+<ul>
+<li>
+<p><em>Out-of-flow</em> 的元素指 absolutely positioned elements, floated elements 和 root element。</p>
+</li>
+<li>
+<p><em>In-flow</em> 指不是 out-of-flow 的元素。</p>
+</li>
+</ul>
 </div>
 </div>
 <footer class="article-footer">
 <ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Box-Model/">Box Model</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Font/">Font</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual-Formatting-Model/">Visual Formatting Model</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/规范/">规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2014/08/30/important-announcement-regarding-yui/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">关于 YUI 的重要公告</div></a>
-<a href="/2014/08/11/git-branch-module/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">Git 分支模式笔记</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/04/29/pure-css-relative-aside/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">纯 CSS 实现浮动介绍</div></a></nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread" data-url="https://blog.crimx.com/2014/08/16/css-font-units/" data-identifier="2014/08/16/css-font-units/" data-src="//crimx.disqus.com/embed.js">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/05/29/css-vfm-concepts/" data-identifier="2017/05/29/css-vfm-concepts/" data-src="//crimx.disqus.com/embed.js">
 <div class="no-comments">您还在局域网，评论加载不了。</div>
 <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
 window.cloudTieConfig = {
     url: document.location.href,
-    sourceId: "2014/08/16/css-font-units/",
+    sourceId: "2017/05/29/css-vfm-concepts/",
     productKey: "3534ae5439ba40fe914e6bfea6742ee9",
     target: "cloud-tie-wrapper"
 };

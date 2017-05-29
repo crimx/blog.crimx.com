@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2017/05/29/css-vfm-concepts/</loc>
+        <lastmod>2017-05-29T12:27:50.742Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2017/04/29/pure-css-relative-aside/</loc>
         <lastmod>2017-04-28T16:25:53.369Z</lastmod>
         <changefreq>weekly</changefreq>
