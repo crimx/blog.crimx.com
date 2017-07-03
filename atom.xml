@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.crimx.com/"/>
-  <updated>2017-05-29T12:27:50.742Z</updated>
+  <updated>2017-07-03T13:22:12.511Z</updated>
   <id>https://blog.crimx.com/</id>
   
   <author>
@@ -16,11 +16,118 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>CSS 属性值计算</title>
+    <link href="https://blog.crimx.com/2017/07/03/value-calculation-of-css-properties/"/>
+    <id>https://blog.crimx.com/2017/07/03/value-calculation-of-css-properties/</id>
+    <published>2017-07-02T16:00:00.000Z</published>
+    <updated>2017-07-03T13:22:12.511Z</updated>
+    
+    <content type="html"><![CDATA[<p>属性值的计算可谓是 CSS 101 。然而入门资料从来都是良莠不齐的，当初从畅销书上得来的一些误解，如今整理笔记的时候才发现。这里就结合规范梳理一遍。</p>
+<p>一个属性的值在计算时会经过 4 个阶段</p>
+<ol>
+<li>Specified values</li>
+<li>Computed values</li>
+<li>Used values</li>
+<li>Actual values</li>
+</ol>
+<h2 id="Specified-values">
+<a href="#Specified-values" class="headerlink" title="Specified values"></a>Specified values</h2>
+<p>这里有 3 种可能，满足一种就可以</p>
+<ul>
+<li>计算 cascade 有结果</li>
+<li>否则，若这个值可以继承，继承父元素的 computed value（根元素除外）</li>
+<li>还是没有，则用默认值</li>
+</ul>
+<h3 id="计算-cascade">
+<a href="#计算-cascade" class="headerlink" title="计算 cascade"></a>计算 cascade</h3>
+<p>这里就是重点，经历 4 个步骤：</p>
+<ol>
+<li>匹配 Media Type 的筛选</li>
+<li>按来源排序（低到高）
+<ol>
+<li>user agent declarations</li>
+<li>user normal declarations</li>
+<li>author normal declarations</li>
+<li>author important declarations</li>
+<li>user important declarations</li>
+</ol>
+</li>
+<li>同个来源的按权值（specificity）排序，收集选择器里的属性个数比较
+<ul>
+<li>&quot;style&quot; 属性（attribute）里的属性 * 1000</li>
+<li>ID 属性 * 100</li>
+<li>其它属性、类、伪类 * 10</li>
+<li>元素名、伪元素 * 1</li>
+</ul>
+</li>
+<li>如果前面得出并列结果，则按位置排序
+<ul>
+<li>越靠后越高</li>
+<li>import 进来的样式看做在本样式表前面</li>
+</ul>
+</li>
+</ol>
+<p>可以看到来源总共有三个，user agent、user 和 author。User important 最高是因为用户的自定义样式一般是为了覆盖 user agent 作为默认样式，但有时候用户也想覆盖 author 即网站本身的样式，于是让 user important 最高。</p>
+<p>注意 <code>&lt;style&gt;</code> 与 <code>&lt;link&gt;</code> 引入的 CSS 同属 author declarations 也就是说两者的等级是<strong>一样的</strong>，按先后顺序覆盖。</p>
+<p>HTML 里若有非 CSS 的样式属性（presentational attributes），比如 font 之类，UA 可能将其翻译为 CSS 属性，放在 author style sheet 开端，并赋予权值 0。</p>
+<h2 id="Computed-values">
+<a href="#Computed-values" class="headerlink" title="Computed values"></a>Computed values</h2>
+<p>在排版前就可以确定的值。在元素定义的 Computed Value 区域可以查到，如</p>
+<ul>
+<li>URI 计算绝对路径</li>
+<li>&#39;em&#39; 和 &#39;ex&#39; 计算成 px 或绝对长度。</li>
+</ul>
+<p>比如</p>
+<p></p>
+<figure class="highlight css">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="selector-tag">body</span> &#123; <span class="attribute">font-size</span>: <span class="number">10px</span>; &#125;</div><div class="line"><span class="selector-tag">h1</span> &#123; <span class="attribute">font-size</span>: <span class="number">120%</span>; &#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>h1 先计算 cascade 按继承得到了 10px ，再在本阶段计算得 12px。</p>
+<h2 id="Used-values">
+<a href="#Used-values" class="headerlink" title="Used values"></a>Used values</h2>
+<p>排版之后才能确定的值，如百分比宽度，必须排版才能知道父容器宽度。</p>
+<h2 id="Actual-values">
+<a href="#Actual-values" class="headerlink" title="Actual values"></a>Actual values</h2>
+<p>实际用于渲染的值，由于设备环境等因素，一些值可能不能用，需要作出变化。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;属性值的计算可谓是 CSS 101 。然而入门资料从来都是良莠不齐的，当初从畅销书上得来的一些误解，如今整理笔记的时候才发现。这里就结合规范梳理一遍。&lt;/p&gt;
+&lt;p&gt;一个属性的值在计算时会经过 4 个阶段&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Specified values&lt;/li&gt;
+    
+    </summary>
+    
+      <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
+    
+    
+      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
+    
+      <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
+      <category term="Box Model" scheme="https://blog.crimx.com/tags/Box-Model/"/>
+    
+      <category term="Visual Formatting Model" scheme="https://blog.crimx.com/tags/Visual-Formatting-Model/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CSS VFM 中易混淆的名词概念</title>
     <link href="https://blog.crimx.com/2017/05/29/css-vfm-concepts/"/>
     <id>https://blog.crimx.com/2017/05/29/css-vfm-concepts/</id>
     <published>2017-05-28T16:00:00.000Z</published>
-    <updated>2017-05-29T12:27:50.742Z</updated>
+    <updated>2017-07-03T08:51:36.722Z</updated>
     
     <content type="html"><![CDATA[<p><span class="github-emoji" title=":warning:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v7">&#x26a0;</span>第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的<a href="http://book.mixu.net/css/" target="_blank">笔记</a>，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。</p>
 <h2 id="Element-与-Box">
@@ -95,11 +202,11 @@
     
       <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
     
+      <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
       <category term="Box Model" scheme="https://blog.crimx.com/tags/Box-Model/"/>
     
       <category term="Visual Formatting Model" scheme="https://blog.crimx.com/tags/Visual-Formatting-Model/"/>
-    
-      <category term="规范" scheme="https://blog.crimx.com/tags/%E8%A7%84%E8%8C%83/"/>
     
   </entry>
   
@@ -658,136 +765,6 @@ within the upper frame window.</p>
   </entry>
   
   <entry>
-    <title>获取 DOM 里所有图片（包括背景和Iframe）</title>
-    <link href="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/"/>
-    <id>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/</id>
-    <published>2017-03-08T16:00:00.000Z</published>
-    <updated>2017-03-15T16:05:43.352Z</updated>
-    
-    <content type="html"><![CDATA[<p>在写浏览器扩展什么的时候可能会用上。</p>
-<p>获取 DOM 里的图片主要是在这几个地方里面找: <code>&lt;img&gt;</code> 元素, <code>background-image</code> CSS 属性和 <code>&lt;iframe&gt;</code>。</p>
-<h1 id="img">
-<a href="#img" class="headerlink" title="img"></a>img</h1>
-<p>如果只想获取 <code>&lt;img&gt;</code> 的图片，有两种方式:</p>
-<p>直接获取所有 <code>img</code> 标签:</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// 用 img.src 如果要本来的 src</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>还可以用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/images" target="_blank">document.images</a>:</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="background-image">
-<a href="#background-image" class="headerlink" title="background-image"></a>background-image</h1>
-<p>获得背景图片需要查看所有 DOM 节点的 <code>background-image</code> 属性:</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBgImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(</div><div class="line">    <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">getBgImgs(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>背景图片不能直接得到尺寸信息，如果需要的话要加载一遍。因为搜集的图片很有可能已经在浏览器缓存里，所以加载过程应该很快。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">    img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      resolve(&#123;</div><div class="line">        <span class="attr">src</span>: src,</div><div class="line">        <span class="attr">width</span>: img.naturalWidth,</div><div class="line">        <span class="attr">height</span>: img.naturalHeight</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    img.onerror = reject</div><div class="line">    img.src = src</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(reject, timeout)</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">Promise</span>.all(</div><div class="line">      imgList</div><div class="line">        .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">        .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">    ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadImgAll(getBgImgs(<span class="built_in">document</span>)).then(<span class="function"><span class="params">imgs</span> =&gt;</span> <span class="built_in">console</span>.log(imgs))</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="iframe">
-<a href="#iframe" class="headerlink" title="iframe"></a>iframe</h1>
-<p>只需要递归遍历 iframe 的 document</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchIframes</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgList = []</div><div class="line">  doc.querySelectorAll(<span class="string">'iframe'</span>)</div><div class="line">    .forEach(<span class="function"><span class="params">iframe</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        iframeDoc = iframe.contentDocument || iframe.contentWindow.document</div><div class="line">        imgList = imgList.concat(getImgs(iframeDoc) || []) <span class="comment">// or getBgImgs(iframeDoc)</span></div><div class="line">        imgList = imgList.concat(searchIframes(iframeDoc) || [])</div><div class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">        <span class="comment">// 直接忽略错误的 iframe (e.g. cross-origin)</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  <span class="keyword">return</span> imgList</div><div class="line">&#125;</div><div class="line"></div><div class="line">searchIframes(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="整合一起">
-<a href="#整合一起" class="headerlink" title="整合一起"></a>整合一起</h1>
-<p>直接使用就行。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgAll</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    loadImgAll(<span class="built_in">Array</span>.from(searchDOM(doc)))</div><div class="line">      .then(resolve, reject)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">searchDOM</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="comment">// bg src</span></div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="regexp">/^img$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// src from img tag</span></div><div class="line">          collection.add(node.src)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^frame$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// iframe</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            searchDOM(node.contentDocument || node.contentWindow.document)</div><div class="line">              .forEach(<span class="function"><span class="params">img</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (img) &#123; collection.add(img) &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">      img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(&#123;</div><div class="line">          <span class="attr">src</span>: src,</div><div class="line">          <span class="attr">width</span>: img.naturalWidth,</div><div class="line">          <span class="attr">height</span>: img.naturalHeight</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">      img.onerror = reject</div><div class="line">      img.src = src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      setTimeout(reject, timeout)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">Promise</span>.all(</div><div class="line">        imgList</div><div class="line">          .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">          .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">      ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgAll(<span class="built_in">document</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> <span class="built_in">console</span>.log(list))</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>如果是开发 Chrome 插件则不受跨域影响，可以直接使用 <a href="https://github.com/nodeca/probe-image-size" target="_blank">probe-image-size</a>，它支持 timeout 参数，就不需要自己写 timer 了。我在写一个 <a href="https://github.com/crimx/crx-weitweet" target="_blank">Chrome 扩展</a>时用上了，很方便。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在写浏览器扩展什么的时候可能会用上。&lt;/p&gt;
-&lt;p&gt;获取 DOM 里的图片主要是在这几个地方里面找: &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 元素, &lt;code&gt;background-image&lt;/code&gt; CSS 属性和 &lt;code&gt;&amp;lt;iframe&amp;gt
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
-    
-      <category term="DOM" scheme="https://blog.crimx.com/tags/DOM/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Get All Images in DOM (Including Background)</title>
     <link href="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/"/>
     <id>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background-en/</id>
@@ -902,6 +879,136 @@ within the upper frame window.</p>
     
       &lt;p&gt;Quite useful if you are writing an browser extension or something.&lt;/p&gt;
 &lt;p&gt;To get all the images in DOM there are actually three places we
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
+    
+      <category term="DOM" scheme="https://blog.crimx.com/tags/DOM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>获取 DOM 里所有图片（包括背景和Iframe）</title>
+    <link href="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/"/>
+    <id>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/</id>
+    <published>2017-03-08T16:00:00.000Z</published>
+    <updated>2017-03-15T16:05:43.352Z</updated>
+    
+    <content type="html"><![CDATA[<p>在写浏览器扩展什么的时候可能会用上。</p>
+<p>获取 DOM 里的图片主要是在这几个地方里面找: <code>&lt;img&gt;</code> 元素, <code>background-image</code> CSS 属性和 <code>&lt;iframe&gt;</code>。</p>
+<h1 id="img">
+<a href="#img" class="headerlink" title="img"></a>img</h1>
+<p>如果只想获取 <code>&lt;img&gt;</code> 的图片，有两种方式:</p>
+<p>直接获取所有 <code>img</code> 标签:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// 用 img.src 如果要本来的 src</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>还可以用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/images" target="_blank">document.images</a>:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="background-image">
+<a href="#background-image" class="headerlink" title="background-image"></a>background-image</h1>
+<p>获得背景图片需要查看所有 DOM 节点的 <code>background-image</code> 属性:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBgImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(</div><div class="line">    <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">getBgImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>背景图片不能直接得到尺寸信息，如果需要的话要加载一遍。因为搜集的图片很有可能已经在浏览器缓存里，所以加载过程应该很快。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">    img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      resolve(&#123;</div><div class="line">        <span class="attr">src</span>: src,</div><div class="line">        <span class="attr">width</span>: img.naturalWidth,</div><div class="line">        <span class="attr">height</span>: img.naturalHeight</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    img.onerror = reject</div><div class="line">    img.src = src</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(reject, timeout)</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">Promise</span>.all(</div><div class="line">      imgList</div><div class="line">        .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">        .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">    ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadImgAll(getBgImgs(<span class="built_in">document</span>)).then(<span class="function"><span class="params">imgs</span> =&gt;</span> <span class="built_in">console</span>.log(imgs))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="iframe">
+<a href="#iframe" class="headerlink" title="iframe"></a>iframe</h1>
+<p>只需要递归遍历 iframe 的 document</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchIframes</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgList = []</div><div class="line">  doc.querySelectorAll(<span class="string">'iframe'</span>)</div><div class="line">    .forEach(<span class="function"><span class="params">iframe</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        iframeDoc = iframe.contentDocument || iframe.contentWindow.document</div><div class="line">        imgList = imgList.concat(getImgs(iframeDoc) || []) <span class="comment">// or getBgImgs(iframeDoc)</span></div><div class="line">        imgList = imgList.concat(searchIframes(iframeDoc) || [])</div><div class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">        <span class="comment">// 直接忽略错误的 iframe (e.g. cross-origin)</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  <span class="keyword">return</span> imgList</div><div class="line">&#125;</div><div class="line"></div><div class="line">searchIframes(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="整合一起">
+<a href="#整合一起" class="headerlink" title="整合一起"></a>整合一起</h1>
+<p>直接使用就行。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgAll</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    loadImgAll(<span class="built_in">Array</span>.from(searchDOM(doc)))</div><div class="line">      .then(resolve, reject)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">searchDOM</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="comment">// bg src</span></div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="regexp">/^img$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// src from img tag</span></div><div class="line">          collection.add(node.src)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^frame$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// iframe</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            searchDOM(node.contentDocument || node.contentWindow.document)</div><div class="line">              .forEach(<span class="function"><span class="params">img</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (img) &#123; collection.add(img) &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">      img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(&#123;</div><div class="line">          <span class="attr">src</span>: src,</div><div class="line">          <span class="attr">width</span>: img.naturalWidth,</div><div class="line">          <span class="attr">height</span>: img.naturalHeight</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">      img.onerror = reject</div><div class="line">      img.src = src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      setTimeout(reject, timeout)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">Promise</span>.all(</div><div class="line">        imgList</div><div class="line">          .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">          .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">      ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgAll(<span class="built_in">document</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> <span class="built_in">console</span>.log(list))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>如果是开发 Chrome 插件则不受跨域影响，可以直接使用 <a href="https://github.com/nodeca/probe-image-size" target="_blank">probe-image-size</a>，它支持 timeout 参数，就不需要自己写 timer 了。我在写一个 <a href="https://github.com/crimx/crx-weitweet" target="_blank">Chrome 扩展</a>时用上了，很方便。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在写浏览器扩展什么的时候可能会用上。&lt;/p&gt;
+&lt;p&gt;获取 DOM 里的图片主要是在这几个地方里面找: &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 元素, &lt;code&gt;background-image&lt;/code&gt; CSS 属性和 &lt;code&gt;&amp;lt;iframe&amp;gt
     
     </summary>
     
@@ -2034,7 +2141,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
     <link href="https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/"/>
     <id>https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/</id>
     <published>2016-04-17T16:00:00.000Z</published>
-    <updated>2017-01-04T06:55:10.898Z</updated>
+    <updated>2017-07-03T08:52:13.716Z</updated>
     
     <content type="html"><![CDATA[<p>今天看了<a href="https://imququ.com/post/document-scrollingelement-in-chrome.html" target="_blank">这篇文章</a>，讲到 WebKit <code>document.body.scrollTop</code> 的问题。还有这里 <a href="https://dev.opera.com/articles/fixing-the-scrolltop-bug/" target="_blank">Dev.Opera Blog : Fixing the scrollTop bug</a>。</p>
 <p><code>scrollTop</code>, <code>scrollLeft</code>, <code>scrollWidth</code>, <code>scrollHeight</code> 都是跟滚动相关的属性。设置 <code>scrollTop</code> 和 <code>scrollLeft</code> 还可以产生滚动。当这些属于用在根元素的时候，滚动是发生在 viewport 的。</p>
@@ -2269,103 +2376,13 @@ table. For XUL elements, the computed size of the element is always zero, regard
     
       <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
+      <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
       <category term="闲读源码" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
     
       <category term="Browser" scheme="https://blog.crimx.com/tags/Browser/"/>
     
       <category term="Polyfill" scheme="https://blog.crimx.com/tags/Polyfill/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>理解 Anki 基础概念</title>
-    <link href="https://blog.crimx.com/2016/03/20/understanding-anki/"/>
-    <id>https://blog.crimx.com/2016/03/20/understanding-anki/</id>
-    <published>2016-03-19T16:00:00.000Z</published>
-    <updated>2017-02-26T04:18:41.822Z</updated>
-    
-    <content type="html"><![CDATA[<p>在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。</p>
-<p>Anki 是一个卡片记忆系统，基于 <a href="https://www.supermemo.com" target="_blank">SuperMemo</a> 老版的 SM2 算法，在实用性和有效性方面做了很好的平衡。简洁的界面，全平台免费同步，用 HTML 和 CSS 做模板，导入导出非常灵活，很适合程序员使用。</p>
-<p>Anki 跟其它几个系统一样，都引入了自身的一套理念，不理解的话用起来就会无从下手。看了<a href="http://ankisrs.net/docs/manual.html" target="_blank">官方的文档</a>后，解决了很多疑惑和误解，并试图在本文用自己的理解总结一遍。<strong>但这篇文章不是操作说明书</strong>，如何操作这个网上已经有很多中文资料和视频，就不重复劳动了。</p>
-<p>可以把 Anki 的使用分成四个步骤：</p>
-<ol>
-<li>得到问题</li>
-<li>录入数据</li>
-<li>使用卡片</li>
-<li>循环记忆</li>
-</ol>
-<p>主要需要理解前两个。</p>
-<h2 id="得到问题">
-<a href="#得到问题" class="headerlink" title="得到问题"></a>得到问题</h2>
-<p>把想要记忆的材料整理出一道道“问题-答案”对，参照 <a href="https://www.supermemo.com/en/articles/20rules" target="_blank">SuperMemo 的 20 条规则</a>。</p>
-<p>这些规则核心的概念是</p>
-<p><a href="https://www.supermemo.com/en/articles/20rules#Do not learn if you do not understand" target="_blank">1、先理解再记忆</a>。</p>
-<p><a href="https://www.supermemo.com/en/articles/20rules#minimum information principle" target="_blank">4、最小信息原则</a>。这个规则与 <a href="https://www.supermemo.com/en/articles/20rules#Avoid sets" target="_blank">9、避免使用集合</a>和
-<a href="https://www.supermemo.com/en/articles/20rules#Enumerations" target="_blank">10、避免使用枚举</a>都是一个道理：保证每次的答案都是固定的，不一定是一模一样，但必须是有固定的顺序，且尽可能的细化，这样可以减少无必要的记忆负担，提高重复记忆的效果。</p>
-<p><a href="https://www.supermemo.com/en/articles/20rules#Use imagery" target="_blank">6、使用图像</a>、 <a href="https://www.supermemo.com/en/articles/20rules#mnemonic techniques" target="_blank">7、使用思维导图</a>和
-<a href="https://www.supermemo.com/en/articles/20rules#Personalize and provide examples" target="_blank">14、私人化定制例子</a> 提到了耳熟能详的右脑记忆和联想记忆。</p>
-<p><a href="https://www.supermemo.com/en/articles/20rules#Cloze deletion" target="_blank">5、填空题</a> 以及变种 <a href="https://www.supermemo.com/en/articles/20rules#Graphic deletion" target="_blank">8、图像填空题</a>提到了填空题的好处。Anki 有自己的一套方式录入填空题，后面会提到。</p>
-<h2 id="录入数据">
-<a href="#录入数据" class="headerlink" title="录入数据"></a>录入数据</h2>
-<p>录入数据最常用的方法就是在软件的上一条条的填入，但 Anki 提供了更方便的导入方式，结合 HTML 可以更灵活地控制显示方式。但必须注意，导入功能不是为了方便直接使用别人分享的数据；根据先理解再记忆的原则，最好还是手动用文本记录好，然后利用文本编辑器或者编写脚本批量添加样式，最后导入到 Anki 里。</p>
-<p>在录入之前需要理解 Anki 数据的一些概念：</p>
-<p>Anki 一个最大的亮点就是“用户负责录入数据，Anki 负责生成卡片”。这也是我一开始没有注意并误解了的地方。Anki 将数据和卡片分开提供了巨大的灵活性，可以用一组数据产生不同的卡片。</p>
-<h3 id="Cards-和-Decks">
-<a href="#Cards-和-Decks" class="headerlink" title="Cards 和 Decks"></a>Cards 和 Decks</h3>
-<p><a href="http://ankisrs.net/docs/manual.html#cards" target="_blank">Cards</a> 就是卡片，每张卡片包含了正面和背面，一般正面会放问题，背面放问题和答案，但都是可以改的，很灵活。</p>
-<p><a href="http://ankisrs.net/docs/manual.html#decks" target="_blank">Decks</a> 就是牌组，卡片放牌组里面，牌组也可以放牌组里面，方便分类整理，用 <code>::</code> 分隔。</p>
-<h3 id="Notes-和-Fields">
-<a href="#Notes-和-Fields" class="headerlink" title="Notes 和 Fields"></a>Notes 和 Fields</h3>
-<p>Anki 中的数据主要分为 <a href="http://ankisrs.net/docs/manual.html#notes-&amp;-fields" target="_blank">Notes（记录） 和 Fields（字段）</a>。</p>
-<p>如果把数据看成表格，字段就是表格的表头，代表了都有什么类型的数据，一条记录就是一组数据，包含了每种字段的一个取值。</p>
-<p>使用文本导入时，文本里的一行就是一条记录，每条记录里面的各个字段用分隔符分隔。分隔符可以是逗号、分号或 tab ，Anki 会以第一条记录判断用什么分隔符，并判断有多少个字段。而字段的名称最后在要导入的那个牌组上面设置。</p>
-<p>比如记忆英文，可以有三个字段：英文、中文、例句，文本中的一行记录就可以是：<code>Apple; 苹果; I love apple.</code> 。这里就代表了：</p>
-<p></p>
-<figure class="highlight plain">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">英文: Apple</div><div class="line">中文: 苹果</div><div class="line">例句：I love apple.</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>这样的好处就是可以非常灵活地生成卡片。比如可以将英文作为卡片正面，将中文和例句放在背面；也可以将中文放在正面，英文和例句放在背面。非常的方便。</p>
-<p>得到了数据以后，就可以对卡片的样式和类型进行调整。</p>
-<h3 id="Card-Types">
-<a href="#Card-Types" class="headerlink" title="Card Types"></a>Card Types</h3>
-<p>可以将一套卡片统一成一个类型，然后对这个类型套用一个模板去显示。</p>
-<h3 id="Note-Types">
-<a href="#Note-Types" class="headerlink" title="Note Types"></a>Note Types</h3>
-<p>卡片的类型也是可以很方便修改，<a href="https://www.youtube.com/watch?v=5tYObQ3ocrw" target="_blank">这个视频</a>除了介绍添加答案输入，后面还提到了如何改成填空题</p>
-<p></p>
-<p><iframe width="560" height="315" style="width:100%" src="" data-type="youtube" data-src="//www.youtube.com/embed/5tYObQ3ocrw" frameborder="0" allowfullscreen></iframe></p>
-<p></p>
-<p>理解了这些基本概念就可以开始使用 Anki 了，遇到了其它问题可以查<a href="http://ankisrs.net/docs/manual.html" target="_blank">文档</a>、<a href="http://ankisrs.net/docs/manual.html#_intro_videos" target="_blank">视频</a>、<a href="https://anki.tenderapp.com/discussions" target="_blank">支持</a>和<a href="http://bbs.ankichina.net/" target="_blank">中文论坛</a>。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在尝试了 Anki 、 SuperMemo 、 Quizlet 和 Memrise 之后，最后选用了 Anki。&lt;/p&gt;
-&lt;p&gt;Anki 是一个卡片记忆系统，基于 &lt;a href=&quot;https://www.supermemo.com&quot; target=&quot;_blank&quot;&gt;Sup
-    
-    </summary>
-    
-      <category term="Tools" scheme="https://blog.crimx.com/categories/Tools/"/>
-    
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="Anki" scheme="https://blog.crimx.com/tags/Anki/"/>
-    
-      <category term="GTD" scheme="https://blog.crimx.com/tags/GTD/"/>
-    
-      <category term="Time Management" scheme="https://blog.crimx.com/tags/Time-Management/"/>
-    
-      <category term="Todo List" scheme="https://blog.crimx.com/tags/Todo-List/"/>
     
   </entry>
   

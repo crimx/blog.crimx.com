@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-<title>Low Poly 初体验 | CRIMX</title>
+<title>CSS 属性值计算 | CRIMX</title>
 <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
@@ -29,53 +29,52 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：
+<meta name="description" content="属性值的计算可谓是 CSS 101 。然而入门资料从来都是良莠不齐的，当初从畅销书上得来的一些误解，如今整理笔记的时候才发现。这里就结合规范梳理一遍。
+一个属性的值在计算时会经过 4 个阶段
 
-先描好线再连三角形
-不一定是三角形
-细节需要更多图案，大块的不妨用大三角形
-原图饱和度可以提高一些
-记得中途休息，扭扭手腕（血的教训）
-
-
+Specified values
+Computed values
+Used values
+Actual values
 
 
-瞎扯完了，洗洗睡。">
+Specified values
+这里有 3 种可能，满足一种就可以
+
+计算 cas">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Low Poly 初体验">
-<meta property="og:url" content="https://blog.crimx.com/2014/09/02/low-poly/index.html">
+<meta property="og:title" content="CSS 属性值计算">
+<meta property="og:url" content="https://blog.crimx.com/2017/07/03/value-calculation-of-css-properties/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：
+<meta property="og:description" content="属性值的计算可谓是 CSS 101 。然而入门资料从来都是良莠不齐的，当初从畅销书上得来的一些误解，如今整理笔记的时候才发现。这里就结合规范梳理一遍。
+一个属性的值在计算时会经过 4 个阶段
 
-先描好线再连三角形
-不一定是三角形
-细节需要更多图案，大块的不妨用大三角形
-原图饱和度可以提高一些
-记得中途休息，扭扭手腕（血的教训）
-
-
+Specified values
+Computed values
+Used values
+Actual values
 
 
-瞎扯完了，洗洗睡。">
-<meta property="og:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly1.png">
-<meta property="og:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly2.png">
-<meta property="og:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly3.png">
-<meta property="og:updated_time" content="2016-12-30T05:14:41.458Z">
+Specified values
+这里有 3 种可能，满足一种就可以
+
+计算 cas">
+<meta property="og:updated_time" content="2017-07-03T13:22:12.511Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Low Poly 初体验">
-<meta name="twitter:description" content="今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：
+<meta name="twitter:title" content="CSS 属性值计算">
+<meta name="twitter:description" content="属性值的计算可谓是 CSS 101 。然而入门资料从来都是良莠不齐的，当初从畅销书上得来的一些误解，如今整理笔记的时候才发现。这里就结合规范梳理一遍。
+一个属性的值在计算时会经过 4 个阶段
 
-先描好线再连三角形
-不一定是三角形
-细节需要更多图案，大块的不妨用大三角形
-原图饱和度可以提高一些
-记得中途休息，扭扭手腕（血的教训）
-
-
+Specified values
+Computed values
+Used values
+Actual values
 
 
-瞎扯完了，洗洗睡。">
-<meta name="twitter:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly1.png">
+Specified values
+这里有 3 种可能，满足一种就可以
+
+计算 cas">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -137,63 +136,135 @@
 <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
-<h1 class="site-title" itemprop="name">Low Poly 初体验</h1>
+<h1 class="site-title" itemprop="name">CSS 属性值计算</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2014/09/02/low-poly/" class="article-date"><time datetime="2014-09-01T16:00:00.000Z" itemprop="datePublished">2014-09-02</time></a>
-<a rel="license" class="cc-license-wrapper"
-href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2017/07/03/value-calculation-of-css-properties/" class="article-date"><time datetime="2017-07-02T16:00:00.000Z" itemprop="datePublished">2017-07-03</time></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
 </div>
 </header>
 <div class="tagline-wrap">
 <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
-<blockquote class="tagline-content">"omewhere in the world someone is training when you are not. When you race him, he will win."</blockquote>
-<footer class="tagline-cite"><cite>Tom Fleming</cite></footer>
+<blockquote class="tagline-content">"There is nothing permanent except change."</blockquote>
+<footer class="tagline-cite"><cite>Heraclitus</cite></footer>
 </section>
 </div>
 <div class="toc-mousearea"></div>
 <div class="toc-wrapper">
-<div class="toc-container"></div>
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Specified-values"><span class="toc-text">Specified values</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#计算-cascade"><span class="toc-text">计算 cascade</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Computed-values"><span class="toc-text">Computed values</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Used-values"><span class="toc-text">Used values</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Actual-values"><span class="toc-text">Actual values</span></a></li>
+</ol>
 </div>
-<article id="post-low-poly" class="article--post" itemscope="" itemprop="blogPost">
+</div>
+<article id="post-value-calculation-of-css-properties" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<p>今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：</p>
+<p>属性值的计算可谓是 CSS 101 。然而入门资料从来都是良莠不齐的，当初从畅销书上得来的一些误解，如今整理笔记的时候才发现。这里就结合规范梳理一遍。</p>
+<p>一个属性的值在计算时会经过 4 个阶段</p>
 <ol>
-<li>先描好线再连三角形</li>
-<li>不一定是三角形</li>
-<li>细节需要更多图案，大块的不妨用大三角形</li>
-<li>原图饱和度可以提高一些</li>
-<li>记得中途休息，扭扭手腕（血的教训）</li>
+<li>Specified values</li>
+<li>Computed values</li>
+<li>Used values</li>
+<li>Actual values</li>
 </ol>
-<p><img src="/images/post/illustrator/low-poly/low-poly1.png" alt="low poly1"></p>
-<p><img src="/images/post/illustrator/low-poly/low-poly2.png" alt="low poly2"></p>
-<p><img src="/images/post/illustrator/low-poly/low-poly3.png" alt="low poly3"></p>
-<p>瞎扯完了，洗洗睡。</p>
+<h2 id="Specified-values">
+<a href="#Specified-values" class="headerlink" title="Specified values"></a>Specified values</h2>
+<p>这里有 3 种可能，满足一种就可以</p>
+<ul>
+<li>计算 cascade 有结果</li>
+<li>否则，若这个值可以继承，继承父元素的 computed value（根元素除外）</li>
+<li>还是没有，则用默认值</li>
+</ul>
+<h3 id="计算-cascade">
+<a href="#计算-cascade" class="headerlink" title="计算 cascade"></a>计算 cascade</h3>
+<p>这里就是重点，经历 4 个步骤：</p>
+<ol>
+<li>匹配 Media Type 的筛选</li>
+<li>按来源排序（低到高）
+<ol>
+<li>user agent declarations</li>
+<li>user normal declarations</li>
+<li>author normal declarations</li>
+<li>author important declarations</li>
+<li>user important declarations</li>
+</ol>
+</li>
+<li>同个来源的按权值（specificity）排序，收集选择器里的属性个数比较
+<ul>
+<li>&quot;style&quot; 属性（attribute）里的属性 * 1000</li>
+<li>ID 属性 * 100</li>
+<li>其它属性、类、伪类 * 10</li>
+<li>元素名、伪元素 * 1</li>
+</ul>
+</li>
+<li>如果前面得出并列结果，则按位置排序
+<ul>
+<li>越靠后越高</li>
+<li>import 进来的样式看做在本样式表前面</li>
+</ul>
+</li>
+</ol>
+<p>可以看到来源总共有三个，user agent、user 和 author。User important 最高是因为用户的自定义样式一般是为了覆盖 user agent 作为默认样式，但有时候用户也想覆盖 author 即网站本身的样式，于是让 user important 最高。</p>
+<p>注意 <code>&lt;style&gt;</code> 与 <code>&lt;link&gt;</code> 引入的 CSS 同属 author declarations 也就是说两者的等级是<strong>一样的</strong>，按先后顺序覆盖。</p>
+<p>HTML 里若有非 CSS 的样式属性（presentational attributes），比如 font 之类，UA 可能将其翻译为 CSS 属性，放在 author style sheet 开端，并赋予权值 0。</p>
+<h2 id="Computed-values">
+<a href="#Computed-values" class="headerlink" title="Computed values"></a>Computed values</h2>
+<p>在排版前就可以确定的值。在元素定义的 Computed Value 区域可以查到，如</p>
+<ul>
+<li>URI 计算绝对路径</li>
+<li>&#39;em&#39; 和 &#39;ex&#39; 计算成 px 或绝对长度。</li>
+</ul>
+<p>比如</p>
+<p></p>
+<figure class="highlight css">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="selector-tag">body</span> &#123; <span class="attribute">font-size</span>: <span class="number">10px</span>; &#125;</div><div class="line"><span class="selector-tag">h1</span> &#123; <span class="attribute">font-size</span>: <span class="number">120%</span>; &#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>h1 先计算 cascade 按继承得到了 10px ，再在本阶段计算得 12px。</p>
+<h2 id="Used-values">
+<a href="#Used-values" class="headerlink" title="Used values"></a>Used values</h2>
+<p>排版之后才能确定的值，如百分比宽度，必须排版才能知道父容器宽度。</p>
+<h2 id="Actual-values">
+<a href="#Actual-values" class="headerlink" title="Actual values"></a>Actual values</h2>
+<p>实际用于渲染的值，由于设备环境等因素，一些值可能不能用，需要作出变化。</p>
 </div>
 </div>
 <footer class="article-footer">
 <ul class="article-tag-list">
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Illustrator/">Illustrator</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Photoshop/">Photoshop</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Box-Model/">Box Model</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual-Formatting-Model/">Visual Formatting Model</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2014/10/08/sublime-text-two-shortcuts/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Sublime Text 2 快捷键整理</div></a>
-<a href="/2014/08/30/handlebarsjs/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">Handlebars.js 脑图</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/05/29/css-vfm-concepts/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">CSS VFM 中易混淆的名词概念</div></a></nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread" data-url="https://blog.crimx.com/2014/09/02/low-poly/" data-identifier="2014/09/02/low-poly/" data-src="//crimx.disqus.com/embed.js">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/07/03/value-calculation-of-css-properties/" data-identifier="2017/07/03/value-calculation-of-css-properties/" data-src="//crimx.disqus.com/embed.js">
 <div class="no-comments">您还在局域网，评论加载不了。</div>
 <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
 window.cloudTieConfig = {
     url: document.location.href,
-    sourceId: "2014/09/02/low-poly/",
+    sourceId: "2017/07/03/value-calculation-of-css-properties/",
     productKey: "3534ae5439ba40fe914e6bfea6742ee9",
     target: "cloud-tie-wrapper"
 };

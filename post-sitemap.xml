@@ -7,8 +7,48 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2017/07/03/value-calculation-of-css-properties/</loc>
+        <lastmod>2017-07-03T13:22:12.511Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2014/08/16/css-font-units/</loc>
+        <lastmod>2017-07-03T08:52:51.869Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2014/12/10/whats-in-a-function-name/</loc>
+        <lastmod>2017-07-03T08:52:44.354Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2015/03/09/es6-function-vs-block-scope/</loc>
+        <lastmod>2017-07-03T08:52:35.250Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/</loc>
+        <lastmod>2017-07-03T08:52:13.716Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2017/05/29/css-vfm-concepts/</loc>
-        <lastmod>2017-05-29T12:27:50.742Z</lastmod>
+        <lastmod>2017-07-03T08:51:36.722Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -111,14 +151,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/</loc>
-        <lastmod>2017-01-04T06:55:10.898Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/</loc>
         <lastmod>2017-01-04T06:54:15.914Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -199,14 +231,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/2014/12/10/whats-in-a-function-name/</loc>
-        <lastmod>2016-12-29T17:40:51.480Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/2014/11/08/stream-adventure-html-stream-trumpet/</loc>
         <lastmod>2016-12-29T17:37:22.797Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -225,14 +249,6 @@
     <url>
         <loc>https://blog.crimx.com/2014/10/18/emmet-sublime-text-shortcuts/</loc>
         <lastmod>2016-12-29T17:34:51.827Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2014/08/16/css-font-units/</loc>
-        <lastmod>2016-12-29T17:14:16.740Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -361,14 +377,6 @@
     <url>
         <loc>https://blog.crimx.com/2015/02/27/duoshuo-email/</loc>
         <lastmod>2016-12-29T11:33:03.145Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/2015/03/09/es6-function-vs-block-scope/</loc>
-        <lastmod>2016-12-29T11:14:41.540Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

@@ -58,13 +58,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Scope/</loc>
-        <lastmod>2016-12-29T11:14:41.540Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/%E5%A4%9A%E8%AF%B4/</loc>
         <lastmod>2016-12-29T11:33:03.145Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -275,13 +268,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Font/</loc>
-        <lastmod>2016-12-29T17:14:16.740Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Sublime-Text/</loc>
         <lastmod>2016-12-29T17:34:51.827Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -394,27 +380,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/</loc>
-        <lastmod>2017-01-04T06:55:10.898Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/Browser/</loc>
-        <lastmod>2017-01-04T06:55:10.898Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/Polyfill/</loc>
-        <lastmod>2017-01-04T06:55:10.898Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Gulp/</loc>
         <lastmod>2017-01-22T07:47:12.427Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -422,22 +387,8 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Translation/</loc>
-        <lastmod>2017-01-22T09:55:31.753Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</loc>
         <lastmod>2017-01-22T09:55:31.753Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/Function/</loc>
-        <lastmod>2017-01-22T13:32:35.639Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -473,13 +424,6 @@
     <url>
         <loc>https://blog.crimx.com/tags/Background/</loc>
         <lastmod>2017-01-25T17:17:46.163Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/Understanding-JavaScript/</loc>
-        <lastmod>2017-01-26T11:01:38.169Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -555,13 +499,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
-        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Recommended/</loc>
         <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -597,29 +534,92 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/</loc>
+        <lastmod>2017-07-03T08:52:13.716Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Browser/</loc>
+        <lastmod>2017-07-03T08:52:13.716Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Polyfill/</loc>
+        <lastmod>2017-07-03T08:52:13.716Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
+        <lastmod>2017-07-03T08:52:35.250Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Scope/</loc>
+        <lastmod>2017-07-03T08:52:35.250Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Translation/</loc>
+        <lastmod>2017-07-03T08:52:44.354Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Understanding-JavaScript/</loc>
+        <lastmod>2017-07-03T08:52:44.354Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Function/</loc>
+        <lastmod>2017-07-03T08:52:44.354Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Font/</loc>
+        <lastmod>2017-07-03T08:52:51.869Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/tags/CSS/</loc>
-        <lastmod>2017-05-29T12:27:50.742Z</lastmod>
+        <lastmod>2017-07-03T13:22:12.511Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/</loc>
+        <lastmod>2017-07-03T13:22:12.511Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/Box-Model/</loc>
-        <lastmod>2017-05-29T12:27:50.742Z</lastmod>
+        <lastmod>2017-07-03T13:22:12.511Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://blog.crimx.com/tags/Visual-Formatting-Model/</loc>
-        <lastmod>2017-05-29T12:27:50.742Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/%E8%A7%84%E8%8C%83/</loc>
-        <lastmod>2017-05-29T12:27:50.742Z</lastmod>
+        <lastmod>2017-07-03T13:22:12.511Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
