@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.crimx.com/"/>
-  <updated>2017-07-03T13:22:12.511Z</updated>
+  <updated>2017-07-06T11:24:19.498Z</updated>
   <id>https://blog.crimx.com/</id>
   
   <author>
@@ -14,6 +14,163 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Manacher 马拉车算法</title>
+    <link href="https://blog.crimx.com/2017/07/06/manachers-algorithm/"/>
+    <id>https://blog.crimx.com/2017/07/06/manachers-algorithm/</id>
+    <published>2017-07-05T16:00:00.000Z</published>
+    <updated>2017-07-06T11:24:19.498Z</updated>
+    
+    <content type="html"><![CDATA[<p>马拉车算法可以在线性时间复杂度内求出一个字符串的最长回文字串。其核心思想跟 KMP 相似，即反复利用已掌握的情况。</p>
+<p>视频推荐看这个，觉得是最清晰易懂的：</p>
+<p></p>
+<p><iframe width="560" height="315" style="width:100%" src="" data-type="youtube" data-src="//www.youtube.com/embed/nbTSfrEfo6M" frameborder="0" allowfullscreen></iframe></p>
+<p></p>
+<h2 id="整体思路">
+<a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h2>
+<p>这个算法的主要思路是维护一个跟原串 str 一样长的数组 lens。lens[i] 表示以 str[i] 为中点的回串其中一边的长度。这里有的人把中点算进去，有的人记录两边的长度，其实都一样，我这里是只记录一边的长度，不包括中点。比如 <code>&quot;CDCDE&quot;</code></p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">str:  [C, D, C, D, E]</div><div class="line">lens: [0, 1, 1, 0, 0]</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>那么 lens 里最大的自然就对应最长回串的中点了。所以这个算法的核心就是如何快速计算 lens。</p>
+<h2 id="预处理">
+<a href="#预处理" class="headerlink" title="预处理"></a>预处理</h2>
+<p>回文有奇偶长度两种情况，通过补充间隔符可以将这两种情况化简为奇数长度。</p>
+<p>比如 <code>ABA</code> 补充为 <code>#A#B#A#</code> 中点还是 B，<code>ABBA</code> 补充为 <code>#A#B#B#A#</code> 中点为 <code>#</code>，最后可以去掉。</p>
+<p>算法用 JavaScript 写，我将原串转为数组，间隔符就用 <code>null</code>。</p>
+<p>最后在两侧补上哨兵点方便遍历中止。我用了 <code>NaN</code>。所以看起来是这样</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">var</span> arr = [<span class="literal">NaN</span>, <span class="literal">null</span>]</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i += <span class="number">1</span>) &#123;</div><div class="line">  arr.push(str[i])</div><div class="line">  arr.push(<span class="literal">null</span>)</div><div class="line">&#125;</div><div class="line">arr.push(<span class="literal">NaN</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="计算长度数组">
+<a href="#计算长度数组" class="headerlink" title="计算长度数组"></a>计算长度数组</h2>
+<h3 id="朴素计算方法">
+<a href="#朴素计算方法" class="headerlink" title="朴素计算方法"></a>朴素计算方法</h3>
+<p>以一个中心计算回串，最直接的方法当然是左右遍历对比了，比如以 i 为中心：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">lens[i] = <span class="number">0</span></div><div class="line"><span class="keyword">while</span> (arr[i + lens[i] + <span class="number">1</span>] === arr[i - lens[i] - <span class="number">1</span>]) &#123;</div><div class="line">  lens[i] += <span class="number">1</span></div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这个就是计算长度基本方式。n 个点，每个点最多计算 n/2 遍，所以是 n 平方复杂度。</p>
+<h3 id="手背手心都是肉">
+<a href="#手背手心都是肉" class="headerlink" title="手背手心都是肉"></a>手背手心都是肉</h3>
+<p>看回上面的算法，可以发现，lens[i] 是从 0 开始的，这个很正常，一开始当然是 0 ，回串嘛，从中心开始两侧都要一一比较相等才行。</p>
+<p>但再进一步看，0 代表从头开始，即对于每个中心点，我们都是从什么都不知道开始，什么情况都没有掌握。</p>
+<p>事实是这样吗？</p>
+<p>既然有了这个算法，事实当然不是。这时就很容易联系到回串的特性，对称。</p>
+<p>先来一个简单的例子 <code>OABAXABAO</code>。两个 B 是 X 的对称点，左边 B 对应的 lens[j] 长度显然是 1，当我们计算右边 B 的 lens[i] 时候，是不是可以把 lens[j] 的值直接复制过来。因为它们是镜面对称的，所以都是一样，不过是反过来而已。</p>
+<h3 id="最右中心">
+<a href="#最右中心" class="headerlink" title="最右中心"></a>最右中心</h3>
+<p>我们维护一个已知最右的回串，设其中心点 iCenter 以及其最右点 iRight。显然两者有这么的关系 <code>iRight = iCenter + lens[iCenter]</code>。</p>
+<p>这个回串是最右的，也就是说 iRight 是最大的。有更右的就不断更新。</p>
+<p>为什么要维护最右回串？</p>
+<p>当我们一个个遍历中点 i 时，因 iCenter 已知，故必然是已经遍历过了，所以 i 肯定是在 iCenter 的右边，这就保证了两种情况：</p>
+<ol>
+<li>i &lt;= iRight，在最右回串的范围内，可以应用上面的镜面复制；</li>
+<li>i &gt; iRight，超出了最右，在未知区域，只能用朴素方式计算。</li>
+</ol>
+<p>这就是这个算法的核心思想了，最后引入两个边界情况：</p>
+<h3 id="右贴界">
+<a href="#右贴界" class="headerlink" title="右贴界"></a>右贴界</h3>
+<p>像简单例子的 <code>OABAXABAO</code> 可以明确知道 X 和 O 不相等，所以复制过来就行。但如果是 <code>OABAXABA...</code> 就不知道下一个是不是 X 了。我们只能知道下一个肯定不是 O，因为最右串 X 的范围到 A 就截止了。</p>
+<p>所以右边 B 对应的 lens[i] 得到了 1 之后，在这基础上继续用朴素方式比较两侧。</p>
+<p>意思是“我现在可以确定右 B 两侧 1 个长度内是对称的，其它未知，继续比较下去看如何”。</p>
+<p>如果右 B 比较下去有戏的话，那么右 B 就是新的最右串了，更新 iCenter 和 iRight 值。</p>
+<p>右贴界的条件是 <code>i + lens[i] === iRight</code>。</p>
+<h3 id="左越界">
+<a href="#左越界" class="headerlink" title="左越界"></a>左越界</h3>
+<p>对于串 <code>XABAXABA...</code>。两个 B 还是 X 的对称点，但是左边的 B 对应的 lens[j] 长度是 2，右边 B 的 lens[i] 可以看到是 1。</p>
+<p>为什么？</p>
+<p>理解上面提到的镜面对称就很简单了，X 为中心的回串是 <code>ABAXABA</code>，也就是左边到了 A 就截止了，左 X 是超出的，所以不对称。因为如果最右的下一个位也是 X 的话，最右回串就应该是 <code>XABAXABAX</code> 了是不是。</p>
+<p>所以，当左边的 B 超出了中心 X 的范围时，我们只复制在最右回串范围内的部分。</p>
+<p>即对于左边的 B，我们知道范围内的是 <code>ABA</code> ，为 1，复制给右边 B 对应的 lens[i]，再按右贴界处理。</p>
+<p>设左 B 的索引为 iMirror，因为左右 B 对称，故 <code>iMiiror = iCenter - (i - iCenter) = 2 * iCenter - i</code>。</p>
+<p>左 B 到 iCenter 左边界的距离我们用镜面对称过来就是右 B 到 iCenter 右边界的距离 <code>iRight - i</code>。</p>
+<p>于是左越界的条件就是 <code>lens[iMiiror] &gt; iRight - i</code>。</p>
+<h3 id="整合">
+<a href="#整合" class="headerlink" title="整合"></a>整合</h3>
+<p>可以看到，我们复制镜面值要考虑三种情况，范围内、右贴界、左越界，其中左越界又包含了右贴界。于是简洁起见，我们全部当右贴界处理，因为如果在范围内比较下去自然不相等，相当于去掉了 if 判断。</p>
+<p>然后整合范围内和左越界，范围内指 <code>lens[iMiiror] &lt;= iRight - i</code>，直接复制 <code>lens[iMiiror]</code>；左越界指 <code>lens[iMiiror] &gt; iRight - i</code>，取 <code>iRight - 1</code>。故整合为 <code>min(iRight - i, lens[iMirror])</code>。</p>
+<h2 id="完整算法">
+<a href="#完整算法" class="headerlink" title="完整算法"></a>完整算法</h2>
+<p>所以完整算法如下</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">manacher</span> (<span class="params">str</span>) </span>&#123;</div><div class="line">  str = <span class="built_in">String</span>(str)</div><div class="line"></div><div class="line">  <span class="keyword">var</span> arr = [<span class="literal">NaN</span>, <span class="literal">null</span>]</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i += <span class="number">1</span>) &#123;</div><div class="line">    arr.push(str[i])</div><div class="line">    arr.push(<span class="literal">null</span>)</div><div class="line">  &#125;</div><div class="line">  arr.push(<span class="literal">NaN</span>)</div><div class="line"></div><div class="line">  <span class="keyword">var</span> iCenterMax = <span class="number">1</span></div><div class="line">  <span class="keyword">var</span> lens = []</div><div class="line">  <span class="keyword">var</span> iCenter = <span class="number">0</span></div><div class="line">  <span class="keyword">var</span> iRight = <span class="number">0</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.length - <span class="number">1</span>; i += <span class="number">1</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (arr.length - <span class="number">1</span> - i &lt;= lens[iCenterMax]) &#123;</div><div class="line">      <span class="keyword">break</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    lens[i] = <span class="number">0</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (i &lt; iRight) &#123;</div><div class="line">      <span class="keyword">let</span> iMirror = <span class="number">2</span> * iCenter - i</div><div class="line">      lens[i] = <span class="built_in">Math</span>.min(iRight - i, lens[iMirror])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (arr[i + lens[i] + <span class="number">1</span>] === arr[i - lens[i] - <span class="number">1</span>]) &#123;</div><div class="line">      lens[i] += <span class="number">1</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (i + lens[i] &gt; iRight) &#123;</div><div class="line">      iCenter = i</div><div class="line">      iRight = i + lens[i]</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (lens[i] &gt; lens[iCenterMax]) &#123;</div><div class="line">      iCenterMax = i</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> arr.slice(iCenterMax - lens[iCenterMax], iCenterMax + lens[iCenterMax] + <span class="number">1</span>)</div><div class="line">    .filter(<span class="function"><span class="params">item</span> =&gt;</span> item !== <span class="literal">null</span>)</div><div class="line">    .join(<span class="string">''</span>)</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;马拉车算法可以在线性时间复杂度内求出一个字符串的最长回文字串。其核心思想跟 KMP 相似，即反复利用已掌握的情况。&lt;/p&gt;
+&lt;p&gt;视频推荐看这个，觉得是最清晰易懂的：&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; style
+    
+    </summary>
+    
+      <category term="Algorithms" scheme="https://blog.crimx.com/categories/Algorithms/"/>
+    
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="Manacher" scheme="https://blog.crimx.com/tags/Manacher/"/>
+    
+      <category term="算法" scheme="https://blog.crimx.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="Algorithms" scheme="https://blog.crimx.com/tags/Algorithms/"/>
+    
+      <category term="回文" scheme="https://blog.crimx.com/tags/%E5%9B%9E%E6%96%87/"/>
+    
+      <category term="Palindrome" scheme="https://blog.crimx.com/tags/Palindrome/"/>
+    
+      <category term="字符串" scheme="https://blog.crimx.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    
+      <category term="String" scheme="https://blog.crimx.com/tags/String/"/>
+    
+  </entry>
   
   <entry>
     <title>CSS 属性值计算</title>
@@ -287,245 +444,6 @@
   </entry>
   
   <entry>
-    <title>Position and Drag Iframe</title>
-    <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/"/>
-    <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/</id>
-    <published>2017-04-05T16:00:00.000Z</published>
-    <updated>2017-04-20T15:58:02.933Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Position-in-iframes">
-<a href="#Position-in-iframes" class="headerlink" title="Position in iframes"></a>Position in iframes</h1>
-<p>I wrote a Chrome extension <a href="http://www.crimx.com/crx-saladict/" target="_blank">Saladict</a>, an inline translator, which involved such requirement: When user makes a text selection, something will pop up nearby the cursor.</p>
-<p>It looks simple at first view. Just listen to a <code>mouseup</code> event and get <code>clientX</code> and <code>clientY</code> from it.</p>
-<p>But there is a flaw in it - <code>mouseup</code> events inside iframes won&#39;t bubble up to the top frame.</p>
-<p>The solution is actually quite simple. If you know how to connect the dots.</p>
-<h2 id="iframe-script-injection">
-<a href="#iframe-script-injection" class="headerlink" title="iframe script injection"></a>iframe script injection</h2>
-<p>Using the <code>all_frames</code> property in <code>manifest.json</code>, a content script can run in all frames.</p>
-<p></p>
-<figure class="highlight json">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"content_scripts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"js"</span>: [<span class="string">"selection.js"</span>],</div><div class="line">      <span class="attr">"matches"</span>: [<span class="string">"&lt;all_urls&gt;"</span>],</div><div class="line">      <span class="attr">"all_frames"</span>: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Mouse-Event-Detection">
-<a href="#Mouse-Event-Detection" class="headerlink" title="Mouse Event Detection"></a>Mouse Event Detection</h2>
-<p>Now you can listen to <code>mouseup</code> event in all iframes.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleMouseUp)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Upload-Cursor-Coordinates">
-<a href="#Upload-Cursor-Coordinates" class="headerlink" title="Upload Cursor Coordinates"></a>Upload Cursor Coordinates</h2>
-<p><code>clientX</code> and <code>clientY</code> of the mouse events that are triggered in iframes are coordinates within iframe windows. Upload these coordinates as offsets to the upper frame, then plus the iframe position you will get the cursor position
-within the upper frame window.</p>
-<p>On Chrome you can boldly use <code>postMessage</code>.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMouseUp</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(evt.clientX，evt.clientY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Pass the coordinates to upper frame</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      <span class="attr">mouseX</span>: evt.clientX,</div><div class="line">      <span class="attr">mouseY</span>: evt.clientY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Add-offsets">
-<a href="#Add-offsets" class="headerlink" title="Add offsets"></a>Add offsets</h2>
-<p>How does the upper frame know which iframe is sending coordinates? Well, the <code>message</code> event contains the content window of the iframe. Use it to match the iframe element.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (evt.data.msg !== <span class="string">'SALADICT_CLICK'</span>) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> iframe = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'iframe'</span>))</div><div class="line">    .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.contentWindow === evt.source)</div><div class="line">    [<span class="number">0</span>]</div><div class="line">  <span class="keyword">if</span> (!iframe) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="comment">// calculate coordinates within current window</span></div><div class="line">  <span class="keyword">let</span> pos = iframe.getBoundingClientRect()</div><div class="line">  <span class="keyword">let</span> mouseX = evt.data.mouseX + pos.left</div><div class="line">  <span class="keyword">let</span> mouseY = evt.data.mouseY + pos.top</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(mouseX, mouseY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Keep uploading</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      mouseX,</div><div class="line">      mouseY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="iframe-Dragging">
-<a href="#iframe-Dragging" class="headerlink" title="iframe Dragging"></a>iframe Dragging</h1>
-<p>Another requirement for Saladict is to drag an iframe panel.</p>
-<h2 id="Dragging-101">
-<a href="#Dragging-101" class="headerlink" title="Dragging 101"></a>Dragging 101</h2>
-<p>Before getting into iframe dragging. There are few basic ideas of implementing a draggable element.</p>
-<p>One of the most common approaches is to listen to <code>mousedown</code>, <code>mousemove</code> and <code>mouseup</code> events, which handle drag start, dragging and drag end. And apply the offsets to the element&#39;s <code>left</code> and <code>top</code>style properties.</p>
-<p>If this is your first time implementing this feature, you are likely to listen to <code>mousemove</code> events of the element itself.</p>
-<p>You can indeed get the correct result in the way. The problem is, if the curser moves a bit too fast and leaves the element, the dragging will stop. That&#39;s why you should listen to global <code>mousemove</code> event instead.</p>
-<h2 id="Dragging-with-iframe">
-<a href="#Dragging-with-iframe" class="headerlink" title="Dragging with iframe"></a>Dragging with iframe</h2>
-<p>The theory behind iframe dragging is the same. Only the mouse events triggered in iframes will not bubble up to the upper frame. You need to wrap it up yourselves.</p>
-<h2 id="iframe-Part">
-<a href="#iframe-Part" class="headerlink" title="iframe Part"></a>iframe Part</h2>
-<p>Drag start is triggered by a draggable element inside iframe. For better performance, dragging and drag end event listeners are attached in drag start and are detached in drag end.</p>
-<p>Dragging event listener is required here because the <code>mousemove</code> event of the upper frame breaks inside the iframe. We need to let upper frame know what is happening inside iframe.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// iframe.js</span></div><div class="line"><span class="keyword">var</span> baseMouseX, baseMouseY</div><div class="line"></div><div class="line">$dragArea.addEventListener(<span class="string">'mousedown'</span>, handleDragStart)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  baseMouseX = evt.clientX</div><div class="line">  baseMouseY = evt.clientY</div><div class="line"></div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_START'</span>,</div><div class="line">    <span class="attr">mouseX</span>: baseMouseX,</div><div class="line">    <span class="attr">mouseY</span>: baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>,</div><div class="line">    <span class="attr">offsetX</span>: evt.clientX - baseMouseX,</div><div class="line">    <span class="attr">offsetY</span>: evt.clientY - baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_END'</span></div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Upper-Frame-Part">
-<a href="#Upper-Frame-Part" class="headerlink" title="Upper Frame Part"></a>Upper Frame Part</h2>
-<p>Use <code>handleFrameMousemove</code> to handle the offsets from iframe.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// parent.js</span></div><div class="line"><span class="keyword">var</span> pageMouseX, pageMouseY</div><div class="line"></div><div class="line"><span class="keyword">var</span> frameTop = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> frameLeft = <span class="number">0</span></div><div class="line">$iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">$iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> data = evt.data</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (data.msg) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_START'</span>:</div><div class="line">      handleDragStart(data.mouseX, data.mouseY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>:</div><div class="line">      handleFrameMousemove(data.offsetX, data.offsetY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_END'</span>:</div><div class="line">      handleDragEnd()</div><div class="line">      <span class="keyword">break</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">mouseX, mouseY</span>) </span>&#123;</div><div class="line">  <span class="comment">// get the coordinates within the upper frame</span></div><div class="line">  pageMouseX = frameLeft + mouseX</div><div class="line">  pageMouseY = frameTop + mouseY</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleFrameMousemove</span> (<span class="params">offsetX, offsetY</span>) </span>&#123;</div><div class="line">  frameTop += offsetY</div><div class="line">  frameLeft += offsetX</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// Add the missing coordinates</span></div><div class="line">  pageMouseX += offsetX</div><div class="line">  pageMouseY += offsetY</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePageMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  frameTop += evt.clientX - pageMouseX</div><div class="line">  frameLeft += evt.clientY - pageMouseY</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  pageMouseX = evt.clientX</div><div class="line">  pageMouseY = evt.clientY</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Demo">
-<a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2>
-<p>You can drag the iframe square below:</p>
-<p></p>
-<div class="drag-container">
-<style type="text/css">
-.drag-container {
-    position: relative;
-    height: 200px;
-}
-
-.drag-iframe {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-}
-</style><iframe class="drag-iframe" src="/images/post/drag-iframe.html" frameborder="0"></iframe>
-<script type="text/javascript">
-;
-(function() {
-    var pageMouseX, pageMouseY
-
-    var $iframe = document.querySelector('.drag-iframe')
-    var frameTop = 0
-    var frameLeft = 0
-    $iframe.style.top = frameTop + 'px'
-    $iframe.style.left = frameLeft + 'px'
-
-    window.addEventListener('message', evt => {
-        const data = evt.data
-
-        switch (data.msg) {
-            case 'SALADICT_DRAG_START':
-                handleDragStart(data.mouseX, data.mouseY)
-                break
-            case 'SALADICT_DRAG_MOUSEMOVE':
-                handleFrameMousemove(data.offsetX, data.offsetY)
-                break
-            case 'SALADICT_DRAG_END':
-                handleDragEnd()
-                break
-        }
-    })
-
-    function handleDragStart(mouseX, mouseY) {
-        pageMouseX = frameLeft + mouseX
-        pageMouseY = frameTop + mouseY
-
-        document.addEventListener('mouseup', handleDragEnd)
-        document.addEventListener('mousemove', handlePageMousemove)
-    }
-
-    function handleDragEnd() {
-        document.removeEventListener('mouseup', handleDragEnd)
-        document.removeEventListener('mousemove', handlePageMousemove)
-    }
-
-    function handleFrameMousemove(offsetX, offsetY) {
-        frameTop += offsetY
-        frameLeft += offsetX
-        $iframe.style.top = frameTop + 'px'
-        $iframe.style.left = frameLeft + 'px'
-
-        pageMouseX += offsetX
-        pageMouseY += offsetY
-    }
-
-    function handlePageMousemove(evt) {
-        frameTop += evt.clientX - pageMouseX
-        frameLeft += evt.clientY - pageMouseY
-        $iframe.style.top = frameTop + 'px'
-        $iframe.style.left = frameLeft + 'px'
-
-        pageMouseX = evt.clientX
-        pageMouseY = evt.clientY
-    }
-})()
-</script>
-</div>
-<p></p>
-<h2 id="Browser-Compatibility">
-<a href="#Browser-Compatibility" class="headerlink" title="Browser Compatibility"></a>Browser Compatibility</h2>
-<p>As you can see, nothing fancy here, just passing coordinates around. So for older browsers, just use the old ways to communicate. You can also manipulate the values directly if they are same-origin.</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Position-in-iframes&quot;&gt;
-&lt;a href=&quot;#Position-in-iframes&quot; class=&quot;headerlink&quot; title=&quot;Position in iframes&quot;&gt;&lt;/a&gt;Position in iframes&lt;/h1&gt;
-&lt;p&gt;
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="iframe" scheme="https://blog.crimx.com/tags/iframe/"/>
-    
-      <category term="postMessage" scheme="https://blog.crimx.com/tags/postMessage/"/>
-    
-      <category term="Drag" scheme="https://blog.crimx.com/tags/Drag/"/>
-    
-      <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
-    
-  </entry>
-  
-  <entry>
     <title>定位与拖动 Iframe</title>
     <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe/"/>
     <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe/</id>
@@ -750,9 +668,9 @@ within the upper frame window.</p>
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
     
       <category term="iframe" scheme="https://blog.crimx.com/tags/iframe/"/>
     
@@ -761,6 +679,375 @@ within the upper frame window.</p>
       <category term="Drag" scheme="https://blog.crimx.com/tags/Drag/"/>
     
       <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Position and Drag Iframe</title>
+    <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/"/>
+    <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/</id>
+    <published>2017-04-05T16:00:00.000Z</published>
+    <updated>2017-04-20T15:58:02.933Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Position-in-iframes">
+<a href="#Position-in-iframes" class="headerlink" title="Position in iframes"></a>Position in iframes</h1>
+<p>I wrote a Chrome extension <a href="http://www.crimx.com/crx-saladict/" target="_blank">Saladict</a>, an inline translator, which involved such requirement: When user makes a text selection, something will pop up nearby the cursor.</p>
+<p>It looks simple at first view. Just listen to a <code>mouseup</code> event and get <code>clientX</code> and <code>clientY</code> from it.</p>
+<p>But there is a flaw in it - <code>mouseup</code> events inside iframes won&#39;t bubble up to the top frame.</p>
+<p>The solution is actually quite simple. If you know how to connect the dots.</p>
+<h2 id="iframe-script-injection">
+<a href="#iframe-script-injection" class="headerlink" title="iframe script injection"></a>iframe script injection</h2>
+<p>Using the <code>all_frames</code> property in <code>manifest.json</code>, a content script can run in all frames.</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"content_scripts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"js"</span>: [<span class="string">"selection.js"</span>],</div><div class="line">      <span class="attr">"matches"</span>: [<span class="string">"&lt;all_urls&gt;"</span>],</div><div class="line">      <span class="attr">"all_frames"</span>: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Mouse-Event-Detection">
+<a href="#Mouse-Event-Detection" class="headerlink" title="Mouse Event Detection"></a>Mouse Event Detection</h2>
+<p>Now you can listen to <code>mouseup</code> event in all iframes.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleMouseUp)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Upload-Cursor-Coordinates">
+<a href="#Upload-Cursor-Coordinates" class="headerlink" title="Upload Cursor Coordinates"></a>Upload Cursor Coordinates</h2>
+<p><code>clientX</code> and <code>clientY</code> of the mouse events that are triggered in iframes are coordinates within iframe windows. Upload these coordinates as offsets to the upper frame, then plus the iframe position you will get the cursor position
+within the upper frame window.</p>
+<p>On Chrome you can boldly use <code>postMessage</code>.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMouseUp</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(evt.clientX，evt.clientY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Pass the coordinates to upper frame</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      <span class="attr">mouseX</span>: evt.clientX,</div><div class="line">      <span class="attr">mouseY</span>: evt.clientY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Add-offsets">
+<a href="#Add-offsets" class="headerlink" title="Add offsets"></a>Add offsets</h2>
+<p>How does the upper frame know which iframe is sending coordinates? Well, the <code>message</code> event contains the content window of the iframe. Use it to match the iframe element.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (evt.data.msg !== <span class="string">'SALADICT_CLICK'</span>) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> iframe = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'iframe'</span>))</div><div class="line">    .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.contentWindow === evt.source)</div><div class="line">    [<span class="number">0</span>]</div><div class="line">  <span class="keyword">if</span> (!iframe) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="comment">// calculate coordinates within current window</span></div><div class="line">  <span class="keyword">let</span> pos = iframe.getBoundingClientRect()</div><div class="line">  <span class="keyword">let</span> mouseX = evt.data.mouseX + pos.left</div><div class="line">  <span class="keyword">let</span> mouseY = evt.data.mouseY + pos.top</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(mouseX, mouseY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Keep uploading</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      mouseX,</div><div class="line">      mouseY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="iframe-Dragging">
+<a href="#iframe-Dragging" class="headerlink" title="iframe Dragging"></a>iframe Dragging</h1>
+<p>Another requirement for Saladict is to drag an iframe panel.</p>
+<h2 id="Dragging-101">
+<a href="#Dragging-101" class="headerlink" title="Dragging 101"></a>Dragging 101</h2>
+<p>Before getting into iframe dragging. There are few basic ideas of implementing a draggable element.</p>
+<p>One of the most common approaches is to listen to <code>mousedown</code>, <code>mousemove</code> and <code>mouseup</code> events, which handle drag start, dragging and drag end. And apply the offsets to the element&#39;s <code>left</code> and <code>top</code>style properties.</p>
+<p>If this is your first time implementing this feature, you are likely to listen to <code>mousemove</code> events of the element itself.</p>
+<p>You can indeed get the correct result in the way. The problem is, if the curser moves a bit too fast and leaves the element, the dragging will stop. That&#39;s why you should listen to global <code>mousemove</code> event instead.</p>
+<h2 id="Dragging-with-iframe">
+<a href="#Dragging-with-iframe" class="headerlink" title="Dragging with iframe"></a>Dragging with iframe</h2>
+<p>The theory behind iframe dragging is the same. Only the mouse events triggered in iframes will not bubble up to the upper frame. You need to wrap it up yourselves.</p>
+<h2 id="iframe-Part">
+<a href="#iframe-Part" class="headerlink" title="iframe Part"></a>iframe Part</h2>
+<p>Drag start is triggered by a draggable element inside iframe. For better performance, dragging and drag end event listeners are attached in drag start and are detached in drag end.</p>
+<p>Dragging event listener is required here because the <code>mousemove</code> event of the upper frame breaks inside the iframe. We need to let upper frame know what is happening inside iframe.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// iframe.js</span></div><div class="line"><span class="keyword">var</span> baseMouseX, baseMouseY</div><div class="line"></div><div class="line">$dragArea.addEventListener(<span class="string">'mousedown'</span>, handleDragStart)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  baseMouseX = evt.clientX</div><div class="line">  baseMouseY = evt.clientY</div><div class="line"></div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_START'</span>,</div><div class="line">    <span class="attr">mouseX</span>: baseMouseX,</div><div class="line">    <span class="attr">mouseY</span>: baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>,</div><div class="line">    <span class="attr">offsetX</span>: evt.clientX - baseMouseX,</div><div class="line">    <span class="attr">offsetY</span>: evt.clientY - baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_END'</span></div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Upper-Frame-Part">
+<a href="#Upper-Frame-Part" class="headerlink" title="Upper Frame Part"></a>Upper Frame Part</h2>
+<p>Use <code>handleFrameMousemove</code> to handle the offsets from iframe.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// parent.js</span></div><div class="line"><span class="keyword">var</span> pageMouseX, pageMouseY</div><div class="line"></div><div class="line"><span class="keyword">var</span> frameTop = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> frameLeft = <span class="number">0</span></div><div class="line">$iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">$iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> data = evt.data</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (data.msg) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_START'</span>:</div><div class="line">      handleDragStart(data.mouseX, data.mouseY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>:</div><div class="line">      handleFrameMousemove(data.offsetX, data.offsetY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_END'</span>:</div><div class="line">      handleDragEnd()</div><div class="line">      <span class="keyword">break</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">mouseX, mouseY</span>) </span>&#123;</div><div class="line">  <span class="comment">// get the coordinates within the upper frame</span></div><div class="line">  pageMouseX = frameLeft + mouseX</div><div class="line">  pageMouseY = frameTop + mouseY</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleFrameMousemove</span> (<span class="params">offsetX, offsetY</span>) </span>&#123;</div><div class="line">  frameTop += offsetY</div><div class="line">  frameLeft += offsetX</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// Add the missing coordinates</span></div><div class="line">  pageMouseX += offsetX</div><div class="line">  pageMouseY += offsetY</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePageMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  frameTop += evt.clientX - pageMouseX</div><div class="line">  frameLeft += evt.clientY - pageMouseY</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  pageMouseX = evt.clientX</div><div class="line">  pageMouseY = evt.clientY</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Demo">
+<a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2>
+<p>You can drag the iframe square below:</p>
+<p></p>
+<div class="drag-container">
+<style type="text/css">
+.drag-container {
+    position: relative;
+    height: 200px;
+}
+
+.drag-iframe {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+}
+</style><iframe class="drag-iframe" src="/images/post/drag-iframe.html" frameborder="0"></iframe>
+<script type="text/javascript">
+;
+(function() {
+    var pageMouseX, pageMouseY
+
+    var $iframe = document.querySelector('.drag-iframe')
+    var frameTop = 0
+    var frameLeft = 0
+    $iframe.style.top = frameTop + 'px'
+    $iframe.style.left = frameLeft + 'px'
+
+    window.addEventListener('message', evt => {
+        const data = evt.data
+
+        switch (data.msg) {
+            case 'SALADICT_DRAG_START':
+                handleDragStart(data.mouseX, data.mouseY)
+                break
+            case 'SALADICT_DRAG_MOUSEMOVE':
+                handleFrameMousemove(data.offsetX, data.offsetY)
+                break
+            case 'SALADICT_DRAG_END':
+                handleDragEnd()
+                break
+        }
+    })
+
+    function handleDragStart(mouseX, mouseY) {
+        pageMouseX = frameLeft + mouseX
+        pageMouseY = frameTop + mouseY
+
+        document.addEventListener('mouseup', handleDragEnd)
+        document.addEventListener('mousemove', handlePageMousemove)
+    }
+
+    function handleDragEnd() {
+        document.removeEventListener('mouseup', handleDragEnd)
+        document.removeEventListener('mousemove', handlePageMousemove)
+    }
+
+    function handleFrameMousemove(offsetX, offsetY) {
+        frameTop += offsetY
+        frameLeft += offsetX
+        $iframe.style.top = frameTop + 'px'
+        $iframe.style.left = frameLeft + 'px'
+
+        pageMouseX += offsetX
+        pageMouseY += offsetY
+    }
+
+    function handlePageMousemove(evt) {
+        frameTop += evt.clientX - pageMouseX
+        frameLeft += evt.clientY - pageMouseY
+        $iframe.style.top = frameTop + 'px'
+        $iframe.style.left = frameLeft + 'px'
+
+        pageMouseX = evt.clientX
+        pageMouseY = evt.clientY
+    }
+})()
+</script>
+</div>
+<p></p>
+<h2 id="Browser-Compatibility">
+<a href="#Browser-Compatibility" class="headerlink" title="Browser Compatibility"></a>Browser Compatibility</h2>
+<p>As you can see, nothing fancy here, just passing coordinates around. So for older browsers, just use the old ways to communicate. You can also manipulate the values directly if they are same-origin.</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Position-in-iframes&quot;&gt;
+&lt;a href=&quot;#Position-in-iframes&quot; class=&quot;headerlink&quot; title=&quot;Position in iframes&quot;&gt;&lt;/a&gt;Position in iframes&lt;/h1&gt;
+&lt;p&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="iframe" scheme="https://blog.crimx.com/tags/iframe/"/>
+    
+      <category term="postMessage" scheme="https://blog.crimx.com/tags/postMessage/"/>
+    
+      <category term="Drag" scheme="https://blog.crimx.com/tags/Drag/"/>
+    
+      <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>获取 DOM 里所有图片（包括背景和Iframe）</title>
+    <link href="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/"/>
+    <id>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/</id>
+    <published>2017-03-08T16:00:00.000Z</published>
+    <updated>2017-03-15T16:05:43.352Z</updated>
+    
+    <content type="html"><![CDATA[<p>在写浏览器扩展什么的时候可能会用上。</p>
+<p>获取 DOM 里的图片主要是在这几个地方里面找: <code>&lt;img&gt;</code> 元素, <code>background-image</code> CSS 属性和 <code>&lt;iframe&gt;</code>。</p>
+<h1 id="img">
+<a href="#img" class="headerlink" title="img"></a>img</h1>
+<p>如果只想获取 <code>&lt;img&gt;</code> 的图片，有两种方式:</p>
+<p>直接获取所有 <code>img</code> 标签:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// 用 img.src 如果要本来的 src</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>还可以用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/images" target="_blank">document.images</a>:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="background-image">
+<a href="#background-image" class="headerlink" title="background-image"></a>background-image</h1>
+<p>获得背景图片需要查看所有 DOM 节点的 <code>background-image</code> 属性:</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBgImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(</div><div class="line">    <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">getBgImgs(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>背景图片不能直接得到尺寸信息，如果需要的话要加载一遍。因为搜集的图片很有可能已经在浏览器缓存里，所以加载过程应该很快。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">    img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      resolve(&#123;</div><div class="line">        <span class="attr">src</span>: src,</div><div class="line">        <span class="attr">width</span>: img.naturalWidth,</div><div class="line">        <span class="attr">height</span>: img.naturalHeight</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    img.onerror = reject</div><div class="line">    img.src = src</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(reject, timeout)</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">Promise</span>.all(</div><div class="line">      imgList</div><div class="line">        .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">        .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">    ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadImgAll(getBgImgs(<span class="built_in">document</span>)).then(<span class="function"><span class="params">imgs</span> =&gt;</span> <span class="built_in">console</span>.log(imgs))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="iframe">
+<a href="#iframe" class="headerlink" title="iframe"></a>iframe</h1>
+<p>只需要递归遍历 iframe 的 document</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchIframes</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgList = []</div><div class="line">  doc.querySelectorAll(<span class="string">'iframe'</span>)</div><div class="line">    .forEach(<span class="function"><span class="params">iframe</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        iframeDoc = iframe.contentDocument || iframe.contentWindow.document</div><div class="line">        imgList = imgList.concat(getImgs(iframeDoc) || []) <span class="comment">// or getBgImgs(iframeDoc)</span></div><div class="line">        imgList = imgList.concat(searchIframes(iframeDoc) || [])</div><div class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">        <span class="comment">// 直接忽略错误的 iframe (e.g. cross-origin)</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  <span class="keyword">return</span> imgList</div><div class="line">&#125;</div><div class="line"></div><div class="line">searchIframes(<span class="built_in">document</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="整合一起">
+<a href="#整合一起" class="headerlink" title="整合一起"></a>整合一起</h1>
+<p>直接使用就行。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgAll</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    loadImgAll(<span class="built_in">Array</span>.from(searchDOM(doc)))</div><div class="line">      .then(resolve, reject)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">searchDOM</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="comment">// bg src</span></div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="regexp">/^img$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// src from img tag</span></div><div class="line">          collection.add(node.src)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^frame$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// iframe</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            searchDOM(node.contentDocument || node.contentWindow.document)</div><div class="line">              .forEach(<span class="function"><span class="params">img</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (img) &#123; collection.add(img) &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">      img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(&#123;</div><div class="line">          <span class="attr">src</span>: src,</div><div class="line">          <span class="attr">width</span>: img.naturalWidth,</div><div class="line">          <span class="attr">height</span>: img.naturalHeight</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">      img.onerror = reject</div><div class="line">      img.src = src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      setTimeout(reject, timeout)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">Promise</span>.all(</div><div class="line">        imgList</div><div class="line">          .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">          .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">      ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgAll(<span class="built_in">document</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> <span class="built_in">console</span>.log(list))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>如果是开发 Chrome 插件则不受跨域影响，可以直接使用 <a href="https://github.com/nodeca/probe-image-size" target="_blank">probe-image-size</a>，它支持 timeout 参数，就不需要自己写 timer 了。我在写一个 <a href="https://github.com/crimx/crx-weitweet" target="_blank">Chrome 扩展</a>时用上了，很方便。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在写浏览器扩展什么的时候可能会用上。&lt;/p&gt;
+&lt;p&gt;获取 DOM 里的图片主要是在这几个地方里面找: &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 元素, &lt;code&gt;background-image&lt;/code&gt; CSS 属性和 &lt;code&gt;&amp;lt;iframe&amp;gt
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
+    
+      <category term="DOM" scheme="https://blog.crimx.com/tags/DOM/"/>
     
   </entry>
   
@@ -885,139 +1172,9 @@ within the upper frame window.</p>
       <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
-      <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
-    
-      <category term="DOM" scheme="https://blog.crimx.com/tags/DOM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>获取 DOM 里所有图片（包括背景和Iframe）</title>
-    <link href="https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/"/>
-    <id>https://blog.crimx.com/2017/03/09/get-all-images-in-dom-including-background/</id>
-    <published>2017-03-08T16:00:00.000Z</published>
-    <updated>2017-03-15T16:05:43.352Z</updated>
-    
-    <content type="html"><![CDATA[<p>在写浏览器扩展什么的时候可能会用上。</p>
-<p>获取 DOM 里的图片主要是在这几个地方里面找: <code>&lt;img&gt;</code> 元素, <code>background-image</code> CSS 属性和 <code>&lt;iframe&gt;</code>。</p>
-<h1 id="img">
-<a href="#img" class="headerlink" title="img"></a>img</h1>
-<p>如果只想获取 <code>&lt;img&gt;</code> 的图片，有两种方式:</p>
-<p>直接获取所有 <code>img</code> 标签:</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.getElementsByTagName(<span class="string">'img'</span>))</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// 用 img.src 如果要本来的 src</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>还可以用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/images" target="_blank">document.images</a>:</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.images)</div><div class="line">    .map(<span class="function"><span class="params">img</span> =&gt;</span> (&#123;</div><div class="line">      <span class="attr">src</span>: img.currentSrc, <span class="comment">// img.src if you want the origin</span></div><div class="line">      width: img.naturalWidth,</div><div class="line">      <span class="attr">height</span>: img.naturalHeight</div><div class="line">    &#125;))</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgs(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="background-image">
-<a href="#background-image" class="headerlink" title="background-image"></a>background-image</h1>
-<p>获得背景图片需要查看所有 DOM 节点的 <code>background-image</code> 属性:</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBgImgs</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(</div><div class="line">    <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  )</div><div class="line">&#125;</div><div class="line"></div><div class="line">getBgImgs(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>背景图片不能直接得到尺寸信息，如果需要的话要加载一遍。因为搜集的图片很有可能已经在浏览器缓存里，所以加载过程应该很快。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">    img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">      resolve(&#123;</div><div class="line">        <span class="attr">src</span>: src,</div><div class="line">        <span class="attr">width</span>: img.naturalWidth,</div><div class="line">        <span class="attr">height</span>: img.naturalHeight</div><div class="line">      &#125;)</div><div class="line">    &#125;</div><div class="line">    img.onerror = reject</div><div class="line">    img.src = src</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    setTimeout(reject, timeout)</div><div class="line">  &#125;)</div><div class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    <span class="built_in">Promise</span>.all(</div><div class="line">      imgList</div><div class="line">        .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">        .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">    ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">loadImgAll(getBgImgs(<span class="built_in">document</span>)).then(<span class="function"><span class="params">imgs</span> =&gt;</span> <span class="built_in">console</span>.log(imgs))</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="iframe">
-<a href="#iframe" class="headerlink" title="iframe"></a>iframe</h1>
-<p>只需要递归遍历 iframe 的 document</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">searchIframes</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> imgList = []</div><div class="line">  doc.querySelectorAll(<span class="string">'iframe'</span>)</div><div class="line">    .forEach(<span class="function"><span class="params">iframe</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">        iframeDoc = iframe.contentDocument || iframe.contentWindow.document</div><div class="line">        imgList = imgList.concat(getImgs(iframeDoc) || []) <span class="comment">// or getBgImgs(iframeDoc)</span></div><div class="line">        imgList = imgList.concat(searchIframes(iframeDoc) || [])</div><div class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">        <span class="comment">// 直接忽略错误的 iframe (e.g. cross-origin)</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  <span class="keyword">return</span> imgList</div><div class="line">&#125;</div><div class="line"></div><div class="line">searchIframes(<span class="built_in">document</span>)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="整合一起">
-<a href="#整合一起" class="headerlink" title="整合一起"></a>整合一起</h1>
-<p>直接使用就行。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getImgAll</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">    loadImgAll(<span class="built_in">Array</span>.from(searchDOM(doc)))</div><div class="line">      .then(resolve, reject)</div><div class="line">  &#125;)</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">searchDOM</span> (<span class="params">doc</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> srcChecker = <span class="regexp">/url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i</span></div><div class="line">    <span class="keyword">return</span> <span class="built_in">Array</span>.from(doc.querySelectorAll(<span class="string">'*'</span>))</div><div class="line">      .reduce(<span class="function">(<span class="params">collection, node</span>) =&gt;</span> &#123;</div><div class="line">        <span class="comment">// bg src</span></div><div class="line">        <span class="keyword">let</span> prop = <span class="built_in">window</span>.getComputedStyle(node, <span class="literal">null</span>)</div><div class="line">          .getPropertyValue(<span class="string">'background-image'</span>)</div><div class="line">        <span class="comment">// match `url(...)`</span></div><div class="line">        <span class="keyword">let</span> match = srcChecker.exec(prop)</div><div class="line">        <span class="keyword">if</span> (match) &#123;</div><div class="line">          collection.add(match[<span class="number">1</span>])</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (<span class="regexp">/^img$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// src from img tag</span></div><div class="line">          collection.add(node.src)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="regexp">/^frame$/i</span>.test(node.tagName)) &#123;</div><div class="line">          <span class="comment">// iframe</span></div><div class="line">          <span class="keyword">try</span> &#123;</div><div class="line">            searchDOM(node.contentDocument || node.contentWindow.document)</div><div class="line">              .forEach(<span class="function"><span class="params">img</span> =&gt;</span> &#123;</div><div class="line">                <span class="keyword">if</span> (img) &#123; collection.add(img) &#125;</div><div class="line">              &#125;)</div><div class="line">          &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> collection</div><div class="line">      &#125;, <span class="keyword">new</span> <span class="built_in">Set</span>())</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImg</span> (<span class="params">src, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> imgPromise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> img = <span class="keyword">new</span> Image()</div><div class="line">      img.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        resolve(&#123;</div><div class="line">          <span class="attr">src</span>: src,</div><div class="line">          <span class="attr">width</span>: img.naturalWidth,</div><div class="line">          <span class="attr">height</span>: img.naturalHeight</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">      img.onerror = reject</div><div class="line">      img.src = src</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">var</span> timer = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      setTimeout(reject, timeout)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.race([imgPromise, timer])</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">loadImgAll</span> (<span class="params">imgList, timeout = <span class="number">500</span></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</div><div class="line">      <span class="built_in">Promise</span>.all(</div><div class="line">        imgList</div><div class="line">          .map(<span class="function"><span class="params">src</span> =&gt;</span> loadImg(src, timeout))</div><div class="line">          .map(<span class="function"><span class="params">p</span> =&gt;</span> p.catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="literal">false</span>))</div><div class="line">      ).then(<span class="function"><span class="params">results</span> =&gt;</span> resolve(results.filter(<span class="function"><span class="params">r</span> =&gt;</span> r)))</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getImgAll(<span class="built_in">document</span>).then(<span class="function"><span class="params">list</span> =&gt;</span> <span class="built_in">console</span>.log(list))</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>如果是开发 Chrome 插件则不受跨域影响，可以直接使用 <a href="https://github.com/nodeca/probe-image-size" target="_blank">probe-image-size</a>，它支持 timeout 参数，就不需要自己写 timer 了。我在写一个 <a href="https://github.com/crimx/crx-weitweet" target="_blank">Chrome 扩展</a>时用上了，很方便。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在写浏览器扩展什么的时候可能会用上。&lt;/p&gt;
-&lt;p&gt;获取 DOM 里的图片主要是在这几个地方里面找: &lt;code&gt;&amp;lt;img&amp;gt;&lt;/code&gt; 元素, &lt;code&gt;background-image&lt;/code&gt; CSS 属性和 &lt;code&gt;&amp;lt;iframe&amp;gt
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
-    
-    
       <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
     
@@ -1223,7 +1380,7 @@ within the upper frame window.</p>
     <link href="https://blog.crimx.com/2017/01/22/es2015-default-parameters/"/>
     <id>https://blog.crimx.com/2017/01/22/es2015-default-parameters/</id>
     <published>2017-01-21T16:00:00.000Z</published>
-    <updated>2017-01-22T13:32:35.639Z</updated>
+    <updated>2017-07-06T08:17:02.318Z</updated>
     
     <content type="html"><![CDATA[<p>ES2015 为函数加入了方便的默认参数语法。</p>
 <p></p>
@@ -1386,19 +1543,7 @@ the function body is also instantiated. If the function’s formal parameters do
 </table>
 </figure>
 <p></p>
-<p>这里的 <code>{}</code> 必须用括号括起来让它解释为表达式，不然会成为块声明。</p>
-<h2 id="最后">
-<a href="#最后" class="headerlink" title="最后"></a>最后</h2>
-<p>这是我第一次真正在规范里挖东西，一般都是 MDN 就足够了，潜意识里认为规范不是给人看的。但强迫症发作一次又一次让我对潜意识打脸，像之前跑去<a href="https://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/" target="_blank">研究 V8 源码</a>，都让我越来越体会到一个道理，也就是文章前面的 tagline ：</p>
-<blockquote>
-<p>“When you grow up you tend to get told that the world is the way it is and your life is just to live your life inside the world. Try not to bash into the walls too much. Try to have a nice family life, have fun, save a little money. That&#39;s a very
-limited life. Life can be much broader once you discover one simple fact: Everything around you that you call life was made up by people that were no smarter than you. And you can change it, you can influence it… Once you learn that, you&#39;ll never
-be the same again.”</p>
-</blockquote>
-<p></p>
-<p><iframe width="560" height="315" style="width:100%" src="" data-type="youtube" data-src="//www.youtube.com/embed/UvEiSa6_EPA" frameborder="0" allowfullscreen></iframe></p>
-<p></p>
-<p>每一样人造的东西只要愿意花时间都是可理解的，根本没有什么可害怕的，心存敬仰就好。</p>]]></content>
+<p>这里的 <code>{}</code> 必须用括号括起来让它解释为表达式，不然会成为块声明。</p>]]></content>
     
     <summary type="html">
     
@@ -2133,256 +2278,6 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
       <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
     
       <category term="This" scheme="https://blog.crimx.com/tags/This/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>闲读源码：ScrollingElement Polyfill</title>
-    <link href="https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/"/>
-    <id>https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/</id>
-    <published>2016-04-17T16:00:00.000Z</published>
-    <updated>2017-07-03T08:52:13.716Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天看了<a href="https://imququ.com/post/document-scrollingelement-in-chrome.html" target="_blank">这篇文章</a>，讲到 WebKit <code>document.body.scrollTop</code> 的问题。还有这里 <a href="https://dev.opera.com/articles/fixing-the-scrolltop-bug/" target="_blank">Dev.Opera Blog : Fixing the scrollTop bug</a>。</p>
-<p><code>scrollTop</code>, <code>scrollLeft</code>, <code>scrollWidth</code>, <code>scrollHeight</code> 都是跟滚动相关的属性。设置 <code>scrollTop</code> 和 <code>scrollLeft</code> 还可以产生滚动。当这些属于用在根元素的时候，滚动是发生在 viewport 的。</p>
-<p>但是 WebKit/Blink 不走寻常路，它会一直让 <code>body</code> 来代替 viewport 滚动。所以根元素会一直返回 0，对它设值也不会有反应。</p>
-<p>文章里面提到了几种处理方式，其中一种方式就是利用一个比较新的属性 <code>document.scrollingElement</code>，它会返回合适的滚动元素，就不用纠结是哪个。</p>
-<p><a href="https://github.com/mathiasbynens/document.scrollingElement/blob/master/scrollingelement.js" target="_blank">document.scrollingElement polyfill</a> 是它的一个 fallback，看起来很有趣，就细读了一遍。</p>
-<h2 id="规范">
-<a href="#规范" class="headerlink" title="规范"></a>规范</h2>
-<p>要理解源码必须先看它要干什么，<a href="https://drafts.csswg.org/cssom-view/#dom-document-scrollingelement" target="_blank">CSSOM View</a> specification 提到：</p>
-<blockquote>
-<p>The scrollingElement attribute, on getting, must run these steps:</p>
-<ol>
-<li>
-<p>If the Document is in quirks mode, follow these substeps:</p>
-<ol>
-<li>If the HTML body element exists, and it is not potentially scrollable, return the HTML body element and abort these steps.</li>
-<li>Return null and abort these steps.</li>
-</ol>
-</li>
-<li>
-<p>If there is a root element, return the root element and abort these steps.</p>
-</li>
-<li>
-<p>Return null.</p>
-</li>
-</ol>
-<blockquote>
-<p>Note: For non-conforming user agents that always use the quirks mode behavior for scrollTop and scrollLeft, the scrollingElement attribute is expected to also always return the HTML body element (or null if it does not exist). This API exists so that
-Web developers can use it to get the right element to use for scrolling APIs, without making assumptions about a particular user agent’s behavior or having to invoke a scroll to see which element scrolls the viewport.</p>
-</blockquote>
-</blockquote>
-<p>这个 polyfill 干的事情就是在 Standards Mode 情况下如果正确实现规范的话就返回根元素，其它情况下返回 <code>body</code>（不一定是 <code>document</code> 的哦，后面会提到）。</p>
-<h2 id="入口">
-<a href="#入口" class="headerlink" title="入口"></a>入口</h2>
-<p>整体来看，没有实现 <code>scrollingElement</code> 的才会调用 polyfill：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="keyword">if</span> (!(<span class="string">'scrollingElement'</span> <span class="keyword">in</span> <span class="built_in">document</span>)) (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;());</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>然后从这里开始：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="keyword">if</span> (<span class="built_in">Object</span>.defineProperty) &#123;</div><div class="line">  <span class="comment">// Support modern browsers that lack a native implementation.</span></div><div class="line">  <span class="built_in">Object</span>.defineProperty(<span class="built_in">document</span>, <span class="string">'scrollingElement'</span>, &#123;</div><div class="line">    <span class="string">'get'</span>: scrollingElement</div><div class="line">  &#125;);</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.__defineGetter__) &#123;</div><div class="line">  <span class="comment">// Support Firefox ≤ 3.6.9, Safari ≤ 4.1.3.</span></div><div class="line">  <span class="built_in">document</span>.__defineGetter__(<span class="string">'scrollingElement'</span>, scrollingElement);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="comment">// IE ≤ 4 lacks `attachEvent`, so it only gets this one assignment. IE ≤ 7</span></div><div class="line">  <span class="comment">// gets it too, but the value is updated later (see `propertychange`).</span></div><div class="line">  <span class="built_in">document</span>.scrollingElement = scrollingElement();</div><div class="line">  <span class="built_in">document</span>.attachEvent &amp;&amp; <span class="built_in">document</span>.attachEvent(<span class="string">'onpropertychange'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// This is for IE ≤ 7 only.</span></div><div class="line">    <span class="comment">// A `propertychange` event fires when `&lt;body&gt;` is parsed because</span></div><div class="line">    <span class="comment">// `document.activeElement` then changes.</span></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.event.propertyName == <span class="string">'activeElement'</span>) &#123;</div><div class="line">      <span class="built_in">document</span>.scrollingElement = scrollingElement();</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>规范里 <code>scrollingElement</code> 是一个变量。通过 <code>defineProperty</code> 就可以让一个变量在获取的时候（也就是 <code>get</code> 的时候）调用函数，动态计算值。</p>
-<p><a href="https://github.com/mathiasbynens/document.scrollingElement/blob/master/scrollingelement.js#L78" target="_blank">这里</a>就是主入口：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="keyword">var</span> scrollingElement = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (isCompliant()) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.documentElement;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> body = <span class="built_in">document</span>.body;</div><div class="line">  <span class="comment">// Note: `document.body` could be a `frameset` element, or `null`.</span></div><div class="line">  <span class="comment">// `tagName` is uppercase in HTML, but lowercase in XML.</span></div><div class="line">  <span class="keyword">var</span> isFrameset = body &amp;&amp; !<span class="regexp">/body/i</span>.test(body.tagName);</div><div class="line">  body = isFrameset ? getNextBodyElement(body) : body;</div><div class="line">  <span class="comment">// If `body` is itself scrollable, it is not the `scrollingElement`.</span></div><div class="line">  <span class="keyword">return</span> body &amp;&amp; isScrollable(body) ? <span class="literal">null</span> : body;</div><div class="line">&#125;;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>正确实现规范的话就是返回根元素 <code>document.documentElement</code>，比如 HTML 里的 <code>&lt;html&gt;</code>，否则返回 <code>body</code>。</p>
-<h2 id="isCompliant">
-<a href="#isCompliant" class="headerlink" title="isCompliant"></a>isCompliant</h2>
-<p>这里就是先判断浏览器有没有正确实现了规范。看看怎么判断的：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// Note: standards mode / quirks mode can be toggled at runtime via</span></div><div class="line"><span class="comment">// `document.write`.</span></div><div class="line"><span class="keyword">var</span> isCompliantCached;</div><div class="line"><span class="keyword">var</span> isCompliant = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> isStandardsMode = <span class="regexp">/^CSS1/</span>.test(<span class="built_in">document</span>.compatMode);</div><div class="line">  <span class="keyword">if</span> (!isStandardsMode) &#123;</div><div class="line">    <span class="comment">// In quirks mode, the result is equivalent to the non-compliant</span></div><div class="line">    <span class="comment">// standards mode behavior.</span></div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (isCompliantCached === <span class="keyword">void</span> <span class="number">0</span>) &#123;</div><div class="line">    <span class="comment">// When called for the first time, check whether the browser is</span></div><div class="line">    <span class="comment">// standard-compliant, and cache the result.</span></div><div class="line">    <span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</div><div class="line">    iframe.style.height = <span class="string">'1px'</span>;</div><div class="line">    (<span class="built_in">document</span>.body || <span class="built_in">document</span>.documentElement || <span class="built_in">document</span>).appendChild(iframe);</div><div class="line">    <span class="keyword">var</span> doc = iframe.contentWindow.document;</div><div class="line">    doc.write(<span class="string">'&lt;!DOCTYPE html&gt;&lt;div style="height:9999em"&gt;x&lt;/div&gt;'</span>);</div><div class="line">    doc.close();</div><div class="line">    isCompliantCached = doc.documentElement.scrollHeight &gt; doc.body.scrollHeight;</div><div class="line">    iframe.parentNode.removeChild(iframe);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> isCompliantCached;</div><div class="line">&#125;;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> <code>document.compatMode</code> 是用来判断浏览器是 Standards Mode 还是 Quirks Mode，分别取值为 <code>CSS1Compat</code>和 <code>BackCompat</code>。</p>
-<p>作者也说了 <code>document.write</code> 可以在运行时修改模式，所以每次都要判断一遍。</p>
-<p>然后就用一个 iframe 来测试了，哇蛮重的。好处只能说是通用了。</p>
-<p>Standards Mode 下根元素的 <code>scrollHeight</code> 比 <code>body</code> 高就可以说明正确的实现了规范。</p>
-<p>因为这么重所以测试了一遍之后就把结果存起来了，以后就直接用。</p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> 从这里也对 <code>document.body</code> 有了
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body" target="_blank">新的认识</a>：</p>
-<blockquote>
-<p>Returns the <code>&lt;body&gt;</code> or <code>&lt;frameset&gt;</code> node of the current document, or null if no such element exists.</p>
-</blockquote>
-<p><code>&lt;frameset&gt;</code> 这种过时的东西没什么兴趣深入了解，直接看看怎么获取 <code>body</code> 的：</p>
-<h2 id="Body">
-<a href="#Body" class="headerlink" title="Body"></a>Body</h2>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isBodyElement</span>(<span class="params">element</span>) </span>&#123;</div><div class="line">  <span class="comment">// The `instanceof` check gives the correct result for e.g. `body` in a</span></div><div class="line">  <span class="comment">// non-HTML namespace.</span></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.HTMLBodyElement) &#123;</div><div class="line">    <span class="keyword">return</span> element <span class="keyword">instanceof</span> HTMLBodyElement;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// Fall back to a `tagName` check for old browsers.</span></div><div class="line">  <span class="keyword">return</span> <span class="regexp">/body/i</span>.test(element.tagName);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNextBodyElement</span>(<span class="params">frameset</span>) </span>&#123;</div><div class="line">  <span class="comment">// We use this function to be correct per spec in case `document.body` is</span></div><div class="line">  <span class="comment">// a `frameset` but there exists a later `body`. Since `document.body` is</span></div><div class="line">  <span class="comment">// a `frameset`, we know the root is an `html`, and there was no `body`</span></div><div class="line">  <span class="comment">// before the `frameset`, so we just need to look at siblings after the</span></div><div class="line">  <span class="comment">// `frameset`.</span></div><div class="line">  <span class="keyword">var</span> current = frameset;</div><div class="line">  <span class="keyword">while</span> (current = current.nextSibling) &#123;</div><div class="line">    <span class="keyword">if</span> (current.nodeType == <span class="number">1</span> &amp;&amp; isBodyElement(current)) &#123;</div><div class="line">      <span class="keyword">return</span> current;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// No `body` found.</span></div><div class="line">  <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>通过 <code>nextSibling</code> 循环排查跳过一个个 <code>frameset</code>。<code>nodeType == 1</code> 表示 <code>Node.ELEMENT_NODE</code>，这个节点是个元素。</p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> 通过 <code>element instanceof window.HTMLBodyElement</code> 可以正确判断 <code>body</code> 元素。</p>
-<h2 id="isScrollable">
-<a href="#isScrollable" class="headerlink" title="isScrollable"></a>isScrollable</h2>
-<p>找到了 <code>body</code> 接下来就看 <code>isScrollable</code> 干了什么：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isScrollable</span>(<span class="params">body</span>) </span>&#123;</div><div class="line">  <span class="comment">// A `body` element is scrollable if `body` and `html` both have</span></div><div class="line">  <span class="comment">// non-`visible` overflow and are both being rendered.</span></div><div class="line">  <span class="keyword">var</span> bodyStyle = computeStyle(body);</div><div class="line">  <span class="keyword">var</span> htmlStyle = computeStyle(<span class="built_in">document</span>.documentElement);</div><div class="line">  <span class="keyword">return</span> bodyStyle.overflow != <span class="string">'visible'</span> &amp;&amp; htmlStyle.overflow != <span class="string">'visible'</span> &amp;&amp;</div><div class="line">    isRendered(bodyStyle) &amp;&amp; isRendered(htmlStyle);</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>基本就是看看它的 CSS 属性，如果 <code>overflow</code> 不是 <code>visible</code> 且这个元素被渲染了的话，就属于可滚动的。</p>
-<p>这里就有了一个疑问，<code>overflow</code> 是 <code>hidden</code> 也算可滚动的吗？看了一下 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/overflow" target="_blank">MDN</a>，发现这么一段话：</p>
-<blockquote>
-<p><strong>Note</strong>: When programmatically setting scrollTop on the relevant HTML element, even when overflow has the hidden value an element may still need to scroll.</p>
-</blockquote>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> 所以 <code>overflow</code> 是 <code>hidden</code> 也是可滚动的。</p>
-<h3 id="window-getComputedStyle">
-<a href="#window-getComputedStyle" class="headerlink" title="window.getComputedStyle"></a>window.getComputedStyle</h3>
-<p>然后就是这个 <code>computeStyle</code>：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeStyle</span>(<span class="params">element</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.getComputedStyle) &#123;</div><div class="line">    <span class="comment">// Support Firefox &lt; 4 which throws on a single parameter.</span></div><div class="line">    <span class="keyword">return</span> getComputedStyle(element, <span class="literal">null</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// Support Internet Explorer &lt; 9.</span></div><div class="line">  <span class="keyword">return</span> element.currentStyle;</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> <code>window.getComputedStyle()</code> 与 <code>HTMLElement.style</code> 不一样在于前者可以动态得到元素所有的 CSS 属性，包括默认的值，而后者只能得到
-<em>inline</em> CSS 属性。但前者是只读的，后者可以设值。</p>
-<h3 id="isRendered">
-<a href="#isRendered" class="headerlink" title="isRendered"></a>isRendered</h3>
-<p>然后再看 <code>isRendered</code> 怎么判断：</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isRendered</span>(<span class="params">style</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> style.display != <span class="string">'none'</span> &amp;&amp; !(style.visibility == <span class="string">'collapse'</span> &amp;&amp;</div><div class="line">    <span class="regexp">/^table-(.+-group|row|column)$/</span>.test(style.display));</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>看来这位作者不太用严格等号和不等号。<code>display</code>这个好理解，<code>none</code>的元素不会被渲染出来。后面的就有点绕，要理解这个判断需要明白 <code>visibility</code> 的<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/visibility" target="_blank">三个取值</a>：</p>
-<blockquote>
-<ul>
-<li>
-<p><strong>visible</strong> Default value, the box is visible.</p>
-</li>
-<li>
-<p><strong>hidden</strong> The box is invisible (fully transparent, nothing is drawn), but still affects layout. Descendants of the element will be visible if they have visibility:visible (this doesn&#39;t work in IE up to version 7).</p>
-</li>
-<li>
-<p><strong>collapse</strong> For table rows, columns, column groups, and row groups the row(s) or column(s) are hidden and the space they would have occupied is removed (as if display: none were applied to the column/row of the table). However, the size
-of other rows and columns is still calculated as though the cells in the collapsed row(s) or column(s) are present. This was designed for fast removal of a row/column from a table without having to recalculate widths and heights for every portion of the
-table. For XUL elements, the computed size of the element is always zero, regardless of other styles that would normally affect the size, although margins still take effect. For other elements, collapse is treated the same as hidden.</p>
-</li>
-</ul>
-</blockquote>
-<p>前两个比较常见，<code>hidden</code> 依然是占位置的所以属于渲染。</p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v7">&#x2705;</span> <code>collapse</code> 是专门为表格行列元素快速隐藏做优化的，对它们来说效果等同于 <code>display: none</code>，所以会影响滚动高度。</p>
-<p>于是后半段代码相当于找出下面几种元素，然后看是不是 <code>collapse</code> 的：</p>
-<p></p>
-<figure class="highlight css">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-column</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-column-group</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-footer-group</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-header-group</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-row</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-row-group</span>;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="总结">
-<a href="#总结" class="headerlink" title="总结"></a>总结</h1>
-<p>可以看到这个 polyfill 代码虽然不算太长，但也干了很多事情，算是比较重的。但考虑到还在用老浏览器的人，能用就很给面子了是吧哈哈。从中也学了许多新知识，都打钩了注意到了吗 <span class="github-emoji" title=":smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v7">&#x1f604;</span> 。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天看了&lt;a href=&quot;https://imququ.com/post/document-scrollingelement-in-chrome.html&quot; target=&quot;_blank&quot;&gt;这篇文章&lt;/a&gt;，讲到 WebKit &lt;code&gt;document.body.scr
-    
-    </summary>
-    
-      <category term="闲读源码" scheme="https://blog.crimx.com/categories/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
-    
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
-    
-      <category term="闲读源码" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/"/>
-    
-      <category term="Browser" scheme="https://blog.crimx.com/tags/Browser/"/>
-    
-      <category term="Polyfill" scheme="https://blog.crimx.com/tags/Polyfill/"/>
     
   </entry>
   

@@ -1,0 +1,383 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>Manacher 马拉车算法 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="马拉车算法可以在线性时间复杂度内求出一个字符串的最长回文字串。其核心思想跟 KMP 相似，即反复利用已掌握的情况。
+视频推荐看这个，觉得是最清晰易懂的：
+
+
+
+
+整体思路
+这个算法的主要思路是维护一个跟原串 str 一样长的数组 lens。lens[i] 表示以 str[i] 为中点的回串其中一边的长度。这里有的人把中点算进去，有的人记录两边的长度，其实都一样，我这里是只记录一边的长度，不包括中点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Manacher 马拉车算法">
+<meta property="og:url" content="https://blog.crimx.com/2017/07/06/manachers-algorithm/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="马拉车算法可以在线性时间复杂度内求出一个字符串的最长回文字串。其核心思想跟 KMP 相似，即反复利用已掌握的情况。
+视频推荐看这个，觉得是最清晰易懂的：
+
+
+
+
+整体思路
+这个算法的主要思路是维护一个跟原串 str 一样长的数组 lens。lens[i] 表示以 str[i] 为中点的回串其中一边的长度。这里有的人把中点算进去，有的人记录两边的长度，其实都一样，我这里是只记录一边的长度，不包括中点">
+<meta property="og:updated_time" content="2017-07-06T11:24:19.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Manacher 马拉车算法">
+<meta name="twitter:description" content="马拉车算法可以在线性时间复杂度内求出一个字符串的最长回文字串。其核心思想跟 KMP 相似，即反复利用已掌握的情况。
+视频推荐看这个，觉得是最清晰易懂的：
+
+
+
+
+整体思路
+这个算法的主要思路是维护一个跟原串 str 一样长的数组 lens。lens[i] 表示以 str[i] 为中点的回串其中一边的长度。这里有的人把中点算进去，有的人记录两边的长度，其实都一样，我这里是只记录一边的长度，不包括中点">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/storage-1209606_1920-portrait.jpg') 51.90% 57.23%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAmEAABAwMBCAMAAAAAAAAAAAABAAIDBAUREhUWITFBUlSSBhNR/8QAGAEAAgMAAAAAAAAAAAAAAAAAAQIAAwT/xAAbEQADAAIDAAAAAAAAAAAAAAAAARESIQIiUf/aAAwDAQACEQMRAD8A68Ur2XNpaGEHnh2Vu1pgrDE6OQxyfreAU+or4IaproqKWJ2cFzlTqAdMdS65AMHHSVZDLk3RjZsHYEJPblP5TEKaGyI93vl1EZjlodDertOU/bILbd7a0VR0SAcXZwtJvkTY7drlpxISOqk2KWG+VdQyWL62u5BhxhCTQlTdpT3ZsnnD2QmNzLf3y+yEOw+PDw//2Q==') 51.90% 57.23%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/storage-1209606_1920-portrait.jpg') 51.90% 57.23%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAmEAABAwMBCAMAAAAAAAAAAAABAAIDBAUREhUWITFBUlSSBhNR/8QAGAEAAgMAAAAAAAAAAAAAAAAAAQIAAwT/xAAbEQADAAIDAAAAAAAAAAAAAAAAARESIQIiUf/aAAwDAQACEQMRAD8A68Ur2XNpaGEHnh2Vu1pgrDE6OQxyfreAU+or4IaproqKWJ2cFzlTqAdMdS65AMHHSVZDLk3RjZsHYEJPblP5TEKaGyI93vl1EZjlodDertOU/bILbd7a0VR0SAcXZwtJvkTY7drlpxISOqk2KWG+VdQyWL62u5BhxhCTQlTdpT3ZsnnD2QmNzLf3y+yEOw+PDw//2Q==') 51.90% 57.23%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">Manacher 马拉车算法</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/Algorithms/">Algorithms</a></div><a href="/2017/07/06/manachers-algorithm/" class="article-date"><time datetime="2017-07-05T16:00:00.000Z" itemprop="datePublished">2017-07-06</time></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"A Man, A Plan, A Canal-Panama!"</blockquote>
+<footer class="tagline-cite"><cite>Leigh Mercer</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#整体思路"><span class="toc-text">整体思路</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#预处理"><span class="toc-text">预处理</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#计算长度数组"><span class="toc-text">计算长度数组</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#朴素计算方法"><span class="toc-text">朴素计算方法</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#手背手心都是肉"><span class="toc-text">手背手心都是肉</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#最右中心"><span class="toc-text">最右中心</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#右贴界"><span class="toc-text">右贴界</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#左越界"><span class="toc-text">左越界</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#整合"><span class="toc-text">整合</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#完整算法"><span class="toc-text">完整算法</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-manachers-algorithm" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>马拉车算法可以在线性时间复杂度内求出一个字符串的最长回文字串。其核心思想跟 KMP 相似，即反复利用已掌握的情况。</p>
+<p>视频推荐看这个，觉得是最清晰易懂的：</p>
+<p></p>
+<p><iframe width="560" height="315" style="width:100%" src="" data-type="youtube" data-src="//www.youtube.com/embed/nbTSfrEfo6M" frameborder="0" allowfullscreen></iframe></p>
+<p></p>
+<h2 id="整体思路">
+<a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h2>
+<p>这个算法的主要思路是维护一个跟原串 str 一样长的数组 lens。lens[i] 表示以 str[i] 为中点的回串其中一边的长度。这里有的人把中点算进去，有的人记录两边的长度，其实都一样，我这里是只记录一边的长度，不包括中点。比如 <code>&quot;CDCDE&quot;</code></p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">str:  [C, D, C, D, E]</div><div class="line">lens: [0, 1, 1, 0, 0]</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>那么 lens 里最大的自然就对应最长回串的中点了。所以这个算法的核心就是如何快速计算 lens。</p>
+<h2 id="预处理">
+<a href="#预处理" class="headerlink" title="预处理"></a>预处理</h2>
+<p>回文有奇偶长度两种情况，通过补充间隔符可以将这两种情况化简为奇数长度。</p>
+<p>比如 <code>ABA</code> 补充为 <code>#A#B#A#</code> 中点还是 B，<code>ABBA</code> 补充为 <code>#A#B#B#A#</code> 中点为 <code>#</code>，最后可以去掉。</p>
+<p>算法用 JavaScript 写，我将原串转为数组，间隔符就用 <code>null</code>。</p>
+<p>最后在两侧补上哨兵点方便遍历中止。我用了 <code>NaN</code>。所以看起来是这样</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">var</span> arr = [<span class="literal">NaN</span>, <span class="literal">null</span>]</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i += <span class="number">1</span>) &#123;</div><div class="line">  arr.push(str[i])</div><div class="line">  arr.push(<span class="literal">null</span>)</div><div class="line">&#125;</div><div class="line">arr.push(<span class="literal">NaN</span>)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="计算长度数组">
+<a href="#计算长度数组" class="headerlink" title="计算长度数组"></a>计算长度数组</h2>
+<h3 id="朴素计算方法">
+<a href="#朴素计算方法" class="headerlink" title="朴素计算方法"></a>朴素计算方法</h3>
+<p>以一个中心计算回串，最直接的方法当然是左右遍历对比了，比如以 i 为中心：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">lens[i] = <span class="number">0</span></div><div class="line"><span class="keyword">while</span> (arr[i + lens[i] + <span class="number">1</span>] === arr[i - lens[i] - <span class="number">1</span>]) &#123;</div><div class="line">  lens[i] += <span class="number">1</span></div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这个就是计算长度基本方式。n 个点，每个点最多计算 n/2 遍，所以是 n 平方复杂度。</p>
+<h3 id="手背手心都是肉">
+<a href="#手背手心都是肉" class="headerlink" title="手背手心都是肉"></a>手背手心都是肉</h3>
+<p>看回上面的算法，可以发现，lens[i] 是从 0 开始的，这个很正常，一开始当然是 0 ，回串嘛，从中心开始两侧都要一一比较相等才行。</p>
+<p>但再进一步看，0 代表从头开始，即对于每个中心点，我们都是从什么都不知道开始，什么情况都没有掌握。</p>
+<p>事实是这样吗？</p>
+<p>既然有了这个算法，事实当然不是。这时就很容易联系到回串的特性，对称。</p>
+<p>先来一个简单的例子 <code>OABAXABAO</code>。两个 B 是 X 的对称点，左边 B 对应的 lens[j] 长度显然是 1，当我们计算右边 B 的 lens[i] 时候，是不是可以把 lens[j] 的值直接复制过来。因为它们是镜面对称的，所以都是一样，不过是反过来而已。</p>
+<h3 id="最右中心">
+<a href="#最右中心" class="headerlink" title="最右中心"></a>最右中心</h3>
+<p>我们维护一个已知最右的回串，设其中心点 iCenter 以及其最右点 iRight。显然两者有这么的关系 <code>iRight = iCenter + lens[iCenter]</code>。</p>
+<p>这个回串是最右的，也就是说 iRight 是最大的。有更右的就不断更新。</p>
+<p>为什么要维护最右回串？</p>
+<p>当我们一个个遍历中点 i 时，因 iCenter 已知，故必然是已经遍历过了，所以 i 肯定是在 iCenter 的右边，这就保证了两种情况：</p>
+<ol>
+<li>i &lt;= iRight，在最右回串的范围内，可以应用上面的镜面复制；</li>
+<li>i &gt; iRight，超出了最右，在未知区域，只能用朴素方式计算。</li>
+</ol>
+<p>这就是这个算法的核心思想了，最后引入两个边界情况：</p>
+<h3 id="右贴界">
+<a href="#右贴界" class="headerlink" title="右贴界"></a>右贴界</h3>
+<p>像简单例子的 <code>OABAXABAO</code> 可以明确知道 X 和 O 不相等，所以复制过来就行。但如果是 <code>OABAXABA...</code> 就不知道下一个是不是 X 了。我们只能知道下一个肯定不是 O，因为最右串 X 的范围到 A 就截止了。</p>
+<p>所以右边 B 对应的 lens[i] 得到了 1 之后，在这基础上继续用朴素方式比较两侧。</p>
+<p>意思是“我现在可以确定右 B 两侧 1 个长度内是对称的，其它未知，继续比较下去看如何”。</p>
+<p>如果右 B 比较下去有戏的话，那么右 B 就是新的最右串了，更新 iCenter 和 iRight 值。</p>
+<p>右贴界的条件是 <code>i + lens[i] === iRight</code>。</p>
+<h3 id="左越界">
+<a href="#左越界" class="headerlink" title="左越界"></a>左越界</h3>
+<p>对于串 <code>XABAXABA...</code>。两个 B 还是 X 的对称点，但是左边的 B 对应的 lens[j] 长度是 2，右边 B 的 lens[i] 可以看到是 1。</p>
+<p>为什么？</p>
+<p>理解上面提到的镜面对称就很简单了，X 为中心的回串是 <code>ABAXABA</code>，也就是左边到了 A 就截止了，左 X 是超出的，所以不对称。因为如果最右的下一个位也是 X 的话，最右回串就应该是 <code>XABAXABAX</code> 了是不是。</p>
+<p>所以，当左边的 B 超出了中心 X 的范围时，我们只复制在最右回串范围内的部分。</p>
+<p>即对于左边的 B，我们知道范围内的是 <code>ABA</code> ，为 1，复制给右边 B 对应的 lens[i]，再按右贴界处理。</p>
+<p>设左 B 的索引为 iMirror，因为左右 B 对称，故 <code>iMiiror = iCenter - (i - iCenter) = 2 * iCenter - i</code>。</p>
+<p>左 B 到 iCenter 左边界的距离我们用镜面对称过来就是右 B 到 iCenter 右边界的距离 <code>iRight - i</code>。</p>
+<p>于是左越界的条件就是 <code>lens[iMiiror] &gt; iRight - i</code>。</p>
+<h3 id="整合">
+<a href="#整合" class="headerlink" title="整合"></a>整合</h3>
+<p>可以看到，我们复制镜面值要考虑三种情况，范围内、右贴界、左越界，其中左越界又包含了右贴界。于是简洁起见，我们全部当右贴界处理，因为如果在范围内比较下去自然不相等，相当于去掉了 if 判断。</p>
+<p>然后整合范围内和左越界，范围内指 <code>lens[iMiiror] &lt;= iRight - i</code>，直接复制 <code>lens[iMiiror]</code>；左越界指 <code>lens[iMiiror] &gt; iRight - i</code>，取 <code>iRight - 1</code>。故整合为 <code>min(iRight - i, lens[iMirror])</code>。</p>
+<h2 id="完整算法">
+<a href="#完整算法" class="headerlink" title="完整算法"></a>完整算法</h2>
+<p>所以完整算法如下</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">manacher</span> (<span class="params">str</span>) </span>&#123;</div><div class="line">  str = <span class="built_in">String</span>(str)</div><div class="line"></div><div class="line">  <span class="keyword">var</span> arr = [<span class="literal">NaN</span>, <span class="literal">null</span>]</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i += <span class="number">1</span>) &#123;</div><div class="line">    arr.push(str[i])</div><div class="line">    arr.push(<span class="literal">null</span>)</div><div class="line">  &#125;</div><div class="line">  arr.push(<span class="literal">NaN</span>)</div><div class="line"></div><div class="line">  <span class="keyword">var</span> iCenterMax = <span class="number">1</span></div><div class="line">  <span class="keyword">var</span> lens = []</div><div class="line">  <span class="keyword">var</span> iCenter = <span class="number">0</span></div><div class="line">  <span class="keyword">var</span> iRight = <span class="number">0</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; arr.length - <span class="number">1</span>; i += <span class="number">1</span>) &#123;</div><div class="line">    <span class="keyword">if</span> (arr.length - <span class="number">1</span> - i &lt;= lens[iCenterMax]) &#123;</div><div class="line">      <span class="keyword">break</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    lens[i] = <span class="number">0</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (i &lt; iRight) &#123;</div><div class="line">      <span class="keyword">let</span> iMirror = <span class="number">2</span> * iCenter - i</div><div class="line">      lens[i] = <span class="built_in">Math</span>.min(iRight - i, lens[iMirror])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (arr[i + lens[i] + <span class="number">1</span>] === arr[i - lens[i] - <span class="number">1</span>]) &#123;</div><div class="line">      lens[i] += <span class="number">1</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (i + lens[i] &gt; iRight) &#123;</div><div class="line">      iCenter = i</div><div class="line">      iRight = i + lens[i]</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (lens[i] &gt; lens[iCenterMax]) &#123;</div><div class="line">      iCenterMax = i</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> arr.slice(iCenterMax - lens[iCenterMax], iCenterMax + lens[iCenterMax] + <span class="number">1</span>)</div><div class="line">    .filter(<span class="function"><span class="params">item</span> =&gt;</span> item !== <span class="literal">null</span>)</div><div class="line">    .join(<span class="string">''</span>)</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Algorithms/">Algorithms</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Manacher/">Manacher</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Palindrome/">Palindrome</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/String/">String</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/回文/">回文</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串/">字符串</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/算法/">算法</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/07/03/value-calculation-of-css-properties/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">CSS 属性值计算</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/07/06/manachers-algorithm/" data-identifier="2017/07/06/manachers-algorithm/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网，评论加载不了。</div>
+<div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+window.cloudTieConfig = {
+    url: document.location.href,
+    sourceId: "2017/07/06/manachers-algorithm/",
+    productKey: "3534ae5439ba40fe914e6bfea6742ee9",
+    target: "cloud-tie-wrapper"
+};
+</script><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

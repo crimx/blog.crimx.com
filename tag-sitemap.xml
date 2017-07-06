@@ -394,27 +394,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/TDZ/</loc>
-        <lastmod>2017-01-22T13:32:35.639Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/Parameters/</loc>
-        <lastmod>2017-01-22T13:32:35.639Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/Arguments/</loc>
-        <lastmod>2017-01-22T13:32:35.639Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Responsive/</loc>
         <lastmod>2017-01-25T17:17:46.163Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -499,13 +478,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Recommended/</loc>
-        <lastmod>2017-04-20T15:58:09.585Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/iframe/</loc>
         <lastmod>2017-04-20T15:58:09.585Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -576,20 +548,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Understanding-JavaScript/</loc>
-        <lastmod>2017-07-03T08:52:44.354Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://blog.crimx.com/tags/Function/</loc>
-        <lastmod>2017-07-03T08:52:44.354Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Font/</loc>
         <lastmod>2017-07-03T08:52:51.869Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -620,6 +578,97 @@
     <url>
         <loc>https://blog.crimx.com/tags/Visual-Formatting-Model/</loc>
         <lastmod>2017-07-03T13:22:12.511Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Understanding-JavaScript/</loc>
+        <lastmod>2017-07-06T08:17:02.318Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Function/</loc>
+        <lastmod>2017-07-06T08:17:02.318Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/TDZ/</loc>
+        <lastmod>2017-07-06T08:17:02.318Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Parameters/</loc>
+        <lastmod>2017-07-06T08:17:02.318Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Arguments/</loc>
+        <lastmod>2017-07-06T08:17:02.318Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Recommended/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Manacher/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/%E7%AE%97%E6%B3%95/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Algorithms/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/%E5%9B%9E%E6%96%87/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Palindrome/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/String/</loc>
+        <lastmod>2017-07-06T11:24:19.498Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
