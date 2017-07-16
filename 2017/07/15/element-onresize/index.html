@@ -1,0 +1,413 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>巧妙监测元素尺寸变化 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？
+相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。
+然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。
+最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta property="og:type" content="article">
+<meta property="og:title" content="巧妙监测元素尺寸变化">
+<meta property="og:url" content="https://blog.crimx.com/2017/07/15/element-onresize/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？
+相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。
+然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。
+最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta property="og:image" content="https://blog.crimx.com/images/post/element-onresize/1.gif">
+<meta property="og:image" content="https://blog.crimx.com/images/post/element-onresize/2.gif">
+<meta property="og:image" content="https://blog.crimx.com/images/post/element-onresize/3.gif">
+<meta property="og:updated_time" content="2017-07-16T16:26:27.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="巧妙监测元素尺寸变化">
+<meta name="twitter:description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？
+相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。
+然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。
+最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta name="twitter:image" content="https://blog.crimx.com/images/post/element-onresize/1.gif">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/fly-agaric-451766_1920-portrait.jpg') 35.82% 47.53%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAqEAABAwIFAgUFAAAAAAAAAAABAAIDBBIFBhETQRQhBxYxVKEXQlJhYv/EABgBAAMBAQAAAAAAAAAAAAAAAAIDBQEE/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAIBAwQREiExUSP/2gAMAwEAAhEDEQA/AJ+CeHMrJr5qjbj4HK6B+Q4BrZWkk/pL02bupiBNM+0/cPRbVma+gpWSmE6O9FIl3luuS1FvbKu2eDPyM/33whTvqM723yhb9fANLT0Wy1i0NbSNo4ackxt1d2TGYdmbC4HQyxnQm5nIUDBMVfhW8aWNouFpuHChVlZPHM9wcDe49kaqstmDla9Z6cU56KFsP8IUbfl/IITtBOYP/9k=') 35.82% 47.53%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/fly-agaric-451766_1920-portrait.jpg') 35.82% 47.53%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAqEAABAwIFAgUFAAAAAAAAAAABAAIDBBIFBhETQRQhBxYxVKEXQlJhYv/EABgBAAMBAQAAAAAAAAAAAAAAAAIDBQEE/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAIBAwQREiExUSP/2gAMAwEAAhEDEQA/AJ+CeHMrJr5qjbj4HK6B+Q4BrZWkk/pL02bupiBNM+0/cPRbVma+gpWSmE6O9FIl3luuS1FvbKu2eDPyM/33whTvqM723yhb9fANLT0Wy1i0NbSNo4ackxt1d2TGYdmbC4HQyxnQm5nIUDBMVfhW8aWNouFpuHChVlZPHM9wcDe49kaqstmDla9Z6cU56KFsP8IUbfl/IITtBOYP/9k=') 35.82% 47.53%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">巧妙监测元素尺寸变化</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/07/15/element-onresize/" class="article-date"><time datetime="2017-07-14T16:00:00.000Z" itemprop="datePublished">2017-07-15</time></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"Whatever story you want to tell, tell it at the right size."</blockquote>
+<footer class="tagline-cite"><cite>Richard Linklater</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#整体思路"><span class="toc-text">整体思路</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#如何计算滚动？"><span class="toc-text">如何计算滚动？</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#发生滚动的时机"><span class="toc-text">发生滚动的时机</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#重排"><span class="toc-text">重排</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#物尽其用"><span class="toc-text">物尽其用</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-element-onresize" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？</p>
+<p>相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。</p>
+<p>然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个<a href="https://github.com/cowboy/jquery-resize" target="_blank">七年前的</a>）现在还有人用。</p>
+<p>最后便是<a href="https://github.com/marcj/css-element-queries" target="_blank">这个</a>，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像<a href="/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/">之前</a>一样逐行逐块地分析，而是着重原理，对应
+<a href="https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js#L100"
+target="_blank">这部分</a>的源码。</p>
+<h2 id="整体思路">
+<a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h2>
+<p>这个方法的主要思想是在被监测元素里包裹一个跟元素位置大小相同的隐藏块。隐藏块可以滚动，并有一个远远大于它的子元素。当被监测元素尺寸变化时期望能触发隐藏块的滚动事件。</p>
+<p>这个方法听起来很简单是不是，但如果你直接这么实现会发现时而行时而不行，问题就在于触发滚动事件的条件。</p>
+<h2 id="如何计算滚动？">
+<a href="#如何计算滚动？" class="headerlink" title="如何计算滚动？"></a>如何计算滚动？</h2>
+<p>这是我觉得这个话题值得写成文章的一个有趣点。我们理所当然地看待滚动，但有没有想过它是怎么计算的呢？</p>
+<h3 id="发生滚动的时机">
+<a href="#发生滚动的时机" class="headerlink" title="发生滚动的时机"></a>发生滚动的时机</h3>
+<p>有问题当然要去请教规范老师。</p>
+<p>第一步我们需要知道什么时候才会发生滚动，首先一个题外话，overflow 为 hidden 也是可以滚动的，<a href="/2016/04/18/document-scrollingelement-polyfill/">另外一篇</a>分析里也遇到过。</p>
+<p>在<a href="https://www.w3.org/TR/cssom-view-1/#scrolling-events" target="_blank">这里</a>提到滚动事件发生的时机，但说得有点笼统</p>
+<blockquote>
+<p>Whenever an element gets scrolled (whether in response to user interaction or by an API)</p>
+</blockquote>
+<p>但从这段我们可以知道，每次发生滚动的时候，浏览器会先收集起来，在下次 event loop 到达时<a href="https://html.spec.whatwg.org/multipage/webappapis.html#update-the-rendering" target="_blank">统一</a>地<a href="https://www.w3.org/TR/cssom-view-1/#run-the-scroll-steps" target="_blank">处理</a>。</p>
+<p>滚动的描述在<a href="https://www.w3.org/TR/cssom-view-1/#scroll-an-element" target="_blank">这里</a>：</p>
+<blockquote>
+<p>To scroll an element element to x,y optionally with a scroll behavior behavior (which is &quot;auto&quot; if omitted) means to:</p>
+<ol>
+<li>Let box be element’s associated scrolling box.</li>
+<li>
+<ul>
+<li><strong>If box has rightward overflow direction</strong> Let x be max(0, min(x, element scrolling area width - element padding edge width)).</li>
+<li>If box has leftward overflow direction Let x be min(0, max(x, element padding edge width - element scrolling area width)).</li>
+</ul>
+</li>
+<li>
+<ul>
+<li><strong>If box has downward overflow direction</strong> Let y be max(0, min(y, element scrolling area height - element padding edge height)).</li>
+<li>If box has upward overflow direction Let y be min(0, max(y, element padding edge height - element scrolling area height)).</li>
+</ul>
+</li>
+<li>Let position be the scroll position box would have by aligning scrolling area x-coordinate x with the left of box and aligning scrolling area y-coordinate y with the top of box.</li>
+<li>If position is the <strong>same as</strong> box’s current scroll position, and box does not have an ongoing smooth scroll, <strong>abort these steps</strong>.</li>
+<li><strong>Perform a scroll</strong> of box to position, element as the associated element and behavior as the scroll behavior.</li>
+</ol>
+</blockquote>
+<p>最后一步<a href="https://www.w3.org/TR/cssom-view-1/#perform-a-scroll" target="_blank">“perform a scroll”</a>才会真正触发滚动事件。</p>
+<p>第五步便是问题关键，位置相同的时候，滚动事件不会发生。</p>
+<h3 id="重排">
+<a href="#重排" class="headerlink" title="重排"></a>重排</h3>
+<p>根据前面的整体思路，当被监测元素尺寸发生变化时，隐藏元素也跟着变化。于是引发了 Layout/Reflow 使到重新计算滚动位置 <em>position</em>。</p>
+<p>但这时也许你会发现 <em>position</em> 根本没有变化，如图一。</p>
+<p><img src="/images/post/element-onresize/1.gif" alt="图一"></p>
+<p></p>
+<figure class="highlight html">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">  .parent &#123;</div><div class="line">    height: 100px;</div><div class="line">    width: 100px;</div><div class="line">    overflow: scroll;</div><div class="line">    background: red;</div><div class="line">    position: absolute;</div><div class="line">    top: 0;</div><div class="line">    left: 0;</div><div class="line">    bottom: 0;</div><div class="line">    right: 0;</div><div class="line">    margin: auto;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  .child &#123;</div><div class="line">    height: 200%;</div><div class="line">    width: 200%;</div><div class="line">    background: blue;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  .msg &#123;</div><div class="line">    position: absolute;</div><div class="line">    top: 370px;</div><div class="line">    left: 50%;</div><div class="line">    transform: translateX(-50%);</div><div class="line">    text-align: center;</div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">  var parent = document.querySelector('.parent')</div><div class="line">  var child = document.querySelector('.child')</div><div class="line">  var msg1 = document.querySelector('.msg1')</div><div class="line">  var msg2 = document.querySelector('.msg2')</div><div class="line"></div><div class="line">  parent.scrollTop = 1000</div><div class="line">  parent.scrollLeft = 1000</div><div class="line"></div><div class="line">  var eventCount = 0</div><div class="line">  function log () &#123;</div><div class="line">    msg1.innerText = `scrollTop: $&#123;parent.scrollTop&#125;, scrollLeft: $&#123;parent.scrollLeft&#125;`</div><div class="line">    msg2.innerText = `$&#123;eventCount&#125; scroll event$&#123;eventCount &gt; 1 ? 's were' : ' was'&#125; triggered`</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  log()</div><div class="line"></div><div class="line">  parent.addEventListener('scroll', () =&gt; &#123;</div><div class="line">    eventCount += 1</div><div class="line">    log()</div><div class="line">  &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>为什么？上面的第二、三步有答案。一般来说，我们的设备都是上到下、左到右，所以属于右下方向溢出，对应上面的 2.1 和 3.1 公式。每次计算滚动距离都会跟可滚动的空间比较取最小值。</p>
+<p>因为子元素的尺寸是固定的，且远远大于容器，故两者的差非常大，所以最小值一直是 x 和 y，每次重排都会在同个位置，触发了上面的第五步。</p>
+<p>同时根据公式易得：当可滚动空间一开始不比 x 和 y 大，且随滚动不断变小时，就可以让 <em>position</em> 发生变化。</p>
+<p>于是，我们先让元素滚到最尽头，那么 x 和 y 达到了最大值。当容器尺寸变大时，因为子元素的尺寸是固定的，故 scrolling area 的大小不变，所以两者的差变小了，x 和 y 得到新的最小值，发生了滚动。见图二。</p>
+<p><img src="/images/post/element-onresize/2.gif" alt="图二"></p>
+<p></p>
+<figure class="highlight css">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">/* ... */</span></div><div class="line"><span class="selector-class">.child</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* ... */</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// .....</span></div><div class="line"><span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</div><div class="line"></div><div class="line">parent.scrollTop = <span class="number">1000</span></div><div class="line">parent.scrollLeft = <span class="number">1000</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> eventCount = <span class="number">0</span></div><div class="line"><span class="comment">// ....</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>初始的 1 个事件就是上面提到的 event loop 导致的。</p>
+<p>可以观察滚动发生，我们期望容器达到最大时 x 和 y 都没有达到最小值，所以子元素的大小须比容器最大值要大。</p>
+<p>动图同时也可观察到容器变小时没反应。按上面的公式也很容易知道，容器变小了，差值变大了，所以最小值还是 x 和 y，故不触发滚动。</p>
+<p>怎么办呢？</p>
+<h3 id="物尽其用">
+<a href="#物尽其用" class="headerlink" title="物尽其用"></a>物尽其用</h3>
+<p>再看回公式，我们希望容器变小时，差值也变小。那么只能是让 scrolling area 也跟着变小了。如果子元素大小改为百分比行不？我们来证明一下。</p>
+<p>设容器宽度为 <code>x1</code> 或者 <code>x2</code>，其中 <code>x2 &gt; x1</code>，子元素大小为 <code>n * x1</code> 或 <code>n * x2</code>，因我们不设 padding，则有</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">n * x1 - x1 &lt; n * x2 - x2</div><div class="line">↓</div><div class="line">(n - <span class="number">1</span>) * x1 &lt; (n - <span class="number">1</span>) * x2</div><div class="line">↓</div><div class="line">n &gt; <span class="number">1</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>证明了通过百分比是可行的。</p>
+<p>同时我们期望容器达到最小时 x 和 y 都没有达到最小值，容器为 0 时无意义，故设最小为 1，则</p>
+<p></p>
+<figure class="highlight python">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">(n - <span class="number">1</span>) * <span class="number">1</span> &gt;= <span class="number">1</span></div><div class="line">↓</div><div class="line">n &gt;= <span class="number">2</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>故我们只需让子元素大小至少为 200% 就可以！见图三</p>
+<p><img src="/images/post/element-onresize/3.gif" alt="图三"></p>
+<p></p>
+<figure class="highlight css">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">/* ... */</span></div><div class="line"><span class="selector-class">.child</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">200%</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">200%</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* ... */</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// .....</span></div><div class="line"><span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</div><div class="line"></div><div class="line">parent.scrollTop = <span class="number">1000</span></div><div class="line">parent.scrollLeft = <span class="number">1000</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> eventCount = <span class="number">0</span></div><div class="line"><span class="comment">// ....</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>同时也说明百分比不能监测容器变大，因为 <code>0 &lt; n &lt; 1</code> 与 <code>n &gt;= 1 + 1/Max</code> 矛盾，可自行证明。</p>
+<p>所以，结合两个方式就可以监测元素扩大与缩小变化。</p>
+<h2 id="代码">
+<a href="#代码" class="headerlink" title="代码"></a>代码</h2>
+<p>原理搞通之后代码就不难了，我<a href="https://codepen.io/straybugs/full/mwgWad/" target="_blank">这里</a>另外重新实现了一遍，修改了隐藏块的创建方式以及加入 <a href="https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md" target="_blank">passive events</a> 优化滚动。Demo 里拖动一个块改变大小另一个会同步变化，可以看到非常的流畅。</p>
+<p></p>
+<p><iframe class="iframe-defer" height="408" scrolling="no" title="Sync Twin Boxes" src="//codepen.io/straybugs/embed/mwgWad/?height=408&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%">See the Pen <a href="https://codepen.io/straybugs/pen/mwgWad/" target="_blank">Sync Twin Boxes</a> by CRIMX (<a href="https://codepen.io/straybugs" target="_blank">@straybugs</a>) on <a href="https://codepen.io" target="_blank">CodePen</a>.</iframe></p>
+<p></p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Resize/">Resize</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读源码/">闲读源码</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/07/06/manachers-algorithm/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Manacher 马拉车算法</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/07/15/element-onresize/" data-identifier="2017/07/15/element-onresize/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>
