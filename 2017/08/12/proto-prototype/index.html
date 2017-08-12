@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-<title>Low Poly 初体验 | CRIMX</title>
+<title>Prototype 与 __Proto__ 的爱恨情仇 | CRIMX</title>
 <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
@@ -29,53 +29,25 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：
-
-先描好线再连三角形
-不一定是三角形
-细节需要更多图案，大块的不妨用大三角形
-原图饱和度可以提高一些
-记得中途休息，扭扭手腕（血的教训）
-
-
-
-
-瞎扯完了，洗洗睡。">
+<meta name="description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。
+先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。
+然后来看一个两个神的故事：
+首先在 ECMAScript 星球，万物起源于一个叫 %ObjectP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Low Poly 初体验">
-<meta property="og:url" content="https://blog.crimx.com/2014/09/02/low-poly/index.html">
+<meta property="og:title" content="Prototype 与 __Proto__ 的爱恨情仇">
+<meta property="og:url" content="https://blog.crimx.com/2017/08/12/proto-prototype/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：
-
-先描好线再连三角形
-不一定是三角形
-细节需要更多图案，大块的不妨用大三角形
-原图饱和度可以提高一些
-记得中途休息，扭扭手腕（血的教训）
-
-
-
-
-瞎扯完了，洗洗睡。">
-<meta property="og:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly1.png">
-<meta property="og:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly2.png">
-<meta property="og:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly3.png">
-<meta property="og:updated_time" content="2016-12-30T05:14:41.458Z">
+<meta property="og:description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。
+先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。
+然后来看一个两个神的故事：
+首先在 ECMAScript 星球，万物起源于一个叫 %ObjectP">
+<meta property="og:updated_time" content="2017-08-12T15:05:44.696Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Low Poly 初体验">
-<meta name="twitter:description" content="今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：
-
-先描好线再连三角形
-不一定是三角形
-细节需要更多图案，大块的不妨用大三角形
-原图饱和度可以提高一些
-记得中途休息，扭扭手腕（血的教训）
-
-
-
-
-瞎扯完了，洗洗睡。">
-<meta name="twitter:image" content="https://blog.crimx.com/images/post/illustrator/low-poly/low-poly1.png">
+<meta name="twitter:title" content="Prototype 与 __Proto__ 的爱恨情仇">
+<meta name="twitter:description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。
+先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。
+然后来看一个两个神的故事：
+首先在 ECMAScript 星球，万物起源于一个叫 %ObjectP">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -102,8 +74,8 @@
     </style>
   <![endif]-->
 <div class="site-container">
-<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-196644-portrait.jpg') 26.93% 43.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAUGAwIH/8QAKhAAAQMCAggHAAAAAAAAAAAAAQACAwQRBRIGFCEyQVJxkRUWIjFRU5L/xAAXAQEBAQEAAAAAAAAAAAAAAAACAwAB/8QAGxEBAAIDAQEAAAAAAAAAAAAAAQACERMUMWH/2gAMAwEAAhEDEQA/APX3VkbTvX6JNjWCUeONzFhEwGxyZtY0bAwX4rVrmx2LiAkgmIhauSQ3kR/MUK616Dnb3QhqJXfec0lRBX04mhcDf4WFfRSTxBrZMgv6uigdFcXmwiWSmdeWO127fZNq/SCpqyY9xh4BDeBKc1m2DyPfCqH7R+kKNzHmd3Qt0s7x/Z//2Q==') 26.93% 43.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
 <div class="menu-logo">
 <a class="icon-logo" href="/"></a>
@@ -133,13 +105,13 @@
 </div>
 <div class="site-menu-mask"></div>
 <div class="main-content">
-<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-196644-portrait.jpg') 26.93% 43.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAUGAwIH/8QAKhAAAQMCAggHAAAAAAAAAAAAAQACAwQRBRIGFCEyQVJxkRUWIjFRU5L/xAAXAQEBAQEAAAAAAAAAAAAAAAACAwAB/8QAGxEBAAIDAQEAAAAAAAAAAAAAAQACERMUMWH/2gAMAwEAAhEDEQA/APX3VkbTvX6JNjWCUeONzFhEwGxyZtY0bAwX4rVrmx2LiAkgmIhauSQ3kR/MUK616Dnb3QhqJXfec0lRBX04mhcDf4WFfRSTxBrZMgv6uigdFcXmwiWSmdeWO127fZNq/SCpqyY9xh4BDeBKc1m2DyPfCqH7R+kKNzHmd3Qt0s7x/Z//2Q==') 26.93% 43.93%/cover"></div>
 <a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
-<h1 class="site-title" itemprop="name">Low Poly 初体验</h1>
+<h1 class="site-title" itemprop="name">Prototype 与 __Proto__ 的爱恨情仇</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2014/09/02/low-poly/" class="article-date"><time datetime="2014-09-01T16:00:00.000Z" itemprop="datePublished">2014-09-02</time></a>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/08/12/proto-prototype/" class="article-date"><time datetime="2017-08-11T16:00:00.000Z" itemprop="datePublished">2017-08-12</time></a>
 <a rel="license" class="cc-license-wrapper"
 href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
 </div>
@@ -147,47 +119,55 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 </header>
 <div class="tagline-wrap">
 <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
-<blockquote class="tagline-content">"omewhere in the world someone is training when you are not. When you race him, he will win."</blockquote>
-<footer class="tagline-cite"><cite>Tom Fleming</cite></footer>
+<blockquote class="tagline-content">"If you are truly innovating, you don't have a prototype you can refer to."</blockquote>
+<footer class="tagline-cite"><cite>Jonathan Ive</cite></footer>
 </section>
 </div>
 <div class="toc-mousearea"></div>
 <div class="toc-wrapper">
 <div class="toc-container"></div>
 </div>
-<article id="post-low-poly" class="article--post" itemscope="" itemprop="blogPost">
+<article id="post-proto-prototype" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<p>今天膜拜了一些 low poly 风格的作品，找张图试着临摹了一个中午，眼睛要瞎了。摸索了一些经验：</p>
-<ol>
-<li>先描好线再连三角形</li>
-<li>不一定是三角形</li>
-<li>细节需要更多图案，大块的不妨用大三角形</li>
-<li>原图饱和度可以提高一些</li>
-<li>记得中途休息，扭扭手腕（血的教训）</li>
-</ol>
-<p><img src="/images/post/illustrator/low-poly/low-poly1.png" alt="low poly1"></p>
-<p><img src="/images/post/illustrator/low-poly/low-poly2.png" alt="low poly2"></p>
-<p><img src="/images/post/illustrator/low-poly/low-poly3.png" alt="low poly3"></p>
-<p>瞎扯完了，洗洗睡。</p>
+<p>经历了上次的<a href="/2016/05/12/understanding-this/">《JavaScript This 的六道坎》</a> 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 <code>__proto__</code> 的爱恨情仇。</p>
+<p>先理解两者的一个本质区别，<code>prototype</code> 是函数独有的，是人为设定的；<code>__proto__</code> 是所有对象都有的，是继承的。</p>
+<p>然后来看一个两个神的故事：</p>
+<p>首先在 ECMAScript 星球，万物起源于一个叫 <a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-object-prototype-object" target="_blank">%ObjectPrototype%</a> 的 intrinsic object，也就是 <strong>Object.prototype</strong>。它是万物的尽头，继承于虚无， <code>Object.prototype.__proto__</code>为
+<code>null</code>。</p>
+<p>接着由其衍生出第二神，另外一个 intrinsic object <a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-function-prototype-object" target="_blank">%FunctionPrototype%</a>，也就是 <strong>Function.prototype</strong>。于是有</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="built_in">Function</span>.prototype.__proto__ === <span class="built_in">Object</span>.prototype <span class="comment">// true</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>Function.prototype 本身也是个函数对象，这是为了<a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-function-prototype-object" target="_blank">兼容 ES5</a>。也估计是让人引起误解的源头。但两者还是不同的，这是个特殊的函数对象，它忽略参数总是返回 undefined，且没有 [[Construct]] 内部方法。</p>
+<p>搞清楚了这两个 Ancient Gods 接下来就很容易了，相信也听过“函数在 JS 里是一等公民”这类的说法，其实是因为它们都是 %FunctionPrototype% 的子民（这里不用 Function.prototype 是为了避免混淆，记得 prototype 是人为设定的），包括 <code>Function</code> 本身。</p>
+<p>所以你可以看到，<code>Object</code>、<code>Function</code>、<code>String</code>、<code>Number</code>、<code>Boolean</code> 等等等的 <code>__proto__</code> 都是 <code>Function.prototype</code>。</p>
+<p>所以接下来的问题就更容易了，比如 <code>Object instanceof Object</code>。前面我们知道 <code>Object.__proto__</code> 是 %FunctionPrototype%，而它的 <code>__proto__</code> 是万物之源 %ObjectPrototype%，恰好也是 <code>Object.prototype</code>，所以就是 <code>true</code> 啦。</p>
+<p>其它的也是同理，举一反三很简单了。</p>
 </div>
 </div>
 <footer class="article-footer">
 <ul class="article-tag-list">
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Design/">Design</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Illustrator/">Illustrator</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Photoshop/">Photoshop</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2014/10/08/sublime-text-two-shortcuts/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Sublime Text 2 快捷键整理</div></a>
-<a href="/2014/08/30/important-announcement-regarding-yui/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">关于 YUI 的重要公告</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/07/15/element-onresize/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">巧妙监测元素尺寸变化</div></a></nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread" data-url="https://blog.crimx.com/2014/09/02/low-poly/" data-identifier="2014/09/02/low-poly/" data-src="//crimx.disqus.com/embed.js">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/08/12/proto-prototype/" data-identifier="2017/08/12/proto-prototype/" data-src="//crimx.disqus.com/embed.js">
 <div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
 </section>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.crimx.com/"/>
-  <updated>2017-07-16T16:26:27.448Z</updated>
+  <updated>2017-08-12T15:05:44.696Z</updated>
   <id>https://blog.crimx.com/</id>
   
   <author>
@@ -14,6 +14,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Prototype 与 __Proto__ 的爱恨情仇</title>
+    <link href="https://blog.crimx.com/2017/08/12/proto-prototype/"/>
+    <id>https://blog.crimx.com/2017/08/12/proto-prototype/</id>
+    <published>2017-08-11T16:00:00.000Z</published>
+    <updated>2017-08-12T15:05:44.696Z</updated>
+    
+    <content type="html"><![CDATA[<p>经历了上次的<a href="/2016/05/12/understanding-this/">《JavaScript This 的六道坎》</a> 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 <code>__proto__</code> 的爱恨情仇。</p>
+<p>先理解两者的一个本质区别，<code>prototype</code> 是函数独有的，是人为设定的；<code>__proto__</code> 是所有对象都有的，是继承的。</p>
+<p>然后来看一个两个神的故事：</p>
+<p>首先在 ECMAScript 星球，万物起源于一个叫 <a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-object-prototype-object" target="_blank">%ObjectPrototype%</a> 的 intrinsic object，也就是 <strong>Object.prototype</strong>。它是万物的尽头，继承于虚无， <code>Object.prototype.__proto__</code>为 <code>null</code>。</p>
+<p>接着由其衍生出第二神，另外一个 intrinsic object <a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-function-prototype-object" target="_blank">%FunctionPrototype%</a>，也就是 <strong>Function.prototype</strong>。于是有</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="built_in">Function</span>.prototype.__proto__ === <span class="built_in">Object</span>.prototype <span class="comment">// true</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>Function.prototype 本身也是个函数对象，这是为了<a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-function-prototype-object" target="_blank">兼容 ES5</a>。也估计是让人引起误解的源头。但两者还是不同的，这是个特殊的函数对象，它忽略参数总是返回 undefined，且没有 [[Construct]] 内部方法。</p>
+<p>搞清楚了这两个 Ancient Gods 接下来就很容易了，相信也听过“函数在 JS 里是一等公民”这类的说法，其实是因为它们都是 %FunctionPrototype% 的子民（这里不用 Function.prototype 是为了避免混淆，记得 prototype 是人为设定的），包括 <code>Function</code> 本身。</p>
+<p>所以你可以看到，<code>Object</code>、<code>Function</code>、<code>String</code>、<code>Number</code>、<code>Boolean</code> 等等等的 <code>__proto__</code> 都是 <code>Function.prototype</code>。</p>
+<p>所以接下来的问题就更容易了，比如 <code>Object instanceof Object</code>。前面我们知道 <code>Object.__proto__</code> 是 %FunctionPrototype%，而它的 <code>__proto__</code> 是万物之源 %ObjectPrototype%，恰好也是 <code>Object.prototype</code>，所以就是 <code>true</code> 啦。</p>
+<p>其它的也是同理，举一反三很简单了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;经历了上次的&lt;a href=&quot;/2016/05/12/understanding-this/&quot;&gt;《JavaScript This 的六道坎》&lt;/a&gt; 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 &lt;code&gt;__proto__&lt;/co
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="Understanding JavaScript" scheme="https://blog.crimx.com/tags/Understanding-JavaScript/"/>
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
+  </entry>
   
   <entry>
     <title>巧妙监测元素尺寸变化</title>
@@ -80,7 +129,7 @@
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">  .parent &#123;</div><div class="line">    height: 100px;</div><div class="line">    width: 100px;</div><div class="line">    overflow: scroll;</div><div class="line">    background: red;</div><div class="line">    position: absolute;</div><div class="line">    top: 0;</div><div class="line">    left: 0;</div><div class="line">    bottom: 0;</div><div class="line">    right: 0;</div><div class="line">    margin: auto;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  .child &#123;</div><div class="line">    height: 200%;</div><div class="line">    width: 200%;</div><div class="line">    background: blue;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  .msg &#123;</div><div class="line">    position: absolute;</div><div class="line">    top: 370px;</div><div class="line">    left: 50%;</div><div class="line">    transform: translateX(-50%);</div><div class="line">    text-align: center;</div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">  var parent = document.querySelector('.parent')</div><div class="line">  var child = document.querySelector('.child')</div><div class="line">  var msg1 = document.querySelector('.msg1')</div><div class="line">  var msg2 = document.querySelector('.msg2')</div><div class="line"></div><div class="line">  parent.scrollTop = 1000</div><div class="line">  parent.scrollLeft = 1000</div><div class="line"></div><div class="line">  var eventCount = 0</div><div class="line">  function log () &#123;</div><div class="line">    msg1.innerText = `scrollTop: $&#123;parent.scrollTop&#125;, scrollLeft: $&#123;parent.scrollLeft&#125;`</div><div class="line">    msg2.innerText = `$&#123;eventCount&#125; scroll event$&#123;eventCount &gt; 1 ? 's were' : ' was'&#125; triggered`</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  log()</div><div class="line"></div><div class="line">  parent.addEventListener('scroll', () =&gt; &#123;</div><div class="line">    eventCount += 1</div><div class="line">    log()</div><div class="line">  &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre>
+<pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">  <span class="selector-class">.parent</span> &#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">overflow</span>: scroll;</div><div class="line">    <span class="attribute">background</span>: red;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">margin</span>: auto;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="selector-class">.child</span> &#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">200%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">200%</span>;</div><div class="line">    <span class="attribute">background</span>: blue;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="selector-class">.msg</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">370px</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-50%);</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> parent = <span class="built_in">document</span>.querySelector(<span class="string">'.parent'</span>)</div><div class="line">  <span class="keyword">var</span> child = <span class="built_in">document</span>.querySelector(<span class="string">'.child'</span>)</div><div class="line">  <span class="keyword">var</span> msg1 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg1'</span>)</div><div class="line">  <span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</div><div class="line"></div><div class="line">  parent.scrollTop = <span class="number">1000</span></div><div class="line">  parent.scrollLeft = <span class="number">1000</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> eventCount = <span class="number">0</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">log</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    msg1.innerText = <span class="string">`scrollTop: <span class="subst">$&#123;parent.scrollTop&#125;</span>, scrollLeft: <span class="subst">$&#123;parent.scrollLeft&#125;</span>`</span></div><div class="line">    msg2.innerText = <span class="string">`<span class="subst">$&#123;eventCount&#125;</span> scroll event<span class="subst">$&#123;eventCount &gt; <span class="number">1</span> ? <span class="string">'s were'</span> : <span class="string">' was'</span>&#125;</span> triggered`</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  log()</div><div class="line"></div><div class="line">  parent.addEventListener(<span class="string">'scroll'</span>, () =&gt; &#123;</div><div class="line">    eventCount += <span class="number">1</span></div><div class="line">    log()</div><div class="line">  &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre>
 </td>
 </tr>
 </table>
@@ -471,9 +520,9 @@
       <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
     
     
-      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
       <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
+      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
     
       <category term="Box Model" scheme="https://blog.crimx.com/tags/Box-Model/"/>
     
@@ -559,9 +608,9 @@
       <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
     
     
-      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
       <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
+      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
     
       <category term="Box Model" scheme="https://blog.crimx.com/tags/Box-Model/"/>
     
@@ -2235,50 +2284,6 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
     
     
       <category term="Gulp" scheme="https://blog.crimx.com/tags/Gulp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Sublime Text Title Case 快捷键</title>
-    <link href="https://blog.crimx.com/2016/05/27/sublime-text-title-case/"/>
-    <id>https://blog.crimx.com/2016/05/27/sublime-text-title-case/</id>
-    <published>2016-05-26T16:00:00.000Z</published>
-    <updated>2016-12-29T09:24:51.197Z</updated>
-    
-    <content type="html"><![CDATA[<p>Preferences -&gt; Key Bindings 添加：</p>
-<p></p>
-<figure class="highlight json">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">[</div><div class="line">  &#123; <span class="attr">"keys"</span>: [<span class="string">"ctrl+k"</span>, <span class="string">"ctrl+t"</span>], <span class="attr">"command"</span>: <span class="string">"title_case"</span> &#125;</div><div class="line">  // .....</div><div class="line">]</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<p>然后就可以用 <kbd>Ctrl</kbd>+<kbd>k</kbd> 再按下 <kbd>Ctrl</kbd>+<kbd>t</kbd> 使用 Title Case。</p>
-<p>Package Control 上有个很老的 Package，Smart Title Case。能识别更复杂的情况，但是有 bug，核心代码已经修复 <a href="https://github.com/ppannuto/python-titlecase" target="_blank">https://github.com/ppannuto/python-titlecase</a>，但 Package 的作者早已不再维护，下载量也不大。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Preferences -&amp;gt; Key Bindings 添加：&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight json&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td class=&quot;gutter&quot;&gt;
-&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;
-    
-    </summary>
-    
-      <category term="Tools" scheme="https://blog.crimx.com/categories/Tools/"/>
-    
-    
-      <category term="Sublime Text" scheme="https://blog.crimx.com/tags/Sublime-Text/"/>
     
   </entry>
   
