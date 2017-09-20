@@ -1,0 +1,293 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>检测 DOM 结点插入 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="闲逛 Github 时碰见一个叫 SentinelJS 的库，声称能检测 DOM 结点的插入，顿时引起了好奇。因为以前无聊时也想过一下，没什么头绪，便不了了之。当时第一反应是该不会用轮询吧（比这粗暴的实现也不是没见过）。但看到 682 bytes (minified + gzipped) 大小时感觉一定又是用了什么奇淫怪巧，个人对这种东西很感兴趣（见另一篇《巧妙监测元素尺寸变化》），便顺便看了看源">
+<meta property="og:type" content="article">
+<meta property="og:title" content="检测 DOM 结点插入">
+<meta property="og:url" content="https://blog.crimx.com/2017/09/20/new-dom-nodes-detection/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="闲逛 Github 时碰见一个叫 SentinelJS 的库，声称能检测 DOM 结点的插入，顿时引起了好奇。因为以前无聊时也想过一下，没什么头绪，便不了了之。当时第一反应是该不会用轮询吧（比这粗暴的实现也不是没见过）。但看到 682 bytes (minified + gzipped) 大小时感觉一定又是用了什么奇淫怪巧，个人对这种东西很感兴趣（见另一篇《巧妙监测元素尺寸变化》），便顺便看了看源">
+<meta property="og:updated_time" content="2017-09-20T12:16:42.862Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="检测 DOM 结点插入">
+<meta name="twitter:description" content="闲逛 Github 时碰见一个叫 SentinelJS 的库，声称能检测 DOM 结点的插入，顿时引起了好奇。因为以前无聊时也想过一下，没什么头绪，便不了了之。当时第一反应是该不会用轮询吧（比这粗暴的实现也不是没见过）。但看到 682 bytes (minified + gzipped) 大小时感觉一定又是用了什么奇淫怪巧，个人对这种东西很感兴趣（见另一篇《巧妙监测元素尺寸变化》），便顺便看了看源">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">检测 DOM 结点插入</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/09/20/new-dom-nodes-detection/" class="article-date"><time datetime="2017-09-19T16:00:00.000Z" itemprop="datePublished">2017-09-20</time></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"Doesn't expecting the unexpected make the unexpected expected?"</blockquote>
+<footer class="tagline-cite"><cite>Bob Dylan</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container"></div>
+</div>
+<article id="post-new-dom-nodes-detection" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>闲逛 Github 时碰见一个叫 SentinelJS 的库，声称能检测 DOM 结点的插入，顿时引起了好奇。因为以前无聊时也想过一下，没什么头绪，便不了了之。当时第一反应是该不会用轮询吧（比这粗暴的实现也不是没见过）。但看到 682 bytes (minified + gzipped) 大小时感觉一定又是用了什么奇淫怪巧，个人对这种东西很感兴趣（见另一篇<a href="//blog.crimx.com/2017/07/15/element-onresize/" target="_blank">《巧妙监测元素尺寸变化》</a>），便顺便看了看源码，很短，但一看到
+<code>animation</code> 时便拍大腿了！通过检测 animationstart 事件来检测插入，机智！</p>
+<p>代码很短，就是维护了一个事件队列。核心在 <a href="https://github.com/muicss/sentineljs/blob/master/src/sentinel.js#L37" target="_blank"><code>onFn</code></a> 和 <a href="https://github.com/muicss/sentineljs/blob/master/src/sentinel.js#L87" target="_blank"><code>offFn</code></a>上。后者同理，便主要看
+<code>onFn</code> 的实现。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Add watcher.</div><div class="line"> * @param &#123;array&#125; cssSelectors - List of CSS selector strings</div><div class="line"> * @param &#123;Function&#125; callback - The callback function</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onFn</span>(<span class="params">cssSelectors, callback, extraAnimations</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!callback) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">  <span class="comment">// initialize animationstart event listener</span></div><div class="line">  <span class="keyword">if</span> (!isInitialized) init();</div><div class="line"></div><div class="line">  <span class="comment">// listify argument</span></div><div class="line">  cssSelectors = <span class="built_in">Array</span>.isArray(cssSelectors) ? cssSelectors : [cssSelectors];</div><div class="line"></div><div class="line">  <span class="comment">// add css rules and cache callbacks</span></div><div class="line">  cssSelectors.map(<span class="function"><span class="keyword">function</span>(<span class="params">selector</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> animId = selectorToAnimationMap[selector];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!animId) &#123;</div><div class="line">      <span class="comment">// add new CSS listener</span></div><div class="line">      <span class="keyword">var</span> css, i;</div><div class="line"></div><div class="line">      animId = <span class="string">'sentinel-'</span> + <span class="built_in">Math</span>.random().toString(<span class="number">16</span>).slice(<span class="number">2</span>);</div><div class="line"></div><div class="line">      <span class="comment">// add keyframe rule</span></div><div class="line">      css = <span class="string">'@keyframes '</span> + animId +</div><div class="line">        <span class="string">'&#123;from&#123;transform:none;&#125;to&#123;transform:none;&#125;&#125;'</span>;</div><div class="line">      i = styleSheet.cssRules.length;</div><div class="line">      styleSheet.insertRule(css, i);</div><div class="line">      styleSheet.cssRules[i]._id = selector;</div><div class="line"></div><div class="line">      <span class="comment">// add selector animation rule</span></div><div class="line">      css = selector + <span class="string">'&#123;animation-duration:0.0001s;animation-name:'</span> + animId;</div><div class="line">      <span class="keyword">if</span> (extraAnimations) css += <span class="string">','</span> + extraAnimations;</div><div class="line">      css += <span class="string">';&#125;'</span>;</div><div class="line">      i += <span class="number">1</span>;</div><div class="line">      styleSheet.insertRule(css, i);</div><div class="line">      styleSheet.cssRules[i]._id = selector;</div><div class="line"></div><div class="line">      <span class="comment">// add to map</span></div><div class="line">      selectorToAnimationMap[selector] = animId;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// add to callbacks</span></div><div class="line">    <span class="keyword">var</span> x = animationCallbacks[animId] = animationCallbacks[animId] || [];</div><div class="line">    x.push(callback);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>先生成一个随机的带前缀的 <code>animId</code> 来区分每个事件。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">animId = <span class="string">'sentinel-'</span> + <span class="built_in">Math</span>.random().toString(<span class="number">16</span>).slice(<span class="number">2</span>);</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p><code>styleSheet</code> 为一个事先挂载的 <code>&lt;style&gt;</code> 元素，所有的 animation 样式都会插入到这里。</p>
+<p>插入 <code>@keyframes</code> 之后在这条规则上面以选择器做了一个私有的标记 <code>_id</code>，为了在移除事件的时候找到这条规则。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// add keyframe rule</span></div><div class="line">      css = <span class="string">'@keyframes '</span> + animId +</div><div class="line">        <span class="string">'&#123;from&#123;transform:none;&#125;to&#123;transform:none;&#125;&#125;'</span>;</div><div class="line">      i = styleSheet.cssRules.length;</div><div class="line">      styleSheet.insertRule(css, i);</div><div class="line">      styleSheet.cssRules[i]._id = selector;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>接下来再插入一个持续 <code>0.0001s</code> 的动画，监听搞定。</p>
+<p>接下来初始化的时候在 <code>document</code> 上<a href="https://github.com/muicss/sentineljs/blob/master/src/sentinel.js#L18" target="_blank">监听</a> <code>animationstart</code> 事件：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">doc.addEventListener(event, animationStartHandler, <span class="literal">true</span>);</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>通过事件的 <code>animationName</code> 来匹配 <code>animId</code>，成功则取消其它监听这个事件的回调。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Animation start handler</div><div class="line"> * @param &#123;Event&#125; ev - The DOM event</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animationStartHandler</span>(<span class="params">ev</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> callbacks = animationCallbacks[ev.animationName] || [],</div><div class="line">      l = callbacks.length;</div><div class="line"></div><div class="line">  <span class="comment">// exit if a callback hasn't been registered</span></div><div class="line">  <span class="keyword">if</span> (!l) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">  <span class="comment">// stop other callbacks from firing</span></div><div class="line">  ev.stopImmediatePropagation();</div><div class="line"></div><div class="line">  <span class="comment">// iterate through callbacks</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; l; i++) callbacks[i](ev.target);</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这个 <code>stopImmediatePropagation</code> 学到了！结合 window 上用 capture 方式监听事件，就可以保证点击植入的特定元素不会受其它事件影响。马上用在了这个 <a href="https://chrome.google.com/webstore/detail/rarbg-monitor/kkgcfdmlnfpdjmnheeojdlgpmhaeekga" target="_blank">rarbg-monitor</a> 扩展上，在 rarbg 资源页面上放一个跳转豆瓣相应页面的按钮，优先级比它的一个全局广告要高。</p>
+<p>-EOF-</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读源码/">闲读源码</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/08/12/proto-prototype/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Prototype 与 __Proto__ 的爱恨情仇</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/09/20/new-dom-nodes-detection/" data-identifier="2017/09/20/new-dom-nodes-detection/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>
