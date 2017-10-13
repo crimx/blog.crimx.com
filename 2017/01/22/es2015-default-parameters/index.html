@@ -87,7 +87,7 @@ TDZ
 
 
 var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceError: x is n">
-<meta property="og:updated_time" content="2017-07-06T08:17:02.318Z">
+<meta property="og:updated_time" content="2017-10-13T11:20:51.546Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入 ES2015 默认参数">
 <meta name="twitter:description" content="ES2015 为函数加入了方便的默认参数语法。
@@ -298,26 +298,30 @@ href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇
 <p></p>
 <p>对作用域不太熟悉的可以参考一下我以前的一些<a href="https://blog.crimx.com/tags/Scope/" target="_blank"><strong>笔记</strong></a>。</p>
 <h3 id="默认参数-TDZ">
-<a href="#默认参数-TDZ" class="headerlink" title="默认参数 TDZ"></a>默认参数 TDZ</h3>
-<p>在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的步骤 27.c.i.2 可以看到：</p>
+<a href="#默认参数-TDZ" class="headerlink" title="默认参数 TDZ"></a><del>默认参数 TDZ</del></h3>
+<p><del>在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的步骤 27.c.i.2 可以看到：</del></p>
 <blockquote>
-<p>Let status be envRec.CreateMutableBinding(n).</p>
+<p><del>Let status be envRec.CreateMutableBinding(n).</del></p>
 </blockquote>
-<p>这是没有默认参数的情况，也就是 ES5 的做法。这个 mutable binding 顾名思义，就是 <code>var</code> 对应的绑定。</p>
-<p>在步骤 28.f.i.5.a 就说明了有默认参数怎么算：</p>
+<p><del>这是没有默认参数的情况，也就是 ES5 的做法。这个 mutable binding 顾名思义，就是 <code>var</code> 对应的绑定。</del></p>
+<p><del>在步骤 28.f.i.5.a 就说明了有默认参数怎么算：</del></p>
 <blockquote>
-<p>Let initialValue be envRec.GetBindingValue(n, false).</p>
+<p><del>Let initialValue be envRec.GetBindingValue(n, false).</del></p>
 </blockquote>
-<p>这个 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-module-environment-records-getbindingvalue-n-s" target="_blank">GetBindingValue</a> 就是占茅坑的怂恿者：</p>
+<p><del>这个 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-module-environment-records-getbindingvalue-n-s" target="_blank">GetBindingValue</a> 就是占茅坑的怂恿者：</del></p>
 <blockquote>
-<p>The concrete Environment Record method GetBindingValue for module Environment Records returns the value of its bound identifier whose name is the value of the argument N. However, if the binding is an indirect binding the value of the target binding is
-returned. <em>If the binding exists but is uninitialized a ReferenceError is thrown</em>, regardless of the value of S.</p>
+<p><del>The concrete Environment Record method GetBindingValue for module Environment Records returns the value of its bound identifier whose name is the value of the argument N. However, if the binding is an indirect binding the value of the target binding is returned. <em>If the binding exists but is uninitialized a ReferenceError is thrown</em>, regardless of the value of S.</del></p>
 </blockquote>
-<p>所以带默认参数的时候才会有 TDZ 。</p>
+<p><del>所以带默认参数的时候才会有 TDZ 。</del></p>
 <h3 id="x-x">
 <a href="#x-x" class="headerlink" title="x = x"></a>x = x</h3>
-<p>最后参数里的 <code>x = x</code> 就跟 <code>let x = x</code> 一样处理。</p>
-<p>先遇到左边的 <code>x</code> ，开始占茅坑。然后遇到等号，因为等号是右往左运算的，所以就继续看右边，发现了 <code>x</code> 。这是一个读取的行为，但这个作用域的 <code>x</code> 茅坑已经被左边的 <code>x</code> 占了，而且伦家还没完事呢。所以右边的 <code>x</code> 就踩了死区，引发 Reference Error 。</p>
+<p>参数的处理在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的 23、24 和 25，将参数当做数组解构处理。</p>
+<p>在 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-destructuring-binding-patterns-runtime-semantics-iteratorbindinginitialization" target="_blank">IteratorBindingInitialization</a> 中，参数按照各种情况处理。 <code>x = x</code> 属于 SingleNameBinding ，在 6.a
+和 6.b 中 GetValue 会试图对右 x 取值（Initializer），从而触发 Reference Error 。</p>
+<blockquote>
+<p>a. Let defaultValue be the result of evaluating Initializer. b. Let v be <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-getvalue" target="_blank">GetValue</a>(defaultValue).</p>
+</blockquote>
+<p>就像 <code>let x = x</code> 一样，先遇到左边的 <code>x</code> ，开始占茅坑。然后遇到等号，因为等号是右往左运算的，所以就继续看右边，发现了 <code>x</code> 。这是一个读取的行为，但这个作用域的 <code>x</code> 茅坑已经被左边的 <code>x</code> 占了，而且伦家还没完事呢。所以右边的 <code>x</code> 就踩了死区，引发 Reference Error 。</p>
 <h2 id="中间作用域">
 <a href="#中间作用域" class="headerlink" title="中间作用域"></a>中间作用域</h2>
 <p>眼光锐利的朋友很可能发现了，我在前一步提到了作用域被占了，那么这个作用域是什么作用域？</p>

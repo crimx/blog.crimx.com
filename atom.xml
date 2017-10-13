@@ -799,245 +799,6 @@
   </entry>
   
   <entry>
-    <title>定位与拖动 Iframe</title>
-    <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe/"/>
-    <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe/</id>
-    <published>2017-04-05T16:00:00.000Z</published>
-    <updated>2017-04-20T15:58:09.585Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="定位-iframe">
-<a href="#定位-iframe" class="headerlink" title="定位 iframe"></a>定位 iframe</h1>
-<p>在写一个划词翻译扩展 <a href="http://www.crimx.com/crx-saladict/" target="_blank">Saladict</a> 时，有一个需求：用户选择一段文本之后，会在鼠标附近显示一些元素。</p>
-<p>这个初看很简单，监听一个 <code>mouseup</code> 事件，获取 <code>clientX</code> 和 <code>clientY</code> 就行。这也是 Saladict 前几版用的方法。</p>
-<p>但这个方法有个缺陷：iframe 里的鼠标事件不会传到父窗口上。</p>
-<p>解决方法也很简单，就难在把它们都联系起来。</p>
-<h2 id="iframe-里插入脚本">
-<a href="#iframe-里插入脚本" class="headerlink" title="iframe 里插入脚本"></a>iframe 里插入脚本</h2>
-<p>在 <code>manifest.json</code> 里，<code>content_scripts</code> 有个选项 <code>all_frames</code>，可以让脚本插入到所有的 frame 里。</p>
-<p></p>
-<figure class="highlight json">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"content_scripts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"js"</span>: [<span class="string">"selection.js"</span>],</div><div class="line">      <span class="attr">"matches"</span>: [<span class="string">"&lt;all_urls&gt;"</span>],</div><div class="line">      <span class="attr">"all_frames"</span>: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="检测点击">
-<a href="#检测点击" class="headerlink" title="检测点击"></a>检测点击</h2>
-<p>现在可以检测 iframe 里的点击事件</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleMouseUp)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="上传坐标">
-<a href="#上传坐标" class="headerlink" title="上传坐标"></a>上传坐标</h2>
-<p>当点击发生在 iframe 里时，获取的坐标是相对于 iframe 窗口的，所以把这个坐标交给上层，再加上 iframe 本身的坐标，就可以算出点击相对上层的坐标。</p>
-<p>Chrome 里可以放心使用 <code>postMessage</code></p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMouseUp</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// 到了顶层</span></div><div class="line">    doAwesomeThings(evt.clientX，evt.clientY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 把坐标传上去</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      <span class="attr">mouseX</span>: evt.clientX,</div><div class="line">      <span class="attr">mouseY</span>: evt.clientY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="计算偏移">
-<a href="#计算偏移" class="headerlink" title="计算偏移"></a>计算偏移</h2>
-<p>上层怎么知道是哪个 iframe 传来坐标？很简单，<code>message</code> 事件里携带了 iframe 的 <code>window</code>，对比一下就可以。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (evt.data.msg !== <span class="string">'SALADICT_CLICK'</span>) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> iframe = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'iframe'</span>))</div><div class="line">    .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.contentWindow === evt.source)</div><div class="line">    [<span class="number">0</span>]</div><div class="line">  <span class="keyword">if</span> (!iframe) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 计算偏移</span></div><div class="line">  <span class="keyword">let</span> pos = iframe.getBoundingClientRect()</div><div class="line">  <span class="keyword">let</span> mouseX = evt.data.mouseX + pos.left</div><div class="line">  <span class="keyword">let</span> mouseY = evt.data.mouseY + pos.top</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// 顶层</span></div><div class="line">    doAwesomeThings(mouseX, mouseY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 继续上传</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      mouseX,</div><div class="line">      mouseY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="拖动-iframe">
-<a href="#拖动-iframe" class="headerlink" title="拖动 iframe"></a>拖动 iframe</h1>
-<p>Saladict 另外一个需求就是拖动一个 iframe 查词面板。</p>
-<h2 id="实现拖动的常识">
-<a href="#实现拖动的常识" class="headerlink" title="实现拖动的常识"></a>实现拖动的常识</h2>
-<p>实现拖动的一种常用方式就是检测 <code>mousedown</code>, <code>mousemove</code> 和 <code>mouseup</code>。分别对应开始、拖动、结束。然后计算偏移值应用到 <code>left</code> 和 <code>top</code> 上。</p>
-<p>第一次实现很容易犯的一个错误就是监听元素本身的 <code>mousemove</code>。当然这个也可以正确计算出偏移，问题在于如果鼠标移动稍快超出了元素，拖动就卡掉了。所以应该监听全局的 <code>mousemove</code> 获取偏移值。</p>
-<h2 id="iframe-特色的拖动">
-<a href="#iframe-特色的拖动" class="headerlink" title="iframe 特色的拖动"></a>iframe 特色的拖动</h2>
-<p>iframe 的拖动同理，只是因为发生在 iframe 里的事件不能传到上层，需要手动打包一下。</p>
-<h2 id="iframe-部分">
-<a href="#iframe-部分" class="headerlink" title="iframe 部分"></a>iframe 部分</h2>
-<p>拖动由 iframe 里的某个元素触发，为了节省资源，在触发的时候才监听拖动和结束，并在结束的时候解绑。</p>
-<p>在 iframe 里监听 <code>mousemove</code> 就是为了把偏移值传回上层，因为上层的 <code>mousemove</code> 事件到这里中断了。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// iframe.js</span></div><div class="line"><span class="keyword">var</span> baseMouseX, baseMouseY</div><div class="line"></div><div class="line">$dragArea.addEventListener(<span class="string">'mousedown'</span>, handleDragStart)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  baseMouseX = evt.clientX</div><div class="line">  baseMouseY = evt.clientY</div><div class="line"></div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_START'</span>,</div><div class="line">    <span class="attr">mouseX</span>: baseMouseX,</div><div class="line">    <span class="attr">mouseY</span>: baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>,</div><div class="line">    <span class="attr">offsetX</span>: evt.clientX - baseMouseX,</div><div class="line">    <span class="attr">offsetY</span>: evt.clientY - baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_END'</span></div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="上层部分">
-<a href="#上层部分" class="headerlink" title="上层部分"></a>上层部分</h2>
-<p>主要增加了<code>handleFrameMousemove</code> 补上中断的偏移。</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// parent.js</span></div><div class="line"><span class="keyword">var</span> pageMouseX, pageMouseY</div><div class="line"></div><div class="line"><span class="keyword">var</span> frameTop = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> frameLeft = <span class="number">0</span></div><div class="line">$iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">$iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> data = evt.data</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (data.msg) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_START'</span>:</div><div class="line">      handleDragStart(data.mouseX, data.mouseY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>:</div><div class="line">      handleFrameMousemove(data.offsetX, data.offsetY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_END'</span>:</div><div class="line">      handleDragEnd()</div><div class="line">      <span class="keyword">break</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">mouseX, mouseY</span>) </span>&#123;</div><div class="line">  <span class="comment">// 得出鼠标在上层的位置</span></div><div class="line">  pageMouseX = frameLeft + mouseX</div><div class="line">  pageMouseY = frameTop + mouseY</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleFrameMousemove</span> (<span class="params">offsetX, offsetY</span>) </span>&#123;</div><div class="line">  frameTop += offsetY</div><div class="line">  frameLeft += offsetX</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// 更新鼠标在上层的位置，补上偏移</span></div><div class="line">  pageMouseX += offsetX</div><div class="line">  pageMouseY += offsetY</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePageMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  frameTop += evt.clientX - pageMouseX</div><div class="line">  frameLeft += evt.clientY - pageMouseY</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// 新位置直接可以更新</span></div><div class="line">  pageMouseX = evt.clientX</div><div class="line">  pageMouseY = evt.clientY</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="例子">
-<a href="#例子" class="headerlink" title="例子"></a>例子</h2>
-<p>这里实现了一个例子，下面的正方形 iframe 是可以拖动的：</p>
-<p></p>
-<div class="drag-container">
-<style type="text/css">
-.drag-container {
-    position: relative;
-    height: 200px;
-}
-
-.drag-iframe {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-}
-</style><iframe class="drag-iframe" src="/images/post/drag-iframe.html" frameborder="0"></iframe>
-<script type="text/javascript">
-;
-(function() {
-    var pageMouseX, pageMouseY
-
-    var $iframe = document.querySelector('.drag-iframe')
-    var frameTop = 0
-    var frameLeft = 0
-    $iframe.style.top = frameTop + 'px'
-    $iframe.style.left = frameLeft + 'px'
-
-    window.addEventListener('message', evt => {
-        const data = evt.data
-
-        switch (data.msg) {
-            case 'SALADICT_DRAG_START':
-                handleDragStart(data.mouseX, data.mouseY)
-                break
-            case 'SALADICT_DRAG_MOUSEMOVE':
-                handleFrameMousemove(data.offsetX, data.offsetY)
-                break
-            case 'SALADICT_DRAG_END':
-                handleDragEnd()
-                break
-        }
-    })
-
-    function handleDragStart(mouseX, mouseY) {
-        // 得出鼠标在上层的位置
-        pageMouseX = frameLeft + mouseX
-        pageMouseY = frameTop + mouseY
-
-        document.addEventListener('mouseup', handleDragEnd)
-        document.addEventListener('mousemove', handlePageMousemove)
-    }
-
-    function handleDragEnd() {
-        document.removeEventListener('mouseup', handleDragEnd)
-        document.removeEventListener('mousemove', handlePageMousemove)
-    }
-
-    function handleFrameMousemove(offsetX, offsetY) {
-        frameTop += offsetY
-        frameLeft += offsetX
-        $iframe.style.top = frameTop + 'px'
-        $iframe.style.left = frameLeft + 'px'
-
-        // 更新鼠标在上层的位置，补上偏移
-        pageMouseX += offsetX
-        pageMouseY += offsetY
-    }
-
-    function handlePageMousemove(evt) {
-        frameTop += evt.clientX - pageMouseX
-        frameLeft += evt.clientY - pageMouseY
-        $iframe.style.top = frameTop + 'px'
-        $iframe.style.left = frameLeft + 'px'
-
-        // 新位置直接可以更新
-        pageMouseX = evt.clientX
-        pageMouseY = evt.clientY
-    }
-})()
-</script>
-</div>
-<p></p>
-<h2 id="兼容性">
-<a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2>
-<p>可以看到，这里主要就是传鼠标的坐标偏移值。所以需要兼容老浏览器的话，用繁琐的旧方式与 iframe 交流就行。如果是同域的话也可以直接从 iframe 里获取偏移。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;定位-iframe&quot;&gt;
-&lt;a href=&quot;#定位-iframe&quot; class=&quot;headerlink&quot; title=&quot;定位 iframe&quot;&gt;&lt;/a&gt;定位 iframe&lt;/h1&gt;
-&lt;p&gt;在写一个划词翻译扩展 &lt;a href=&quot;http://www.crimx.com
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
-    
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="iframe" scheme="https://blog.crimx.com/tags/iframe/"/>
-    
-      <category term="postMessage" scheme="https://blog.crimx.com/tags/postMessage/"/>
-    
-      <category term="Drag" scheme="https://blog.crimx.com/tags/Drag/"/>
-    
-      <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Position and Drag Iframe</title>
     <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/"/>
     <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/</id>
@@ -1256,6 +1017,245 @@ within the upper frame window.</p>
       &lt;h1 id=&quot;Position-in-iframes&quot;&gt;
 &lt;a href=&quot;#Position-in-iframes&quot; class=&quot;headerlink&quot; title=&quot;Position in iframes&quot;&gt;&lt;/a&gt;Position in iframes&lt;/h1&gt;
 &lt;p&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="iframe" scheme="https://blog.crimx.com/tags/iframe/"/>
+    
+      <category term="postMessage" scheme="https://blog.crimx.com/tags/postMessage/"/>
+    
+      <category term="Drag" scheme="https://blog.crimx.com/tags/Drag/"/>
+    
+      <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>定位与拖动 Iframe</title>
+    <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe/"/>
+    <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe/</id>
+    <published>2017-04-05T16:00:00.000Z</published>
+    <updated>2017-04-20T15:58:09.585Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="定位-iframe">
+<a href="#定位-iframe" class="headerlink" title="定位 iframe"></a>定位 iframe</h1>
+<p>在写一个划词翻译扩展 <a href="http://www.crimx.com/crx-saladict/" target="_blank">Saladict</a> 时，有一个需求：用户选择一段文本之后，会在鼠标附近显示一些元素。</p>
+<p>这个初看很简单，监听一个 <code>mouseup</code> 事件，获取 <code>clientX</code> 和 <code>clientY</code> 就行。这也是 Saladict 前几版用的方法。</p>
+<p>但这个方法有个缺陷：iframe 里的鼠标事件不会传到父窗口上。</p>
+<p>解决方法也很简单，就难在把它们都联系起来。</p>
+<h2 id="iframe-里插入脚本">
+<a href="#iframe-里插入脚本" class="headerlink" title="iframe 里插入脚本"></a>iframe 里插入脚本</h2>
+<p>在 <code>manifest.json</code> 里，<code>content_scripts</code> 有个选项 <code>all_frames</code>，可以让脚本插入到所有的 frame 里。</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"content_scripts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"js"</span>: [<span class="string">"selection.js"</span>],</div><div class="line">      <span class="attr">"matches"</span>: [<span class="string">"&lt;all_urls&gt;"</span>],</div><div class="line">      <span class="attr">"all_frames"</span>: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="检测点击">
+<a href="#检测点击" class="headerlink" title="检测点击"></a>检测点击</h2>
+<p>现在可以检测 iframe 里的点击事件</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleMouseUp)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="上传坐标">
+<a href="#上传坐标" class="headerlink" title="上传坐标"></a>上传坐标</h2>
+<p>当点击发生在 iframe 里时，获取的坐标是相对于 iframe 窗口的，所以把这个坐标交给上层，再加上 iframe 本身的坐标，就可以算出点击相对上层的坐标。</p>
+<p>Chrome 里可以放心使用 <code>postMessage</code></p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMouseUp</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// 到了顶层</span></div><div class="line">    doAwesomeThings(evt.clientX，evt.clientY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 把坐标传上去</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      <span class="attr">mouseX</span>: evt.clientX,</div><div class="line">      <span class="attr">mouseY</span>: evt.clientY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="计算偏移">
+<a href="#计算偏移" class="headerlink" title="计算偏移"></a>计算偏移</h2>
+<p>上层怎么知道是哪个 iframe 传来坐标？很简单，<code>message</code> 事件里携带了 iframe 的 <code>window</code>，对比一下就可以。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (evt.data.msg !== <span class="string">'SALADICT_CLICK'</span>) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> iframe = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'iframe'</span>))</div><div class="line">    .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.contentWindow === evt.source)</div><div class="line">    [<span class="number">0</span>]</div><div class="line">  <span class="keyword">if</span> (!iframe) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 计算偏移</span></div><div class="line">  <span class="keyword">let</span> pos = iframe.getBoundingClientRect()</div><div class="line">  <span class="keyword">let</span> mouseX = evt.data.mouseX + pos.left</div><div class="line">  <span class="keyword">let</span> mouseY = evt.data.mouseY + pos.top</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// 顶层</span></div><div class="line">    doAwesomeThings(mouseX, mouseY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 继续上传</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      mouseX,</div><div class="line">      mouseY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="拖动-iframe">
+<a href="#拖动-iframe" class="headerlink" title="拖动 iframe"></a>拖动 iframe</h1>
+<p>Saladict 另外一个需求就是拖动一个 iframe 查词面板。</p>
+<h2 id="实现拖动的常识">
+<a href="#实现拖动的常识" class="headerlink" title="实现拖动的常识"></a>实现拖动的常识</h2>
+<p>实现拖动的一种常用方式就是检测 <code>mousedown</code>, <code>mousemove</code> 和 <code>mouseup</code>。分别对应开始、拖动、结束。然后计算偏移值应用到 <code>left</code> 和 <code>top</code> 上。</p>
+<p>第一次实现很容易犯的一个错误就是监听元素本身的 <code>mousemove</code>。当然这个也可以正确计算出偏移，问题在于如果鼠标移动稍快超出了元素，拖动就卡掉了。所以应该监听全局的 <code>mousemove</code> 获取偏移值。</p>
+<h2 id="iframe-特色的拖动">
+<a href="#iframe-特色的拖动" class="headerlink" title="iframe 特色的拖动"></a>iframe 特色的拖动</h2>
+<p>iframe 的拖动同理，只是因为发生在 iframe 里的事件不能传到上层，需要手动打包一下。</p>
+<h2 id="iframe-部分">
+<a href="#iframe-部分" class="headerlink" title="iframe 部分"></a>iframe 部分</h2>
+<p>拖动由 iframe 里的某个元素触发，为了节省资源，在触发的时候才监听拖动和结束，并在结束的时候解绑。</p>
+<p>在 iframe 里监听 <code>mousemove</code> 就是为了把偏移值传回上层，因为上层的 <code>mousemove</code> 事件到这里中断了。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// iframe.js</span></div><div class="line"><span class="keyword">var</span> baseMouseX, baseMouseY</div><div class="line"></div><div class="line">$dragArea.addEventListener(<span class="string">'mousedown'</span>, handleDragStart)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  baseMouseX = evt.clientX</div><div class="line">  baseMouseY = evt.clientY</div><div class="line"></div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_START'</span>,</div><div class="line">    <span class="attr">mouseX</span>: baseMouseX,</div><div class="line">    <span class="attr">mouseY</span>: baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>,</div><div class="line">    <span class="attr">offsetX</span>: evt.clientX - baseMouseX,</div><div class="line">    <span class="attr">offsetY</span>: evt.clientY - baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_END'</span></div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="上层部分">
+<a href="#上层部分" class="headerlink" title="上层部分"></a>上层部分</h2>
+<p>主要增加了<code>handleFrameMousemove</code> 补上中断的偏移。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// parent.js</span></div><div class="line"><span class="keyword">var</span> pageMouseX, pageMouseY</div><div class="line"></div><div class="line"><span class="keyword">var</span> frameTop = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> frameLeft = <span class="number">0</span></div><div class="line">$iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">$iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> data = evt.data</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (data.msg) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_START'</span>:</div><div class="line">      handleDragStart(data.mouseX, data.mouseY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>:</div><div class="line">      handleFrameMousemove(data.offsetX, data.offsetY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_END'</span>:</div><div class="line">      handleDragEnd()</div><div class="line">      <span class="keyword">break</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">mouseX, mouseY</span>) </span>&#123;</div><div class="line">  <span class="comment">// 得出鼠标在上层的位置</span></div><div class="line">  pageMouseX = frameLeft + mouseX</div><div class="line">  pageMouseY = frameTop + mouseY</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleFrameMousemove</span> (<span class="params">offsetX, offsetY</span>) </span>&#123;</div><div class="line">  frameTop += offsetY</div><div class="line">  frameLeft += offsetX</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// 更新鼠标在上层的位置，补上偏移</span></div><div class="line">  pageMouseX += offsetX</div><div class="line">  pageMouseY += offsetY</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePageMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  frameTop += evt.clientX - pageMouseX</div><div class="line">  frameLeft += evt.clientY - pageMouseY</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// 新位置直接可以更新</span></div><div class="line">  pageMouseX = evt.clientX</div><div class="line">  pageMouseY = evt.clientY</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="例子">
+<a href="#例子" class="headerlink" title="例子"></a>例子</h2>
+<p>这里实现了一个例子，下面的正方形 iframe 是可以拖动的：</p>
+<p></p>
+<div class="drag-container">
+<style type="text/css">
+.drag-container {
+    position: relative;
+    height: 200px;
+}
+
+.drag-iframe {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+}
+</style><iframe class="drag-iframe" src="/images/post/drag-iframe.html" frameborder="0"></iframe>
+<script type="text/javascript">
+;
+(function() {
+    var pageMouseX, pageMouseY
+
+    var $iframe = document.querySelector('.drag-iframe')
+    var frameTop = 0
+    var frameLeft = 0
+    $iframe.style.top = frameTop + 'px'
+    $iframe.style.left = frameLeft + 'px'
+
+    window.addEventListener('message', evt => {
+        const data = evt.data
+
+        switch (data.msg) {
+            case 'SALADICT_DRAG_START':
+                handleDragStart(data.mouseX, data.mouseY)
+                break
+            case 'SALADICT_DRAG_MOUSEMOVE':
+                handleFrameMousemove(data.offsetX, data.offsetY)
+                break
+            case 'SALADICT_DRAG_END':
+                handleDragEnd()
+                break
+        }
+    })
+
+    function handleDragStart(mouseX, mouseY) {
+        // 得出鼠标在上层的位置
+        pageMouseX = frameLeft + mouseX
+        pageMouseY = frameTop + mouseY
+
+        document.addEventListener('mouseup', handleDragEnd)
+        document.addEventListener('mousemove', handlePageMousemove)
+    }
+
+    function handleDragEnd() {
+        document.removeEventListener('mouseup', handleDragEnd)
+        document.removeEventListener('mousemove', handlePageMousemove)
+    }
+
+    function handleFrameMousemove(offsetX, offsetY) {
+        frameTop += offsetY
+        frameLeft += offsetX
+        $iframe.style.top = frameTop + 'px'
+        $iframe.style.left = frameLeft + 'px'
+
+        // 更新鼠标在上层的位置，补上偏移
+        pageMouseX += offsetX
+        pageMouseY += offsetY
+    }
+
+    function handlePageMousemove(evt) {
+        frameTop += evt.clientX - pageMouseX
+        frameLeft += evt.clientY - pageMouseY
+        $iframe.style.top = frameTop + 'px'
+        $iframe.style.left = frameLeft + 'px'
+
+        // 新位置直接可以更新
+        pageMouseX = evt.clientX
+        pageMouseY = evt.clientY
+    }
+})()
+</script>
+</div>
+<p></p>
+<h2 id="兼容性">
+<a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2>
+<p>可以看到，这里主要就是传鼠标的坐标偏移值。所以需要兼容老浏览器的话，用繁琐的旧方式与 iframe 交流就行。如果是同域的话也可以直接从 iframe 里获取偏移。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;定位-iframe&quot;&gt;
+&lt;a href=&quot;#定位-iframe&quot; class=&quot;headerlink&quot; title=&quot;定位 iframe&quot;&gt;&lt;/a&gt;定位 iframe&lt;/h1&gt;
+&lt;p&gt;在写一个划词翻译扩展 &lt;a href=&quot;http://www.crimx.com
     
     </summary>
     
@@ -1735,7 +1735,7 @@ within the upper frame window.</p>
     <link href="https://blog.crimx.com/2017/01/22/es2015-default-parameters/"/>
     <id>https://blog.crimx.com/2017/01/22/es2015-default-parameters/</id>
     <published>2017-01-21T16:00:00.000Z</published>
-    <updated>2017-07-06T08:17:02.318Z</updated>
+    <updated>2017-10-13T11:20:51.546Z</updated>
     
     <content type="html"><![CDATA[<p>ES2015 为函数加入了方便的默认参数语法。</p>
 <p></p>
@@ -1819,26 +1819,30 @@ within the upper frame window.</p>
 <p></p>
 <p>对作用域不太熟悉的可以参考一下我以前的一些<a href="https://blog.crimx.com/tags/Scope/" target="_blank"><strong>笔记</strong></a>。</p>
 <h3 id="默认参数-TDZ">
-<a href="#默认参数-TDZ" class="headerlink" title="默认参数 TDZ"></a>默认参数 TDZ</h3>
-<p>在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的步骤 27.c.i.2 可以看到：</p>
+<a href="#默认参数-TDZ" class="headerlink" title="默认参数 TDZ"></a><del>默认参数 TDZ</del></h3>
+<p><del>在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的步骤 27.c.i.2 可以看到：</del></p>
 <blockquote>
-<p>Let status be envRec.CreateMutableBinding(n).</p>
+<p><del>Let status be envRec.CreateMutableBinding(n).</del></p>
 </blockquote>
-<p>这是没有默认参数的情况，也就是 ES5 的做法。这个 mutable binding 顾名思义，就是 <code>var</code> 对应的绑定。</p>
-<p>在步骤 28.f.i.5.a 就说明了有默认参数怎么算：</p>
+<p><del>这是没有默认参数的情况，也就是 ES5 的做法。这个 mutable binding 顾名思义，就是 <code>var</code> 对应的绑定。</del></p>
+<p><del>在步骤 28.f.i.5.a 就说明了有默认参数怎么算：</del></p>
 <blockquote>
-<p>Let initialValue be envRec.GetBindingValue(n, false).</p>
+<p><del>Let initialValue be envRec.GetBindingValue(n, false).</del></p>
 </blockquote>
-<p>这个 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-module-environment-records-getbindingvalue-n-s" target="_blank">GetBindingValue</a> 就是占茅坑的怂恿者：</p>
+<p><del>这个 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-module-environment-records-getbindingvalue-n-s" target="_blank">GetBindingValue</a> 就是占茅坑的怂恿者：</del></p>
 <blockquote>
-<p>The concrete Environment Record method GetBindingValue for module Environment Records returns the value of its bound identifier whose name is the value of the argument N. However, if the binding is an indirect binding the value of the target binding is
-returned. <em>If the binding exists but is uninitialized a ReferenceError is thrown</em>, regardless of the value of S.</p>
+<p><del>The concrete Environment Record method GetBindingValue for module Environment Records returns the value of its bound identifier whose name is the value of the argument N. However, if the binding is an indirect binding the value of the target binding is returned. <em>If the binding exists but is uninitialized a ReferenceError is thrown</em>, regardless of the value of S.</del></p>
 </blockquote>
-<p>所以带默认参数的时候才会有 TDZ 。</p>
+<p><del>所以带默认参数的时候才会有 TDZ 。</del></p>
 <h3 id="x-x">
 <a href="#x-x" class="headerlink" title="x = x"></a>x = x</h3>
-<p>最后参数里的 <code>x = x</code> 就跟 <code>let x = x</code> 一样处理。</p>
-<p>先遇到左边的 <code>x</code> ，开始占茅坑。然后遇到等号，因为等号是右往左运算的，所以就继续看右边，发现了 <code>x</code> 。这是一个读取的行为，但这个作用域的 <code>x</code> 茅坑已经被左边的 <code>x</code> 占了，而且伦家还没完事呢。所以右边的 <code>x</code> 就踩了死区，引发 Reference Error 。</p>
+<p>参数的处理在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的 23、24 和 25，将参数当做数组解构处理。</p>
+<p>在 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-destructuring-binding-patterns-runtime-semantics-iteratorbindinginitialization" target="_blank">IteratorBindingInitialization</a> 中，参数按照各种情况处理。 <code>x = x</code> 属于 SingleNameBinding ，在 6.a
+和 6.b 中 GetValue 会试图对右 x 取值（Initializer），从而触发 Reference Error 。</p>
+<blockquote>
+<p>a. Let defaultValue be the result of evaluating Initializer. b. Let v be <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-getvalue" target="_blank">GetValue</a>(defaultValue).</p>
+</blockquote>
+<p>就像 <code>let x = x</code> 一样，先遇到左边的 <code>x</code> ，开始占茅坑。然后遇到等号，因为等号是右往左运算的，所以就继续看右边，发现了 <code>x</code> 。这是一个读取的行为，但这个作用域的 <code>x</code> 茅坑已经被左边的 <code>x</code> 占了，而且伦家还没完事呢。所以右边的 <code>x</code> 就踩了死区，引发 Reference Error 。</p>
 <h2 id="中间作用域">
 <a href="#中间作用域" class="headerlink" title="中间作用域"></a>中间作用域</h2>
 <p>眼光锐利的朋友很可能发现了，我在前一步提到了作用域被占了，那么这个作用域是什么作用域？</p>
