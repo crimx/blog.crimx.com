@@ -520,13 +520,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
-        <lastmod>2017-07-03T08:52:35.250Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Scope/</loc>
         <lastmod>2017-07-03T08:52:35.250Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -676,6 +669,34 @@
     <url>
         <loc>https://blog.crimx.com/tags/Arguments/</loc>
         <lastmod>2017-10-13T11:20:51.546Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
+        <lastmod>2017-11-13T12:18:33.761Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/React/</loc>
+        <lastmod>2017-11-13T12:18:33.761Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/React-Native/</loc>
+        <lastmod>2017-11-13T12:18:33.761Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/MobX/</loc>
+        <lastmod>2017-11-13T12:18:33.761Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
