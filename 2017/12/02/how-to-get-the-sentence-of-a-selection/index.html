@@ -1,0 +1,430 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>获取选择文本所在的句子 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="最近收到一个 issue 期望能在划词的时候同时保存单词的上下文和来源网址。这个功能其实很久之前就想过，但感觉不好实现一直拖延没做。真做完发现其实并不复杂，完整代码在
+这里，或者继续往下阅读分析。
+
+原理分析
+
+获取选择文本
+通过 window.getSelection() 即可获得一个 Selection 对象，再利用 .toString() 即可获得选择的文本。
+
+锚节点与焦节点
+在 Sele">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取选择文本所在的句子">
+<meta property="og:url" content="https://blog.crimx.com/2017/12/02/how-to-get-the-sentence-of-a-selection/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="最近收到一个 issue 期望能在划词的时候同时保存单词的上下文和来源网址。这个功能其实很久之前就想过，但感觉不好实现一直拖延没做。真做完发现其实并不复杂，完整代码在
+这里，或者继续往下阅读分析。
+
+原理分析
+
+获取选择文本
+通过 window.getSelection() 即可获得一个 Selection 对象，再利用 .toString() 即可获得选择的文本。
+
+锚节点与焦节点
+在 Sele">
+<meta property="og:updated_time" content="2017-12-02T11:04:32.745Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="获取选择文本所在的句子">
+<meta name="twitter:description" content="最近收到一个 issue 期望能在划词的时候同时保存单词的上下文和来源网址。这个功能其实很久之前就想过，但感觉不好实现一直拖延没做。真做完发现其实并不复杂，完整代码在
+这里，或者继续往下阅读分析。
+
+原理分析
+
+获取选择文本
+通过 window.getSelection() 即可获得一个 Selection 对象，再利用 .toString() 即可获得选择的文本。
+
+锚节点与焦节点
+在 Sele">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">获取选择文本所在的句子</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/12/02/how-to-get-the-sentence-of-a-selection/" class="article-date"><time datetime="2017-12-01T16:00:00.000Z" itemprop="datePublished">2017-12-02</time></a><a
+rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"Do what you can, with what you have, where you are."</blockquote>
+<footer class="tagline-cite"><cite>Theodore Roosevelt</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#原理分析"><span class="toc-text">原理分析</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#获取选择文本"><span class="toc-text">获取选择文本</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#锚节点与焦节点"><span class="toc-text">锚节点与焦节点</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#强调一下"><span class="toc-text">强调一下</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#遍历到哪？"><span class="toc-text">遍历到哪？</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#原理总结"><span class="toc-text">原理总结</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#选择文本"><span class="toc-text">选择文本</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#获取首部"><span class="toc-text">获取首部</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#获取尾部"><span class="toc-text">获取尾部</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#压缩换行"><span class="toc-text">压缩换行</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#完整代码"><span class="toc-text">完整代码</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-how-to-get-the-sentence-of-a-selection" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>最近收到一个 <a href="https://github.com/crimx/crx-saladict/issues/12" target="_blank">issue</a> 期望能在划词的时候同时保存单词的上下文和来源网址。这个功能其实很久之前就想过，但感觉不好实现一直拖延没做。真做完发现其实并不复杂，完整代码在
+<a href="https://github.com/crimx/crx-saladict/blob/7a9f7048eb267be308a234000b4bf11f65cfdc01/src/helpers/selection.js#L33-L95"
+target="_blank">这里</a>，或者继续往下阅读分析。</p>
+<h2 id="原理分析">
+<a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h2>
+<h3 id="获取选择文本">
+<a href="#获取选择文本" class="headerlink" title="获取选择文本"></a>获取选择文本</h3>
+<p>通过 <code>window.getSelection()</code> 即可获得一个 <code>Selection</code> 对象，再利用 <code>.toString()</code> 即可获得选择的文本。</p>
+<h3 id="锚节点与焦节点">
+<a href="#锚节点与焦节点" class="headerlink" title="锚节点与焦节点"></a>锚节点与焦节点</h3>
+<p>在 <code>Selection</code> 对象中还保存了两个重要信息，<code>anchorNode</code> 和 <code>focusNode</code>，分别代表选择产生那一刻的节点和选择结束时的节点，而 <code>anchorOffset</code> 和 <code>focusOffset</code> 则保存了选择在这两个节点里的偏移值。</p>
+<p>这时你可能马上就想到第一个方案：这不就好办了么，有了首尾节点和偏移，就可以获取句子的头部和尾部，再把选择文本作为中间，整个句子不就出来了么。</p>
+<p>当然不会这么简单哈<span class="github-emoji" title=":stuck_out_tongue:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61b.png?v7">&#x1f61b;</span>。</p>
+<h3 id="强调一下">
+<a href="#强调一下" class="headerlink" title="强调一下"></a>强调一下</h3>
+<p>一般情况下，<code>anchorNode</code> 和 <code>focusNode</code> 都是 <code>Text</code> 节点（而且因为这里处理的是文本，所以其它情况也会直接忽略），可以考虑这种情况：</p>
+<p></p>
+<figure class="highlight html">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="tag">&lt;<span class="name">strong</span>&gt;</span>Saladict<span class="tag">&lt;/<span class="name">strong</span>&gt;</span> is awesome!</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>如果选择的是“awesome”，那么 <code>anchorNode</code> 和 <code>focusNode</code> 都是 <code>is awesome!</code>，所以取不到前面的 “Saladict”。</p>
+<p>另外还有嵌套的情况，也是同样的问题。</p>
+<p></p>
+<figure class="highlight html">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">Saladict is <span class="tag">&lt;<span class="name">strong</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>awesome<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">strong</span>&gt;</span>!</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>所以我们还需要遍历兄弟和父节点来获取完整的句子。</p>
+<h3 id="遍历到哪？">
+<a href="#遍历到哪？" class="headerlink" title="遍历到哪？"></a>遍历到哪？</h3>
+<p>于是接下就是解决遍历边界的问题了。遍历到什么地方为止呢？我的判断标准是：跳过 inline-level 元素，遇到 block-level 元素为止。而判断一个元素是 inline-level 还是 block-level 最准确的方式应该是用 <code>window.getComputedStyle()</code>。但我认为这么做太重了，也不需要严格的准确性，所以用了常见的 inline 标签来判断。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">const</span> INLINE_TAGS = <span class="keyword">new</span> <span class="built_in">Set</span>([</div><div class="line">  <span class="comment">// Inline text semantics</span></div><div class="line">  <span class="string">'a'</span>, <span class="string">'abbr'</span>, <span class="string">'b'</span>, <span class="string">'bdi'</span>, <span class="string">'bdo'</span>, <span class="string">'br'</span>, <span class="string">'cite'</span>, <span class="string">'code'</span>, <span class="string">'data'</span>, <span class="string">'dfn'</span>, <span class="string">'em'</span>, <span class="string">'i'</span>,</div><div class="line">  <span class="string">'kbd'</span>, <span class="string">'mark'</span>, <span class="string">'q'</span>, <span class="string">'rp'</span>, <span class="string">'rt'</span>, <span class="string">'rtc'</span>, <span class="string">'ruby'</span>, <span class="string">'s'</span>, <span class="string">'samp'</span>, <span class="string">'small'</span>,</div><div class="line">  <span class="string">'span'</span>, <span class="string">'strong'</span>, <span class="string">'sub'</span>, <span class="string">'sup'</span>, <span class="string">'time'</span>, <span class="string">'u'</span>, <span class="string">'var'</span>, <span class="string">'wbr'</span></div><div class="line">])</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h3 id="原理总结">
+<a href="#原理总结" class="headerlink" title="原理总结"></a>原理总结</h3>
+<p>句子由三块组成，选择文本作为中间，然后遍历兄弟和父节点获取首尾补上。</p>
+<h2 id="实现">
+<a href="#实现" class="headerlink" title="实现"></a>实现</h2>
+<h3 id="选择文本">
+<a href="#选择文本" class="headerlink" title="选择文本"></a>选择文本</h3>
+<p>先获取文本，如果没有则退出</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">const</span> selection = <span class="built_in">window</span>.getSelection()</div><div class="line"><span class="keyword">const</span> selectedText = selection.toString()</div><div class="line"><span class="keyword">if</span> (!selectedText.trim()) &#123; <span class="keyword">return</span> <span class="string">''</span> &#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h3 id="获取首部">
+<a href="#获取首部" class="headerlink" title="获取首部"></a>获取首部</h3>
+<p>对于 <code>anchorNode</code> 只考虑 <code>Text</code> 节点，通过 <code>anchorOffset</code> 获取选择在 <code>anchorNode</code> 的前半段内容。</p>
+<p>然后开始补全在 <code>anchorNode</code> 之前的兄弟节点，最后补全在 <code>anchorNode</code> 父元素之前的兄弟元素。注意后面是元素，这样可以减少遍历的次数，而且考虑到一些被隐藏的内容不需要获取，用 <code>innerText</code> 而不是 <code>textContent</code> 属性。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">let</span> sentenceHead = <span class="string">''</span></div><div class="line"><span class="keyword">const</span> anchorNode = selection.anchorNode</div><div class="line"><span class="keyword">if</span> (anchorNode.nodeType === Node.TEXT_NODE) &#123;</div><div class="line">  <span class="keyword">let</span> leadingText = anchorNode.textContent.slice(<span class="number">0</span>, selection.anchorOffset)</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> node = anchorNode.previousSibling; node; node = node.previousSibling) &#123;</div><div class="line">    <span class="keyword">if</span> (node.nodeType === Node.TEXT_NODE) &#123;</div><div class="line">      leadingText = node.textContent + leadingText</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node.nodeType === Node.ELEMENT_NODE) &#123;</div><div class="line">      leadingText = node.innerText + leadingText</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">for</span> (</div><div class="line">    <span class="keyword">let</span> element = anchorNode.parentElement;</div><div class="line">    element &amp;&amp; INLINE_TAGS.has(element.tagName.toLowerCase()) &amp;&amp; element !== <span class="built_in">document</span>.body;</div><div class="line">    element = element.parentElement</div><div class="line">  ) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> el = element.previousElementSibling; el; el = el.previousElementSibling) &#123;</div><div class="line">      leadingText = el.innerText + leadingText</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  sentenceHead = (leadingText.match(sentenceHeadTester) || [<span class="string">''</span>])[<span class="number">0</span>]</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>最后从提取句子首部用的正则是这个</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// match head                 a.b is ok    chars that ends a sentence</span></div><div class="line"><span class="keyword">const</span> sentenceHeadTester = <span class="regexp">/((\.(?![ .]))|[^.?!。？！…\r\n])+$/</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>前面的 <code>((\.(?![ .]))</code> 主要是为了跳过 <code>a.b</code> 这样的特别是在技术文章中常见的写法。</p>
+<h3 id="获取尾部">
+<a href="#获取尾部" class="headerlink" title="获取尾部"></a>获取尾部</h3>
+<p>跟首部同理，换成往后遍历。最后的正则保留了标点符号</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// match tail                                                    for "..."</span></div><div class="line"><span class="keyword">const</span> sentenceTailTester = <span class="regexp">/^((\.(?![ .]))|[^.?!。？！…\r\n])+(.)\3&#123;0,2&#125;/</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="压缩换行">
+<a href="#压缩换行" class="headerlink" title="压缩换行"></a>压缩换行</h2>
+<p>拼凑完句子之后压缩多个换行为一个空白行，以及删除每行开头结尾的空白符</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">return</span> (sentenceHead + selectedText + sentenceTail)</div><div class="line">  .replace(<span class="regexp">/(^\s+)|(\s+$)/gm</span>, <span class="string">'\n'</span>) <span class="comment">// allow one empty line &amp; trim each line</span></div><div class="line">  .replace(<span class="regexp">/(^\s+)|(\s+$)/g</span>, <span class="string">''</span>) <span class="comment">// remove heading or tailing \n</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="完整代码">
+<a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">const</span> INLINE_TAGS = <span class="keyword">new</span> <span class="built_in">Set</span>([</div><div class="line">  <span class="comment">// Inline text semantics</span></div><div class="line">  <span class="string">'a'</span>, <span class="string">'abbr'</span>, <span class="string">'b'</span>, <span class="string">'bdi'</span>, <span class="string">'bdo'</span>, <span class="string">'br'</span>, <span class="string">'cite'</span>, <span class="string">'code'</span>, <span class="string">'data'</span>, <span class="string">'dfn'</span>, <span class="string">'em'</span>, <span class="string">'i'</span>,</div><div class="line">  <span class="string">'kbd'</span>, <span class="string">'mark'</span>, <span class="string">'q'</span>, <span class="string">'rp'</span>, <span class="string">'rt'</span>, <span class="string">'rtc'</span>, <span class="string">'ruby'</span>, <span class="string">'s'</span>, <span class="string">'samp'</span>, <span class="string">'small'</span>,</div><div class="line">  <span class="string">'span'</span>, <span class="string">'strong'</span>, <span class="string">'sub'</span>, <span class="string">'sup'</span>, <span class="string">'time'</span>, <span class="string">'u'</span>, <span class="string">'var'</span>, <span class="string">'wbr'</span></div><div class="line">])</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* @returns &#123;string&#125;</div><div class="line">*/</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">getSelectionSentence</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> selection = <span class="built_in">window</span>.getSelection()</div><div class="line">  <span class="keyword">const</span> selectedText = selection.toString()</div><div class="line">  <span class="keyword">if</span> (!selectedText.trim()) &#123; <span class="keyword">return</span> <span class="string">''</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> sentenceHead = <span class="string">''</span></div><div class="line">  <span class="keyword">var</span> sentenceTail = <span class="string">''</span></div><div class="line"></div><div class="line">  <span class="keyword">const</span> anchorNode = selection.anchorNode</div><div class="line">  <span class="keyword">if</span> (anchorNode.nodeType === Node.TEXT_NODE) &#123;</div><div class="line">    <span class="keyword">let</span> leadingText = anchorNode.textContent.slice(<span class="number">0</span>, selection.anchorOffset)</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> node = anchorNode.previousSibling; node; node = node.previousSibling) &#123;</div><div class="line">      <span class="keyword">if</span> (node.nodeType === Node.TEXT_NODE) &#123;</div><div class="line">        leadingText = node.textContent + leadingText</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node.nodeType === Node.ELEMENT_NODE) &#123;</div><div class="line">        leadingText = node.innerText + leadingText</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (</div><div class="line">      <span class="keyword">let</span> element = anchorNode.parentElement;</div><div class="line">      element &amp;&amp; INLINE_TAGS.has(element.tagName.toLowerCase()) &amp;&amp; element !== <span class="built_in">document</span>.body;</div><div class="line">      element = element.parentElement</div><div class="line">    ) &#123;</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> el = element.previousElementSibling; el; el = el.previousElementSibling) &#123;</div><div class="line">        leadingText = el.innerText + leadingText</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    sentenceHead = (leadingText.match(sentenceHeadTester) || [<span class="string">''</span>])[<span class="number">0</span>]</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">const</span> focusNode = selection.focusNode</div><div class="line">  <span class="keyword">if</span> (selection.focusNode.nodeType === Node.TEXT_NODE) &#123;</div><div class="line">    <span class="keyword">let</span> tailingText = selection.focusNode.textContent.slice(selection.focusOffset)</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> node = focusNode.nextSibling; node; node = node.nextSibling) &#123;</div><div class="line">      <span class="keyword">if</span> (node.nodeType === Node.TEXT_NODE) &#123;</div><div class="line">        tailingText += node.textContent</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node.nodeType === Node.ELEMENT_NODE) &#123;</div><div class="line">        tailingText += node.innerText</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (</div><div class="line">      <span class="keyword">let</span> element = focusNode.parentElement;</div><div class="line">      element &amp;&amp; INLINE_TAGS.has(element.tagName.toLowerCase()) &amp;&amp; element !== <span class="built_in">document</span>.body;</div><div class="line">      element = element.parentElement</div><div class="line">    ) &#123;</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> el = element.nextElementSibling; el; el = el.nextElementSibling) &#123;</div><div class="line">        tailingText += el.innerText</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    sentenceTail = (tailingText.match(sentenceTailTester) || [<span class="string">''</span>])[<span class="number">0</span>]</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> (sentenceHead + selectedText + sentenceTail)</div><div class="line">    .replace(<span class="regexp">/(^\s+)|(\s+$)/gm</span>, <span class="string">'\n'</span>) <span class="comment">// allow one empty line &amp; trim each line</span></div><div class="line">    .replace(<span class="regexp">/(^\s+)|(\s+$)/g</span>, <span class="string">''</span>) <span class="comment">// remove heading or tailing \n</span></div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>【完】</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Selection/">Selection</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sentence/">Sentence</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/11/13/react-native-with-mobx/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">React Native 搭配 MobX 使用心得</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/12/02/how-to-get-the-sentence-of-a-selection/" data-identifier="2017/12/02/how-to-get-the-sentence-of-a-selection/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>
