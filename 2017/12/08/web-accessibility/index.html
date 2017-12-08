@@ -1,0 +1,469 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>Web 可访问性整理 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="定义
+
+
+可访问性 Accessibility为障碍用户提供同等用户体验。使障碍用户能对产品感知、理解、定位和交互，并能平等地参与贡献。
+
+
+可用性 Usability可用性和用户体验设计（User Experience Design）是为了让目标用户使用产品高效、满意地达到特定目标。
+
+
+包容性 Inclusion包容性设计（Inclusive Design）、通用设计（Universal D">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web 可访问性整理">
+<meta property="og:url" content="https://blog.crimx.com/2017/12/08/web-accessibility/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="定义
+
+
+可访问性 Accessibility为障碍用户提供同等用户体验。使障碍用户能对产品感知、理解、定位和交互，并能平等地参与贡献。
+
+
+可用性 Usability可用性和用户体验设计（User Experience Design）是为了让目标用户使用产品高效、满意地达到特定目标。
+
+
+包容性 Inclusion包容性设计（Inclusive Design）、通用设计（Universal D">
+<meta property="og:updated_time" content="2017-12-08T12:36:15.887Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web 可访问性整理">
+<meta name="twitter:description" content="定义
+
+
+可访问性 Accessibility为障碍用户提供同等用户体验。使障碍用户能对产品感知、理解、定位和交互，并能平等地参与贡献。
+
+
+可用性 Usability可用性和用户体验设计（User Experience Design）是为了让目标用户使用产品高效、满意地达到特定目标。
+
+
+包容性 Inclusion包容性设计（Inclusive Design）、通用设计（Universal D">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">Web 可访问性整理</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/Website/">Website</a></div><a href="/2017/12/08/web-accessibility/" class="article-date"><time datetime="2017-12-07T16:00:00.000Z" itemprop="datePublished">2017-12-08</time></a>
+<a rel="license" class="cc-license-wrapper"
+href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"Being unconscious is the ultimate disability."</blockquote>
+<footer class="tagline-cite"><cite>Jessa Gamble</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#体验屏幕阅读"><span class="toc-text">体验屏幕阅读</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#工具"><span class="toc-text">工具</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#参考规范"><span class="toc-text">参考规范</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#其它资料"><span class="toc-text">其它资料</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#文章"><span class="toc-text">文章</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#视频"><span class="toc-text">视频</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#课程"><span class="toc-text">课程</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Tab"><span class="toc-text">Tab</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-3"><a class="toc-link" href="#Tab-顺序"><span class="toc-text">Tab 顺序</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#其它元素"><span class="toc-text">其它元素</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#忽略-Tab"><span class="toc-text">忽略 Tab</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#侧导航栏问题"><span class="toc-text">侧导航栏问题</span></a></li>
+<li class="toc-item toc-level-3"><a class="toc-link" href="#Skip-Link"><span class="toc-text">Skip Link</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#原生元素"><span class="toc-text">原生元素</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#语义标签"><span class="toc-text">语义标签</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Landmarks"><span class="toc-text">Landmarks</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#视觉隐藏"><span class="toc-text">视觉隐藏</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-web-accessibility" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<h2 id="定义">
+<a href="#定义" class="headerlink" title="定义"></a>定义</h2>
+<ul>
+<li>
+<p>可访问性 Accessibility<br>为障碍用户提供同等用户体验。使障碍用户能对产品感知、理解、定位和交互，并能平等地参与贡献。</p>
+</li>
+<li>
+<p>可用性 Usability<br>可用性和用户体验设计（User Experience Design）是为了让目标用户使用产品高效、满意地达到特定目标。</p>
+</li>
+<li>
+<p>包容性 Inclusion<br>包容性设计（Inclusive Design）、通用设计（Universal Design）和人性化设计（Design For All）尽可能让每个人都能容易地用上产品。包容性要解决的问题非常广，包括软、硬件的可访问性和质量、互联网连通性、计算机文化和技能、经济状况、教育、地理位置、语言、以及年龄和残障。</p>
+</li>
+</ul>
+<h2 id="体验屏幕阅读">
+<a href="#体验屏幕阅读" class="headerlink" title="体验屏幕阅读"></a>体验屏幕阅读</h2>
+<p>要解决问题首先得知道问题是怎样的，体验屏幕阅读器：</p>
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/chromevox/kgejglhpjiefppelpmljglcjbhoiplfn/related?hl=en" target="_blank">ChromeVox</a> ，Chrome 扩展</li>
+<li><a href="https://www.nvaccess.org/download/" target="_blank">NVDA</a> ，开源跨平台</li>
+<li>VoiceOver (MacOS)</li>
+</ul>
+<h2 id="工具">
+<a href="#工具" class="headerlink" title="工具"></a>工具</h2>
+<ul>
+<li>校验
+<ul>
+<li>Chrome 自带 Audits</li>
+<li><a href="https://www.axe-core.org/" target="_blank">aXe</a> 扩展、命令行工具等。</li>
+<li>webaim.org</li>
+</ul>
+</li>
+<li>调试
+<ul>
+<li>Chrome 自带实验性 Accessibility Inspector <code>chrome://flags/#enable-devtools-experiments</code></li>
+<li><a href="https://chrispederick.com/work/web-developer/" target="_blank">Web Developer</a> 扩展</li>
+<li><a href="https://chrome.google.com/webstore/detail/accessibility-developer-t/fpkknkljclfencbdbgkenhalefipecmb?hl=en" target="_blank">Accessibility Developer Tools</a> 扩展</li>
+</ul>
+</li>
+<li>颜色
+<ul>
+<li><a href="http://colororacle.org" target="_blank">Color-Oracle</a> 模拟色盲，开源跨平台</li>
+<li><a href="http://leaverou.github.io/contrast-ratio/" target="_blank">Lea Verous Contrast Ratio</a></li>
+<li><a href="https://chrome.google.com/webstore/detail/color-contrast-analyzer/dagdlcijhfbmgkjokkjicnnfimlebcll" target="_blank">WCAG Color Contrast Analyzer</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="参考规范">
+<a href="#参考规范" class="headerlink" title="参考规范"></a>参考规范</h2>
+<p>有什么问题查规范准没错。在自行实现支持 ARIA 的元素时很有用。</p>
+<ul>
+<li><a href="https://www.w3.org/TR/WCAG20/" target="_blank">Web Content Accessibility Guidelines (WCAG) 2.0</a></li>
+<li><a href="https://www.w3.org/TR/wai-aria/" target="_blank">Accessible Rich Internet Applications (WAI-ARIA)</a></li>
+<li><a href="https://www.w3.org/TR/html5/sections.html" target="_blank">HTML 5.1 2nd Edition</a></li>
+</ul>
+<h2 id="其它资料">
+<a href="#其它资料" class="headerlink" title="其它资料"></a>其它资料</h2>
+<h3 id="文章">
+<a href="#文章" class="headerlink" title="文章"></a>文章</h3>
+<ul>
+<li><a href="https://www.w3.org/WAI/intro/usable" target="_blank">Accessibility, Usability, and Inclusion: Related Aspects of a Web for All</a></li>
+<li><a href="https://www.w3.org/standards/webdesign/accessibility" target="_blank">Accessibility - W3C</a></li>
+<li><a href="https://developers.google.com/web/fundamentals/accessibility/" target="_blank">Web Fundamentals - Accessibility</a></li>
+<li><a href="https://www.w3.org/TR/html5/common-idioms-without-dedicated-elements.html#common-idioms-without-dedicated-elements" target="_blank">Common idioms without dedicated elements</a></li>
+<li>本文原文 <a href="https://blog.crimx.com/2017/12/08/web-accessibility/" target="_blank">Web 可访问性整理</a></li>
+</ul>
+<h3 id="视频">
+<a href="#视频" class="headerlink" title="视频"></a>视频</h3>
+<ul>
+<li>Google 的 <a href="https://www.youtube.com/watch?v=HtTyRajRuyY&amp;list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g&amp;index=28" target="_blank">A11ycasts</a></li>
+<li><a href="https://www.youtube.com/watch?v=o4xHfi4t9S0&amp;list=PLWjCJDeWfDdcEtSnqq_iGLKGA_H_3o3y7" target="_blank">Accessibility</a> by Thomas Bradley</li>
+<li><a href="https://www.youtube.com/watch?v=A5XzoDT37iM" target="_blank">Pragmatic Accessibility: A How-To Guide for Teams (Google I/O &#39;17)</a></li>
+</ul>
+<h3 id="课程">
+<a href="#课程" class="headerlink" title="课程"></a>课程</h3>
+<ul>
+<li>官方教程 <a href="https://www.w3.org/WAI/tutorials/" target="_blank">Web Accessibility Tutorials</a></li>
+<li><a href="https://cn.udacity.com/course/web-accessibility--ud891" target="_blank">Web Accessibility</a></li>
+</ul>
+<h2 id="Tab">
+<a href="#Tab" class="headerlink" title="Tab"></a>Tab</h2>
+<p>对于纯键盘使用者来说， Tab 键承担了重要责任。</p>
+<h3 id="Tab-顺序">
+<a href="#Tab-顺序" class="headerlink" title="Tab 顺序"></a>Tab 顺序</h3>
+<p>要点： Tab 顺序是按照 DOM 结构，而不是 CSSOM 结构。</p>
+<p>所以通过 CSS 将元素提前（如 flex order）并不会影响 tab 顺序。在排版的时候需要考虑。</p>
+<h3 id="其它元素">
+<a href="#其它元素" class="headerlink" title="其它元素"></a>其它元素</h3>
+<p>Tab 默认只会识别部分元素，如果需要让其它元素也被识别，加上 <code>tabindex=&quot;0&quot;</code> 属性。</p>
+<p>不鼓励使用大于 0 的其它数字，除了会造成混乱，一些屏幕阅读器也<a href="https://www.youtube.com/watch?v=Pe0Ce1WtnUM&amp;list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g&amp;index=25" target="_blank">不一定会遵循</a>。应该用 DOM 顺序来体现 tab 顺序。</p>
+<h3 id="忽略-Tab">
+<a href="#忽略-Tab" class="headerlink" title="忽略 Tab"></a>忽略 Tab</h3>
+<p>要让 tab 忽略一个元素，即直接跳过去，设置 <code>tabindex=&quot;-1&quot;</code> 属性。</p>
+<p>或者用还在草稿阶段的 <code>inert</code> 属性 (<a href="https://github.com/GoogleChrome/inert-polyfill" target="_blank">polyfill</a>)。</p>
+<h3 id="侧导航栏问题">
+<a href="#侧导航栏问题" class="headerlink" title="侧导航栏问题"></a>侧导航栏问题</h3>
+<p>在一些响应式的网页，侧导航栏在宽度变小时可能会隐藏起来，这时用户如果使用 tab 跳转可能会发现焦点突然不见了，怎么按也没反应。其实是因为 tab 跳到导航栏的链接去了。</p>
+<p>解决方式要么改变 DOM 结构，将导航栏移到最后；要么使用前面提到的 <code>inert</code> 属性。</p>
+<h3 id="Skip-Link">
+<a href="#Skip-Link" class="headerlink" title="Skip Link"></a>Skip Link</h3>
+<p>将导航的每个项目绝对定位到屏幕之上，再设置 <code>:focus</code> 样式移下来。就可以实现用户按 tab 时一次只显示一个导航链接，用户再按回车即可跳到该位置。可以参考 Github 网页。</p>
+<h2 id="原生元素">
+<a href="#原生元素" class="headerlink" title="原生元素"></a>原生元素</h2>
+<p>尽可能使用原生支持的元素，如 <code>&lt;button&gt;</code> ，而不是用 <code>&lt;span&gt;</code> 或 <code>&lt;div&gt;</code> 模拟。原因：</p>
+<ul>
+<li>原生符合语义。</li>
+<li>原生对屏幕阅读友好，否则需要写一堆 ARIA 属性来提示阅读器。</li>
+<li>原生不需要 JS 支持。</li>
+<li>原生元素用键盘可以代替鼠标点击，否则还要监听键盘事件。</li>
+<li>Focus Ring 浏览器自动识别原生元素，否则要另外写 CSS 隐藏。</li>
+<li>CSS 很容易就能改变原生元素的样式，与整体设计统一。</li>
+</ul>
+<h2 id="语义标签">
+<a href="#语义标签" class="headerlink" title="语义标签"></a>语义标签</h2>
+<p>使用符合语义的标签，辅助设备会自动理解。</p>
+<ul>
+<li><code>&lt;article&gt;</code>：完整、独立的内容。
+<ul>
+<li>每篇 <code>&lt;article&gt;</code> 应该包含一个标题（<code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code>）。</li>
+<li>嵌套的 <code>&lt;article&gt;</code> 主题应该跟父 <code>&lt;article&gt;</code> 相关联。</li>
+<li>考虑使用 <code>&lt;article&gt;</code> 应该看其内容是否会出现在文档的提纲（outline）中。</li>
+<li>辅助设备会将其 role 理解为“article”。</li>
+</ul>
+</li>
+<li><code>&lt;section&gt;</code>：按主题归在一起的部分内容。
+<ul>
+<li>每块 <code>&lt;section&gt;</code> 应该包含一个标题（<code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code>）。</li>
+<li>如果内容是完整、独立的，应该考虑使用 <code>&lt;article&gt;</code>。</li>
+<li>不要将 <code>&lt;section&gt;</code> 当 <code>&lt;div&gt;</code> 使用，只为样式时应该用 <code>&lt;div&gt;</code> 。</li>
+<li>考虑使用 <code>&lt;article&gt;</code> 应该看其内容是否会出现在文档的提纲（outline）中。</li>
+<li>辅助设备会将其 role 理解为“region”，见<a href="#Landmarks">下方</a>。</li>
+</ul>
+</li>
+<li><code>&lt;nav&gt;</code>：包含一系列链接可以跳转到其它页面或者本页面的某部分。
+<ul>
+<li>使用列表元素帮助辅助设备理解。</li>
+<li>只为主要导航使用。</li>
+<li>辅助设备会将其 role 理解为“navigation”，见<a href="#Landmarks">下方</a>。</li>
+</ul>
+</li>
+<li><code>&lt;aside&gt;</code>：侧边栏，其内容应该不属于主体内容的一部分。
+<ul>
+<li>可以放导航组、广告等。</li>
+<li>辅助设备会将其 role 理解为“complementary”，见<a href="#Landmarks">下方</a>。</li>
+</ul>
+</li>
+<li><code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code>：一个块或子块的标题。
+<ul>
+<li>请勿为了样式而用标题来表示副标题、子标题、额外标题、标语等，变通可参考<a href="https://www.w3.org/TR/html5/common-idioms-without-dedicated-elements.html#common-idioms-without-dedicated-elements" target="_blank">这里</a>。</li>
+<li>辅助设备会将其 role 理解为“heading”加上“1”到“6”。</li>
+</ul>
+</li>
+<li><code>&lt;header&gt;</code>：对最近的父 <a href="https://www.w3.org/TR/html5/dom.html#sectioning-content" target="_blank">sectioning content</a> 或 <a href="https://www.w3.org/TR/html5/sections.html#sectioning-roots" target="_blank">sectioning root</a> 的介绍。
+<ul>
+<li>如果父 sectioning root 是 <code>&lt;body&gt;</code>，辅助设备会将其 role 理解为“banner”，见<a href="#Landmarks">下方</a>。</li>
+</ul>
+</li>
+<li><code>&lt;footer&gt;</code>：代表其最近的父 <a href="https://www.w3.org/TR/html5/dom.html#sectioning-content" target="_blank">sectioning content</a> 或 <a href="https://www.w3.org/TR/html5/sections.html#sectioning-roots" target="_blank">sectioning root</a> 的页脚。
+<ul>
+<li>如果父 sectioning root 是 <code>&lt;body&gt;</code>，辅助设备会将其 role 理解为“content information”，见<a href="#Landmarks">下方</a>。</li>
+</ul>
+</li>
+<li><code>&lt;address&gt;</code>：为其最近的父 <code>&lt;article&gt;</code> 或 <code>&lt;body&gt;</code> 元素提供联系信息。
+<ul>
+<li>只提供必要的联系信息，不要包含其它信息。</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://www.w3.org/TR/html5/sections.html#sectioning-roots" target="_blank">sectioning root</a> 包括 <code>&lt;blockquote&gt;</code>, <code>&lt;body&gt;</code>, <code>&lt;details&gt;</code>, <code>&lt;fieldset&gt;</code>, <code>&lt;figure&gt;</code>,
+<code>&lt;td&gt;</code>.</p>
+<p><a href="https://www.w3.org/TR/html5/dom.html#sectioning-content" target="_blank">Sectioning content</a> 包括 <code>&lt;article&gt;</code>, <code>&lt;aside&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;section&gt;</code>.</p>
+<h2 id="Landmarks">
+<a href="#Landmarks" class="headerlink" title="Landmarks"></a>Landmarks</h2>
+<p>Landmark roles 定义网页的几个主要部分，可以让辅助设备快速跳转。</p>
+<p>总共有<a href="https://www.w3.org/TR/wai-aria/#landmark_roles" target="_blank">八个</a>。</p>
+<ol>
+<li><code>banner</code>：<strong>唯一</strong>。跟网站相关的内容，如 logo 、赞助商、站内搜索等。</li>
+<li><code>complementary</code>：对主体内容的补充。与主体内容相关，但本身独立。如相关文章。</li>
+<li><code>contentinfo</code>：<strong>唯一</strong>。版权信息、隐私声明等。</li>
+<li><code>form</code>：表单。<strong>应该</strong>设置可见的标题，并用 <code>aria-labelledby</code> 引用标题来告知辅助设备这个表单是干什么的。如果用 JS 提交表单，没有触发 <code>onsubmit</code> 事件，则<strong>应该</strong>用其它方式通知表单提交。</li>
+<li><code>main</code>：<strong>唯一</strong>。主体内容。</li>
+<li><code>navigation</code>：导航栏。</li>
+<li><code>region</code>：认为用户可能会感兴趣的，需要让用户可以快速跳转的内容。辅助设备会收集它来生成一个概要页面。每个 region <strong>必须</strong>有可见的标题，并用 <code>aria-labelledby</code> 引用。</li>
+<li><code>search</code>：搜索框。</li>
+</ol>
+<h2 id="视觉隐藏">
+<a href="#视觉隐藏" class="headerlink" title="视觉隐藏"></a>视觉隐藏</h2>
+<p>使用视觉隐藏而不是 <code>display: none;</code> 来隐藏元素同时让辅助设备识别。</p>
+<p></p>
+<figure class="highlight css">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="selector-class">.visually-hidden</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">overflow</span>: hidden;</div><div class="line">  <span class="attribute">width</span>: <span class="number">1px</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">1px</span>;</div><div class="line">  <span class="attribute">margin</span>: -<span class="number">1px</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">border</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">clip</span>: <span class="built_in">rect</span>(0 0 0 0);</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>【完】</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Accessibility/">Accessibility</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/可访问性/">可访问性</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语义化/">语义化</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/12/02/how-to-get-the-sentence-of-a-selection/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">获取选择文本所在的句子</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2017/12/08/web-accessibility/" data-identifier="2017/12/08/web-accessibility/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

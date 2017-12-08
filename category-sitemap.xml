@@ -14,13 +14,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/categories/Website/</loc>
-        <lastmod>2016-12-29T11:45:58.687Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/categories/Compiler/</loc>
         <lastmod>2016-12-29T13:25:18.972Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -93,6 +86,13 @@
     <url>
         <loc>https://blog.crimx.com/categories/JavaScript/</loc>
         <lastmod>2017-12-02T11:04:32.745Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/categories/Website/</loc>
+        <lastmod>2017-12-08T12:36:15.887Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
