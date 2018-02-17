@@ -1,0 +1,336 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>理解 RxJS ：四次元编程 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="学习 RxJS 最大的问题是官方造了很多概念，但文档又解释得不太全面和易懂，需要结合阅读各种文章（特别是 Ben Lesh 的，包括视频）。本文试图整体梳理一遍再用另外的角度来介绍，希望能帮助初学者或者对 RxJS 的一些概念比较含糊的使用者。
+
+为什么需要 RxJS
+RxJS 属于响应式编程，其思想是将时间看作数组，随着时间发生的事件被看作是数组的项，然后以操作数组的方式变换事件。其强大的地方在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解 RxJS ：四次元编程">
+<meta property="og:url" content="https://blog.crimx.com/2018/02/16/understanding-rxjs/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="学习 RxJS 最大的问题是官方造了很多概念，但文档又解释得不太全面和易懂，需要结合阅读各种文章（特别是 Ben Lesh 的，包括视频）。本文试图整体梳理一遍再用另外的角度来介绍，希望能帮助初学者或者对 RxJS 的一些概念比较含糊的使用者。
+
+为什么需要 RxJS
+RxJS 属于响应式编程，其思想是将时间看作数组，随着时间发生的事件被看作是数组的项，然后以操作数组的方式变换事件。其强大的地方在">
+<meta property="og:updated_time" content="2018-02-17T08:54:05.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解 RxJS ：四次元编程">
+<meta name="twitter:description" content="学习 RxJS 最大的问题是官方造了很多概念，但文档又解释得不太全面和易懂，需要结合阅读各种文章（特别是 Ben Lesh 的，包括视频）。本文试图整体梳理一遍再用另外的角度来介绍，希望能帮助初学者或者对 RxJS 的一些概念比较含糊的使用者。
+
+为什么需要 RxJS
+RxJS 属于响应式编程，其思想是将时间看作数组，随着时间发生的事件被看作是数组的项，然后以操作数组的方式变换事件。其强大的地方在">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo">
+<a class="icon-logo" href="/"></a>
+</div>
+<ul class="menu-social-icons">
+<li>
+<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
+</li>
+<li>
+<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
+</li>
+<li>
+<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
+</li>
+<li>
+<a class="icon-rss" href="/atom.xml"></a>
+</li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">理解 RxJS ：四次元编程</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2018/02/16/understanding-rxjs/" class="article-date"><time datetime="2018-02-15T16:00:00.000Z" itemprop="datePublished">2018-02-16</time></a>
+<a rel="license"
+class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"We are ready for any unforeseen event that may or may not occur."</blockquote>
+<footer class="tagline-cite"><cite>Dan Quayle</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-1"><a class="toc-link" href="#为什么需要-RxJS"><span class="toc-text">为什么需要 RxJS</span></a></li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#理解-RxJS"><span class="toc-text">理解 RxJS</span></a>
+<ol class="toc-child">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#基本概念"><span class="toc-text">基本概念</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#创建-Observable"><span class="toc-text">创建 Observable</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Subscribe-不是订阅者模式"><span class="toc-text">Subscribe 不是订阅者模式</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Hot-amp-Cold"><span class="toc-text">Hot & Cold</span></a></li>
+</ol>
+</li>
+<li class="toc-item toc-level-1"><a class="toc-link" href="#使用-RxJS"><span class="toc-text">使用 RxJS</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-understanding-rxjs" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>学习 RxJS 最大的问题是官方造了很多概念，但文档又解释得不太全面和易懂，需要结合阅读各种文章（特别是 <a href="https://medium.com/@benlesh" target="_blank">Ben Lesh</a> 的，包括视频）。本文试图整体梳理一遍再用另外的角度来介绍，希望能帮助初学者或者对 RxJS 的一些概念比较含糊的使用者。</p>
+<h1 id="为什么需要-RxJS">
+<a href="#为什么需要-RxJS" class="headerlink" title="为什么需要 RxJS"></a>为什么需要 RxJS</h1>
+<p>RxJS 属于响应式编程，其思想是将时间看作数组，随着时间发生的事件被看作是数组的项，然后以操作数组的方式变换事件。其强大的地方在于站在四维的角度看问题，这就像是拥有了上帝视野。</p>
+<p>在处理事件之间的关系时，对于传统方式，我们需要设置各种状态变量来记录这些关系，比如对点击 <code>Shift</code> 键进行计数，需要手动设置一个 <code>let shiftPressCount: number</code>，如果需要每 600ms 清零，又需要添加计时的状态，这些状态都需要手动维护，当它们变得复杂和庞大的时候我们很快就会乱了，因为没有明确的方向，不好判断这些状态同步了没有。</p>
+<p>而这正是 RxJS 发光发热的地方。因为从四维的角度看，这些状态就不是单个变量，而是一系列变量。比如对按键计数：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">Rx.Observable.fromEvent(<span class="built_in">document</span>, <span class="string">'keydown'</span>)</div><div class="line">  .filter(<span class="function">(<span class="params">&#123; key &#125;</span>) =&gt;</span> key === <span class="string">'Shift'</span>)</div><div class="line">  .scan(<span class="function"><span class="params">count</span> =&gt;</span> count + <span class="number">1</span>, <span class="number">0</span>)</div><div class="line">  .subscribe(<span class="function"><span class="params">count</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`按了 <span class="subst">$&#123;count&#125;</span> 遍 Shift 键`</span>))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>相信有使用过数组方法的人第一次看也大概能知道这里干了些什么（把 <code>scan</code> 看作是会输出中间结果的 <code>reduce</code>）。中间状态都在变换的过程中被封装起来，每一次事件的 <code>count</code> 都是独立的，不容易乱，也使得可以用纯函数去表达状态的变换。链式调用（或者 RxJS5 的 pipeable）在一定程度上限制了状态数据的流动方向，增加了可预测性，更加容易理解。</p>
+<h1 id="理解-RxJS">
+<a href="#理解-RxJS" class="headerlink" title="理解 RxJS"></a>理解 RxJS</h1>
+<h2 id="基本概念">
+<a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2>
+<p>使用 RxJS 前先理解它要做什么，这里引入了两个概念，Producer （生产者）和 Observer （观察者）。</p>
+<p>先看一个熟悉的例子：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="title">handler</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(e.clientX)</div><div class="line">&#125;)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这里的 Producer 是 DOM 事件机制，会不定期产出 MouseEvent 事件。Observer 就是 <code>handler</code>，对事件作出反应。</p>
+<p>再看前面的例子：</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">Rx.Observable.fromEvent(<span class="built_in">document</span>, <span class="string">'keydown'</span>)</div><div class="line">  .filter(<span class="function">(<span class="params">&#123; key &#125;</span>) =&gt;</span> key === <span class="string">'Shift'</span>)</div><div class="line">  .scan(<span class="function"><span class="params">count</span> =&gt;</span> count + <span class="number">1</span>, <span class="number">0</span>)</div><div class="line">  .subscribe(<span class="function"><span class="params">count</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`按了 <span class="subst">$&#123;count&#125;</span> 遍 Shift 键`</span>))</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>Producer 还是 DOM 事件机制，Observer 是 <code>subscribe</code> 的参数。所以可以理解 RxJS 为连接 Producer 和 Observer 的纽带。</p>
+<p>于是这个纽带的成分叫 <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html" target="_blank">Observable</a> （可被观察的）就不难理解了。Observable 就是由事件组成的四维数组。RxJS 将 Producer 转换为 Observable，然后对 Observable 进行各种变换，最后再交给 Observer。</p>
+<p>对 Observable 进行变换的操作符叫做 Operator，比如上面的 <code>filter</code> 和 &#39;scan&#39;，它们输入 Observable 再输出新的 Observable。RxJS 有巨量的 Operators ，这也是学习 RxJS 的第二难点，我已经分类整理了六十多个，整理完会再写一篇文章介绍，敬请关注。</p>
+<h2 id="创建-Observable">
+<a href="#创建-Observable" class="headerlink" title="创建 Observable"></a>创建 Observable</h2>
+<p>RxJS 封装了许多有用的方法来将 Producer 转换为 Observable，比如 <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#static-method-fromEvent" target="_blank"><code>fromEvent</code></a>、
+<a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#static-method-fromPromise"
+target="_blank"><code>fromPromise</code></a>，但其根本是一个叫 <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#static-method-create" target="_blank"><code>create</code></a> 的方法。</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">var</span> observable = Rx.Observable.create(<span class="function"><span class="params">observer</span> =&gt;</span> &#123;</div><div class="line">  observer.next(<span class="number">0</span>)</div><div class="line">  observer.next(<span class="number">1</span>)</div><div class="line">  observer.next(<span class="number">2</span>)</div><div class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    observer.next(<span class="number">3</span>)</div><div class="line">    observer.complete()</div><div class="line">  &#125;, <span class="number">1000</span>)</div><div class="line">&#125;)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这其实跟 Promise 的思路很像，Promise 只能 <code>resolve</code> 一遍，但这里可以 <code>observer.next</code> 很多个值（事件），最后还能 complete（不是必须的，可以有无限事件）。官方把这个类 <code>resolve</code> 的参数也叫做 <code>observer</code>，因为 <code>observer.next(0)</code> 的意思是“Subscribe 我的那个 Observer 接下来会获得这个值
+<code>0</code>”。我认为这是一个不好的决定，重名对于新人太容易混淆了，这个其实可以从另一个角度看，把它叫做 producer，“产生”了下个值。</p>
+<h2 id="Subscribe-不是订阅者模式">
+<a href="#Subscribe-不是订阅者模式" class="headerlink" title="Subscribe 不是订阅者模式"></a>Subscribe 不是订阅者模式</h2>
+<p>一个常见的误解是认为 RxJS 就是 <code>addEventListener</code> 那样的订阅者模式，<code>subscribe</code> 这个方法名也很有误导性。然而两者并不是一回事，订阅者模式会维护一个订阅者列表，事件来了就一一调用列表上的每个订阅者传递通知。但 RxJS 并没有这么一个列表，它就是一个函数，可以跟 Promise 类比，Promise 的 executor 是在 <code>new Promise(executor)</code> 时马上执行的，而 RxJS
+<code>Rx.Observable.create(observer)</code> 的 <code>observer</code> 则是在每次执行 <code>subscribe</code> 后都调用一遍，即每次 <code>subscribe</code> 的 Observables 都是独立的，都会重新走一遍整个流程。</p>
+<p>这个时候你也许会想，这样每次都完整调用一遍岂不是很浪费性能？没错，如果需要多次 subscribe 同个 Producer 这么做会比较浪费，但如果只是 subscribe 一遍，维护一个订阅者列表也没有必要。所以 RxJS 引入了 Hot 和 Cold Observable 的概念。</p>
+<h2 id="Hot-amp-Cold">
+<a href="#Hot-amp-Cold" class="headerlink" title="Hot &amp; Cold"></a>Hot &amp; Cold</h2>
+<p>Observable 冷热概念其实就是看 Producer 的创建受不受 RxJS 控制。</p>
+<p>前面我们知道，<code>create</code> 会将 Producer 转化为 Observable 。如果这个 Producer 也是在 <code>create</code> 回调里面产生的，那么就是 Cold ，因为 Producer 还不存在，只有 <code>subscribe</code> 了之后才会被创建。</p>
+<p>但如果 Producer 在之前就创建了，比如 DOM 事件，<code>create</code> 回调里仅仅是对 Producer 添加 listener，那么这就叫做 Hot ，因为不需要 <code>subscribe</code> 来启动 Producer 。</p>
+<p>只有 Hot Observable 才可以实现订阅者模式。可以通过一个特殊的 Observable 叫 <a href="http://reactivex.io/rxjs/class/es6/Subject.js~Subject.html" target="_blank">Subject</a> 来创建，其内部会维护一个订阅者列表。通过
+<a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-share"
+target="_blank"><code>share</code></a> 方法可以将一个 Cold 的 Observable 转换为 Hot 。原理是内部用 Subject subscribe 上流的 Observable 实现转接。</p>
+<h1 id="使用-RxJS">
+<a href="#使用-RxJS" class="headerlink" title="使用 RxJS"></a>使用 RxJS</h1>
+<p>理解了基本概念之后就可以直接开写了，本身没有什么魔法，参考一下 api 依样画葫芦即可。</p>
+<p>使用 RxJS 最常见的问题是不知道什么时候该用哪个 Operator 。这其实跟数组操作是一样的，RxJS 提供了数量庞大的 Operators ，基本覆盖了各种可以想到的数组操作，建议先从 JavaScript 常见的数组操作开始，如 <code>map</code>、<code>filter</code>、<code>scan</code>（也有 <code>reduce</code> ，但这个通常不是我们想要的，我们一般不需要在 complete 之后才输出结果，而是每次都输出阶段性的结果）。</p>
+<p>多翻<a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html" target="_blank">官方文档</a>，常用的 Operators 都描述得非常详细，有弹珠图（Marble Graph）和一句话总结；缺点是措辞有时可能会比较抽象，不是那么好理解。</p>
+<p>另外就是第三方的 <a href="http://learnrxjs.io/operators" target="_blank">learnrxjs</a> 和 <a href="https://chrisnoring.gitbooks.io/rxjs-5-ultimate/content/operators.html" target="_blank">Rxjs 5 ultimate</a>，按作者的思路组织，更通俗易懂些，可以作为补充理解；缺点是可能跟官方不同步，以及不全。</p>
+<p>我整理完也会再写一篇文章介绍，敬请期待。</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Functional/">Functional</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJS/">RxJS</a></li>
+</ul>
+<nav id="article-nav"><a href="/2017/12/08/web-accessibility/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Web 可访问性整理</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2018/02/16/understanding-rxjs/" data-identifier="2018/02/16/understanding-rxjs/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div
+class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2018/02/16/understanding-rxjs/</loc>
+        <lastmod>2018-02-17T08:54:05.822Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2017/12/08/web-accessibility/</loc>
         <lastmod>2017-12-08T12:36:15.887Z</lastmod>
         <changefreq>weekly</changefreq>
