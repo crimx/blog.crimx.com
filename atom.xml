@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.crimx.com/"/>
-  <updated>2018-02-17T08:54:05.822Z</updated>
+  <updated>2018-04-03T09:32:52.996Z</updated>
   <id>https://blog.crimx.com/</id>
   
   <author>
@@ -14,6 +14,150 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>深入 React Render Props 模式</title>
+    <link href="https://blog.crimx.com/2018/04/03/understanding-render-props-in-react/"/>
+    <id>https://blog.crimx.com/2018/04/03/understanding-render-props-in-react/</id>
+    <published>2018-04-02T16:00:00.000Z</published>
+    <updated>2018-04-03T09:32:52.996Z</updated>
+    
+    <content type="html"><![CDATA[<p>随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。</p>
+<h2 id="基础">
+<a href="#基础" class="headerlink" title="基础"></a>基础</h2>
+<p>先看<a href="https://reactjs.org/docs/render-props.html" target="_blank">官方</a>给出的简单例子：</p>
+<p></p>
+<figure class="highlight jsx">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&lt;DataProvider render=&#123;data =&gt; (</div><div class="line">  &lt;h1&gt;Hello &#123;data.target&#125;&lt;/h1&gt;</div><div class="line">)&#125;/&gt;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>加个 <code>DataProvider</code> 的简单实现，</p>
+<p></p>
+<figure class="highlight jsx">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataProvider</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  state = &#123; <span class="attr">target</span>: <span class="string">''</span> &#125;</div><div class="line">  handleMouseMove = <span class="function"><span class="params">e</span> =&gt;</span> <span class="keyword">this</span>.setState(&#123; <span class="attr">target</span>: e.target.title &#125;)</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div style=&#123;&#123; height: '1vh' &#125;&#125; onMouseMove=&#123;this.handleMouseMove&#125;&gt;</div><div class="line">        &#123;this.props.render(this.state)&#125;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这里是将一个返回 React 元素的函数传给 <code>DataProvider</code> 的 <code>props.render</code>，<code>DataProvider</code> render 的时候调用 <code>this.props.render(this.state)</code> 渲染这个函数。</p>
+<p>这也是“render props”名字的来源，而现在更流行的是“children props”，虽然依然沿用 render props 的说法。</p>
+<p>Children props 即将 render 换为 children ，同时 JSX 中不需要显式写 chidlren ，所以成了这个样子：</p>
+<p></p>
+<figure class="highlight jsx">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&lt;DataProvider&gt;</div><div class="line">  &#123;data =&gt; &lt;h1&gt;Hello &#123;data.target&#125;&lt;/h1&gt;&#125;</div><div class="line">&lt;<span class="regexp">/DataProvider&gt;</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>子组件通过 render props 传进父组件渲染，让父组件不再依赖子组件，达到重用父组件的目的，即<a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle" target="_blank">依赖反转</a>。</p>
+<h2 id="Render-Props-与-SFC">
+<a href="#Render-Props-与-SFC" class="headerlink" title="Render Props 与 SFC"></a>Render Props 与 SFC</h2>
+<p>前面提到的“返回 React 元素的函数”，一看是不是跟<a href="https://reactjs.org/docs/components-and-props.html#functional-and-class-components" target="_blank">无状态函数组件</a>（Stateless Fuctional Component）的
+<a href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/8a857d6473829df15ae8d695dbac310e824479df/types/react/index.d.ts#L329" target="_blank">签名</a>很接近。这么看：</p>
+<p></p>
+<figure class="highlight jsx">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&lt;DataProvider&gt;</div><div class="line">  &#123;props =&gt; &lt;h1&gt;Hello &#123;props.target&#125;&lt;/h1&gt;&#125;</div><div class="line">&lt;<span class="regexp">/DataProvider&gt;</span></div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>但不一样的地方在于 render props 只是一个普通函数，是直接函数调用。且 inline render props 可以跳过 <code>DataProvider</code> 直接访问其它父组件：</p>
+<p></p>
+<figure class="highlight jsx">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">props</span> =&gt;</span> (</div><div class="line">  &lt;DataProvider&gt;</div><div class="line">    &#123;data =&gt; &lt;h1&gt;Hello &#123;data.target&#125; &#123;props.target&#125;&lt;/h1&gt;&#125;</div><div class="line">  &lt;/DataProvider&gt;</div><div class="line">)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这就造成了 <code>DataProvider</code> 不能优化为纯组件。这也是非常不好的习惯，一个解决方式是人为限制 render props 为 SFC 从而让只有一个数据来源。理想很美好，但没法强制所有人这么干。</p>
+<h2 id="Render-Props-与-HOC">
+<a href="#Render-Props-与-HOC" class="headerlink" title="Render Props 与 HOC"></a>Render Props 与 HOC</h2>
+<p>如果将 render props 限制为传入子组件，其实很容易联想到<a href="https://reactjs.org/docs/higher-order-components.html" target="_blank">高阶组件</a>（Higher-Order Components）。高阶组件是一个函数，接受一个组件，返回新的组件。</p>
+<p>所以可以用高阶组件包装起来，并隐藏 render props 接口。</p>
+<p></p>
+<figure class="highlight">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">const withData = Base =&gt; () =&gt; &lt;DataProvider&gt;&#123;Base&#125;&lt;/DataProvider&gt;</div><div class="line"></div><div class="line">const BaseTarget = props =&gt; &lt;h1&gt;Hello &#123;props.target&#125;&lt;/h1&gt;</div><div class="line"></div><div class="line">const EnhancedComponent = withData(BaseTarget)</div><div class="line"></div><div class="line">const App = () =&gt; &lt;EnhancedComponent /&gt;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>这样就限制了 <code>DataProvider</code> 的使用方式。如果需要多方数据，可以修改 <code>DataProvider</code> 为 <code>this.props.render({ ...this.props, ...this.state })</code> 将其它数据作为 props 传入 <code>DataProvider</code>。</p>
+<p></p>
+<figure class="highlight">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">const withData = Base =&gt; props =&gt; &lt;DataProvider &#123;...props&#125;&gt;&#123;Base&#125;&lt;/DataProvider&gt;</div><div class="line"></div><div class="line">const BaseTarget = props =&gt; &lt;h1&gt;Hello &#123;props.target&#125;&lt;/h1&gt;</div><div class="line"></div><div class="line">const EnhancedComponent = withData(BaseTarget)</div><div class="line"></div><div class="line">const App = props =&gt; &lt;EnhancedComponent &#123;...props&#125; /&gt;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>「完」</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。&lt;/p&gt;
+&lt;h2 id=&quot;基础&quot;&gt;
+&lt;a href=&quot;#基础&quot; class=&quot;hea
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="React" scheme="https://blog.crimx.com/tags/React/"/>
+    
+  </entry>
   
   <entry>
     <title>理解 RxJS ：四次元编程</title>
@@ -388,7 +532,7 @@
 <a href="#锚节点与焦节点" class="headerlink" title="锚节点与焦节点"></a>锚节点与焦节点</h3>
 <p>在 <code>Selection</code> 对象中还保存了两个重要信息，<code>anchorNode</code> 和 <code>focusNode</code>，分别代表选择产生那一刻的节点和选择结束时的节点，而 <code>anchorOffset</code> 和 <code>focusOffset</code> 则保存了选择在这两个节点里的偏移值。</p>
 <p>这时你可能马上就想到第一个方案：这不就好办了么，有了首尾节点和偏移，就可以获取句子的头部和尾部，再把选择文本作为中间，整个句子不就出来了么。</p>
-<p>当然不会这么简单哈<span class="github-emoji" title=":stuck_out_tongue:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61b.png?v7">&#x1f61b;</span>。</p>
+<p>当然不会这么简单哈<span class="github-emoji" title=":stuck_out_tongue:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61b.png?v8">&#x1f61b;</span>。</p>
 <h3 id="强调一下">
 <a href="#强调一下" class="headerlink" title="强调一下"></a>强调一下</h3>
 <p>一般情况下，<code>anchorNode</code> 和 <code>focusNode</code> 都是 <code>Text</code> 节点（而且因为这里处理的是文本，所以其它情况也会直接忽略），可以考虑这种情况：</p>
@@ -572,7 +716,7 @@
     <published>2017-11-12T16:00:00.000Z</published>
     <updated>2017-11-13T12:18:33.761Z</updated>
     
-    <content type="html"><![CDATA[<p>MobX 是一款十分优秀的状态管理库，不但书写简洁还非常高效。当然这是我在使用之后才体会到的，当初试水上车的主要原因是响应式，考虑到可能会更符合 Vue 过来的思考方式。然而其实两者除了响应式以外并没有什么相似之处<span class="github-emoji" title=":joy:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f602.png?v7">&#x1f602;</span>。</p>
+    <content type="html"><![CDATA[<p>MobX 是一款十分优秀的状态管理库，不但书写简洁还非常高效。当然这是我在使用之后才体会到的，当初试水上车的主要原因是响应式，考虑到可能会更符合 Vue 过来的思考方式。然而其实两者除了响应式以外并没有什么相似之处<span class="github-emoji" title=":joy:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f602.png?v8">&#x1f602;</span>。</p>
 <p>在使用过程中走了不少弯路，一部分是因为当时扫两眼文档就动手，对 MobX 机制理解得不够；其它原因是 MobX 终究只是一个库，会受限于 React 机制，以及与其它非 MobX 管理组件的兼容问题。当中很多情况在文档已经给出了说明（<a href="https://mobx.js.org/best/react.html" target="_blank">这里</a>和<a href="https://mobx.js.org/best/react-performance.html" target="_blank">这里</a>），我根据自己遇到的再做一番总结。</p>
 <h2 id="与非响应式组件兼容问题">
 <a href="#与非响应式组件兼容问题" class="headerlink" title="与非响应式组件兼容问题"></a>与非响应式组件兼容问题</h2>
@@ -672,7 +816,7 @@
 <p>这条规则在文档也提到，原因很简单，MobX 对于一个 <code>observer</code> 组件，是通过访问属性来记录依赖的。所以哪怕父组件里没有用到这个属性，只是为了作为 props 传给子组件，MobX 还是算它依赖了这个属性，于是会产生不必要的更新。最好的方式是将数据统一放在 store 中，子组件通过 <code>inject</code> store 方式获取数据。</p>
 <h2 id="小组件">
 <a href="#小组件" class="headerlink" title="小组件"></a>小组件</h2>
-<p>由于 React 的机制，MobX 只能在组件层面发光发热，对于组件内部就无能为力了。所以大组件用 MobX 很容易卡死（用其它也会<span class="github-emoji" title=":sweat_smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f605.png?v7">&#x1f605;</span>），小组件才能真正发挥 MobX 自动管理更新的优势。</p>
+<p>由于 React 的机制，MobX 只能在组件层面发光发热，对于组件内部就无能为力了。所以大组件用 MobX 很容易卡死（用其它也会<span class="github-emoji" title=":sweat_smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f605.png?v8">&#x1f605;</span>），小组件才能真正发挥 MobX 自动管理更新的优势。</p>
 <p>【完】</p>]]></content>
     
     <summary type="html">
@@ -1303,9 +1447,9 @@
       <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
     
     
-      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
       <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
+      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
     
       <category term="Box Model" scheme="https://blog.crimx.com/tags/Box-Model/"/>
     
@@ -1320,7 +1464,7 @@
     <published>2017-05-28T16:00:00.000Z</published>
     <updated>2017-07-03T08:51:36.722Z</updated>
     
-    <content type="html"><![CDATA[<p><span class="github-emoji" title=":warning:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v7">&#x26a0;</span>第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的<a href="http://book.mixu.net/css/" target="_blank">笔记</a>，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。</p>
+    <content type="html"><![CDATA[<p><span class="github-emoji" title=":warning:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v8">&#x26a0;</span>第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的<a href="http://book.mixu.net/css/" target="_blank">笔记</a>，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。</p>
 <h2 id="Element-与-Box">
 <a href="#Element-与-Box" class="headerlink" title="Element 与 Box"></a>Element 与 Box</h2>
 <ul>
@@ -1384,16 +1528,16 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;span class=&quot;github-emoji&quot; title=&quot;:warning:&quot; data-src=&quot;https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v7&quot;&gt;&amp;#x26a0;&lt;/sp
+      &lt;p&gt;&lt;span class=&quot;github-emoji&quot; title=&quot;:warning:&quot; data-src=&quot;https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v8&quot;&gt;&amp;#x26a0;&lt;/sp
     
     </summary>
     
       <category term="CSS" scheme="https://blog.crimx.com/categories/CSS/"/>
     
     
-      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
       <category term="闲读规范" scheme="https://blog.crimx.com/tags/%E9%97%B2%E8%AF%BB%E8%A7%84%E8%8C%83/"/>
+    
+      <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
     
       <category term="Box Model" scheme="https://blog.crimx.com/tags/Box-Model/"/>
     
@@ -1474,245 +1618,6 @@
     
     
       <category term="CSS" scheme="https://blog.crimx.com/tags/CSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Position and Drag Iframe</title>
-    <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/"/>
-    <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/</id>
-    <published>2017-04-05T16:00:00.000Z</published>
-    <updated>2017-04-20T15:58:02.934Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Position-in-iframes">
-<a href="#Position-in-iframes" class="headerlink" title="Position in iframes"></a>Position in iframes</h1>
-<p>I wrote a Chrome extension <a href="http://www.crimx.com/crx-saladict/" target="_blank">Saladict</a>, an inline translator, which involved such requirement: When user makes a text selection, something will pop up nearby the cursor.</p>
-<p>It looks simple at first view. Just listen to a <code>mouseup</code> event and get <code>clientX</code> and <code>clientY</code> from it.</p>
-<p>But there is a flaw in it - <code>mouseup</code> events inside iframes won&#39;t bubble up to the top frame.</p>
-<p>The solution is actually quite simple. If you know how to connect the dots.</p>
-<h2 id="iframe-script-injection">
-<a href="#iframe-script-injection" class="headerlink" title="iframe script injection"></a>iframe script injection</h2>
-<p>Using the <code>all_frames</code> property in <code>manifest.json</code>, a content script can run in all frames.</p>
-<p></p>
-<figure class="highlight json">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
-</td>
-<td class="code">
-<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"content_scripts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"js"</span>: [<span class="string">"selection.js"</span>],</div><div class="line">      <span class="attr">"matches"</span>: [<span class="string">"&lt;all_urls&gt;"</span>],</div><div class="line">      <span class="attr">"all_frames"</span>: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Mouse-Event-Detection">
-<a href="#Mouse-Event-Detection" class="headerlink" title="Mouse Event Detection"></a>Mouse Event Detection</h2>
-<p>Now you can listen to <code>mouseup</code> event in all iframes.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleMouseUp)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Upload-Cursor-Coordinates">
-<a href="#Upload-Cursor-Coordinates" class="headerlink" title="Upload Cursor Coordinates"></a>Upload Cursor Coordinates</h2>
-<p><code>clientX</code> and <code>clientY</code> of the mouse events that are triggered in iframes are coordinates within iframe windows. Upload these coordinates as offsets to the upper frame, then plus the iframe position you will get the cursor position
-within the upper frame window.</p>
-<p>On Chrome you can boldly use <code>postMessage</code>.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMouseUp</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(evt.clientX，evt.clientY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Pass the coordinates to upper frame</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      <span class="attr">mouseX</span>: evt.clientX,</div><div class="line">      <span class="attr">mouseY</span>: evt.clientY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Add-offsets">
-<a href="#Add-offsets" class="headerlink" title="Add offsets"></a>Add offsets</h2>
-<p>How does the upper frame know which iframe is sending coordinates? Well, the <code>message</code> event contains the content window of the iframe. Use it to match the iframe element.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (evt.data.msg !== <span class="string">'SALADICT_CLICK'</span>) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> iframe = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'iframe'</span>))</div><div class="line">    .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.contentWindow === evt.source)</div><div class="line">    [<span class="number">0</span>]</div><div class="line">  <span class="keyword">if</span> (!iframe) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="comment">// calculate coordinates within current window</span></div><div class="line">  <span class="keyword">let</span> pos = iframe.getBoundingClientRect()</div><div class="line">  <span class="keyword">let</span> mouseX = evt.data.mouseX + pos.left</div><div class="line">  <span class="keyword">let</span> mouseY = evt.data.mouseY + pos.top</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(mouseX, mouseY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Keep uploading</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      mouseX,</div><div class="line">      mouseY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h1 id="iframe-Dragging">
-<a href="#iframe-Dragging" class="headerlink" title="iframe Dragging"></a>iframe Dragging</h1>
-<p>Another requirement for Saladict is to drag an iframe panel.</p>
-<h2 id="Dragging-101">
-<a href="#Dragging-101" class="headerlink" title="Dragging 101"></a>Dragging 101</h2>
-<p>Before getting into iframe dragging. There are few basic ideas of implementing a draggable element.</p>
-<p>One of the most common approaches is to listen to <code>mousedown</code>, <code>mousemove</code> and <code>mouseup</code> events, which handle drag start, dragging and drag end. And apply the offsets to the element&#39;s <code>left</code> and <code>top</code>style properties.</p>
-<p>If this is your first time implementing this feature, you are likely to listen to <code>mousemove</code> events of the element itself.</p>
-<p>You can indeed get the correct result in the way. The problem is, if the curser moves a bit too fast and leaves the element, the dragging will stop. That&#39;s why you should listen to global <code>mousemove</code> event instead.</p>
-<h2 id="Dragging-with-iframe">
-<a href="#Dragging-with-iframe" class="headerlink" title="Dragging with iframe"></a>Dragging with iframe</h2>
-<p>The theory behind iframe dragging is the same. Only the mouse events triggered in iframes will not bubble up to the upper frame. You need to wrap it up yourselves.</p>
-<h2 id="iframe-Part">
-<a href="#iframe-Part" class="headerlink" title="iframe Part"></a>iframe Part</h2>
-<p>Drag start is triggered by a draggable element inside iframe. For better performance, dragging and drag end event listeners are attached in drag start and are detached in drag end.</p>
-<p>Dragging event listener is required here because the <code>mousemove</code> event of the upper frame breaks inside the iframe. We need to let upper frame know what is happening inside iframe.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// iframe.js</span></div><div class="line"><span class="keyword">var</span> baseMouseX, baseMouseY</div><div class="line"></div><div class="line">$dragArea.addEventListener(<span class="string">'mousedown'</span>, handleDragStart)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  baseMouseX = evt.clientX</div><div class="line">  baseMouseY = evt.clientY</div><div class="line"></div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_START'</span>,</div><div class="line">    <span class="attr">mouseX</span>: baseMouseX,</div><div class="line">    <span class="attr">mouseY</span>: baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>,</div><div class="line">    <span class="attr">offsetX</span>: evt.clientX - baseMouseX,</div><div class="line">    <span class="attr">offsetY</span>: evt.clientY - baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_END'</span></div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Upper-Frame-Part">
-<a href="#Upper-Frame-Part" class="headerlink" title="Upper Frame Part"></a>Upper Frame Part</h2>
-<p>Use <code>handleFrameMousemove</code> to handle the offsets from iframe.</p>
-<p></p>
-<figure class="highlight javascript">
-<table>
-<tr>
-<td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre>
-</td>
-<td class="code">
-<pre><div class="line"><span class="comment">// parent.js</span></div><div class="line"><span class="keyword">var</span> pageMouseX, pageMouseY</div><div class="line"></div><div class="line"><span class="keyword">var</span> frameTop = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> frameLeft = <span class="number">0</span></div><div class="line">$iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">$iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> data = evt.data</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (data.msg) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_START'</span>:</div><div class="line">      handleDragStart(data.mouseX, data.mouseY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>:</div><div class="line">      handleFrameMousemove(data.offsetX, data.offsetY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_END'</span>:</div><div class="line">      handleDragEnd()</div><div class="line">      <span class="keyword">break</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">mouseX, mouseY</span>) </span>&#123;</div><div class="line">  <span class="comment">// get the coordinates within the upper frame</span></div><div class="line">  pageMouseX = frameLeft + mouseX</div><div class="line">  pageMouseY = frameTop + mouseY</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleFrameMousemove</span> (<span class="params">offsetX, offsetY</span>) </span>&#123;</div><div class="line">  frameTop += offsetY</div><div class="line">  frameLeft += offsetX</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// Add the missing coordinates</span></div><div class="line">  pageMouseX += offsetX</div><div class="line">  pageMouseY += offsetY</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePageMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  frameTop += evt.clientX - pageMouseX</div><div class="line">  frameLeft += evt.clientY - pageMouseY</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  pageMouseX = evt.clientX</div><div class="line">  pageMouseY = evt.clientY</div><div class="line">&#125;</div></pre>
-</td>
-</tr>
-</table>
-</figure>
-<p></p>
-<h2 id="Demo">
-<a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2>
-<p>You can drag the iframe square below:</p>
-<p></p>
-<div class="drag-container">
-<style type="text/css">
-.drag-container {
-    position: relative;
-    height: 200px;
-}
-
-.drag-iframe {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-}
-</style><iframe class="drag-iframe" src="/images/post/drag-iframe.html" frameborder="0"></iframe>
-<script type="text/javascript">
-;
-(function() {
-    var pageMouseX, pageMouseY
-
-    var $iframe = document.querySelector('.drag-iframe')
-    var frameTop = 0
-    var frameLeft = 0
-    $iframe.style.top = frameTop + 'px'
-    $iframe.style.left = frameLeft + 'px'
-
-    window.addEventListener('message', evt => {
-        const data = evt.data
-
-        switch (data.msg) {
-            case 'SALADICT_DRAG_START':
-                handleDragStart(data.mouseX, data.mouseY)
-                break
-            case 'SALADICT_DRAG_MOUSEMOVE':
-                handleFrameMousemove(data.offsetX, data.offsetY)
-                break
-            case 'SALADICT_DRAG_END':
-                handleDragEnd()
-                break
-        }
-    })
-
-    function handleDragStart(mouseX, mouseY) {
-        pageMouseX = frameLeft + mouseX
-        pageMouseY = frameTop + mouseY
-
-        document.addEventListener('mouseup', handleDragEnd)
-        document.addEventListener('mousemove', handlePageMousemove)
-    }
-
-    function handleDragEnd() {
-        document.removeEventListener('mouseup', handleDragEnd)
-        document.removeEventListener('mousemove', handlePageMousemove)
-    }
-
-    function handleFrameMousemove(offsetX, offsetY) {
-        frameTop += offsetY
-        frameLeft += offsetX
-        $iframe.style.top = frameTop + 'px'
-        $iframe.style.left = frameLeft + 'px'
-
-        pageMouseX += offsetX
-        pageMouseY += offsetY
-    }
-
-    function handlePageMousemove(evt) {
-        frameTop += evt.clientX - pageMouseX
-        frameLeft += evt.clientY - pageMouseY
-        $iframe.style.top = frameTop + 'px'
-        $iframe.style.left = frameLeft + 'px'
-
-        pageMouseX = evt.clientX
-        pageMouseY = evt.clientY
-    }
-})()
-</script>
-</div>
-<p></p>
-<h2 id="Browser-Compatibility">
-<a href="#Browser-Compatibility" class="headerlink" title="Browser Compatibility"></a>Browser Compatibility</h2>
-<p>As you can see, nothing fancy here, just passing coordinates around. So for older browsers, just use the old ways to communicate. You can also manipulate the values directly if they are same-origin.</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Position-in-iframes&quot;&gt;
-&lt;a href=&quot;#Position-in-iframes&quot; class=&quot;headerlink&quot; title=&quot;Position in iframes&quot;&gt;&lt;/a&gt;Position in iframes&lt;/h1&gt;
-&lt;p&gt;
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="iframe" scheme="https://blog.crimx.com/tags/iframe/"/>
-    
-      <category term="postMessage" scheme="https://blog.crimx.com/tags/postMessage/"/>
-    
-      <category term="Drag" scheme="https://blog.crimx.com/tags/Drag/"/>
-    
-      <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
     
   </entry>
   
@@ -1935,6 +1840,245 @@ within the upper frame window.</p>
       &lt;h1 id=&quot;定位-iframe&quot;&gt;
 &lt;a href=&quot;#定位-iframe&quot; class=&quot;headerlink&quot; title=&quot;定位 iframe&quot;&gt;&lt;/a&gt;定位 iframe&lt;/h1&gt;
 &lt;p&gt;在写一个划词翻译扩展 &lt;a href=&quot;http://www.crimx.com
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/categories/JavaScript/"/>
+    
+    
+      <category term="JavaScript" scheme="https://blog.crimx.com/tags/JavaScript/"/>
+    
+      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
+    
+      <category term="iframe" scheme="https://blog.crimx.com/tags/iframe/"/>
+    
+      <category term="postMessage" scheme="https://blog.crimx.com/tags/postMessage/"/>
+    
+      <category term="Drag" scheme="https://blog.crimx.com/tags/Drag/"/>
+    
+      <category term="Extension" scheme="https://blog.crimx.com/tags/Extension/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Position and Drag Iframe</title>
+    <link href="https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/"/>
+    <id>https://blog.crimx.com/2017/04/06/position-and-drag-iframe-en/</id>
+    <published>2017-04-05T16:00:00.000Z</published>
+    <updated>2017-04-20T15:58:02.934Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Position-in-iframes">
+<a href="#Position-in-iframes" class="headerlink" title="Position in iframes"></a>Position in iframes</h1>
+<p>I wrote a Chrome extension <a href="http://www.crimx.com/crx-saladict/" target="_blank">Saladict</a>, an inline translator, which involved such requirement: When user makes a text selection, something will pop up nearby the cursor.</p>
+<p>It looks simple at first view. Just listen to a <code>mouseup</code> event and get <code>clientX</code> and <code>clientY</code> from it.</p>
+<p>But there is a flaw in it - <code>mouseup</code> events inside iframes won&#39;t bubble up to the top frame.</p>
+<p>The solution is actually quite simple. If you know how to connect the dots.</p>
+<h2 id="iframe-script-injection">
+<a href="#iframe-script-injection" class="headerlink" title="iframe script injection"></a>iframe script injection</h2>
+<p>Using the <code>all_frames</code> property in <code>manifest.json</code>, a content script can run in all frames.</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+</td>
+<td class="code">
+<pre><div class="line">&#123;</div><div class="line">  <span class="attr">"content_scripts"</span>: [</div><div class="line">    &#123;</div><div class="line">      <span class="attr">"js"</span>: [<span class="string">"selection.js"</span>],</div><div class="line">      <span class="attr">"matches"</span>: [<span class="string">"&lt;all_urls&gt;"</span>],</div><div class="line">      <span class="attr">"all_frames"</span>: <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Mouse-Event-Detection">
+<a href="#Mouse-Event-Detection" class="headerlink" title="Mouse Event Detection"></a>Mouse Event Detection</h2>
+<p>Now you can listen to <code>mouseup</code> event in all iframes.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleMouseUp)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Upload-Cursor-Coordinates">
+<a href="#Upload-Cursor-Coordinates" class="headerlink" title="Upload Cursor Coordinates"></a>Upload Cursor Coordinates</h2>
+<p><code>clientX</code> and <code>clientY</code> of the mouse events that are triggered in iframes are coordinates within iframe windows. Upload these coordinates as offsets to the upper frame, then plus the iframe position you will get the cursor position
+within the upper frame window.</p>
+<p>On Chrome you can boldly use <code>postMessage</code>.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMouseUp</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(evt.clientX，evt.clientY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Pass the coordinates to upper frame</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      <span class="attr">mouseX</span>: evt.clientX,</div><div class="line">      <span class="attr">mouseY</span>: evt.clientY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Add-offsets">
+<a href="#Add-offsets" class="headerlink" title="Add offsets"></a>Add offsets</h2>
+<p>How does the upper frame know which iframe is sending coordinates? Well, the <code>message</code> event contains the content window of the iframe. Use it to match the iframe element.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// selection.js</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (evt.data.msg !== <span class="string">'SALADICT_CLICK'</span>) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> iframe = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'iframe'</span>))</div><div class="line">    .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.contentWindow === evt.source)</div><div class="line">    [<span class="number">0</span>]</div><div class="line">  <span class="keyword">if</span> (!iframe) &#123; <span class="keyword">return</span> &#125;</div><div class="line"></div><div class="line">  <span class="comment">// calculate coordinates within current window</span></div><div class="line">  <span class="keyword">let</span> pos = iframe.getBoundingClientRect()</div><div class="line">  <span class="keyword">let</span> mouseX = evt.data.mouseX + pos.left</div><div class="line">  <span class="keyword">let</span> mouseY = evt.data.mouseY + pos.top</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.parent === <span class="built_in">window</span>) &#123;</div><div class="line">    <span class="comment">// Top frame</span></div><div class="line">    doAwesomeThings(mouseX, mouseY)</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// Keep uploading</span></div><div class="line">    <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">      <span class="attr">msg</span>: <span class="string">'SALADICT_CLICK'</span>,</div><div class="line">      mouseX,</div><div class="line">      mouseY</div><div class="line">    &#125;, <span class="string">'*'</span>)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h1 id="iframe-Dragging">
+<a href="#iframe-Dragging" class="headerlink" title="iframe Dragging"></a>iframe Dragging</h1>
+<p>Another requirement for Saladict is to drag an iframe panel.</p>
+<h2 id="Dragging-101">
+<a href="#Dragging-101" class="headerlink" title="Dragging 101"></a>Dragging 101</h2>
+<p>Before getting into iframe dragging. There are few basic ideas of implementing a draggable element.</p>
+<p>One of the most common approaches is to listen to <code>mousedown</code>, <code>mousemove</code> and <code>mouseup</code> events, which handle drag start, dragging and drag end. And apply the offsets to the element&#39;s <code>left</code> and <code>top</code>style properties.</p>
+<p>If this is your first time implementing this feature, you are likely to listen to <code>mousemove</code> events of the element itself.</p>
+<p>You can indeed get the correct result in the way. The problem is, if the curser moves a bit too fast and leaves the element, the dragging will stop. That&#39;s why you should listen to global <code>mousemove</code> event instead.</p>
+<h2 id="Dragging-with-iframe">
+<a href="#Dragging-with-iframe" class="headerlink" title="Dragging with iframe"></a>Dragging with iframe</h2>
+<p>The theory behind iframe dragging is the same. Only the mouse events triggered in iframes will not bubble up to the upper frame. You need to wrap it up yourselves.</p>
+<h2 id="iframe-Part">
+<a href="#iframe-Part" class="headerlink" title="iframe Part"></a>iframe Part</h2>
+<p>Drag start is triggered by a draggable element inside iframe. For better performance, dragging and drag end event listeners are attached in drag start and are detached in drag end.</p>
+<p>Dragging event listener is required here because the <code>mousemove</code> event of the upper frame breaks inside the iframe. We need to let upper frame know what is happening inside iframe.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// iframe.js</span></div><div class="line"><span class="keyword">var</span> baseMouseX, baseMouseY</div><div class="line"></div><div class="line">$dragArea.addEventListener(<span class="string">'mousedown'</span>, handleDragStart)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  baseMouseX = evt.clientX</div><div class="line">  baseMouseY = evt.clientY</div><div class="line"></div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_START'</span>,</div><div class="line">    <span class="attr">mouseX</span>: baseMouseX,</div><div class="line">    <span class="attr">mouseY</span>: baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>,</div><div class="line">    <span class="attr">offsetX</span>: evt.clientX - baseMouseX,</div><div class="line">    <span class="attr">offsetY</span>: evt.clientY - baseMouseY</div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">window</span>.parent.postMessage(&#123;</div><div class="line">    <span class="attr">msg</span>: <span class="string">'SALADICT_DRAG_END'</span></div><div class="line">  &#125;, <span class="string">'*'</span>)</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handleMousemove)</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Upper-Frame-Part">
+<a href="#Upper-Frame-Part" class="headerlink" title="Upper Frame Part"></a>Upper Frame Part</h2>
+<p>Use <code>handleFrameMousemove</code> to handle the offsets from iframe.</p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre>
+</td>
+<td class="code">
+<pre><div class="line"><span class="comment">// parent.js</span></div><div class="line"><span class="keyword">var</span> pageMouseX, pageMouseY</div><div class="line"></div><div class="line"><span class="keyword">var</span> frameTop = <span class="number">0</span></div><div class="line"><span class="keyword">var</span> frameLeft = <span class="number">0</span></div><div class="line">$iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">$iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, evt =&gt; &#123;</div><div class="line">  <span class="keyword">const</span> data = evt.data</div><div class="line"></div><div class="line">  <span class="keyword">switch</span> (data.msg) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_START'</span>:</div><div class="line">      handleDragStart(data.mouseX, data.mouseY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_MOUSEMOVE'</span>:</div><div class="line">      handleFrameMousemove(data.offsetX, data.offsetY)</div><div class="line">      <span class="keyword">break</span></div><div class="line">    <span class="keyword">case</span> <span class="string">'SALADICT_DRAG_END'</span>:</div><div class="line">      handleDragEnd()</div><div class="line">      <span class="keyword">break</span></div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragStart</span> (<span class="params">mouseX, mouseY</span>) </span>&#123;</div><div class="line">  <span class="comment">// get the coordinates within the upper frame</span></div><div class="line">  pageMouseX = frameLeft + mouseX</div><div class="line">  pageMouseY = frameTop + mouseY</div><div class="line"></div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.addEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleDragEnd</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mouseup'</span>, handleDragEnd)</div><div class="line">  <span class="built_in">document</span>.removeEventListener(<span class="string">'mousemove'</span>, handlePageMousemove)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleFrameMousemove</span> (<span class="params">offsetX, offsetY</span>) </span>&#123;</div><div class="line">  frameTop += offsetY</div><div class="line">  frameLeft += offsetX</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  <span class="comment">// Add the missing coordinates</span></div><div class="line">  pageMouseX += offsetX</div><div class="line">  pageMouseY += offsetY</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePageMousemove</span> (<span class="params">evt</span>) </span>&#123;</div><div class="line">  frameTop += evt.clientX - pageMouseX</div><div class="line">  frameLeft += evt.clientY - pageMouseY</div><div class="line">  $iframe.style.top = frameTop + <span class="string">'px'</span></div><div class="line">  $iframe.style.left = frameLeft + <span class="string">'px'</span></div><div class="line"></div><div class="line">  pageMouseX = evt.clientX</div><div class="line">  pageMouseY = evt.clientY</div><div class="line">&#125;</div></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="Demo">
+<a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2>
+<p>You can drag the iframe square below:</p>
+<p></p>
+<div class="drag-container">
+<style type="text/css">
+.drag-container {
+    position: relative;
+    height: 200px;
+}
+
+.drag-iframe {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+}
+</style><iframe class="drag-iframe" src="/images/post/drag-iframe.html" frameborder="0"></iframe>
+<script type="text/javascript">
+;
+(function() {
+    var pageMouseX, pageMouseY
+
+    var $iframe = document.querySelector('.drag-iframe')
+    var frameTop = 0
+    var frameLeft = 0
+    $iframe.style.top = frameTop + 'px'
+    $iframe.style.left = frameLeft + 'px'
+
+    window.addEventListener('message', evt => {
+        const data = evt.data
+
+        switch (data.msg) {
+            case 'SALADICT_DRAG_START':
+                handleDragStart(data.mouseX, data.mouseY)
+                break
+            case 'SALADICT_DRAG_MOUSEMOVE':
+                handleFrameMousemove(data.offsetX, data.offsetY)
+                break
+            case 'SALADICT_DRAG_END':
+                handleDragEnd()
+                break
+        }
+    })
+
+    function handleDragStart(mouseX, mouseY) {
+        pageMouseX = frameLeft + mouseX
+        pageMouseY = frameTop + mouseY
+
+        document.addEventListener('mouseup', handleDragEnd)
+        document.addEventListener('mousemove', handlePageMousemove)
+    }
+
+    function handleDragEnd() {
+        document.removeEventListener('mouseup', handleDragEnd)
+        document.removeEventListener('mousemove', handlePageMousemove)
+    }
+
+    function handleFrameMousemove(offsetX, offsetY) {
+        frameTop += offsetY
+        frameLeft += offsetX
+        $iframe.style.top = frameTop + 'px'
+        $iframe.style.left = frameLeft + 'px'
+
+        pageMouseX += offsetX
+        pageMouseY += offsetY
+    }
+
+    function handlePageMousemove(evt) {
+        frameTop += evt.clientX - pageMouseX
+        frameLeft += evt.clientY - pageMouseY
+        $iframe.style.top = frameTop + 'px'
+        $iframe.style.left = frameLeft + 'px'
+
+        pageMouseX = evt.clientX
+        pageMouseY = evt.clientY
+    }
+})()
+</script>
+</div>
+<p></p>
+<h2 id="Browser-Compatibility">
+<a href="#Browser-Compatibility" class="headerlink" title="Browser Compatibility"></a>Browser Compatibility</h2>
+<p>As you can see, nothing fancy here, just passing coordinates around. So for older browsers, just use the old ways to communicate. You can also manipulate the values directly if they are same-origin.</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Position-in-iframes&quot;&gt;
+&lt;a href=&quot;#Position-in-iframes&quot; class=&quot;headerlink&quot; title=&quot;Position in iframes&quot;&gt;&lt;/a&gt;Position in iframes&lt;/h1&gt;
+&lt;p&gt;
     
     </summary>
     
@@ -2620,7 +2764,7 @@ the function body is also instantiated. If the function’s formal parameters do
     <updated>2016-12-31T18:50:16.915Z</updated>
     
     <content type="html"><![CDATA[<p>新博客终于写完啦！给心血们搬了个漂漂亮亮的新家。</p>
-<p><a href="/about">关于这个博客</a> <span class="github-emoji" title=":point_left:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f448.png?v7">&#x1f448;</span>。</p>]]></content>
+<p><a href="/about">关于这个博客</a> <span class="github-emoji" title=":point_left:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f448.png?v8">&#x1f448;</span>。</p>]]></content>
     
     <summary type="html">
     
@@ -2673,7 +2817,7 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
 <p></p>
 <p><img src="/images/cover/thumbnails/pexels-photo-24343.jpg" alt="thumbnail" style="width: 100%"></p>
 <p></p>
-<p>This looks acceptable to me. No need for a canvas or blur function. Already felt relieved! <span class="github-emoji" title=":smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v7">&#x1f604;</span></p>
+<p>This looks acceptable to me. No need for a canvas or blur function. Already felt relieved! <span class="github-emoji" title=":smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v8">&#x1f604;</span></p>
 <h2 id="Layers">
 <a href="#Layers" class="headerlink" title="Layers"></a>Layers</h2>
 <p>This method divides a component into four layers: container, thumbnail, mask and content.</p>
@@ -2744,43 +2888,6 @@ notice that they use JavaScript and canvas to blur and store thumbnails. It seem
       <category term="Progressive Image" scheme="https://blog.crimx.com/tags/Progressive-Image/"/>
     
       <category term="GraphicsMagick" scheme="https://blog.crimx.com/tags/GraphicsMagick/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>在博客上使用 Emoji</title>
-    <link href="https://blog.crimx.com/2016/12/23/emojis-for-blog/"/>
-    <id>https://blog.crimx.com/2016/12/23/emojis-for-blog/</id>
-    <published>2016-12-22T16:00:00.000Z</published>
-    <updated>2016-12-30T12:14:00.058Z</updated>
-    
-    <content type="html"><![CDATA[<p>Emoji 都要出电影了，博客怎么能不用。奇怪的是 hexo 上只有一个插件，要在文中添加 tag，还不支持 hexo3 。我不太喜欢在 markdown 里加各种 tag，所以就打算自己再写个插件。</p>
-<p>Github 对 emoji 的支持就很好，所以去观摩了一下。它在生成网页的时候将关键字替换成 emoji 的 unicode 字符，然后再利用 JavaScript 将字符替换成图片，这样即使图片加载失败还有字符 fallback。</p>
-<p>于是就参考这种方式写了 <a href="https://github.com/crimx/hexo-filter-github-emojis" target="_blank">hexo-filter-github-emojis</a> <span class="github-emoji" title=":tada:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f389.png?v7">&#x1f389;</span>。</p>
-<p>用法与 Github 一样，效果还不错吧 <span class="github-emoji" title=":smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v7">&#x1f604;</span>。</p>
-<blockquote>
-<p><span class="github-emoji" title=":speedboat:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f6a4.png?v7">&#x1f6a4;</span><br>&nbsp; <span class="github-emoji" title=":tropical_fish:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f420.png?v7">&#x1f420;</span></p>
-<p><br><br><br><br><br></p>
-<p>&emsp;&emsp;&emsp;&emsp; <span class="github-emoji" title=":octopus:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f419.png?v7">&#x1f419;</span><span class="github-emoji" title=":dolphin:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f42c.png?v7">&#x1f42c;</span><span class="github-emoji" title=":fish:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f41f.png?v7">&#x1f41f;</span><br>&emsp;&emsp;&emsp;&emsp; <i>&quot;He touched the butt!&quot;</i></p>
-</blockquote>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Emoji 都要出电影了，博客怎么能不用。奇怪的是 hexo 上只有一个插件，要在文中添加 tag，还不支持 hexo3 。我不太喜欢在 markdown 里加各种 tag，所以就打算自己再写个插件。&lt;/p&gt;
-&lt;p&gt;Github 对 emoji 的支持就很好，所以去观摩了一
-    
-    </summary>
-    
-      <category term="Technics" scheme="https://blog.crimx.com/categories/Technics/"/>
-    
-    
-      <category term="Recommended" scheme="https://blog.crimx.com/tags/Recommended/"/>
-    
-      <category term="Image" scheme="https://blog.crimx.com/tags/Image/"/>
-    
-      <category term="Emoji" scheme="https://blog.crimx.com/tags/Emoji/"/>
-    
-      <category term="Hexo" scheme="https://blog.crimx.com/tags/Hexo/"/>
     
   </entry>
   

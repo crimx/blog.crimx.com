@@ -227,7 +227,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ git checkout develop</div><div class="line">Switched to a new branch <span class="string">"develop"</span></div><div class="line"></div><div class="line">$ git merge --no-ff myfeature</div><div class="line">Updating ea1b82a..05e9557</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git branch <span class="_">-d</span> myfeature</div><div class="line">Deleted branch myfeature (was 05e9557)</div><div class="line"></div><div class="line">$ git push origin develop</div></pre>
+<pre><div class="line">$ git checkout develop</div><div class="line">Switched to a new branch <span class="string">"develop"</span></div><div class="line"></div><div class="line">$ git merge --no-ff myfeature</div><div class="line">Updating ea1b82a..05e9557</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git branch -d myfeature</div><div class="line">Deleted branch myfeature (was 05e9557)</div><div class="line"></div><div class="line">$ git push origin develop</div></pre>
 </td>
 </tr>
 </table>
@@ -248,7 +248,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ git checkout -b release-1.2 develop</div><div class="line">Switched to a new branch <span class="string">"release-1.2"</span></div><div class="line"></div><div class="line">$ ./bump-version.sh 1.2</div><div class="line">Files modified successfully, version bumped to 1.2.</div><div class="line"></div><div class="line">$ git commit <span class="_">-a</span> -m <span class="string">"Bumped version number to 1.2"</span></div><div class="line">[release-1.2 74d9424] Bumped version number to 1.2</div><div class="line">1 files changed, 1 insertions(+), 1 deletions(-)</div></pre>
+<pre><div class="line">$ git checkout -b release-1.2 develop</div><div class="line">Switched to a new branch <span class="string">"release-1.2"</span></div><div class="line"></div><div class="line">$ ./bump-version.sh 1.2</div><div class="line">Files modified successfully, version bumped to 1.2.</div><div class="line"></div><div class="line">$ git commit -a -m <span class="string">"Bumped version number to 1.2"</span></div><div class="line">[release-1.2 74d9424] Bumped version number to 1.2</div><div class="line">1 files changed, 1 insertions(+), 1 deletions(-)</div></pre>
 </td>
 </tr>
 </table>
@@ -264,7 +264,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ git checkout master</div><div class="line">Switched to branch <span class="string">'master'</span></div><div class="line"></div><div class="line">$ git merge --no-ff release-1.2</div><div class="line">Merge made by recursive.</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git tag <span class="_">-a</span> 1.2</div></pre>
+<pre><div class="line">$ git checkout master</div><div class="line">Switched to branch <span class="string">'master'</span></div><div class="line"></div><div class="line">$ git merge --no-ff release-1.2</div><div class="line">Merge made by recursive.</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git tag -a 1.2</div></pre>
 </td>
 </tr>
 </table>
@@ -294,7 +294,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <pre><div class="line">1</div><div class="line">2</div></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ git branch <span class="_">-d</span> release-1.2</div><div class="line">Deleted branch release-1.2 (was ff452fe).</div></pre>
+<pre><div class="line">$ git branch -d release-1.2</div><div class="line">Deleted branch release-1.2 (was ff452fe).</div></pre>
 </td>
 </tr>
 </table>
@@ -314,7 +314,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ git checkout -b hotfix-1.2.1 master</div><div class="line">Switched to a new branch <span class="string">"hotfix-1.2.1"</span></div><div class="line"></div><div class="line">$ ./bump-version.sh 1.2.1</div><div class="line">Files modified successfully, version bumped to 1.2.1.</div><div class="line"></div><div class="line">$ git commit <span class="_">-a</span> -m <span class="string">"Bumped version number to 1.2.1"</span></div><div class="line">[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1</div><div class="line">1 files changed, 1 insertions(+), 1 deletions(-)</div></pre>
+<pre><div class="line">$ git checkout -b hotfix-1.2.1 master</div><div class="line">Switched to a new branch <span class="string">"hotfix-1.2.1"</span></div><div class="line"></div><div class="line">$ ./bump-version.sh 1.2.1</div><div class="line">Files modified successfully, version bumped to 1.2.1.</div><div class="line"></div><div class="line">$ git commit -a -m <span class="string">"Bumped version number to 1.2.1"</span></div><div class="line">[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1</div><div class="line">1 files changed, 1 insertions(+), 1 deletions(-)</div></pre>
 </td>
 </tr>
 </table>
@@ -344,7 +344,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ git checkout master</div><div class="line">Switched to branch <span class="string">'master'</span></div><div class="line"></div><div class="line">$ git merge --no-ff hotfix-1.2.1</div><div class="line">Merge made by recursive.</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git tag <span class="_">-a</span> 1.2.1</div></pre>
+<pre><div class="line">$ git checkout master</div><div class="line">Switched to branch <span class="string">'master'</span></div><div class="line"></div><div class="line">$ git merge --no-ff hotfix-1.2.1</div><div class="line">Merge made by recursive.</div><div class="line">(Summary of changes)</div><div class="line"></div><div class="line">$ git tag -a 1.2.1</div></pre>
 </td>
 </tr>
 </table>
@@ -374,7 +374,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <pre><div class="line">1</div><div class="line">2</div></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ git branch <span class="_">-d</span> hotfix-1.2.1</div><div class="line">Deleted branch hotfix-1.2.1 (was abbe5d6).</div></pre>
+<pre><div class="line">$ git branch -d hotfix-1.2.1</div><div class="line">Deleted branch hotfix-1.2.1 (was abbe5d6).</div></pre>
 </td>
 </tr>
 </table>

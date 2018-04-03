@@ -137,7 +137,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <article id="post-react-native-with-mobx" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<p>MobX 是一款十分优秀的状态管理库，不但书写简洁还非常高效。当然这是我在使用之后才体会到的，当初试水上车的主要原因是响应式，考虑到可能会更符合 Vue 过来的思考方式。然而其实两者除了响应式以外并没有什么相似之处<span class="github-emoji" title=":joy:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f602.png?v7">&#x1f602;</span>。</p>
+<p>MobX 是一款十分优秀的状态管理库，不但书写简洁还非常高效。当然这是我在使用之后才体会到的，当初试水上车的主要原因是响应式，考虑到可能会更符合 Vue 过来的思考方式。然而其实两者除了响应式以外并没有什么相似之处<span class="github-emoji" title=":joy:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f602.png?v8">&#x1f602;</span>。</p>
 <p>在使用过程中走了不少弯路，一部分是因为当时扫两眼文档就动手，对 MobX 机制理解得不够；其它原因是 MobX 终究只是一个库，会受限于 React 机制，以及与其它非 MobX 管理组件的兼容问题。当中很多情况在文档已经给出了说明（<a href="https://mobx.js.org/best/react.html" target="_blank">这里</a>和<a href="https://mobx.js.org/best/react-performance.html" target="_blank">这里</a>），我根据自己遇到的再做一番总结。</p>
 <h2
 id="与非响应式组件兼容问题">
@@ -238,7 +238,7 @@ id="与非响应式组件兼容问题">
 <p>这条规则在文档也提到，原因很简单，MobX 对于一个 <code>observer</code> 组件，是通过访问属性来记录依赖的。所以哪怕父组件里没有用到这个属性，只是为了作为 props 传给子组件，MobX 还是算它依赖了这个属性，于是会产生不必要的更新。最好的方式是将数据统一放在 store 中，子组件通过 <code>inject</code> store 方式获取数据。</p>
 <h2 id="小组件">
 <a href="#小组件" class="headerlink" title="小组件"></a>小组件</h2>
-<p>由于 React 的机制，MobX 只能在组件层面发光发热，对于组件内部就无能为力了。所以大组件用 MobX 很容易卡死（用其它也会<span class="github-emoji" title=":sweat_smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f605.png?v7">&#x1f605;</span>），小组件才能真正发挥 MobX 自动管理更新的优势。</p>
+<p>由于 React 的机制，MobX 只能在组件层面发光发热，对于组件内部就无能为力了。所以大组件用 MobX 很容易卡死（用其它也会<span class="github-emoji" title=":sweat_smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f605.png?v8">&#x1f605;</span>），小组件才能真正发挥 MobX 自动管理更新的优势。</p>
 <p>【完】</p>
 </div>
 </div>
