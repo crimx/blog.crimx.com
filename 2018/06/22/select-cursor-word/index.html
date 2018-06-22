@@ -29,18 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="最近终于抽空给 Saladict 实现了鼠标悬浮取词功能，使用了较为简洁的实现方式，这里分享一下原理以及坑的处理。 困难 这个需求其实很早就被人提 issue 了，当时做了一番搜索，最后尝试了 document.caretPositionFromPoint / document.caretRangeFromPoint ，效果不太理想。 如果看 mdn 给的例子，就会发现，它是遍历每个元素添加事件的">
-<meta name="keywords" content="JavaScript">
+<meta name="description" content="最近终于抽空给 Saladict 实现了鼠标悬浮取词功能，使用了较为简洁的实现方式，这里分享一下原理以及坑的处理。 初尝试 这个需求其实很早就被人提 issue 了，当时做了一番搜索，最后尝试了 document.caretPositionFromPoint / document.caretRangeFromPoint ，效果不太理想。 如果看 mdn 给的例子，就会发现，它是遍历每个元素添加事件">
+<meta name="keywords" content="Recommended,JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="选中鼠标附近的文字">
 <meta property="og:url" content="https://blog.crimx.com/2018/06/22/select-cursor-word/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="最近终于抽空给 Saladict 实现了鼠标悬浮取词功能，使用了较为简洁的实现方式，这里分享一下原理以及坑的处理。 困难 这个需求其实很早就被人提 issue 了，当时做了一番搜索，最后尝试了 document.caretPositionFromPoint / document.caretRangeFromPoint ，效果不太理想。 如果看 mdn 给的例子，就会发现，它是遍历每个元素添加事件的">
+<meta property="og:description" content="最近终于抽空给 Saladict 实现了鼠标悬浮取词功能，使用了较为简洁的实现方式，这里分享一下原理以及坑的处理。 初尝试 这个需求其实很早就被人提 issue 了，当时做了一番搜索，最后尝试了 document.caretPositionFromPoint / document.caretRangeFromPoint ，效果不太理想。 如果看 mdn 给的例子，就会发现，它是遍历每个元素添加事件">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-22T04:00:24.567Z">
+<meta property="og:updated_time" content="2018-06-22T08:18:15.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="选中鼠标附近的文字">
-<meta name="twitter:description" content="最近终于抽空给 Saladict 实现了鼠标悬浮取词功能，使用了较为简洁的实现方式，这里分享一下原理以及坑的处理。 困难 这个需求其实很早就被人提 issue 了，当时做了一番搜索，最后尝试了 document.caretPositionFromPoint / document.caretRangeFromPoint ，效果不太理想。 如果看 mdn 给的例子，就会发现，它是遍历每个元素添加事件的">
+<meta name="twitter:description" content="最近终于抽空给 Saladict 实现了鼠标悬浮取词功能，使用了较为简洁的实现方式，这里分享一下原理以及坑的处理。 初尝试 这个需求其实很早就被人提 issue 了，当时做了一番搜索，最后尝试了 document.caretPositionFromPoint / document.caretRangeFromPoint ，效果不太理想。 如果看 mdn 给的例子，就会发现，它是遍历每个元素添加事件">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -106,10 +106,11 @@
 <div class="toc-wrapper">
 <div class="toc-container">
 <ol class="toc">
-<li class="toc-item toc-level-2"><a class="toc-link" href="#困难"><span class="toc-text">困难</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#初尝试"><span class="toc-text">初尝试</span></a></li>
 <li class="toc-item toc-level-2"><a class="toc-link" href="#灵感"><span class="toc-text">灵感</span></a></li>
 <li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a></li>
 <li class="toc-item toc-level-2"><a class="toc-link" href="#实现"><span class="toc-text">实现</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#交互"><span class="toc-text">交互</span></a></li>
 </ol>
 </div>
 </div>
@@ -117,12 +118,12 @@
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
 <p>最近终于抽空给 Saladict 实现了鼠标悬浮取词功能，使用了较为简洁的实现方式，这里分享一下原理以及坑的处理。</p>
-<h2 id="困难"><a href="#困难" class="headerlink" title="困难"></a>困难</h2>
+<h2 id="初尝试"><a href="#初尝试" class="headerlink" title="初尝试"></a>初尝试</h2>
 <p>这个需求其实很早就被人提 issue 了，当时做了一番搜索，最后尝试了 <code>document.caretPositionFromPoint</code> / <code>document.caretRangeFromPoint</code> ，效果不太理想。</p>
-<p>如果看 mdn 给的<a href="mdn" target="_blank">例子</a>，就会发现，它是遍历每个元素添加事件的。这么做的原因是当使用这个方法的时候，如果鼠标指向元素空白的地方，它会就近取位置。所以例子通过给粒度更细的元素绑定来避免这个问题。然而实际上这么做还是不足够的，一个段落末行也许只有几个字符，这时空出接近一行，也会有上面的问题。</p>
+<p>如果看 mdn 给的<a href="https://developer.mozilla.org/en-US/docs/Web/API/DocumentOrShadowRoot/caretPositionFromPoint" target="_blank">例子</a>，就会发现，它是遍历每个元素添加事件的。这么做的原因是当使用这个方法的时候，如果鼠标指向元素空白的地方，它会就近取位置。所以例子通过给粒度更细的元素绑定来避免这个问题。然而实际上这么做还是不足够的，一个段落末行也许只有几个字符，这时空出接近一行，也会有上面的问题。</p>
 <p>所以当时就搁置了这个功能。</p>
 <h2 id="灵感"><a href="#灵感" class="headerlink" title="灵感"></a>灵感</h2>
-<p>直到最近，看到一个同类的开源划词翻译扩展 <a href="https://github.com/revir/FairyDict" target="_blank">FairyDict</a> 实现了取词功能，遍观摩了一番<a href="FairyDict-source" target="_blank">源码</a>。</p>
+<p>直到最近，看到一个同类的开源划词翻译扩展 <a href="https://github.com/revir/FairyDict" target="_blank">FairyDict</a> 实现了取词功能，遍观摩了一番<a href="https://github.com/revir/FairyDict/blob/30e12d426b9eb190142003732cdfb0d2aa64eb66/content/inject.coffee#L110-L141" target="_blank">源码</a>。</p>
 <p>它的原理是深度优先递归遍历这个元素以及其子元素，通过不断试探选中区域，并与鼠标座标对比来定位确切位置。</p>
 <p>有没有发现问题，这个遍历过程不正是上面 <code>document.caretPositionFromPoint</code> 干的事么，那么我们只需要最后量一下鼠标是否在取词范围中即可。</p>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2>
@@ -130,12 +131,12 @@
 <ol>
 <li>通过 <code>document.caretPositionFromPoint</code> 获得鼠标所指最接近的元素以及文本位置 offset。</li>
 <li>找出 offset 最接近的单词。</li>
-<li>通过 <a href="range" target="_blank"><code>Range</code></a> 获得部分文本（单词）的尺寸和座标。</li>
+<li>通过 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Range" target="_blank"><code>Range</code></a> 获得部分文本（单词）的尺寸和座标。</li>
 <li>验证鼠标此时在单词区域范围中。</li>
 <li>选中这个单词。<code>Selection</code> 支持直接添加 <code>Range</code> 。</li>
 </ol>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2>
-<p>按原理来实现就很简单了。<a href="&#39;https://blog.crimx.com/select-cursor-word&#39;" target="_blank">原文</a>上按 <kbd>alt</kbd> 可查看取词效果。</p>
+<p>按原理来实现就很简单了。<a href="https://blog.crimx.com/select-cursor-word" target="_blank">本文</a>上按 <kbd>alt</kbd> 可体验取词效果。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
@@ -150,6 +151,8 @@
 </table>
 </figure>
 <p></p>
+<h2 id="交互"><a href="#交互" class="headerlink" title="交互"></a>交互</h2>
+<p>最后，如果要提供功能开关或者设置不同按键的话，简单的处理可以参考 FairyDict 让事件处理空转。但对于 <code>mousemove</code> 这类比较频繁的事件，在关闭的时候取消事件监听可能更好一些。这里 Saladict 借助 RxJS 来处理复杂的逻辑，可参考<a href="https://github.com/crimx/ext-saladict/blob/ca0d8a1e58ef56277f2f0b3df4a291d4f2a0debc/src/selection/index.ts#L185-L232" target="_blank">源码</a>。</p>
 <p>
 <script type="text/javascript">
 document.addEventListener('mousemove', e => {
@@ -218,6 +221,7 @@ function selectCursorWord(e) {
 <footer class="article-footer">
 <ul class="article-tag-list">
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
 </ul>
 <nav id="article-nav"><a href="/2018/04/03/understanding-render-props-in-react/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">深入 React Render Props 模式</div></a></nav>
 </footer>
