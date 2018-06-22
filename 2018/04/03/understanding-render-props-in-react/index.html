@@ -29,52 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。
-
-基础
-先看官方给出的简单例子：
-
-
-
-
-
-123
-
-
-&amp;lt;DataProvider render=&amp;#123;data =&amp;gt; (  &amp;lt;h1&amp;gt;Hello &amp;#123;data.targe">
+<meta name="description" content="随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。 基础 先看官方给出的简单例子：      123   &amp;lt;DataProvider render=&amp;#123;data =&amp;gt; (  &amp;lt;h1&amp;gt;Hello &amp;#123;data.target">
+<meta name="keywords" content="JavaScript,React">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入 React Render Props 模式">
 <meta property="og:url" content="https://blog.crimx.com/2018/04/03/understanding-render-props-in-react/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。
-
-基础
-先看官方给出的简单例子：
-
-
-
-
-
-123
-
-
-&amp;lt;DataProvider render=&amp;#123;data =&amp;gt; (  &amp;lt;h1&amp;gt;Hello &amp;#123;data.targe">
+<meta property="og:description" content="随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。 基础 先看官方给出的简单例子：      123   &amp;lt;DataProvider render=&amp;#123;data =&amp;gt; (  &amp;lt;h1&amp;gt;Hello &amp;#123;data.target">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2018-04-03T09:32:52.996Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入 React Render Props 模式">
-<meta name="twitter:description" content="随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。
-
-基础
-先看官方给出的简单例子：
-
-
-
-
-
-123
-
-
-&amp;lt;DataProvider render=&amp;#123;data =&amp;gt; (  &amp;lt;h1&amp;gt;Hello &amp;#123;data.targe">
+<meta name="twitter:description" content="随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。 基础 先看官方给出的简单例子：      123   &amp;lt;DataProvider render=&amp;#123;data =&amp;gt; (  &amp;lt;h1&amp;gt;Hello &amp;#123;data.target">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -104,22 +70,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -133,13 +89,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">深入 React Render Props 模式</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2018/04/03/understanding-render-props-in-react/" class="article-date"><time datetime="2018-04-02T16:00:00.000Z" itemprop="datePublished">2018-04-03</time></a><a
-rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2018/04/03/understanding-render-props-in-react/" class="article-date"><time datetime="2018-04-02T16:00:00.000Z" itemprop="datePublished">2018-04-03</time></a><a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -162,18 +116,17 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
 <p>随着 React 的新 Context API 出来，render props 模式再次发挥重要作用。本文将尝试深入理解 render props 的利弊，并结合高阶组件寻找合适的处理方式。</p>
-<h2 id="基础">
-<a href="#基础" class="headerlink" title="基础"></a>基础</h2>
+<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2>
 <p>先看<a href="https://reactjs.org/docs/render-props.html" target="_blank">官方</a>给出的简单例子：</p>
 <p></p>
 <figure class="highlight jsx">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">&lt;DataProvider render=&#123;data =&gt; (</div><div class="line">  &lt;h1&gt;Hello &#123;data.target&#125;&lt;/h1&gt;</div><div class="line">)&#125;/&gt;</div></pre>
+<pre><span class="line">&lt;DataProvider render=&#123;data =&gt; (</span><br><span class="line">  &lt;h1&gt;Hello &#123;data.target&#125;&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">)&#125;/</span>&gt;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -185,10 +138,10 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataProvider</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</div><div class="line">  state = &#123; <span class="attr">target</span>: <span class="string">''</span> &#125;</div><div class="line">  handleMouseMove = <span class="function"><span class="params">e</span> =&gt;</span> <span class="keyword">this</span>.setState(&#123; <span class="attr">target</span>: e.target.title &#125;)</div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div style=&#123;&#123; height: '1vh' &#125;&#125; onMouseMove=&#123;this.handleMouseMove&#125;&gt;</div><div class="line">        &#123;this.props.render(this.state)&#125;</div><div class="line">      &lt;/div&gt;</div><div class="line">    )</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataProvider</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  state = &#123; <span class="attr">target</span>: <span class="string">''</span> &#125;</span><br><span class="line">  handleMouseMove = <span class="function"><span class="params">e</span> =&gt;</span> <span class="keyword">this</span>.setState(&#123; <span class="attr">target</span>: e.target.title &#125;)</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div style=&#123;&#123; <span class="attr">height</span>: <span class="string">'1vh'</span> &#125;&#125; onMouseMove=&#123;<span class="keyword">this</span>.handleMouseMove&#125;&gt;</span><br><span class="line">        &#123;<span class="keyword">this</span>.props.render(<span class="keyword">this</span>.state)&#125;</span><br><span class="line">      &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -202,30 +155,27 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">&lt;DataProvider&gt;</div><div class="line">  &#123;data =&gt; &lt;h1&gt;Hello &#123;data.target&#125;&lt;/h1&gt;&#125;</div><div class="line">&lt;<span class="regexp">/DataProvider&gt;</span></div></pre>
+<pre><span class="line">&lt;DataProvider&gt;</span><br><span class="line">  &#123;data =&gt; <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello &#123;data.target&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>&#125;</span><br><span class="line">&lt;<span class="regexp">/DataProvider&gt;</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>子组件通过 render props 传进父组件渲染，让父组件不再依赖子组件，达到重用父组件的目的，即<a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle" target="_blank">依赖反转</a>。</p>
-<h2 id="Render-Props-与-SFC">
-<a href="#Render-Props-与-SFC" class="headerlink" title="Render Props 与 SFC"></a>Render Props 与 SFC</h2>
-<p>前面提到的“返回 React 元素的函数”，一看是不是跟<a href="https://reactjs.org/docs/components-and-props.html#functional-and-class-components" target="_blank">无状态函数组件</a>（Stateless Fuctional Component）的
-<a href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/8a857d6473829df15ae8d695dbac310e824479df/types/react/index.d.ts#L329"
-target="_blank">签名</a>很接近。这么看：</p>
+<h2 id="Render-Props-与-SFC"><a href="#Render-Props-与-SFC" class="headerlink" title="Render Props 与 SFC"></a>Render Props 与 SFC</h2>
+<p>前面提到的“返回 React 元素的函数”，一看是不是跟<a href="https://reactjs.org/docs/components-and-props.html#functional-and-class-components" target="_blank">无状态函数组件</a>（Stateless Fuctional Component）的<a href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/8a857d6473829df15ae8d695dbac310e824479df/types/react/index.d.ts#L329" target="_blank">签名</a>很接近。这么看：</p>
 <p></p>
 <figure class="highlight jsx">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">&lt;DataProvider&gt;</div><div class="line">  &#123;props =&gt; &lt;h1&gt;Hello &#123;props.target&#125;&lt;/h1&gt;&#125;</div><div class="line">&lt;<span class="regexp">/DataProvider&gt;</span></div></pre>
+<pre><span class="line">&lt;DataProvider&gt;</span><br><span class="line">  &#123;props =&gt; <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello &#123;props.target&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>&#125;</span><br><span class="line">&lt;<span class="regexp">/DataProvider&gt;</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -237,29 +187,28 @@ target="_blank">签名</a>很接近。这么看：</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">props</span> =&gt;</span> (</div><div class="line">  &lt;DataProvider&gt;</div><div class="line">    &#123;data =&gt; &lt;h1&gt;Hello &#123;data.target&#125; &#123;props.target&#125;&lt;/h1&gt;&#125;</div><div class="line">  &lt;/DataProvider&gt;</div><div class="line">)</div></pre>
+<pre><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">props</span> =&gt;</span> (</span><br><span class="line">  &lt;DataProvider&gt;</span><br><span class="line">    &#123;data =&gt; <span class="xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello &#123;data.target&#125; &#123;props.target&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>&#125;</span><br><span class="line">  &lt;<span class="regexp">/DataProvider&gt;</span></span><br><span class="line"><span class="regexp">)</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>这就造成了 <code>DataProvider</code> 不能优化为纯组件。这也是非常不好的习惯，一个解决方式是人为限制 render props 为 SFC 从而让只有一个数据来源。理想很美好，但没法强制所有人这么干。</p>
-<h2 id="Render-Props-与-HOC">
-<a href="#Render-Props-与-HOC" class="headerlink" title="Render Props 与 HOC"></a>Render Props 与 HOC</h2>
+<h2 id="Render-Props-与-HOC"><a href="#Render-Props-与-HOC" class="headerlink" title="Render Props 与 HOC"></a>Render Props 与 HOC</h2>
 <p>如果将 render props 限制为传入子组件，其实很容易联想到<a href="https://reactjs.org/docs/higher-order-components.html" target="_blank">高阶组件</a>（Higher-Order Components）。高阶组件是一个函数，接受一个组件，返回新的组件。</p>
 <p>所以可以用高阶组件包装起来，并隐藏 render props 接口。</p>
 <p></p>
-<figure class="highlight">
+<figure class="highlight jsx">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">const withData = Base =&gt; () =&gt; &lt;DataProvider&gt;&#123;Base&#125;&lt;/DataProvider&gt;</div><div class="line"></div><div class="line">const BaseTarget = props =&gt; &lt;h1&gt;Hello &#123;props.target&#125;&lt;/h1&gt;</div><div class="line"></div><div class="line">const EnhancedComponent = withData(BaseTarget)</div><div class="line"></div><div class="line">const App = () =&gt; &lt;EnhancedComponent /&gt;</div></pre>
+<pre><span class="line"><span class="keyword">const</span> withData = <span class="function"><span class="params">Base</span> =&gt;</span> () =&gt; <span class="xml"><span class="tag">&lt;<span class="name">DataProvider</span>&gt;</span>&#123;Base&#125;<span class="tag">&lt;/<span class="name">DataProvider</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> BaseTarget = <span class="function"><span class="params">props</span> =&gt;</span> &lt;h1&gt;Hello &#123;props.target&#125;&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const EnhancedComponent = withData(BaseTarget)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const App = () =&gt; &lt;EnhancedComponent /</span>&gt;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -267,14 +216,14 @@ target="_blank">签名</a>很接近。这么看：</p>
 <p></p>
 <p>这样就限制了 <code>DataProvider</code> 的使用方式。如果需要多方数据，可以修改 <code>DataProvider</code> 为 <code>this.props.render({ ...this.props, ...this.state })</code> 将其它数据作为 props 传入 <code>DataProvider</code>。</p>
 <p></p>
-<figure class="highlight">
+<figure class="highlight jsx">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">const withData = Base =&gt; props =&gt; &lt;DataProvider &#123;...props&#125;&gt;&#123;Base&#125;&lt;/DataProvider&gt;</div><div class="line"></div><div class="line">const BaseTarget = props =&gt; &lt;h1&gt;Hello &#123;props.target&#125;&lt;/h1&gt;</div><div class="line"></div><div class="line">const EnhancedComponent = withData(BaseTarget)</div><div class="line"></div><div class="line">const App = props =&gt; &lt;EnhancedComponent &#123;...props&#125; /&gt;</div></pre>
+<pre><span class="line"><span class="keyword">const</span> withData = <span class="function"><span class="params">Base</span> =&gt;</span> props =&gt; <span class="xml"><span class="tag">&lt;<span class="name">DataProvider</span> &#123;<span class="attr">...props</span>&#125;&gt;</span>&#123;Base&#125;<span class="tag">&lt;/<span class="name">DataProvider</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> BaseTarget = <span class="function"><span class="params">props</span> =&gt;</span> &lt;h1&gt;Hello &#123;props.target&#125;&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const EnhancedComponent = withData(BaseTarget)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const App = props =&gt; &lt;EnhancedComponent &#123;...props&#125; /</span>&gt;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -288,7 +237,7 @@ target="_blank">签名</a>很接近。这么看：</p>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li>
 </ul>
-<nav id="article-nav"><a href="/2018/02/16/understanding-rxjs/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">理解 RxJS ：四次元编程</div></a></nav>
+<nav id="article-nav"><a href="/2018/06/22/select-cursor-word/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">选中鼠标附近的文字</div></a><a href="/2018/02/16/understanding-rxjs/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">理解 RxJS ：四次元编程</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -332,8 +281,7 @@ target="_blank">签名</a>很接近。这么看：</p>
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

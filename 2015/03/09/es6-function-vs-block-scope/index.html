@@ -29,22 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="作用域
-作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
-Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
+<meta name="description" content="作用域 作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的 Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel 现">
+<meta name="keywords" content="Understanding JavaScript,JavaScript,闲读规范,Scope">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6 随笔：函数与块级作用域">
 <meta property="og:url" content="https://blog.crimx.com/2015/03/09/es6-function-vs-block-scope/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="作用域
-作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
-Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
+<meta property="og:description" content="作用域 作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的 Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel 现">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-07-03T08:52:35.250Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6 随笔：函数与块级作用域">
-<meta name="twitter:description" content="作用域
-作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
-Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
+<meta name="twitter:description" content="作用域 作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章《深入理解 JavaScript 模块模式 》，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的 Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel 现">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -74,22 +70,12 @@ Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -103,15 +89,11 @@ Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel">
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">ES6 随笔：函数与块级作用域</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/03/09/es6-function-vs-block-scope/" class="article-date"><time datetime="2015-03-08T16:00:00.000Z" itemprop="datePublished">2015-03-09</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/03/09/es6-function-vs-block-scope/" class="article-date"><time datetime="2015-03-08T16:00:00.000Z" itemprop="datePublished">2015-03-09</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -132,8 +114,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <article id="post-es6-function-vs-block-scope" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<h2 id="作用域">
-<a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2>
 <p>作者提到了 ES5 中有三种方式实现作用域：function、with 和鲜为人知的 try/catch 。with 已经被淘汰，function 方式可以看看之前翻译的经典文章<a href="http://www.crimx.com/2014/08/05/javascript-module-pattern-in-depth/" target="_blank">《深入理解 JavaScript 模块模式 》</a>，而最后一种 hack 真是让人眼前一亮。他在附录 B 中也提到 google 的
 Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel 现在都没有采用这种方式了，而是直接检测 shadow 冲突再使用不同的变量名，这可能是考虑到性能的问题。</p>
 <p></p>
@@ -141,27 +122,26 @@ Traceur 也是这么实现的，我试了一下，发现 Traceur 与 Babel 现�
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// ES6 代码</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">2</span>;</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">let</span> a = <span class="number">3</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line"><span class="comment">// Try/Catch 方式</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">1</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">  <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">2</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">    <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">3</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">      </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line"><span class="comment">// Traceur</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">var</span> a$__0 = <span class="number">2</span>;</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">var</span> a$__1 = <span class="number">3</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div><div class="line"></div><div class="line"><span class="comment">// Babel</span></div><div class="line"><span class="comment">// ...</span></div><div class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">var</span> _a = <span class="number">2</span>;</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">var</span> _a2 = <span class="number">3</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// ...</span></div></pre>
+<pre><span class="line"><span class="comment">// ES6 代码</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">2</span>;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">let</span> a = <span class="number">3</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Try/Catch 方式</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">1</span>&#125; <span class="keyword">catch</span>(a) &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">2</span>&#125; <span class="keyword">catch</span>(a) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">3</span>&#125; <span class="keyword">catch</span>(a) &#123;</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Traceur</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> a$__0 = <span class="number">2</span>;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">var</span> a$__1 = <span class="number">3</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Babel</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> _a = <span class="number">2</span>;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">var</span> _a2 = <span class="number">3</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ...</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="TDZ">
-<a href="#TDZ" class="headerlink" title="TDZ"></a>TDZ</h2>
+<h2 id="TDZ"><a href="#TDZ" class="headerlink" title="TDZ"></a>TDZ</h2>
 <p>有意思的是，这几种 hack 都不能解决 <code>let</code> 变量不许提升 (hoist) 的问题。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="built_in">console</span>.log(a); <span class="comment">// ReferenceError</span></div><div class="line"><span class="keyword">let</span> a;</div></pre>
+<pre><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> a;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -174,10 +154,10 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  x; <span class="comment">// 合法</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> x;</div><div class="line">foo();</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  x; <span class="comment">// 合法</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> x;</span><br><span class="line">foo();</span><br></pre>
 </td>
 </tr>
 </table>
@@ -188,10 +168,10 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  x; <span class="comment">// 不合法</span></div><div class="line">&#125;</div><div class="line">foo();</div><div class="line"><span class="keyword">let</span> x;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  x; <span class="comment">// 不合法</span></span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="keyword">let</span> x;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -202,10 +182,10 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">foo();</div><div class="line"><span class="keyword">let</span> x;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  x; <span class="comment">// 不合法</span></div><div class="line">&#125;</div></pre>
+<pre><span class="line">foo();</span><br><span class="line"><span class="keyword">let</span> x;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  x; <span class="comment">// 不合法</span></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -217,10 +197,10 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// ES6</span></div><div class="line"><span class="keyword">let</span> a = f();</div><div class="line"><span class="keyword">const</span> b = <span class="number">2</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> b; &#125;</div><div class="line"></div><div class="line"><span class="comment">// hack</span></div><div class="line">$traceurRuntime.UNITIALIZED = &#123;&#125;;</div><div class="line">$traceurRuntime.assertInitialized = <span class="function"><span class="keyword">function</span>(<span class="params">v</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (v === UNITIALIZED) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">ReferenceError</span>();</div><div class="line">  <span class="keyword">return</span> v;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = $traceurRuntime.UNITIALIZED;</div><div class="line"><span class="keyword">var</span> b = $traceurRuntime.UNITIALIZED;</div><div class="line">a = f();</div><div class="line">b = <span class="number">2</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> $traceurRuntime.assertInitialized(b);</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="comment">// ES6</span></span><br><span class="line"><span class="keyword">let</span> a = f();</span><br><span class="line"><span class="keyword">const</span> b = <span class="number">2</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> b; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// hack</span></span><br><span class="line">$traceurRuntime.UNITIALIZED = &#123;&#125;;</span><br><span class="line">$traceurRuntime.assertInitialized = <span class="function"><span class="keyword">function</span>(<span class="params">v</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (v === UNITIALIZED) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">ReferenceError</span>();</span><br><span class="line">  <span class="keyword">return</span> v;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = $traceurRuntime.UNITIALIZED;</span><br><span class="line"><span class="keyword">var</span> b = $traceurRuntime.UNITIALIZED;</span><br><span class="line">a = f();</span><br><span class="line">b = <span class="number">2</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> $traceurRuntime.assertInitialized(b);</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -232,10 +212,10 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div></pre>
+<pre><span class="line">1</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">$ babel-node --optional es6.blockScopingTDZ test.js</div></pre>
+<pre><span class="line">$ babel-node --optional es6.blockScopingTDZ test.js</span><br></pre>
 </td>
 </tr>
 </table>
@@ -247,27 +227,26 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// 0 1 2 3 4</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i += <span class="number">1</span>) &#123;</div><div class="line">  <span class="comment">// 忽略我在循环中声明函数</span></div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timer</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;, <span class="number">1</span>*<span class="number">1000</span>);</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="comment">// 0 1 2 3 4</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i += <span class="number">1</span>) &#123;</span><br><span class="line">  <span class="comment">// 忽略我在循环中声明函数</span></span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">timer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;, <span class="number">1</span>*<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="块级作用域">
-<a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2>
 <p>作者提到几个块级作用域的好处，比较有意思的一个是对垃圾回收的优化：</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> someReallyBigData = &#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line">process(someReallyBigData);</div><div class="line"></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'a_button'</span>);</div><div class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someReallyBigData = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">process(someReallyBigData);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'a_button'</span>);</span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre>
 </td>
 </tr>
 </table>
@@ -279,10 +258,10 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> someReallyBigData = &#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  process(someReallyBigData);</div><div class="line">&#125;<span class="comment">// 这里就可以回收 someReallyBigData 了</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'a_button'</span>);</div><div class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</div><div class="line">&#125;, <span class="literal">false</span>);</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> someReallyBigData = &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  process(someReallyBigData);</span><br><span class="line">&#125;<span class="comment">// 这里就可以回收 someReallyBigData 了</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'a_button'</span>);</span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'button clicked'</span>);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre>
 </td>
 </tr>
 </table>
@@ -297,12 +276,7 @@ block，但是<a href="https://github.com/babel/babel/issues/563" target="_blank
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2015/03/29/javascript-hoist-under-the-hood/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">V8 是如何实现 JavaScript Hoist 的</div></a>
-<a href="/2015/02/28/css-square/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">CSS 自适应正方形</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2015/03/29/javascript-hoist-under-the-hood/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">V8 是如何实现 JavaScript Hoist 的</div></a><a href="/2015/02/28/css-square/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">CSS 自适应正方形</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -346,8 +320,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

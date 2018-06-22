@@ -29,14 +29,14 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data
-摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方">
+<meta name="description" content="原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data 摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方">
+<meta name="keywords" content="Translation,机器学习,数据挖掘,差分隐私">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Damson演示：用于大数据分析的差分隐私">
 <meta property="og:url" content="https://blog.crimx.com/2014/04/28/damson-differential-privacy-for-analysis-of-large-data/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data
-摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方">
+<meta property="og:description" content="原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data 摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://blog.crimx.com/images/post/Damson/Histogram.png">
 <meta property="og:image" content="https://blog.crimx.com/images/post/Damson/DataCube.jpg">
 <meta property="og:image" content="https://blog.crimx.com/images/post/Damson/Regression.jpg">
@@ -44,8 +44,7 @@
 <meta property="og:updated_time" content="2016-12-29T11:48:38.645Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Damson演示：用于大数据分析的差分隐私">
-<meta name="twitter:description" content="原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data
-摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方">
+<meta name="twitter:description" content="原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data 摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方">
 <meta name="twitter:image" content="https://blog.crimx.com/images/post/Damson/Histogram.png">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
@@ -76,22 +75,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -105,14 +94,10 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">Damson演示：用于大数据分析的差分隐私</h1>
-<div class="article-meta"><a href="/2014/04/28/damson-differential-privacy-for-analysis-of-large-data/" class="article-date"><time datetime="2014-04-27T16:00:00.000Z" itemprop="datePublished">2014-04-28</time></a>
-<a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
-target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-meta"><a href="/2014/04/28/damson-differential-privacy-for-analysis-of-large-data/" class="article-date"><time datetime="2014-04-27T16:00:00.000Z" itemprop="datePublished">2014-04-28</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -138,16 +123,14 @@ target="_blank" title="This work is licensed under a Creative Commons Attributio
 <div class="article-entry postify" itemprop="articleBody">
 <p>原文：Demonstration of Damson: Differential Privacy for Analysis of Large Data</p>
 <p>摘要—— Damson为生物医学研究的结果提供较强的隐私保护，是一种强大的新型工具。Damson基于差分隐私算法，即使攻击者掌握了大量的背景知识，也无法从公开的结果中推断出某个个体是否存在。Damson支持生物医学研究中常见的各种分析任务，包括直方图，边缘，数据立方体，分类，回归，聚类，点对点选择计数。此外，Damson包含一个高效的查询优化引擎，从而在获得高精度的分析结果同时最小化隐私成本。</p>
-<h2 id="简介">
-<a href="#简介" class="headerlink" title="简介"></a>简介</h2>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2>
 <p>隐私问题已经成为研究者获取生物医学数据的主要障碍。简单的去身份识别方法，如去掉个体的名字和ID，很难保证足够的隐私保护。主要的原因是，攻击者虽然不能直接从公开的数据中恢复个体的身份信息，但他往往可以结合额外的背景知识去重新识别个体的身份。数据安全研究人员已经想出了一些具有鲁棒性和通用性的重识别算法。比如，［13］的作者仅仅通过从IMDB网站（www.imdb.com）公开的数据集中获取背景知识，就可以在Netflix电影评级网站（www.netflixprize.com）的匿名数据中成功重识别个体。</p>
 <p>而且，对于一些生物医学的数据集，哪怕仅仅是从数据中导出来的统计结果，也可能会泄露隐私信息。一个著名的例子是全基因组关联研究（GWASs）——生物信息学的一个热门话题，研究一群患同种疾病的病人（比如糖尿病）中的DNA样本，希望能发现疾病与人类DNA中的某些特定的部分（叫做SNPs）之间的联系。一种最近研发的攻击[7]，通过目标个体的DNA样本和从HapMap公开的仓库（www.hapmap.org）中获取的参考人口（比如欧洲、亚洲等等），就可以重识别出该个体。一种改进的攻击[16]更是威胁到未来发布的所有GAWS成果，这些数据在现在的生物医学研究期刊上很容易就可以找到。</p>
 <p>回应上述问题，近期掀起一股热潮研究隐私数据的发布和分析。早期的方案使用简单的方法实现数据匿名化，比如k-匿名（k-anonymity）将每个个体隐藏在一个新的群中，这个群包含k个难以区分的新个体[17]。这些方法难以对抗拥有背景知识的攻击者，比如，当攻击者知道了群中的k-1个个体，k-匿名便失去了作用。而且，因为没有形式上的隐私保证，即使攻击者没有掌握任何背景知识，满足k-匿名的算法是否真的可以保护个体的隐私，这里依然存在疑问。举例来说，l-多样性（l-diversity）[11]解决了这个问题，攻击者可以从缺少多样性（比如群中k个个体都患同种疾病）的k-匿名群中推断出敏感信息，且l-多样性本身也在不停的被挑战和补充[9]。这些问题激发出一些更有效的解决方法，这些方法基于更强大的方案，有稳定，可验证的隐私保证。</p>
 <p>差分隐私[5]就是这么一种方法，它保证攻击者无法推测出个体的存在与否，即使他已经获得了数据集中其余所有个体的准确信息。推测的难度由参数ε决定，ε也叫做隐私预算（privacy budget）。实现差分隐私的一种流行方法论是将随机噪声注入到公开的统计查询结果中[6]。这里的查询是指任意有唯一输出的函数，涵盖了最常见的一些生物医学分析任务。根据组合律，应答隐私预算为ε1，.....，εn的多重查询q1，......，qn，分别满足（ε1+......+εn）-差分隐私。</p>
 <p>设计差分隐私方案的主要难题是最大化查询准确率。虽然存在一种通用方案理论上可以应答所有查询，但在实际应用时准确率往往表现的很糟糕。因此，过去为了解决多种类型的查询往往需要提供更多的方案。在ADSC我们建立了Damson系统[3]，整合了大量的差分隐私算法去执行常见的生物医学研究任务。Damson的贡献是巨大的。第一，Damson包含了一些新的算法；第二，差分隐私的不同解决方案往往对数据和查询有不同的前提和要求，因此将它们都整合到一个系统中非常不容易；第三，高效率、高准确率、低隐私预算需求地应答多重查询极具挑战性，必须具备高效的查询优化引擎；最后，Damson有相当高的使用价值，因为它能够为基于敏感数据的生物医学分析提供强隐私保障，而此前的方法都很难做到。</p>
 <p>本次演示聚焦于Damson的两个主要方面，1）Damson在多种常见的生物医学分析任务中表现如何；2）Damson在这些任务中是如何利用最少的隐私代价实现较高的准确率。接下来的II、III节会分别详述Damson在这两方面的设计。</p>
-<h2 id="差分隐私下的生物医学分析">
-<a href="#差分隐私下的生物医学分析" class="headerlink" title="差分隐私下的生物医学分析"></a>差分隐私下的生物医学分析</h2>
+<h2 id="差分隐私下的生物医学分析"><a href="#差分隐私下的生物医学分析" class="headerlink" title="差分隐私下的生物医学分析"></a>差分隐私下的生物医学分析</h2>
 <p>在这里我们演示Damson中已实现的7种不同类型的分析任务：直方图（histogram）、数据立方体（data cube），边缘（marginal）、分类（classification）、聚类（clustering）、回归（regression）和点对点选择计数（ad-hoc selection-count）。</p>
 <ol>
 <li>
@@ -185,8 +168,7 @@ target="_blank" title="This work is licensed under a Creative Commons Attributio
 <p>Damson内部的解决方案是基于DP树结构[14]（DP-tree Structure），有效地处理任意维度的范围计数查询。DP树超越了我们之前的方案Privlet[19][18]，对于等量的私隐预算DP树有更高的准确度，尤其在更高维度的查询上。我们正在扩展Damson，使之不仅支持计数和范围，还支持集合（aggregates）和选择标准（selection criteria）。</p>
 </li>
 </ol>
-<h2 id="Damson中的查询优化">
-<a href="#Damson中的查询优化" class="headerlink" title="Damson中的查询优化"></a>Damson中的查询优化</h2>
+<h2 id="Damson中的查询优化"><a href="#Damson中的查询优化" class="headerlink" title="Damson中的查询优化"></a>Damson中的查询优化</h2>
 <p>传统来说，查询优化主要是为了节约运算时间。然而在一个符合差分隐私的系统中，查询优化还需要优化分析结果的准确率和隐私预算的消耗。Damson结合两大技术，分别针对批量查询和相对误差最小化。</p>
 <ol>
 <li>
@@ -196,11 +178,9 @@ target="_blank" title="This work is licensed under a Creative Commons Attributio
 <p>相对误差最小化（Raletive Error Minimization）<br>当前大部分满足差分隐私的解决方案都是去最小化查询结果的绝对误差。然而，对于大部分的应用，包括在II-C节讨论的边缘发布，最小化总体相对误差更有意义。直观上看，结果较小的查询对噪声更敏感。Damson结合iReduct技术[17]去实现相对误差最小化。除了差分隐私边缘计算的应用，damson还可以最小化批量点对点查询的总体相对误差，只需小心地为每个查询分配隐私预算。我们将展示Damson如何计算最佳的预算分配，使到输入查询的总体相对误差最小化。</p>
 </li>
 </ol>
-<h2 id="结论">
-<a href="#结论" class="headerlink" title="结论"></a>结论</h2>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2>
 <p>Damson在不侵犯个体隐私的前提下，帮助研究人员在敏感数据上进行常见的分析。我们将展示Damson如何支持各种各样的分析任务，从简单的任务如计数、直方图和边缘，到复杂的任务如分类和聚类。同时，我们将演示Damson如何利用低隐私损耗、低系统负担，高准确率的完成上述的这些任务。考虑到系统的优势，我们预计Damson将会被广泛的应用，特别是生物医学领域。</p>
-<h2 id="参考文献">
-<a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2>
 <ol>
 <li>K. Chaudhuri and C. Monteleoni. Privacy-Preserving Logistic Regression. NIPS, 2008.</li>
 <li>K. Chaudhuri, C. Monteleoni, and A. D. Sarwate. Differentially Private Empirical Risk Minimization. Journal of Machine Learning Research, 12:1069-1109, 2011.</li>
@@ -236,12 +216,7 @@ PLoS Genetics, 4(8), 2008.</li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据挖掘/">数据挖掘</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/机器学习/">机器学习</a></li>
 </ul>
-<nav id="article-nav"><a href="/2014/05/01/ubuntu-laptop-overheating/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">解决 Ubuntu 笔记本发热问题</div></a>
-<a href="/2014/04/06/college-life/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">脆弱的力量</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2014/05/01/ubuntu-laptop-overheating/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">解决 Ubuntu 笔记本发热问题</div></a><a href="/2014/04/06/college-life/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">脆弱的力量</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -285,8 +260,7 @@ class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

@@ -29,66 +29,20 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="问题
-缓存 Array.length 是老生常谈的小优化。
-
-
-
-
-
-12345678910
-
-
-// 不缓存 for (var i = 0; i &amp;lt; arr.length; i++) &amp;#123;...&amp;#125;// 缓存var len = arr.length;for (var i = 0; i &amp;lt; len; i++) &amp;#123;...&amp;#125;
-
-
-
-
-
-但笔者对这种破碎">
+<meta name="description" content="问题 缓存 Array.length 是老生常谈的小优化。      12345678910   // 不缓存 for (var i = 0; i &amp;lt; arr.length; i++) &amp;#123;...&amp;#125;// 缓存var len = arr.length;for (var i = 0; i &amp;lt; len; i++) &amp;#123;...&amp;#125;      但笔者对这种破碎的">
+<meta name="keywords" content="Understanding JavaScript,Recommended,JavaScript,Array">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript 有必要缓存 for 循环中的 Array.length 吗？">
 <meta property="og:url" content="https://blog.crimx.com/2015/04/21/should-array-length-be-cached-or-not/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="问题
-缓存 Array.length 是老生常谈的小优化。
-
-
-
-
-
-12345678910
-
-
-// 不缓存 for (var i = 0; i &amp;lt; arr.length; i++) &amp;#123;...&amp;#125;// 缓存var len = arr.length;for (var i = 0; i &amp;lt; len; i++) &amp;#123;...&amp;#125;
-
-
-
-
-
-但笔者对这种破碎">
+<meta property="og:description" content="问题 缓存 Array.length 是老生常谈的小优化。      12345678910   // 不缓存 for (var i = 0; i &amp;lt; arr.length; i++) &amp;#123;...&amp;#125;// 缓存var len = arr.length;for (var i = 0; i &amp;lt; len; i++) &amp;#123;...&amp;#125;      但笔者对这种破碎的">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://blog.crimx.com/images/post/javascript/array-caching-performance-1.jpg">
 <meta property="og:image" content="https://blog.crimx.com/images/post/javascript/array-caching-performance-2.jpg">
 <meta property="og:updated_time" content="2016-12-31T16:52:11.296Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript 有必要缓存 for 循环中的 Array.length 吗？">
-<meta name="twitter:description" content="问题
-缓存 Array.length 是老生常谈的小优化。
-
-
-
-
-
-12345678910
-
-
-// 不缓存 for (var i = 0; i &amp;lt; arr.length; i++) &amp;#123;...&amp;#125;// 缓存var len = arr.length;for (var i = 0; i &amp;lt; len; i++) &amp;#123;...&amp;#125;
-
-
-
-
-
-但笔者对这种破碎">
+<meta name="twitter:description" content="问题 缓存 Array.length 是老生常谈的小优化。      12345678910   // 不缓存 for (var i = 0; i &amp;lt; arr.length; i++) &amp;#123;...&amp;#125;// 缓存var len = arr.length;for (var i = 0; i &amp;lt; len; i++) &amp;#123;...&amp;#125;      但笔者对这种破碎的">
 <meta name="twitter:image" content="https://blog.crimx.com/images/post/javascript/array-caching-performance-1.jpg">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
@@ -119,22 +73,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/fog-1780738_1920-portrait.jpg') 35.55% 48.80%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHBAP/xAAoEAABAwEGBQUAAAAAAAAAAAACAAEDBAUREhUxUwYHFCGREyJBUXH/xAAYAQACAwAAAAAAAAAAAAAAAAACAwABBP/EABgRAQEBAQEAAAAAAAAAAAAAAAAhEQIB/9oADAMBAAIRAxEAPwC41Amz3ssE1TgG7E3bVLtscybCCjfp6wCl+BSVLzDKunjjp42K97n92qdxQdRSs0j3B8oSPmL7UflCbAb6kUvDNonK4yM7P9rTZ9j1NnzeocZnhe/torHX0ULliYBZ/wAXLp4CpyF4h7trcs2Han+bSbZITZlFJtshXUj/2Q==') 35.55% 48.80%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -148,13 +92,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/fog-1780738_1920-portrait.jpg') 35.55% 48.80%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHBAP/xAAoEAABAwEGBQUAAAAAAAAAAAACAAEDBAUREhUxUwYHFCGREyJBUXH/xAAYAQACAwAAAAAAAAAAAAAAAAACAwABBP/EABgRAQEBAQEAAAAAAAAAAAAAAAAhEQIB/9oADAMBAAIRAxEAPwC41Amz3ssE1TgG7E3bVLtscybCCjfp6wCl+BSVLzDKunjjp42K97n92qdxQdRSs0j3B8oSPmL7UflCbAb6kUvDNonK4yM7P9rTZ9j1NnzeocZnhe/torHX0ULliYBZ/wAXLp4CpyF4h7trcs2Han+bSbZITZlFJtshXUj/2Q==') 35.55% 48.80%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHBAP/xAAoEAABAwEGBQUAAAAAAAAAAAACAAEDBAUREhUxUwYHFCGREyJBUXH/xAAYAQACAwAAAAAAAAAAAAAAAAACAwABBP/EABgRAQEBAQEAAAAAAAAAAAAAAAAhEQIB/9oADAMBAAIRAxEAPwC41Amz3ssE1TgG7E3bVLtscybCCjfp6wCl+BSVLzDKunjjp42K97n92qdxQdRSs0j3B8oSPmL7UflCbAb6kUvDNonK4yM7P9rTZ9j1NnzeocZnhe/torHX0ULliYBZ/wAXLp4CpyF4h7trcs2Han+bSbZITZlFJtshXUj/2Q==') 35.55% 48.80%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">JavaScript 有必要缓存 for 循环中的 Array.length 吗？</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/04/21/should-array-length-be-cached-or-not/" class="article-date"><time datetime="2015-04-20T16:00:00.000Z" itemprop="datePublished">2015-04-21</time></a><a
-rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/04/21/should-array-length-be-cached-or-not/" class="article-date"><time datetime="2015-04-20T16:00:00.000Z" itemprop="datePublished">2015-04-21</time></a><a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -181,18 +123,17 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <article id="post-should-array-length-be-cached-or-not" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<h2 id="问题">
-<a href="#问题" class="headerlink" title="问题"></a>问题</h2>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2>
 <p>缓存 <code>Array.length</code> 是老生常谈的小优化。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// 不缓存 </span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">...</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 缓存</span></div><div class="line"><span class="keyword">var</span> len = arr.length;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">...</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="comment">// 不缓存 </span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 缓存</span></span><br><span class="line"><span class="keyword">var</span> len = arr.length;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -201,13 +142,10 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <p>但笔者对这种破碎的写法感到不适，也对这种写法的实际优化效果产生疑问。</p>
 <p>且推崇这种写法的朋友似乎很多也是“前辈这么说+自己想了一下觉得有道理”。</p>
 <p>由于 for 循环搭配 <code>Array.length</code> 是极度常用的 JavasScript 代码，所以非常必要搞清楚。</p>
-<h2 id="结论">
-<a href="#结论" class="headerlink" title="结论"></a>结论</h2>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2>
 <p>先上笔者得到的结论：缓存 <code>Array.lengh</code> 对优化影响不大，甚至会减慢。</p>
-<h2 id="理由">
-<a href="#理由" class="headerlink" title="理由"></a>理由</h2>
-<h3 id="从测试结果上看">
-<a href="#从测试结果上看" class="headerlink" title="从测试结果上看"></a>从测试结果上看</h3>
+<h2 id="理由"><a href="#理由" class="headerlink" title="理由"></a>理由</h2>
+<h3 id="从测试结果上看"><a href="#从测试结果上看" class="headerlink" title="从测试结果上看"></a>从测试结果上看</h3>
 <p>stackoverflow 上也有这个讨论，<a href="http://stackoverflow.com/questions/17989270/for-loop-performance-storing-array-length-in-a-variable" target="_blank">For-loop performance: storing array length in a variable</a> 。</p>
 <p>accepted 的答案是说缓存会起到加速的结果，给出了 <a href="http://jsperf.com/for-loop-research" target="_blank">jsPerf</a> 测试。</p>
 <p>但是有答案反对，也给出了 <a href="http://blogs.msdn.com/b/eternalcoding/archive/2015/01/07/javascript-shoud-i-have-to-cache-my-array-s-length.aspx" target="_blank">jsPerf</a> 测试。</p>
@@ -216,8 +154,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <p><img src="/images/post/javascript/array-caching-performance-1.jpg" alt="array-caching-performance-1"></p>
 <p>还有这篇 <a href="http://www.erichynds.com/blog/javascript-length-property-is-a-stored-value" target="_blank">JavaScript&#39;s .length Property is a Stored Value</a></p>
 <p><img src="/images/post/javascript/array-caching-performance-2.jpg" alt="array-caching-performance-2"></p>
-<h3 id="从-V8-的中间代码分析">
-<a href="#从-V8-的中间代码分析" class="headerlink" title="从 V8 的中间代码分析"></a>从 V8 的中间代码分析</h3>
+<h3 id="从-V8-的中间代码分析"><a href="#从-V8-的中间代码分析" class="headerlink" title="从 V8 的中间代码分析"></a>从 V8 的中间代码分析</h3>
 <p>这篇文章 <a href="http://mrale.ph/blog/2014/12/24/array-length-caching.html" target="_blank">How the Grinch stole array.length access</a> 从 V8 的 hydrogen 探讨 <code>Array.length</code> 在 for 循环中的处理。</p>
 <p>正如上面提到的 <a href="http://en.wikipedia.org/wiki/Loop-invariant_code_motion" target="_blank">Loop-invariant code motion</a>，引擎会聪明的把能确定不变的代码移到循环外。</p>
 <p>所以像下面这种代码也不会影响引擎对 <code>Array.length</code> 的优化：</p>
@@ -226,10 +163,10 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">uncached</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    arr[i]</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uncached</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    arr[i]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -241,10 +178,10 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">BLACKHOLE</span>(<span class="params">sum, arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">try</span> &#123; &#125; <span class="keyword">catch</span> (e) &#123; &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">uncached</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</div><div class="line">    sum += arr[i];</div><div class="line">    <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) BLACKHOLE(arr, sum);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> sum;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">BLACKHOLE</span>(<span class="params">sum, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123; &#125; <span class="keyword">catch</span> (e) &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uncached</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    sum += arr[i];</span><br><span class="line">    <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) BLACKHOLE(arr, sum);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -252,8 +189,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <p></p>
 <p>但这时即便是在循环外缓存了 <code>length</code> 也是没有用的，引擎没法预判数组的变化，当需要访问数组元素时会触发 bounds check ，从而照样要计算一遍 <code>length</code> 。所以缓存 <code>length</code> 是没有用的。</p>
 <p>甚至，由于多了一个变量，底层的寄存器分配器每次循环还要多一次恢复这个变量。这个只有在大规模的情况下才会看出区别。</p>
-<h2 id="结尾">
-<a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2>
 <p>当然这篇文章也有局限性，仅仅讨论了 V8 引擎，也没有讨论访问 <code>length</code> 代价更高的 <code>HTMLCollection</code> 。但这已经足够让我们不用再局限于缓存的写法，可以放开来按照自己喜欢的方式去写循环了。</p>
 <p>【完】</p>
 </div>
@@ -265,12 +201,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
-<nav id="article-nav"><a href="/2015/05/14/understanding-prototype/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">理解 Prototype</div></a>
-<a href="/2015/03/29/javascript-hoist-under-the-hood/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">V8 是如何实现 JavaScript Hoist 的</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2015/05/14/understanding-prototype/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">理解 Prototype</div></a><a href="/2015/03/29/javascript-hoist-under-the-hood/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">V8 是如何实现 JavaScript Hoist 的</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -314,8 +245,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

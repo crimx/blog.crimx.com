@@ -30,11 +30,13 @@
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
 <meta name="description" content="闲逛 Github 时碰见一个叫 SentinelJS 的库，声称能检测 DOM 结点的插入，顿时引起了好奇。因为以前无聊时也想过一下，没什么头绪，便不了了之。当时第一反应是该不会用轮询吧（比这粗暴的实现也不是没见过）。但看到 682 bytes (minified + gzipped) 大小时感觉一定又是用了什么奇淫怪巧，个人对这种东西很感兴趣（见另一篇《巧妙监测元素尺寸变化》），便顺便看了看源">
+<meta name="keywords" content="闲读源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="检测 DOM 结点插入">
 <meta property="og:url" content="https://blog.crimx.com/2017/09/20/new-dom-nodes-detection/index.html">
 <meta property="og:site_name" content="CRIMX">
 <meta property="og:description" content="闲逛 Github 时碰见一个叫 SentinelJS 的库，声称能检测 DOM 结点的插入，顿时引起了好奇。因为以前无聊时也想过一下，没什么头绪，便不了了之。当时第一反应是该不会用轮询吧（比这粗暴的实现也不是没见过）。但看到 682 bytes (minified + gzipped) 大小时感觉一定又是用了什么奇淫怪巧，个人对这种东西很感兴趣（见另一篇《巧妙监测元素尺寸变化》），便顺便看了看源">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-09-20T12:16:42.863Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="检测 DOM 结点插入">
@@ -68,22 +70,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -97,15 +89,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">检测 DOM 结点插入</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/09/20/new-dom-nodes-detection/" class="article-date"><time datetime="2017-09-19T16:00:00.000Z" itemprop="datePublished">2017-09-20</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/09/20/new-dom-nodes-detection/" class="article-date"><time datetime="2017-09-19T16:00:00.000Z" itemprop="datePublished">2017-09-20</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -124,16 +112,16 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <p>闲逛 Github 时碰见一个叫 SentinelJS 的库，声称能检测 DOM 结点的插入，顿时引起了好奇。因为以前无聊时也想过一下，没什么头绪，便不了了之。当时第一反应是该不会用轮询吧（比这粗暴的实现也不是没见过）。但看到 682 bytes (minified + gzipped) 大小时感觉一定又是用了什么奇淫怪巧，个人对这种东西很感兴趣（见另一篇<a href="//blog.crimx.com/2017/07/15/element-onresize/" target="_blank">《巧妙监测元素尺寸变化》</a>），便顺便看了看源码，很短，但一看到
 <code>animation</code> 时便拍大腿了！通过检测 animationstart 事件来检测插入，机智！</p>
 <p>代码很短，就是维护了一个事件队列。核心在 <a href="https://github.com/muicss/sentineljs/blob/master/src/sentinel.js#L37" target="_blank"><code>onFn</code></a> 和 <a href="https://github.com/muicss/sentineljs/blob/master/src/sentinel.js#L87" target="_blank"><code>offFn</code></a>上。后者同理，便主要看
-<code>onFn</code> 的实现。</p>
+<code>onFn</code>的实现。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Add watcher.</div><div class="line"> * @param &#123;array&#125; cssSelectors - List of CSS selector strings</div><div class="line"> * @param &#123;Function&#125; callback - The callback function</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">onFn</span>(<span class="params">cssSelectors, callback, extraAnimations</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!callback) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">  <span class="comment">// initialize animationstart event listener</span></div><div class="line">  <span class="keyword">if</span> (!isInitialized) init();</div><div class="line"></div><div class="line">  <span class="comment">// listify argument</span></div><div class="line">  cssSelectors = <span class="built_in">Array</span>.isArray(cssSelectors) ? cssSelectors : [cssSelectors];</div><div class="line"></div><div class="line">  <span class="comment">// add css rules and cache callbacks</span></div><div class="line">  cssSelectors.map(<span class="function"><span class="keyword">function</span>(<span class="params">selector</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> animId = selectorToAnimationMap[selector];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!animId) &#123;</div><div class="line">      <span class="comment">// add new CSS listener</span></div><div class="line">      <span class="keyword">var</span> css, i;</div><div class="line"></div><div class="line">      animId = <span class="string">'sentinel-'</span> + <span class="built_in">Math</span>.random().toString(<span class="number">16</span>).slice(<span class="number">2</span>);</div><div class="line"></div><div class="line">      <span class="comment">// add keyframe rule</span></div><div class="line">      css = <span class="string">'@keyframes '</span> + animId +</div><div class="line">        <span class="string">'&#123;from&#123;transform:none;&#125;to&#123;transform:none;&#125;&#125;'</span>;</div><div class="line">      i = styleSheet.cssRules.length;</div><div class="line">      styleSheet.insertRule(css, i);</div><div class="line">      styleSheet.cssRules[i]._id = selector;</div><div class="line"></div><div class="line">      <span class="comment">// add selector animation rule</span></div><div class="line">      css = selector + <span class="string">'&#123;animation-duration:0.0001s;animation-name:'</span> + animId;</div><div class="line">      <span class="keyword">if</span> (extraAnimations) css += <span class="string">','</span> + extraAnimations;</div><div class="line">      css += <span class="string">';&#125;'</span>;</div><div class="line">      i += <span class="number">1</span>;</div><div class="line">      styleSheet.insertRule(css, i);</div><div class="line">      styleSheet.cssRules[i]._id = selector;</div><div class="line"></div><div class="line">      <span class="comment">// add to map</span></div><div class="line">      selectorToAnimationMap[selector] = animId;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// add to callbacks</span></div><div class="line">    <span class="keyword">var</span> x = animationCallbacks[animId] = animationCallbacks[animId] || [];</div><div class="line">    x.push(callback);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Add watcher.</span></span><br><span class="line"><span class="comment"> * @param &#123;array&#125; cssSelectors - List of CSS selector strings</span></span><br><span class="line"><span class="comment"> * @param &#123;Function&#125; callback - The callback function</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onFn</span>(<span class="params">cssSelectors, callback, extraAnimations</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!callback) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// initialize animationstart event listener</span></span><br><span class="line">  <span class="keyword">if</span> (!isInitialized) init();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// listify argument</span></span><br><span class="line">  cssSelectors = <span class="built_in">Array</span>.isArray(cssSelectors) ? cssSelectors : [cssSelectors];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// add css rules and cache callbacks</span></span><br><span class="line">  cssSelectors.map(<span class="function"><span class="keyword">function</span>(<span class="params">selector</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> animId = selectorToAnimationMap[selector];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!animId) &#123;</span><br><span class="line">      <span class="comment">// add new CSS listener</span></span><br><span class="line">      <span class="keyword">var</span> css, i;</span><br><span class="line"></span><br><span class="line">      animId = <span class="string">'sentinel-'</span> + <span class="built_in">Math</span>.random().toString(<span class="number">16</span>).slice(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// add keyframe rule</span></span><br><span class="line">      css = <span class="string">'@keyframes '</span> + animId +</span><br><span class="line">        <span class="string">'&#123;from&#123;transform:none;&#125;to&#123;transform:none;&#125;&#125;'</span>;</span><br><span class="line">      i = styleSheet.cssRules.length;</span><br><span class="line">      styleSheet.insertRule(css, i);</span><br><span class="line">      styleSheet.cssRules[i]._id = selector;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// add selector animation rule</span></span><br><span class="line">      css = selector + <span class="string">'&#123;animation-duration:0.0001s;animation-name:'</span> + animId;</span><br><span class="line">      <span class="keyword">if</span> (extraAnimations) css += <span class="string">','</span> + extraAnimations;</span><br><span class="line">      css += <span class="string">';&#125;'</span>;</span><br><span class="line">      i += <span class="number">1</span>;</span><br><span class="line">      styleSheet.insertRule(css, i);</span><br><span class="line">      styleSheet.cssRules[i]._id = selector;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// add to map</span></span><br><span class="line">      selectorToAnimationMap[selector] = animId;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// add to callbacks</span></span><br><span class="line">    <span class="keyword">var</span> x = animationCallbacks[animId] = animationCallbacks[animId] || [];</span><br><span class="line">    x.push(callback);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -145,10 +133,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div></pre>
+<pre><span class="line">1</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">animId = <span class="string">'sentinel-'</span> + <span class="built_in">Math</span>.random().toString(<span class="number">16</span>).slice(<span class="number">2</span>);</div></pre>
+<pre><span class="line">animId = <span class="string">'sentinel-'</span> + <span class="built_in">Math</span>.random().toString(<span class="number">16</span>).slice(<span class="number">2</span>);</span><br></pre>
 </td>
 </tr>
 </table>
@@ -161,10 +149,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// add keyframe rule</span></div><div class="line">      css = <span class="string">'@keyframes '</span> + animId +</div><div class="line">        <span class="string">'&#123;from&#123;transform:none;&#125;to&#123;transform:none;&#125;&#125;'</span>;</div><div class="line">      i = styleSheet.cssRules.length;</div><div class="line">      styleSheet.insertRule(css, i);</div><div class="line">      styleSheet.cssRules[i]._id = selector;</div></pre>
+<pre><span class="line"><span class="comment">// add keyframe rule</span></span><br><span class="line">      css = <span class="string">'@keyframes '</span> + animId +</span><br><span class="line">        <span class="string">'&#123;from&#123;transform:none;&#125;to&#123;transform:none;&#125;&#125;'</span>;</span><br><span class="line">      i = styleSheet.cssRules.length;</span><br><span class="line">      styleSheet.insertRule(css, i);</span><br><span class="line">      styleSheet.cssRules[i]._id = selector;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -177,10 +165,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div></pre>
+<pre><span class="line">1</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">doc.addEventListener(event, animationStartHandler, <span class="literal">true</span>);</div></pre>
+<pre><span class="line">doc.addEventListener(event, animationStartHandler, <span class="literal">true</span>);</span><br></pre>
 </td>
 </tr>
 </table>
@@ -192,10 +180,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Animation start handler</div><div class="line"> * @param &#123;Event&#125; ev - The DOM event</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animationStartHandler</span>(<span class="params">ev</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> callbacks = animationCallbacks[ev.animationName] || [],</div><div class="line">      l = callbacks.length;</div><div class="line"></div><div class="line">  <span class="comment">// exit if a callback hasn't been registered</span></div><div class="line">  <span class="keyword">if</span> (!l) <span class="keyword">return</span>;</div><div class="line"></div><div class="line">  <span class="comment">// stop other callbacks from firing</span></div><div class="line">  ev.stopImmediatePropagation();</div><div class="line"></div><div class="line">  <span class="comment">// iterate through callbacks</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; l; i++) callbacks[i](ev.target);</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Animation start handler</span></span><br><span class="line"><span class="comment"> * @param &#123;Event&#125; ev - The DOM event</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">animationStartHandler</span>(<span class="params">ev</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> callbacks = animationCallbacks[ev.animationName] || [],</span><br><span class="line">      l = callbacks.length;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// exit if a callback hasn't been registered</span></span><br><span class="line">  <span class="keyword">if</span> (!l) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// stop other callbacks from firing</span></span><br><span class="line">  ev.stopImmediatePropagation();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// iterate through callbacks</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; l; i++) callbacks[i](ev.target);</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -209,12 +197,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <ul class="article-tag-list">
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读源码/">闲读源码</a></li>
 </ul>
-<nav id="article-nav"><a href="/2017/11/13/react-native-with-mobx/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">React Native 搭配 MobX 使用心得</div></a>
-<a href="/2017/08/12/proto-prototype/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">Prototype 与 __Proto__ 的爱恨情仇</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/11/13/react-native-with-mobx/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">React Native 搭配 MobX 使用心得</div></a><a href="/2017/08/12/proto-prototype/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Prototype 与 __Proto__ 的爱恨情仇</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -258,8 +241,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

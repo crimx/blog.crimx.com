@@ -29,46 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="SVG Symbol
-用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。
-
-Symbol 好处
-
-方便
-利用 ID 来取图案，所以不用各种计算，可以随便放。
-
-反复利用
-这应该是一个不太容易发现的好处，你可以在文件内部继续用&amp;lt;use&amp;gt;来做图案的各种版本。这样 SVG 的优势更加明显，节省了好多空间。
-比如这个博客里用到的社交图案，原本的是只有图案本身。例如这是 C">
+<meta name="description" content="SVG Symbol 用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。 Symbol 好处 方便 利用 ID 来取图案，所以不用各种计算，可以随便放。 反复利用 这应该是一个不太容易发现的好处，你可以在文件内部继续用&amp;lt;use&amp;gt;来做图案的各种版本。这样 SVG 的优势更加明显，节省了好多空间。 比如这个博客里用到的社交图案，原本的是只有图案本身。例如这是 Codep">
+<meta name="keywords" content="Recommended,Image,SVG,Sprite">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SVG Symbol 和 Sprite 的好处和坑">
 <meta property="og:url" content="https://blog.crimx.com/2016/11/28/svg-sprite/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="SVG Symbol
-用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。
-
-Symbol 好处
-
-方便
-利用 ID 来取图案，所以不用各种计算，可以随便放。
-
-反复利用
-这应该是一个不太容易发现的好处，你可以在文件内部继续用&amp;lt;use&amp;gt;来做图案的各种版本。这样 SVG 的优势更加明显，节省了好多空间。
-比如这个博客里用到的社交图案，原本的是只有图案本身。例如这是 C">
+<meta property="og:description" content="SVG Symbol 用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。 Symbol 好处 方便 利用 ID 来取图案，所以不用各种计算，可以随便放。 反复利用 这应该是一个不太容易发现的好处，你可以在文件内部继续用&amp;lt;use&amp;gt;来做图案的各种版本。这样 SVG 的优势更加明显，节省了好多空间。 比如这个博客里用到的社交图案，原本的是只有图案本身。例如这是 Codep">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2016-12-30T12:32:20.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVG Symbol 和 Sprite 的好处和坑">
-<meta name="twitter:description" content="SVG Symbol
-用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。
-
-Symbol 好处
-
-方便
-利用 ID 来取图案，所以不用各种计算，可以随便放。
-
-反复利用
-这应该是一个不太容易发现的好处，你可以在文件内部继续用&amp;lt;use&amp;gt;来做图案的各种版本。这样 SVG 的优势更加明显，节省了好多空间。
-比如这个博客里用到的社交图案，原本的是只有图案本身。例如这是 C">
+<meta name="twitter:description" content="SVG Symbol 用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。 Symbol 好处 方便 利用 ID 来取图案，所以不用各种计算，可以随便放。 反复利用 这应该是一个不太容易发现的好处，你可以在文件内部继续用&amp;lt;use&amp;gt;来做图案的各种版本。这样 SVG 的优势更加明显，节省了好多空间。 比如这个博客里用到的社交图案，原本的是只有图案本身。例如这是 Codep">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -98,22 +70,12 @@ Symbol 好处
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/sprite-1242896_1920-portrait.jpg') 52.93% 47.56%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFBgP/xAAmEAABBAECBgIDAAAAAAAAAAABAAIDBAUhMRESFBVBUwYWUVSR/8QAFQEBAQAAAAAAAAAAAAAAAAAABAX/xAAlEQAABQEHBQAAAAAAAAAAAAAAAQIDEQUEEhMUITFRQWFxgdH/2gAMAwEAAhEDEQA/AGuu5mgA8CTumYbDJGkk6Dys7BVuSvc1mpOoaPC6X22sRWD5m8434AqaVGtK2cYi037x4B860S7k/Be6uL8lCxP2ST9YoQMmvgJvkKTcvFWsyivK4NGgcVPnvS5BroxMXku4anRN/HsbFlGWI5dCW7qVcxrsObLWS8xad1fbrjqWDs5RJFE9RPVT2zcxPcBrtNn2RIWY7ja9rv6hS4e5DdB//9k=') 52.93% 47.56%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -127,15 +89,11 @@ Symbol 好处
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/sprite-1242896_1920-portrait.jpg') 52.93% 47.56%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFBgP/xAAmEAABBAECBgIDAAAAAAAAAAABAAIDBAUhMRESFBVBUwYWUVSR/8QAFQEBAQAAAAAAAAAAAAAAAAAABAX/xAAlEQAABQEHBQAAAAAAAAAAAAAAAQIDEQUEEhMUITFRQWFxgdH/2gAMAwEAAhEDEQA/AGuu5mgA8CTumYbDJGkk6Dys7BVuSvc1mpOoaPC6X22sRWD5m8434AqaVGtK2cYi037x4B860S7k/Be6uL8lCxP2ST9YoQMmvgJvkKTcvFWsyivK4NGgcVPnvS5BroxMXku4anRN/HsbFlGWI5dCW7qVcxrsObLWS8xad1fbrjqWDs5RJFE9RPVT2zcxPcBrtNn2RIWY7ja9rv6hS4e5DdB//9k=') 52.93% 47.56%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFBgP/xAAmEAABBAECBgIDAAAAAAAAAAABAAIDBAUhMRESFBVBUwYWUVSR/8QAFQEBAQAAAAAAAAAAAAAAAAAABAX/xAAlEQAABQEHBQAAAAAAAAAAAAAAAQIDEQUEEhMUITFRQWFxgdH/2gAMAwEAAhEDEQA/AGuu5mgA8CTumYbDJGkk6Dys7BVuSvc1mpOoaPC6X22sRWD5m8434AqaVGtK2cYi037x4B860S7k/Be6uL8lCxP2ST9YoQMmvgJvkKTcvFWsyivK4NGgcVPnvS5BroxMXku4anRN/HsbFlGWI5dCW7qVcxrsObLWS8xad1fbrjqWDs5RJFE9RPVT2zcxPcBrtNn2RIWY7ja9rv6hS4e5DdB//9k=') 52.93% 47.56%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">SVG Symbol 和 Sprite 的好处和坑</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/SVG/">SVG</a></div><a href="/2016/11/28/svg-sprite/" class="article-date"><time datetime="2016-11-27T16:00:00.000Z" itemprop="datePublished">2016-11-28</time></a>
-<a rel="license" class="cc-license-wrapper"
-href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/SVG/">SVG</a></div><a href="/2016/11/28/svg-sprite/" class="article-date"><time datetime="2016-11-27T16:00:00.000Z" itemprop="datePublished">2016-11-28</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -188,16 +146,12 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <article id="post-svg-sprite" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<h1 id="SVG-Symbol">
-<a href="#SVG-Symbol" class="headerlink" title="SVG Symbol"></a>SVG Symbol</h1>
+<h1 id="SVG-Symbol"><a href="#SVG-Symbol" class="headerlink" title="SVG Symbol"></a>SVG Symbol</h1>
 <p>用 Symbol 来把 SVG 合并到一个文件几乎是现在最流行的用法。</p>
-<h2 id="Symbol-好处">
-<a href="#Symbol-好处" class="headerlink" title="Symbol 好处"></a>Symbol 好处</h2>
-<h3 id="方便">
-<a href="#方便" class="headerlink" title="方便"></a>方便</h3>
+<h2 id="Symbol-好处"><a href="#Symbol-好处" class="headerlink" title="Symbol 好处"></a>Symbol 好处</h2>
+<h3 id="方便"><a href="#方便" class="headerlink" title="方便"></a>方便</h3>
 <p>利用 ID 来取图案，所以不用各种计算，可以随便放。</p>
-<h3 id="反复利用">
-<a href="#反复利用" class="headerlink" title="反复利用"></a>反复利用</h3>
+<h3 id="反复利用"><a href="#反复利用" class="headerlink" title="反复利用"></a>反复利用</h3>
 <p>这应该是一个不太容易发现的好处，你可以在文件内部继续用<code>&lt;use&gt;</code>来做图案的各种版本。这样 SVG 的优势更加明显，节省了好多空间。</p>
 <p>比如这个博客里用到的社交图案，原本的是只有图案本身。例如这是 Codepen 的图案：</p>
 <p></p>
@@ -205,10 +159,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="tag">&lt;<span class="name">symbol</span> <span class="attr">id</span>=<span class="string">"icon-codepen"</span> <span class="attr">viewBox</span>=<span class="string">"0 0 32 32"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>codepen<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">path</span> <span class="attr">class</span>=<span class="string">"icon-path"</span> <span class="attr">d</span>=<span class="string">"M17.050 1.259c-0.882-0.546-2.016-0.546-2.855 0.042l-12.764 8.649c-0.672 0.462-1.092 1.218-1.092 2.016v9.321c0 0.84 0.42 1.596 1.134 2.057l12.974 8.355c0.84 0.546 1.931 0.546 2.813 0l13.226-8.482c0.714-0.462 1.134-1.218 1.134-2.057v-9.153c0-0.84-0.42-1.596-1.134-2.057l-13.436-8.691zM26.959 11.378l-4.87 3.191-4.576-3.233-0.042-6.382 9.489 6.424zM14.11 4.954v6.256l-4.702 3.191-4.702-3.065 9.405-6.382zM3.446 14.401l3.023 1.973-3.023 2.057v-4.031zM14.195 27.753l-9.447-6.172 4.744-3.233 4.744 3.107c-0.042 0-0.042 6.298-0.042 6.298zM12.389 16.332l3.065-2.099 3.569 2.267-3.149 2.099-3.485-2.267zM17.553 27.753v-6.298l4.535-2.939 4.87 3.107-9.405 6.13zM28.302 18.557l-3.233-2.057 3.233-2.099v4.157z"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">symbol</span>&gt;</span></div></pre>
+<pre><span class="line"><span class="tag">&lt;<span class="name">symbol</span> <span class="attr">id</span>=<span class="string">"icon-codepen"</span> <span class="attr">viewBox</span>=<span class="string">"0 0 32 32"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>codepen<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">path</span> <span class="attr">class</span>=<span class="string">"icon-path"</span> <span class="attr">d</span>=<span class="string">"M17.050 1.259c-0.882-0.546-2.016-0.546-2.855 0.042l-12.764 8.649c-0.672 0.462-1.092 1.218-1.092 2.016v9.321c0 0.84 0.42 1.596 1.134 2.057l12.974 8.355c0.84 0.546 1.931 0.546 2.813 0l13.226-8.482c0.714-0.462 1.134-1.218 1.134-2.057v-9.153c0-0.84-0.42-1.596-1.134-2.057l-13.436-8.691zM26.959 11.378l-4.87 3.191-4.576-3.233-0.042-6.382 9.489 6.424zM14.11 4.954v6.256l-4.702 3.191-4.702-3.065 9.405-6.382zM3.446 14.401l3.023 1.973-3.023 2.057v-4.031zM14.195 27.753l-9.447-6.172 4.744-3.233 4.744 3.107c-0.042 0-0.042 6.298-0.042 6.298zM12.389 16.332l3.065-2.099 3.569 2.267-3.149 2.099-3.485-2.267zM17.553 27.753v-6.298l4.535-2.939 4.87 3.107-9.405 6.13zM28.302 18.557l-3.233-2.057 3.233-2.099v4.157z"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">symbol</span>&gt;</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -220,10 +174,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">fill</span>=<span class="string">"#000"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">use</span> <span class="attr">xlink:href</span>=<span class="string">"/images/symbol-defs.svg#icon-codepen"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></div></pre>
+<pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">fill</span>=<span class="string">"#000"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">use</span> <span class="attr">xlink:href</span>=<span class="string">"/images/symbol-defs.svg#icon-codepen"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -239,10 +193,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="tag">&lt;<span class="name">symbol</span> <span class="attr">id</span>=<span class="string">"icon-codepen-circle"</span> <span class="attr">viewBox</span>=<span class="string">"0 0 32 32"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>codepen<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"50%"</span> <span class="attr">cy</span>=<span class="string">"50%"</span> <span class="attr">r</span>=<span class="string">"50%"</span> <span class="attr">fill</span>=<span class="string">"#000"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">use</span> <span class="attr">xlink:href</span>=<span class="string">"#icon-codepen"</span> <span class="attr">width</span>=<span class="string">"20"</span> <span class="attr">x</span>=<span class="string">"6"</span> <span class="attr">fill</span>=<span class="string">"#fff"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">symbol</span>&gt;</span></div></pre>
+<pre><span class="line"><span class="tag">&lt;<span class="name">symbol</span> <span class="attr">id</span>=<span class="string">"icon-codepen-circle"</span> <span class="attr">viewBox</span>=<span class="string">"0 0 32 32"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>codepen<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">circle</span> <span class="attr">cx</span>=<span class="string">"50%"</span> <span class="attr">cy</span>=<span class="string">"50%"</span> <span class="attr">r</span>=<span class="string">"50%"</span> <span class="attr">fill</span>=<span class="string">"#000"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">use</span> <span class="attr">xlink:href</span>=<span class="string">"#icon-codepen"</span> <span class="attr">width</span>=<span class="string">"20"</span> <span class="attr">x</span>=<span class="string">"6"</span> <span class="attr">fill</span>=<span class="string">"#fff"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">symbol</span>&gt;</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -252,46 +206,34 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <p></p>
 <p style="text-align: center; max-height: 150px"><svg fill="#000"><use xlink:href="/images/symbol-defs.svg#icon-codepen-circle"/></svg></p>
 <p></p>
-<h2 id="Symbol-坏处">
-<a href="#Symbol-坏处" class="headerlink" title="Symbol 坏处"></a>Symbol 坏处</h2>
-<h3 id="不完全支持">
-<a href="#不完全支持" class="headerlink" title="不完全支持"></a>不完全支持</h3>
+<h2 id="Symbol-坏处"><a href="#Symbol-坏处" class="headerlink" title="Symbol 坏处"></a>Symbol 坏处</h2>
+<h3 id="不完全支持"><a href="#不完全支持" class="headerlink" title="不完全支持"></a>不完全支持</h3>
 <p>这种方式并不完全支持 SVG 的各种特性。比如我开始就踩到了一个坑。我的 LOGO 里使用了<code>clippath</code>，使用这种方式就会失去效果。这个貌似是个<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=109212" target="_blank">陈年老 bug</a> 来的。</p>
 <p>解决方式就是利用工具合并路径，最好还压缩成一条，方便管理。编辑工具推荐 <a href="https://boxy-svg.com/main.html#download" target="_blank">Boxy SVG</a>，生成的代码非常轻盈，而且尽可能保留原来的样子，不会像 Illustrator 一样源码面目全非。压缩工具推荐 <a href="https://jakearchibald.github.io/svgomg/" target="_blank">SVGOMG!</a>，号称
 <a href="https://github.com/svg/svgo" target="_blank">SVGO</a>&#39;s Missing GUI。</p>
-<h3 id="奇怪的宽高">
-<a href="#奇怪的宽高" class="headerlink" title="奇怪的宽高"></a>奇怪的宽高</h3>
+<h3 id="奇怪的宽高"><a href="#奇怪的宽高" class="headerlink" title="奇怪的宽高"></a>奇怪的宽高</h3>
 <p>在宽和高是百分比的情况下，会出现跟<code>&lt;img&gt;</code>或者普通<code>&lt;svg&gt;</code>不一样的计算。有时高空出一段，有时宽空出一段。</p>
 <p>这个我纠结了很久，没有找到原因。我猜是受到原本整个 SVG 的影响。</p>
 <p>解决方法是用相同宽高比的父<code>&lt;div&gt;</code>来限制；或者不用百分比。</p>
-<h3 id="慢">
-<a href="#慢" class="headerlink" title="慢"></a>慢</h3>
+<h3 id="慢"><a href="#慢" class="headerlink" title="慢"></a>慢</h3>
 <p>因为零部件是可以<code>&lt;use&gt;</code>的，所以引擎不能像图片一样直接解析完就一整块到处扔。</p>
-<p>虽然这个延时非常的小，一般几乎感觉不到，但是如果像这个博客左边的菜单栏一样（电脑上），在每个页面都是同样的元素，那么切换页面的时候就可以肉眼感受到图案的闪动。这种情况就只能放弃使用 Symbol。可以考虑单独一张 SVG 图片或者：<span class="github-emoji" title=":point_down:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f447.png?v8">&#x1f447;</span></p>
-<h1
-id="SVG-Sprite">
-<a href="#SVG-Sprite" class="headerlink" title="SVG Sprite"></a>SVG Sprite</h1>
+<p>虽然这个延时非常的小，一般几乎感觉不到，但是如果像这个博客左边的菜单栏一样（电脑上），在每个页面都是同样的元素，那么切换页面的时候就可以肉眼感受到图案的闪动。这种情况就只能放弃使用 Symbol。可以考虑单独一张 SVG 图片或者：<span class="github-emoji" title="point_down" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f447.png?v8">&#x1f447;</span></p>
+<h1 id="SVG-Sprite"><a href="#SVG-Sprite" class="headerlink" title="SVG Sprite"></a>SVG Sprite</h1>
 <p>SVG Sprite 与以前的 PNG Sprite 一样，把图案按一定方式平铺到一张大图片上。</p>
-<h2 id="Sprite-好处">
-<a href="#Sprite-好处" class="headerlink" title="Sprite 好处"></a>Sprite 好处</h2>
-<h3 id="对齐">
-<a href="#对齐" class="headerlink" title="对齐"></a>对齐</h3>
+<h2 id="Sprite-好处"><a href="#Sprite-好处" class="headerlink" title="Sprite 好处"></a>Sprite 好处</h2>
+<h3 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h3>
 <p>SVG 不受大小限制，所以 Sprite 可以按统一的规格排列。</p>
 <p>取的时候也不受大小限制，利用百分比来取。</p>
 <p>比如这个博客左边菜单的图案就是 SVG Sprite，<a href="https://github.com/crimx/blog/blob/master/themes/crimx/source/_scss/libs/_svg-icons.scss" target="_blank">利用 Sass 自动计算百分比</a>。</p>
-<h3 id="快">
-<a href="#快" class="headerlink" title="快"></a>快</h3>
+<h3 id="快"><a href="#快" class="headerlink" title="快"></a>快</h3>
 <p>这种方式与普通图片一样肉眼看不到延时，而且还结合了 SVG 不受大小限制的优势。</p>
-<h2 id="Sprite-坏处">
-<a href="#Sprite-坏处" class="headerlink" title="Sprite 坏处"></a>Sprite 坏处</h2>
-<h3 id="添加麻烦">
-<a href="#添加麻烦" class="headerlink" title="添加麻烦"></a>添加麻烦</h3>
+<h2 id="Sprite-坏处"><a href="#Sprite-坏处" class="headerlink" title="Sprite 坏处"></a>Sprite 坏处</h2>
+<h3 id="添加麻烦"><a href="#添加麻烦" class="headerlink" title="添加麻烦"></a>添加麻烦</h3>
 <p>图案受位置影响，当然没有 Symbol 方法来得方便。</p>
 <p>因为需要快速显示的图案不多，我是利用 <a href="https://boxy-svg.com/main.html#download" target="_blank">Boxy SVG</a> 一个一个添加的。</p>
 <p>不太用心的查过一下，没注意到有合适的自动化工具。</p>
 <p>能用 Symbol 的当然优先使用 Symbol 方法，所以 Sprite 用的也不多，手动添加可以满足。</p>
-<h3 id="有误差">
-<a href="#有误差" class="headerlink" title="有误差"></a>有误差</h3>
+<h3 id="有误差"><a href="#有误差" class="headerlink" title="有误差"></a>有误差</h3>
 <p>使用百分比因为受小数影响，图案会有<code>1px</code>浮动，当然这个<code>1px</code>是根据图案当前大小得出的，所以越小图案浮动的位置越大。</p>
 <p>解决方法有两个，一是避免产生小数，按倍数来设置图案大小；二是按图案最小的情况计算出血，把图案缩小空出足够位置。</p>
 </div>
@@ -303,12 +245,7 @@ id="SVG-Sprite">
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SVG/">SVG</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sprite/">Sprite</a></li>
 </ul>
-<nav id="article-nav"><a href="/2016/12/23/emojis-for-blog/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">在博客上使用 Emoji</div></a>
-<a href="/2016/11/12/transition-display-none/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">CSS 过渡未知高度</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2016/12/23/emojis-for-blog/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">在博客上使用 Emoji</div></a><a href="/2016/11/12/transition-display-none/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">CSS 过渡未知高度</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -352,8 +289,7 @@ class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

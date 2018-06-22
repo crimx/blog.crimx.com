@@ -29,20 +29,14 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="上次交流会师弟演讲了栈式计算器，这在《数据结构》里也有提到，当时是用C实现了。而这学期学《编译原理》，里面也涉及到数学表达式。两者对比用栈更快，但是使用中间代码可以使到条理更清晰，还可以做很多有趣的扩展。所以这次交流会的内容有着落了。
-因为想顺便做个简单的 GUI 看看效果，所以打算用 Qt 或 pyQt，但是之前重装了系统，去下载Qt校园网速又渣渣，最后还是用了 Java。
-
-语法图
-先简单的递">
+<meta name="description" content="上次交流会师弟演讲了栈式计算器，这在《数据结构》里也有提到，当时是用C实现了。而这学期学《编译原理》，里面也涉及到数学表达式。两者对比用栈更快，但是使用中间代码可以使到条理更清晰，还可以做很多有趣的扩展。所以这次交流会的内容有着落了。 因为想顺便做个简单的 GUI 看看效果，所以打算用 Qt 或 pyQt，但是之前重装了系统，去下载Qt校园网速又渣渣，最后还是用了 Java。 语法图 先简单的递归">
+<meta name="keywords" content="编译原理,计算器,表达式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译原理与计算器">
 <meta property="og:url" content="https://blog.crimx.com/2014/03/15/simple-calculator/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="上次交流会师弟演讲了栈式计算器，这在《数据结构》里也有提到，当时是用C实现了。而这学期学《编译原理》，里面也涉及到数学表达式。两者对比用栈更快，但是使用中间代码可以使到条理更清晰，还可以做很多有趣的扩展。所以这次交流会的内容有着落了。
-因为想顺便做个简单的 GUI 看看效果，所以打算用 Qt 或 pyQt，但是之前重装了系统，去下载Qt校园网速又渣渣，最后还是用了 Java。
-
-语法图
-先简单的递">
+<meta property="og:description" content="上次交流会师弟演讲了栈式计算器，这在《数据结构》里也有提到，当时是用C实现了。而这学期学《编译原理》，里面也涉及到数学表达式。两者对比用栈更快，但是使用中间代码可以使到条理更清晰，还可以做很多有趣的扩展。所以这次交流会的内容有着落了。 因为想顺便做个简单的 GUI 看看效果，所以打算用 Qt 或 pyQt，但是之前重装了系统，去下载Qt校园网速又渣渣，最后还是用了 Java。 语法图 先简单的递归">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://blog.crimx.com/images/post/simple-calculator/expression.png">
 <meta property="og:image" content="https://blog.crimx.com/images/post/simple-calculator/term.png">
 <meta property="og:image" content="https://blog.crimx.com/images/post/simple-calculator/factor.png">
@@ -53,11 +47,7 @@
 <meta property="og:updated_time" content="2016-12-29T11:46:46.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编译原理与计算器">
-<meta name="twitter:description" content="上次交流会师弟演讲了栈式计算器，这在《数据结构》里也有提到，当时是用C实现了。而这学期学《编译原理》，里面也涉及到数学表达式。两者对比用栈更快，但是使用中间代码可以使到条理更清晰，还可以做很多有趣的扩展。所以这次交流会的内容有着落了。
-因为想顺便做个简单的 GUI 看看效果，所以打算用 Qt 或 pyQt，但是之前重装了系统，去下载Qt校园网速又渣渣，最后还是用了 Java。
-
-语法图
-先简单的递">
+<meta name="twitter:description" content="上次交流会师弟演讲了栈式计算器，这在《数据结构》里也有提到，当时是用C实现了。而这学期学《编译原理》，里面也涉及到数学表达式。两者对比用栈更快，但是使用中间代码可以使到条理更清晰，还可以做很多有趣的扩展。所以这次交流会的内容有着落了。 因为想顺便做个简单的 GUI 看看效果，所以打算用 Qt 或 pyQt，但是之前重装了系统，去下载Qt校园网速又渣渣，最后还是用了 Java。 语法图 先简单的递归">
 <meta name="twitter:image" content="https://blog.crimx.com/images/post/simple-calculator/expression.png">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
@@ -88,22 +78,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -117,15 +97,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">编译原理与计算器</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/Compiler/">Compiler</a></div><a href="/2014/03/15/simple-calculator/" class="article-date"><time datetime="2014-03-14T16:00:00.000Z" itemprop="datePublished">2014-03-15</time></a>
-<a rel="license" class="cc-license-wrapper"
-href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/Compiler/">Compiler</a></div><a href="/2014/03/15/simple-calculator/" class="article-date"><time datetime="2014-03-14T16:00:00.000Z" itemprop="datePublished">2014-03-15</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -158,38 +134,30 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <div class="article-entry postify" itemprop="articleBody">
 <p>上次交流会师弟演讲了栈式计算器，这在《数据结构》里也有提到，当时是用C实现了。而这学期学《编译原理》，里面也涉及到数学表达式。两者对比用栈更快，但是使用中间代码可以使到条理更清晰，还可以做很多有趣的扩展。所以这次交流会的内容有着落了。</p>
 <p>因为想顺便做个简单的 GUI 看看效果，所以打算用 Qt 或 pyQt，但是之前重装了系统，去下载Qt校园网速又渣渣，最后还是用了 Java。</p>
-<h2 id="语法图">
-<a href="#语法图" class="headerlink" title="语法图"></a>语法图</h2>
+<h2 id="语法图"><a href="#语法图" class="headerlink" title="语法图"></a>语法图</h2>
 <p>先简单的递归定义数学表达式<code>文法</code>，用 <code>EBNF</code> 会比较精炼，但是演讲效果不够图像明显。</p>
-<h3 id="表达式：">
-<a href="#表达式：" class="headerlink" title="表达式："></a>表达式：</h3>
+<h3 id="表达式："><a href="#表达式：" class="headerlink" title="表达式："></a>表达式：</h3>
 <p><img src="/images/post/simple-calculator/expression.png" alt="expression"></p>
-<h3 id="项：">
-<a href="#项：" class="headerlink" title="项："></a>项：</h3>
+<h3 id="项："><a href="#项：" class="headerlink" title="项："></a>项：</h3>
 <p><img src="/images/post/simple-calculator/term.png" alt="term"></p>
-<h3 id="因子：">
-<a href="#因子：" class="headerlink" title="因子："></a>因子：</h3>
+<h3 id="因子："><a href="#因子：" class="headerlink" title="因子："></a>因子：</h3>
 <p><img src="/images/post/simple-calculator/factor.png" alt="factor"></p>
-<h3 id="数字">
-<a href="#数字" class="headerlink" title="数字"></a>数字</h3>
+<h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3>
 <p>这把所有的数字当做自然数处理：</p>
 <p><img src="/images/post/simple-calculator/number.png" alt="number"></p>
 <p><img src="/images/post/simple-calculator/integer.png" alt="integer"></p>
-<h2 id="嵌套关系">
-<a href="#嵌套关系" class="headerlink" title="嵌套关系"></a>嵌套关系</h2>
+<h2 id="嵌套关系"><a href="#嵌套关系" class="headerlink" title="嵌套关系"></a>嵌套关系</h2>
 <p>有了语法图就可以从字符串中把一个个有意义的符号（Token）取出来了。</p>
 <p>现在就要关注在上面的语法图中如何嵌套调用去解析一条数学表达式。</p>
 <p>比如要解析 <code>25+3/(43-33)-37</code>，如图</p>
 <p><img src="/images/post/simple-calculator/nest.png" alt="nest"></p>
 <p>结合之前的语法图会比较好理解，我在<a href="/images/post/simple-calculator/files/calculator.ppt">PPT</a>上做了<code>动态图</code>。可以看到，每次都从表达式中递归的判断到<code>终结符</code>，扫描一遍就可以建立中间代码了。</p>
-<h2 id="中间代码">
-<a href="#中间代码" class="headerlink" title="中间代码"></a>中间代码</h2>
+<h2 id="中间代码"><a href="#中间代码" class="headerlink" title="中间代码"></a>中间代码</h2>
 <p>按照数学运算法则建立中间代码，它是一棵树，叶子结点都是数字，越接近根部的点运算优先级越低。</p>
 <p>举例来说，解析 <code>-25+3/(43-33)-(-37)</code> 生成的中间代码如图所示。</p>
 <p><img src="/images/post/simple-calculator/ast.png" alt="ast"></p>
 <p>可以结合<a href="/images/post/simple-calculator/files/calculator.ppt">PPT</a>的动态图理解整个建立过程。扫描的时候，树根为数字遇到操作符便往上方长树，树根为操作符遇到更低优先级的操作符也往上长树，其它情况则往下长。</p>
-<h2 id="代码实现">
-<a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2>
 <p>太懒没弄 UML 图，不过类也不多，直接讲吧，完整源码在<a href="/images/post/simple-calculator/files/calc.tar.gz">这里</a>。</p>
 <p>首先是 <code>Token</code> 类，扫描时就会将字符串生成一个个 <code>Token</code>。</p>
 <p></p>
@@ -197,10 +165,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">private</span> TokenType type; <span class="comment">// 该token的类型</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">double</span> number;  <span class="comment">// 数字</span></div><div class="line"><span class="keyword">private</span> String op;      <span class="comment">// 操作符</span></div></pre>
+<pre><span class="line"><span class="keyword">private</span> TokenType type; <span class="comment">// 该token的类型</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">double</span> number;  <span class="comment">// 数字</span></span><br><span class="line"><span class="keyword">private</span> String op;      <span class="comment">// 操作符</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -212,10 +180,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">private</span> ArrayList&lt;Token&gt; children = <span class="keyword">null</span>; <span class="comment">// 孩子</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addChild</span><span class="params">(Token token)</span></span>&#123;<span class="comment">/*......*/</span>&#125;</div></pre>
+<pre><span class="line"><span class="keyword">private</span> ArrayList&lt;Token&gt; children = <span class="keyword">null</span>; <span class="comment">// 孩子</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addChild</span><span class="params">(Token token)</span></span>&#123;<span class="comment">/*......*/</span>&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -227,10 +195,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> TokenType &#123;</div><div class="line">  </div><div class="line">  <span class="comment">//数字</span></div><div class="line">  NUMBER,</div><div class="line">  </div><div class="line">  <span class="comment">//操作符</span></div><div class="line">  PLUS, MINUS, STAR, SLASH,</div><div class="line">  LEFT_PAREN, RIGHT_PAREN,</div><div class="line">    </div><div class="line">  <span class="comment">//负数</span></div><div class="line">  NEGATE,</div><div class="line">  </div><div class="line">  <span class="comment">//结束</span></div><div class="line">  EOF;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> TokenType &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//数字</span></span><br><span class="line">  NUMBER,</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//操作符</span></span><br><span class="line">  PLUS, MINUS, STAR, SLASH,</span><br><span class="line">  LEFT_PAREN, RIGHT_PAREN,</span><br><span class="line">    </span><br><span class="line">  <span class="comment">//负数</span></span><br><span class="line">  NEGATE,</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//结束</span></span><br><span class="line">  EOF;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -242,10 +210,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// 数字处理</span></div><div class="line"><span class="keyword">if</span>(Character.isDigit(currentChar) || currentChar == <span class="string">'.'</span>) &#123;</div><div class="line">  <span class="keyword">return</span> extractNumber();</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span> &#123;</div><div class="line">  nextChar(); <span class="comment">// 先消耗掉这个字符</span></div><div class="line">    <span class="keyword">switch</span>(currentChar) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'+'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(PLUS, <span class="string">'+'</span>); </div><div class="line">    <span class="keyword">case</span> <span class="string">'-'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(MINUS, <span class="string">'-'</span>); </div><div class="line">    <span class="keyword">case</span> <span class="string">'*'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(STAR, <span class="string">'*'</span>);</div><div class="line">    <span class="keyword">case</span> <span class="string">'/'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(SLASH, <span class="string">'/'</span>); </div><div class="line">    <span class="keyword">case</span> <span class="string">'('</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(LEFT_PAREN, <span class="string">'('</span>); </div><div class="line">    <span class="keyword">case</span> <span class="string">')'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(RIGHT_PAREN, <span class="string">')'</span>);  </div><div class="line">    <span class="keyword">case</span> (<span class="keyword">char</span>)<span class="number">0</span>:<span class="keyword">return</span> <span class="keyword">new</span> Token(EOF); </div><div class="line">    <span class="keyword">default</span> : <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"有未识别的字符 \""</span>+ currentChar + <span class="string">"\" !"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="comment">// 数字处理</span></span><br><span class="line"><span class="keyword">if</span>(Character.isDigit(currentChar) || currentChar == <span class="string">'.'</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> extractNumber();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">  nextChar(); <span class="comment">// 先消耗掉这个字符</span></span><br><span class="line">    <span class="keyword">switch</span>(currentChar) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'+'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(PLUS, <span class="string">'+'</span>); </span><br><span class="line">    <span class="keyword">case</span> <span class="string">'-'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(MINUS, <span class="string">'-'</span>); </span><br><span class="line">    <span class="keyword">case</span> <span class="string">'*'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(STAR, <span class="string">'*'</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'/'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(SLASH, <span class="string">'/'</span>); </span><br><span class="line">    <span class="keyword">case</span> <span class="string">'('</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(LEFT_PAREN, <span class="string">'('</span>); </span><br><span class="line">    <span class="keyword">case</span> <span class="string">')'</span>: <span class="keyword">return</span> <span class="keyword">new</span> Token(RIGHT_PAREN, <span class="string">')'</span>);  </span><br><span class="line">    <span class="keyword">case</span> (<span class="keyword">char</span>)<span class="number">0</span>:<span class="keyword">return</span> <span class="keyword">new</span> Token(EOF); </span><br><span class="line">    <span class="keyword">default</span> : <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"有未识别的字符 \""</span>+ currentChar + <span class="string">"\" !"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -258,10 +226,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">double</span> <span class="title">calculate</span><span class="params">(Token token)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">if</span>(token != <span class="keyword">null</span>) &#123;</div><div class="line">    ArrayList&lt;Token&gt; children = token.getChildren();</div><div class="line">    <span class="keyword">if</span>(children == <span class="keyword">null</span>) &#123;</div><div class="line">      <span class="keyword">return</span> token.getNumber();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">switch</span>(token.getType()) &#123;</div><div class="line">      <span class="keyword">case</span> PLUS   : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) + calculate(children.get(<span class="number">1</span>));</div><div class="line">      <span class="keyword">case</span> MINUS  : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) - calculate(children.get(<span class="number">1</span>));</div><div class="line">      <span class="keyword">case</span> STAR   : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) * calculate(children.get(<span class="number">1</span>));</div><div class="line">      <span class="keyword">case</span> SLASH  : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) / calculate(children.get(<span class="number">1</span>));</div><div class="line">      <span class="keyword">case</span> NEGATE : <span class="keyword">return</span> -<span class="number">1</span> * calculate(children.get(<span class="number">0</span>));</div><div class="line">      <span class="keyword">default</span>     : <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"计算出错！"</span> + token.getType().toString());</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">double</span> <span class="title">calculate</span><span class="params">(Token token)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(token != <span class="keyword">null</span>) &#123;</span><br><span class="line">    ArrayList&lt;Token&gt; children = token.getChildren();</span><br><span class="line">    <span class="keyword">if</span>(children == <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> token.getNumber();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">switch</span>(token.getType()) &#123;</span><br><span class="line">      <span class="keyword">case</span> PLUS   : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) + calculate(children.get(<span class="number">1</span>));</span><br><span class="line">      <span class="keyword">case</span> MINUS  : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) - calculate(children.get(<span class="number">1</span>));</span><br><span class="line">      <span class="keyword">case</span> STAR   : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) * calculate(children.get(<span class="number">1</span>));</span><br><span class="line">      <span class="keyword">case</span> SLASH  : <span class="keyword">return</span> calculate(children.get(<span class="number">0</span>)) / calculate(children.get(<span class="number">1</span>));</span><br><span class="line">      <span class="keyword">case</span> NEGATE : <span class="keyword">return</span> -<span class="number">1</span> * calculate(children.get(<span class="number">0</span>));</span><br><span class="line">      <span class="keyword">default</span>     : <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"计算出错！"</span> + token.getType().toString());</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -274,17 +242,16 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div></pre>
+<pre><span class="line">1</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">Pattern.compile(<span class="string">"^.*Exception:"</span>).matcher(e1.toString()).replaceAll(<span class="string">""</span>)</div></pre>
+<pre><span class="line">Pattern.compile(<span class="string">"^.*Exception:"</span>).matcher(e1.toString()).replaceAll(<span class="string">""</span>)</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="总结">
-<a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
 <p>希望大家读完这篇文章后：</p>
 <ol>
 <li>学会了理解语法图</li>
@@ -345,8 +312,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

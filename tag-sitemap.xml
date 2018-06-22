@@ -737,15 +737,15 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
+        <loc>https://blog.crimx.com/tags/React/</loc>
         <lastmod>2018-04-03T09:32:52.996Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/React/</loc>
-        <lastmod>2018-04-03T09:32:52.996Z</lastmod>
+        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
+        <lastmod>2018-06-22T04:00:24.567Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

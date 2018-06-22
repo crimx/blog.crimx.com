@@ -29,25 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。
-居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。
-这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。
-感兴趣地去看了一下，感觉还是太重了。但我有个">
+<meta name="description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。 居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。 这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。 感兴趣地去看了一下，感觉还是太重了。但我有个">
+<meta name="keywords" content="Recommended,CSS,Responsive,Background">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自适应背景图片">
 <meta property="og:url" content="https://blog.crimx.com/2016/09/11/responsive-cover/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。
-居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。
-这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。
-感兴趣地去看了一下，感觉还是太重了。但我有个">
+<meta property="og:description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。 居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。 这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。 感兴趣地去看了一下，感觉还是太重了。但我有个">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-01-25T17:17:46.163Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自适应背景图片">
-<meta name="twitter:description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。
-居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。
-这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。
-感兴趣地去看了一下，感觉还是太重了。但我有个">
+<meta name="twitter:description" content="很多时候我们希望背景图片能够在元素不同大小的情况下都能够显示出主体。 居中是最常见的方式，但如果主体不在中间这个效果就大打折扣了。 这个对我来说一开始仅仅是一个念头，也没太注意。直到一次在 podcast 上听到有位嘉宾做了一个 jQuery 插件 https://github.com/wentin/ResponsifyJS，主要就是为了实现这种效果。 感兴趣地去看了一下，感觉还是太重了。但我有个">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -77,22 +70,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-230716-portrait.jpg') 67.82% 59.53%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHAgT/xAArEAACAQIDBgUFAAAAAAAAAAABAgADEQQFBhIUFSExQRMiUVKRVGFicaH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAdEQACAQQDAAAAAAAAAAAAAAAAAQIREjFREyEi/9oADAMBAAIRAxEAPwCuLmyNTLKL262nHUzum1xyvFSjqI4bBqEUebuYu5jqK7NZlVieoMjkllijBvBReLL9vmEk/GW+q/sJL47FxS0YzrJc2ydR4zs3Plb0irjKzU2BqElmPQx11Nq6vs0wae1+4iY7G8UqktTCEdxMaJ+mK5rpGt6/EfMJw7uvuaENIiumf//Z') 67.82% 59.53%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -106,15 +89,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-230716-portrait.jpg') 67.82% 59.53%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHAgT/xAArEAACAQIDBgUFAAAAAAAAAAABAgADEQQFBhIUFSExQRMiUVKRVGFicaH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAdEQACAQQDAAAAAAAAAAAAAAAAAQIREjFREyEi/9oADAMBAAIRAxEAPwCuLmyNTLKL262nHUzum1xyvFSjqI4bBqEUebuYu5jqK7NZlVieoMjkllijBvBReLL9vmEk/GW+q/sJL47FxS0YzrJc2ydR4zs3Plb0irjKzU2BqElmPQx11Nq6vs0wae1+4iY7G8UqktTCEdxMaJ+mK5rpGt6/EfMJw7uvuaENIiumf//Z') 67.82% 59.53%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAYHAgT/xAArEAACAQIDBgUFAAAAAAAAAAABAgADEQQFBhIUFSExQRMiUVKRVGFicaH/xAAWAQEBAQAAAAAAAAAAAAAAAAACAQP/xAAdEQACAQQDAAAAAAAAAAAAAAAAAQIREjFREyEi/9oADAMBAAIRAxEAPwCuLmyNTLKL262nHUzum1xyvFSjqI4bBqEUebuYu5jqK7NZlVieoMjkllijBvBReLL9vmEk/GW+q/sJL47FxS0YzrJc2ydR4zs3Plb0irjKzU2BqElmPQx11Nq6vs0wae1+4iY7G8UqktTCEdxMaJ+mK5rpGt6/EfMJw7uvuaENIiumf//Z') 67.82% 59.53%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">自适应背景图片</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2016/09/11/responsive-cover/" class="article-date"><time datetime="2016-09-10T16:00:00.000Z" itemprop="datePublished">2016-09-11</time></a>
-<a rel="license" class="cc-license-wrapper"
-href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2016/09/11/responsive-cover/" class="article-date"><time datetime="2016-09-10T16:00:00.000Z" itemprop="datePublished">2016-09-11</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -144,7 +123,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <p>移动焦点的时候右边会实时计算 <code>background-position</code>，包括了横向和竖向的结果。不需要裁剪的话只用横向的就行。</p>
 <p>右下还提供了 json 格式。我的博客就是为所有封面保存了一个 json 文件，在 hexo 中设钩子去读再作为 inline css 写入。每次添加的时候复制粘贴就可以。</p>
 <p>裁剪框是基于 <a href="https://github.com/fengyuanchen/cropperjs" target="_blank">cropperjs</a> 实现的，添加了个焦点。实现的时候还顺便修了 bug 提交了个 pr 给原作者哈哈。</p>
-<p><strong>2016年12月31日按</strong>：他今天才 merge …… <span class="github-emoji" title=":sweat_smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f605.png?v8">&#x1f605;</span> 都忘记有提过这个 pr 了</p>
+<p><strong>2016年12月31日按</strong>：他今天才 merge …… <span class="github-emoji" title="sweat_smile" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f605.png?v8">&#x1f605;</span> 都忘记有提过这个 pr 了</p>
 </div>
 </div>
 <footer class="article-footer">
@@ -154,12 +133,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Responsive/">Responsive</a></li>
 </ul>
-<nav id="article-nav"><a href="/2016/09/25/photoshop-pen-tool/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Photoshop Pen Tool</div></a>
-<a href="/2016/08/07/gulp-console-arguments/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">Gulp 使用命令行参数</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2016/09/25/photoshop-pen-tool/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Photoshop Pen Tool</div></a><a href="/2016/08/07/gulp-console-arguments/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Gulp 使用命令行参数</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -203,8 +177,7 @@ class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

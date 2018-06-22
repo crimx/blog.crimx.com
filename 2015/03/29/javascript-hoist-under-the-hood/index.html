@@ -29,28 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="首先
-今天在知乎上看到一个问题“JavaScript有预编译吗？”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。
-
-Hoist
-var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，JavaScript 秘密花园">
+<meta name="description" content="首先 今天在知乎上看到一个问题“JavaScript有预编译吗？”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。 Hoist var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，JavaScript 秘密花园 V">
+<meta name="keywords" content="Understanding JavaScript,Recommended,JavaScript,闲读源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="V8 是如何实现 JavaScript Hoist 的">
 <meta property="og:url" content="https://blog.crimx.com/2015/03/29/javascript-hoist-under-the-hood/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="首先
-今天在知乎上看到一个问题“JavaScript有预编译吗？”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。
-
-Hoist
-var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，JavaScript 秘密花园">
+<meta property="og:description" content="首先 今天在知乎上看到一个问题“JavaScript有预编译吗？”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。 Hoist var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，JavaScript 秘密花园 V">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-01-04T06:54:15.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="V8 是如何实现 JavaScript Hoist 的">
-<meta name="twitter:description" content="首先
-今天在知乎上看到一个问题“JavaScript有预编译吗？”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。
-
-Hoist
-var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，JavaScript 秘密花园">
+<meta name="twitter:description" content="首先 今天在知乎上看到一个问题“JavaScript有预编译吗？”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。 Hoist var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，JavaScript 秘密花园 V">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -80,22 +70,12 @@ var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，Ja
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-29047-portrait.jpg') 74.93% 33.73%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAYCBQcD/8QAKxAAAQMDAQUIAwAAAAAAAAAAAwABAgQFERIGFiIxURQVJUFCU1RxkaGi/8QAGAEAAgMAAAAAAAAAAAAAAAAAAQIAAwT/xAAcEQACAgIDAAAAAAAAAAAAAAAAAQIRElEhIjH/2gAMAwEAAhEDEQA/AKglebZwgaQpdRJ+qHLC5WO2Agcx5ndzFzMbRbL5VWKhlXREe4mK2jDNhky7OUJo3U5BM704o4FKfm/VZy6ifd179r+UJg8R9/8AaFLWgYvZi9q2iqRkelNKUhE4XzzZaTTGoqO0cNe7NDE59fpZbazBPVTlILaotlkwWmPb6c0CSfE5afpPJL0EWxu3ysvypoS5uHTfIl+EJeo3J//Z') 74.93% 33.73%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -109,13 +89,13 @@ var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，Ja
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-29047-portrait.jpg') 74.93% 33.73%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAYCBQcD/8QAKxAAAQMDAQUIAwAAAAAAAAAAAwABAgQFERIGFiIxURQVJUFCU1RxkaGi/8QAGAEAAgMAAAAAAAAAAAAAAAAAAQIAAwT/xAAcEQACAgIDAAAAAAAAAAAAAAAAAQIRElEhIjH/2gAMAwEAAhEDEQA/AKglebZwgaQpdRJ+qHLC5WO2Agcx5ndzFzMbRbL5VWKhlXREe4mK2jDNhky7OUJo3U5BM704o4FKfm/VZy6ifd179r+UJg8R9/8AaFLWgYvZi9q2iqRkelNKUhE4XzzZaTTGoqO0cNe7NDE59fpZbazBPVTlILaotlkwWmPb6c0CSfE5afpPJL0EWxu3ysvypoS5uHTfIl+EJeo3J//Z') 74.93% 33.73%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAYCBQcD/8QAKxAAAQMDAQUIAwAAAAAAAAAAAwABAgQFERIGFiIxURQVJUFCU1RxkaGi/8QAGAEAAgMAAAAAAAAAAAAAAAAAAQIAAwT/xAAcEQACAgIDAAAAAAAAAAAAAAAAAQIRElEhIjH/2gAMAwEAAhEDEQA/AKglebZwgaQpdRJ+qHLC5WO2Agcx5ndzFzMbRbL5VWKhlXREe4mK2jDNhky7OUJo3U5BM704o4FKfm/VZy6ifd179r+UJg8R9/8AaFLWgYvZi9q2iqRkelNKUhE4XzzZaTTGoqO0cNe7NDE59fpZbazBPVTlILaotlkwWmPb6c0CSfE5afpPJL0EWxu3ysvypoS5uHTfIl+EJeo3J//Z') 74.93% 33.73%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">V8 是如何实现 JavaScript Hoist 的</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/03/29/javascript-hoist-under-the-hood/" class="article-date"><time datetime="2015-03-28T16:00:00.000Z" itemprop="datePublished">2015-03-29</time></a> <a
-rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/03/29/javascript-hoist-under-the-hood/" class="article-date"><time datetime="2015-03-28T16:00:00.000Z" itemprop="datePublished">2015-03-29</time></a>
+<a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
+</div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -141,21 +121,16 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <article id="post-javascript-hoist-under-the-hood" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<h2 id="首先">
-<a href="#首先" class="headerlink" title="首先"></a>首先</h2>
+<h2 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h2>
 <p>今天在知乎上看到一个问题“<a href="http://www.zhihu.com/question/29105940/answer/43277384" target="_blank">JavaScript有预编译吗？</a>”，题主实际上是对 JavaScript 变量提升（hoist）机制的实现过程有疑惑。我刚知道 hoist 时也好奇过浏览器是怎么实现的，就跑去看了一下 V8 引擎的源码，做了一些笔记，现在正好趁机整理出来。</p>
-<h2 id="Hoist">
-<a href="#Hoist" class="headerlink" title="Hoist"></a>Hoist</h2>
+<h2 id="Hoist"><a href="#Hoist" class="headerlink" title="Hoist"></a>Hoist</h2>
 <p>var 和 function 的 hoist 是老生常谈的问题，网上有大量资料，<a href="https://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes" target="_blank">JavaScript 秘密花园</a></p>
-<h2 id="V8-源码">
-<a href="#V8-源码" class="headerlink" title="V8 源码"></a>V8 源码</h2>
+<h2 id="V8-源码"><a href="#V8-源码" class="headerlink" title="V8 源码"></a>V8 源码</h2>
 <p>墙外：<a href="https://code.google.com/p/chromium" target="_blank">Chromium</a><br>墙内：<a href="https://github.com/v8/v8-git-mirror/blob/master/src/dateparser.cc" target="_blank">GitHub</a></p>
-<h2 id="V8-的-Hoist">
-<a href="#V8-的-Hoist" class="headerlink" title="V8 的 Hoist"></a>V8 的 Hoist</h2>
+<h2 id="V8-的-Hoist"><a href="#V8-的-Hoist" class="headerlink" title="V8 的 Hoist"></a>V8 的 Hoist</h2>
 <p>V8 中变量提升涉及到两个步骤，Parse 和 Analyze 。先 Parse 一遍代码得出 AST （抽象语法树）等信息，再把信息 Analyze 一遍。虽然 V8 有“预语法分析”,「preparser.h」， 只是为了收集信息辅助后续加速的，不属于预编译。</p>
 <p>Talk is cheap, let me show you the code.</p>
-<h2 id="Parse-部分">
-<a href="#Parse-部分" class="headerlink" title="Parse 部分"></a>Parse 部分</h2>
+<h2 id="Parse-部分"><a href="#Parse-部分" class="headerlink" title="Parse 部分"></a>Parse 部分</h2>
 <p>在「<code>parser.cc</code>」里</p>
 <p>var 声明的处理在 <code>Parser::ParseVariableDeclarations</code> 函数中，对于 <code>var a = 2</code>，V8 是将声明和赋值分开处理的，即转换为 <code>var a; a = 2;</code> ，然后前者由 <code>Parser::Declare</code> 提升。提升就是将每一层作用域用户声明的变量都放在该层的 <code>variables_</code> 表中。</p>
 <p></p>
@@ -163,10 +138,10 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">Block* Parser::ParseVariableDeclarations( <span class="comment">/*...*/</span> ) &#123;</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 一层层地向外找合适的声明作用域</span></div><div class="line">  Scope* declaration_scope = DeclarationScope(mode);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 分析出变量名</span></div><div class="line">  name = ParseIdentifier(kDontAllowEvalOrArguments, CHECK_OK);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 下面会详细讲 proxy</span></div><div class="line">  VariableProxy* proxy = NewUnresolved(name, mode);</div><div class="line">  <span class="comment">// 进一步封装</span></div><div class="line">  Declaration* declaration =</div><div class="line">      factory()-&gt;NewVariableDeclaration(proxy, mode, scope_, pos);</div><div class="line">  <span class="comment">// 声明变量，注意 VAR 声明时第二个参数是 false</span></div><div class="line">  Variable* var = Declare(declaration, mode != VAR, CHECK_OK);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 如果接下来还有等号的话（带赋值的变量声明）</span></div><div class="line">  <span class="keyword">if</span> (peek() == Token::ASSIGN <span class="comment">/*...*/</span> ) &#123;</div><div class="line">    <span class="comment">/*...*/</span></div><div class="line">    <span class="comment">// 解析出待赋的值</span></div><div class="line">    value = ParseAssignmentExpression(var_context != kForStatement, CHECK_OK);</div><div class="line">    <span class="comment">/*...*/</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 按正常的赋值表达式语句解析</span></div><div class="line">  VariableProxy* proxy = initialization_scope-&gt;NewUnresolved(factory(), name);</div><div class="line">    Assignment* assignment = factory()-&gt;NewAssignment(init_op, proxy, value, pos);</div><div class="line">    block-&gt;AddStatement(</div><div class="line">        factory()-&gt;NewExpressionStatement(assignment, RelocInfo::kNoPosition),</div><div class="line">        zone());</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">&#125;</div></pre>
+<pre><span class="line">Block* Parser::ParseVariableDeclarations( <span class="comment">/*...*/</span> ) &#123;</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">  <span class="comment">// 一层层地向外找合适的声明作用域</span></span><br><span class="line">  Scope* declaration_scope = DeclarationScope(mode);</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">  <span class="comment">// 分析出变量名</span></span><br><span class="line">  name = ParseIdentifier(kDontAllowEvalOrArguments, CHECK_OK);</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">  <span class="comment">// 下面会详细讲 proxy</span></span><br><span class="line">  VariableProxy* proxy = NewUnresolved(name, mode);</span><br><span class="line">  <span class="comment">// 进一步封装</span></span><br><span class="line">  Declaration* declaration =</span><br><span class="line">      factory()-&gt;NewVariableDeclaration(proxy, mode, scope_, pos);</span><br><span class="line">  <span class="comment">// 声明变量，注意 VAR 声明时第二个参数是 false</span></span><br><span class="line">  Variable* var = Declare(declaration, mode != VAR, CHECK_OK);</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">  <span class="comment">// 如果接下来还有等号的话（带赋值的变量声明）</span></span><br><span class="line">  <span class="keyword">if</span> (peek() == Token::ASSIGN <span class="comment">/*...*/</span> ) &#123;</span><br><span class="line">    <span class="comment">/*...*/</span></span><br><span class="line">    <span class="comment">// 解析出待赋的值</span></span><br><span class="line">    value = ParseAssignmentExpression(var_context != kForStatement, CHECK_OK);</span><br><span class="line">    <span class="comment">/*...*/</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">  <span class="comment">// 按正常的赋值表达式语句解析</span></span><br><span class="line">  VariableProxy* proxy = initialization_scope-&gt;NewUnresolved(factory(), name);</span><br><span class="line">    Assignment* assignment = factory()-&gt;NewAssignment(init_op, proxy, value, pos);</span><br><span class="line">    block-&gt;AddStatement(</span><br><span class="line">        factory()-&gt;NewExpressionStatement(assignment, RelocInfo::kNoPosition),</span><br><span class="line">        zone());</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -178,10 +153,10 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">Statement* Parser::ParseFunctionDeclaration( <span class="comment">/*...*/</span> ) &#123;</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 可以看到函数体在这里也一并读取了</span></div><div class="line">  FunctionLiteral* fun = ParseFunctionLiteral( <span class="comment">/*...*/</span> );</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">  <span class="comment">// 与var 声明大同小异</span></div><div class="line">  VariableProxy* proxy = NewUnresolved(name, mode);</div><div class="line">  Declaration* declaration =</div><div class="line">      factory()-&gt;NewFunctionDeclaration(proxy, mode, fun, scope_, pos);</div><div class="line">  <span class="comment">// 注意这里的 true</span></div><div class="line">  Declare(declaration, <span class="literal">true</span>, CHECK_OK);</div><div class="line">  <span class="comment">/*...*/</span></div><div class="line">&#125;</div></pre>
+<pre><span class="line">Statement* Parser::ParseFunctionDeclaration( <span class="comment">/*...*/</span> ) &#123;</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">  <span class="comment">// 可以看到函数体在这里也一并读取了</span></span><br><span class="line">  FunctionLiteral* fun = ParseFunctionLiteral( <span class="comment">/*...*/</span> );</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">  <span class="comment">// 与var 声明大同小异</span></span><br><span class="line">  VariableProxy* proxy = NewUnresolved(name, mode);</span><br><span class="line">  Declaration* declaration =</span><br><span class="line">      factory()-&gt;NewFunctionDeclaration(proxy, mode, fun, scope_, pos);</span><br><span class="line">  <span class="comment">// 注意这里的 true</span></span><br><span class="line">  Declare(declaration, <span class="literal">true</span>, CHECK_OK);</span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -195,10 +170,10 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">(<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">1</span>&#125; <span class="keyword">catch</span>(a) &#123;</div><div class="line">    <span class="built_in">console</span>.log(a); <span class="comment">// 1 ,这里的 a 是 catch 的</span></div><div class="line">    <span class="keyword">var</span> a = <span class="number">3</span>; <span class="comment">// 这里的 a 也是 catch 的</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(a); <span class="comment">// undefined ,这里的 a 是 fn 的</span></div><div class="line"></div><div class="line">&#125;());</div></pre>
+<pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;<span class="keyword">throw</span> <span class="number">1</span>&#125; <span class="keyword">catch</span>(a) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a); <span class="comment">// 1 ,这里的 a 是 catch 的</span></span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span>; <span class="comment">// 这里的 a 也是 catch 的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(a); <span class="comment">// undefined ,这里的 a 是 fn 的</span></span><br><span class="line"></span><br><span class="line">&#125;());</span><br></pre>
 </td>
 </tr>
 </table>
@@ -212,21 +187,19 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">Variable* Parser::Declare(Declaration* declaration, <span class="keyword">bool</span> resolve, <span class="keyword">bool</span>* ok) &#123;</div><div class="line">  VariableProxy* proxy = declaration-&gt;proxy();</div><div class="line">  DCHECK(proxy-&gt;raw_name() != <span class="literal">NULL</span>);</div><div class="line">  <span class="keyword">const</span> AstRawString* name = proxy-&gt;raw_name();</div><div class="line">  VariableMode mode = declaration-&gt;mode();</div><div class="line"></div><div class="line">  <span class="comment">// 层层向外找最近的声明作用域</span></div><div class="line">  Scope* declaration_scope = DeclarationScope(mode);</div><div class="line"></div><div class="line">  <span class="comment">// 只有符合以下几个声明作用域才会进行注册</span></div><div class="line">  <span class="keyword">if</span> (declaration_scope-&gt;is_function_scope() ||</div><div class="line">      declaration_scope-&gt;is_strict_eval_scope() ||</div><div class="line">      declaration_scope-&gt;is_block_scope() ||</div><div class="line">      declaration_scope-&gt;is_module_scope() ||</div><div class="line">      declaration_scope-&gt;is_script_scope()) &#123;</div><div class="line">    <span class="comment">// 看看有没有被注册了</span></div><div class="line">    var = declaration_scope-&gt;LookupLocal(name);</div><div class="line">    <span class="comment">// 如果没有就新注册一个</span></div><div class="line">    <span class="keyword">if</span> (var == <span class="literal">NULL</span>) &#123;</div><div class="line">      <span class="comment">// var 和 function 还有 ES6 的 let const 等等都会在这里做标记</span></div><div class="line">      var = declaration_scope-&gt;DeclareLocal(</div><div class="line">          name, mode, declaration-&gt;initialization(),</div><div class="line">          declaration-&gt;IsFunctionDeclaration() ? Variable::FUNCTION</div><div class="line">                                               : Variable::NORMAL,</div><div class="line">          kNotAssigned);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( <span class="comment">/*...*/</span> ) &#123;</div><div class="line">      <span class="comment">/*...*/</span> <span class="comment">// ES6 相关</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mode == VAR) &#123;</div><div class="line">      <span class="comment">// 如果之前已经注册了的话，就可能被赋过值了</span></div><div class="line">      var-&gt;set_maybe_assigned();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">/*...*/</span></div><div class="line"></div><div class="line">  <span class="comment">// 对于每次声明 V8 都会挂载一个 declaration 节点</span></div><div class="line">  <span class="comment">// 虽然只有在必要的时候才会生成相应代码</span></div><div class="line">  <span class="comment">// 但对于一个变量有过多的 declaration 节点必然会影响查找性能</span></div><div class="line">  <span class="comment">// 所以尽量不要重复声明</span></div><div class="line">  declaration_scope-&gt;AddDeclaration(declaration);</div><div class="line"></div><div class="line">  <span class="comment">/*...*/</span></div><div class="line"></div><div class="line">  <span class="comment">// 前面提到的传入的 resolve </span></div><div class="line">  <span class="comment">// function 为 true</span></div><div class="line">  <span class="comment">// var 为 false</span></div><div class="line">  <span class="keyword">if</span> (resolve &amp;&amp; var != <span class="literal">NULL</span>) &#123;</div><div class="line">    <span class="comment">// 绑定在一起</span></div><div class="line">    proxy-&gt;BindTo(var);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> var;</div><div class="line">&#125;</div></pre>
+<pre><span class="line">Variable* Parser::Declare(Declaration* declaration, <span class="keyword">bool</span> resolve, <span class="keyword">bool</span>* ok) &#123;</span><br><span class="line">  VariableProxy* proxy = declaration-&gt;proxy();</span><br><span class="line">  DCHECK(proxy-&gt;raw_name() != <span class="literal">NULL</span>);</span><br><span class="line">  <span class="keyword">const</span> AstRawString* name = proxy-&gt;raw_name();</span><br><span class="line">  VariableMode mode = declaration-&gt;mode();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 层层向外找最近的声明作用域</span></span><br><span class="line">  Scope* declaration_scope = DeclarationScope(mode);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 只有符合以下几个声明作用域才会进行注册</span></span><br><span class="line">  <span class="keyword">if</span> (declaration_scope-&gt;is_function_scope() ||</span><br><span class="line">      declaration_scope-&gt;is_strict_eval_scope() ||</span><br><span class="line">      declaration_scope-&gt;is_block_scope() ||</span><br><span class="line">      declaration_scope-&gt;is_module_scope() ||</span><br><span class="line">      declaration_scope-&gt;is_script_scope()) &#123;</span><br><span class="line">    <span class="comment">// 看看有没有被注册了</span></span><br><span class="line">    var = declaration_scope-&gt;LookupLocal(name);</span><br><span class="line">    <span class="comment">// 如果没有就新注册一个</span></span><br><span class="line">    <span class="keyword">if</span> (var == <span class="literal">NULL</span>) &#123;</span><br><span class="line">      <span class="comment">// var 和 function 还有 ES6 的 let const 等等都会在这里做标记</span></span><br><span class="line">      var = declaration_scope-&gt;DeclareLocal(</span><br><span class="line">          name, mode, declaration-&gt;initialization(),</span><br><span class="line">          declaration-&gt;IsFunctionDeclaration() ? Variable::FUNCTION</span><br><span class="line">                                               : Variable::NORMAL,</span><br><span class="line">          kNotAssigned);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( <span class="comment">/*...*/</span> ) &#123;</span><br><span class="line">      <span class="comment">/*...*/</span> <span class="comment">// ES6 相关</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mode == VAR) &#123;</span><br><span class="line">      <span class="comment">// 如果之前已经注册了的话，就可能被赋过值了</span></span><br><span class="line">      var-&gt;set_maybe_assigned();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对于每次声明 V8 都会挂载一个 declaration 节点</span></span><br><span class="line">  <span class="comment">// 虽然只有在必要的时候才会生成相应代码</span></span><br><span class="line">  <span class="comment">// 但对于一个变量有过多的 declaration 节点必然会影响查找性能</span></span><br><span class="line">  <span class="comment">// 所以尽量不要重复声明</span></span><br><span class="line">  declaration_scope-&gt;AddDeclaration(declaration);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*...*/</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 前面提到的传入的 resolve </span></span><br><span class="line">  <span class="comment">// function 为 true</span></span><br><span class="line">  <span class="comment">// var 为 false</span></span><br><span class="line">  <span class="keyword">if</span> (resolve &amp;&amp; var != <span class="literal">NULL</span>) &#123;</span><br><span class="line">    <span class="comment">// 绑定在一起</span></span><br><span class="line">    proxy-&gt;BindTo(var);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> var;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="Analyze-部分">
-<a href="#Analyze-部分" class="headerlink" title="Analyze 部分"></a>Analyze 部分</h2>
+<h2 id="Analyze-部分"><a href="#Analyze-部分" class="headerlink" title="Analyze 部分"></a>Analyze 部分</h2>
 <p>在「<code>scope.cc</code>」里</p>
 <p>Analyze 是由最外层 <code>Scope::Analyze</code> 开始，一层层向里递归的查看需要 resolve 的作用域，然后对该作用域的每一个需要 resolve 的 proxy 再一层层向外递归查找最近的同名变量进行绑定。</p>
-<h2 id="总结">
-<a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
 <p>V8 为了处理声明提升，在每层作用域都会维护一个独立的声明作用域（<code>variables_</code> 表），这样运行时就可以从声明作用域中递归查找变量。为了处理一些不能确定的特殊情况，V8 会将 proxy 与变量的绑定推迟到 Analyze 阶段。</p>
 <p>所以对 var 和 function 提升的处理在语法分析阶段就搞定了，不需要预编译。</p>
 <p>【完】</p>
@@ -239,12 +212,7 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读源码/">闲读源码</a></li>
 </ul>
-<nav id="article-nav"><a href="/2015/04/21/should-array-length-be-cached-or-not/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">JavaScript 有必要缓存 for 循环中的 Array.length 吗？</div></a>
-<a href="/2015/03/09/es6-function-vs-block-scope/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">ES6 随笔：函数与块级作用域</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2015/04/21/should-array-length-be-cached-or-not/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">JavaScript 有必要缓存 for 循环中的 Array.length 吗？</div></a><a href="/2015/03/09/es6-function-vs-block-scope/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">ES6 随笔：函数与块级作用域</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -288,8 +256,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

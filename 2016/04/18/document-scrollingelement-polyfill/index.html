@@ -29,19 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。
-scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性。设置 scrollTop 和 scrollLeft 还可以产生滚动。当这些属于用在根元素的">
+<meta name="description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。 scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性。设置 scrollTop 和 scrollLeft 还可以产生滚动。当这些属于用在根元素的">
+<meta name="keywords" content="JavaScript,闲读规范,闲读源码,Browser,Polyfill">
 <meta property="og:type" content="article">
 <meta property="og:title" content="闲读源码：ScrollingElement Polyfill">
 <meta property="og:url" content="https://blog.crimx.com/2016/04/18/document-scrollingelement-polyfill/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。
-scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性。设置 scrollTop 和 scrollLeft 还可以产生滚动。当这些属于用在根元素的">
+<meta property="og:description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。 scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性。设置 scrollTop 和 scrollLeft 还可以产生滚动。当这些属于用在根元素的">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-07-03T08:52:13.716Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闲读源码：ScrollingElement Polyfill">
-<meta name="twitter:description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。
-scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性。设置 scrollTop 和 scrollLeft 还可以产生滚动。当这些属于用在根元素的">
+<meta name="twitter:description" content="今天看了这篇文章，讲到 WebKit document.body.scrollTop 的问题。还有这里 Dev.Opera Blog : Fixing the scrollTop bug。 scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性。设置 scrollTop 和 scrollLeft 还可以产生滚动。当这些属于用在根元素的">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -71,22 +70,12 @@ scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性�
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/agriculture-1851510_1920-portrait.jpg') 34.76% 47.33%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQGBwX/xAApEAABAwMBBQkAAAAAAAAAAAABAAIDBAUREgYhQVGRExQVFiMxUlSh/8QAFwEBAQEBAAAAAAAAAAAAAAAABAEAAv/EAB4RAAEDBAMAAAAAAAAAAAAAAAABERQCEiFhAxMV/9oADAMBAAIRAxEAPwDV6Wxsb74XSjtUTeChrdcLlKx0zqw5PAFA2mrhrDqjGk4Rp+MiISuxfeHRckLP/NVZ9odUKegmzqFVogaG5VUbdMcxAxvCbhny71Hlwcd6iaW5yxg44p+G4SFhJyi9TK4xOV0LPs6T5fqFGd/l5nqhawlx/9k=') 34.76% 47.33%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -100,15 +89,11 @@ scrollTop, scrollLeft, scrollWidth, scrollHeight 都是跟滚动相关的属性�
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/agriculture-1851510_1920-portrait.jpg') 34.76% 47.33%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQGBwX/xAApEAABAwMBBQkAAAAAAAAAAAABAAIDBAUREgYhQVGRExQVFiMxUlSh/8QAFwEBAQEBAAAAAAAAAAAAAAAABAEAAv/EAB4RAAEDBAMAAAAAAAAAAAAAAAABERQCEiFhAxMV/9oADAMBAAIRAxEAPwDV6Wxsb74XSjtUTeChrdcLlKx0zqw5PAFA2mrhrDqjGk4Rp+MiISuxfeHRckLP/NVZ9odUKegmzqFVogaG5VUbdMcxAxvCbhny71Hlwcd6iaW5yxg44p+G4SFhJyi9TK4xOV0LPs6T5fqFGd/l5nqhawlx/9k=') 34.76% 47.33%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQGBwX/xAApEAABAwMBBQkAAAAAAAAAAAABAAIDBAUREgYhQVGRExQVFiMxUlSh/8QAFwEBAQEBAAAAAAAAAAAAAAAABAEAAv/EAB4RAAEDBAMAAAAAAAAAAAAAAAABERQCEiFhAxMV/9oADAMBAAIRAxEAPwDV6Wxsb74XSjtUTeChrdcLlKx0zqw5PAFA2mrhrDqjGk4Rp+MiISuxfeHRckLP/NVZ9odUKegmzqFVogaG5VUbdMcxAxvCbhny71Hlwcd6iaW5yxg44p+G4SFhJyi9TK4xOV0LPs6T5fqFGd/l5nqhawlx/9k=') 34.76% 47.33%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">闲读源码：ScrollingElement Polyfill</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/闲读源码/">闲读源码</a></div><a href="/2016/04/18/document-scrollingelement-polyfill/" class="article-date"><time datetime="2016-04-17T16:00:00.000Z" itemprop="datePublished">2016-04-18</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/闲读源码/">闲读源码</a></div><a href="/2016/04/18/document-scrollingelement-polyfill/" class="article-date"><time datetime="2016-04-17T16:00:00.000Z" itemprop="datePublished">2016-04-18</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="toc-mousearea"></div>
@@ -137,8 +122,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <p>但是 WebKit/Blink 不走寻常路，它会一直让 <code>body</code> 来代替 viewport 滚动。所以根元素会一直返回 0，对它设值也不会有反应。</p>
 <p>文章里面提到了几种处理方式，其中一种方式就是利用一个比较新的属性 <code>document.scrollingElement</code>，它会返回合适的滚动元素，就不用纠结是哪个。</p>
 <p><a href="https://github.com/mathiasbynens/document.scrollingElement/blob/master/scrollingelement.js" target="_blank">document.scrollingElement polyfill</a> 是它的一个 fallback，看起来很有趣，就细读了一遍。</p>
-<h2 id="规范">
-<a href="#规范" class="headerlink" title="规范"></a>规范</h2>
+<h2 id="规范"><a href="#规范" class="headerlink" title="规范"></a>规范</h2>
 <p>要理解源码必须先看它要干什么，<a href="https://drafts.csswg.org/cssom-view/#dom-document-scrollingelement" target="_blank">CSSOM View</a> specification 提到：</p>
 <blockquote>
 <p>The scrollingElement attribute, on getting, must run these steps:</p>
@@ -163,18 +147,17 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 </blockquote>
 </blockquote>
 <p>这个 polyfill 干的事情就是在 Standards Mode 情况下如果正确实现规范的话就返回根元素，其它情况下返回 <code>body</code>（不一定是 <code>document</code> 的哦，后面会提到）。</p>
-<h2 id="入口">
-<a href="#入口" class="headerlink" title="入口"></a>入口</h2>
+<h2 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h2>
 <p>整体来看，没有实现 <code>scrollingElement</code> 的才会调用 polyfill：</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">if</span> (!(<span class="string">'scrollingElement'</span> <span class="keyword">in</span> <span class="built_in">document</span>)) (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;());</div></pre>
+<pre><span class="line"><span class="keyword">if</span> (!(<span class="string">'scrollingElement'</span> <span class="keyword">in</span> <span class="built_in">document</span>)) (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;());</span><br></pre>
 </td>
 </tr>
 </table>
@@ -186,10 +169,10 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">if</span> (<span class="built_in">Object</span>.defineProperty) &#123;</div><div class="line">  <span class="comment">// Support modern browsers that lack a native implementation.</span></div><div class="line">  <span class="built_in">Object</span>.defineProperty(<span class="built_in">document</span>, <span class="string">'scrollingElement'</span>, &#123;</div><div class="line">    <span class="string">'get'</span>: scrollingElement</div><div class="line">  &#125;);</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.__defineGetter__) &#123;</div><div class="line">  <span class="comment">// Support Firefox ≤ 3.6.9, Safari ≤ 4.1.3.</span></div><div class="line">  <span class="built_in">document</span>.__defineGetter__(<span class="string">'scrollingElement'</span>, scrollingElement);</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="comment">// IE ≤ 4 lacks `attachEvent`, so it only gets this one assignment. IE ≤ 7</span></div><div class="line">  <span class="comment">// gets it too, but the value is updated later (see `propertychange`).</span></div><div class="line">  <span class="built_in">document</span>.scrollingElement = scrollingElement();</div><div class="line">  <span class="built_in">document</span>.attachEvent &amp;&amp; <span class="built_in">document</span>.attachEvent(<span class="string">'onpropertychange'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">// This is for IE ≤ 7 only.</span></div><div class="line">    <span class="comment">// A `propertychange` event fires when `&lt;body&gt;` is parsed because</span></div><div class="line">    <span class="comment">// `document.activeElement` then changes.</span></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.event.propertyName == <span class="string">'activeElement'</span>) &#123;</div><div class="line">      <span class="built_in">document</span>.scrollingElement = scrollingElement();</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="keyword">if</span> (<span class="built_in">Object</span>.defineProperty) &#123;</span><br><span class="line">  <span class="comment">// Support modern browsers that lack a native implementation.</span></span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(<span class="built_in">document</span>, <span class="string">'scrollingElement'</span>, &#123;</span><br><span class="line">    <span class="string">'get'</span>: scrollingElement</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">document</span>.__defineGetter__) &#123;</span><br><span class="line">  <span class="comment">// Support Firefox ≤ 3.6.9, Safari ≤ 4.1.3.</span></span><br><span class="line">  <span class="built_in">document</span>.__defineGetter__(<span class="string">'scrollingElement'</span>, scrollingElement);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// IE ≤ 4 lacks `attachEvent`, so it only gets this one assignment. IE ≤ 7</span></span><br><span class="line">  <span class="comment">// gets it too, but the value is updated later (see `propertychange`).</span></span><br><span class="line">  <span class="built_in">document</span>.scrollingElement = scrollingElement();</span><br><span class="line">  <span class="built_in">document</span>.attachEvent &amp;&amp; <span class="built_in">document</span>.attachEvent(<span class="string">'onpropertychange'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// This is for IE ≤ 7 only.</span></span><br><span class="line">    <span class="comment">// A `propertychange` event fires when `&lt;body&gt;` is parsed because</span></span><br><span class="line">    <span class="comment">// `document.activeElement` then changes.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">window</span>.event.propertyName == <span class="string">'activeElement'</span>) &#123;</span><br><span class="line">      <span class="built_in">document</span>.scrollingElement = scrollingElement();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -202,76 +185,71 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> scrollingElement = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (isCompliant()) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.documentElement;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">var</span> body = <span class="built_in">document</span>.body;</div><div class="line">  <span class="comment">// Note: `document.body` could be a `frameset` element, or `null`.</span></div><div class="line">  <span class="comment">// `tagName` is uppercase in HTML, but lowercase in XML.</span></div><div class="line">  <span class="keyword">var</span> isFrameset = body &amp;&amp; !<span class="regexp">/body/i</span>.test(body.tagName);</div><div class="line">  body = isFrameset ? getNextBodyElement(body) : body;</div><div class="line">  <span class="comment">// If `body` is itself scrollable, it is not the `scrollingElement`.</span></div><div class="line">  <span class="keyword">return</span> body &amp;&amp; isScrollable(body) ? <span class="literal">null</span> : body;</div><div class="line">&#125;;</div></pre>
+<pre><span class="line"><span class="keyword">var</span> scrollingElement = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isCompliant()) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.documentElement;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> body = <span class="built_in">document</span>.body;</span><br><span class="line">  <span class="comment">// Note: `document.body` could be a `frameset` element, or `null`.</span></span><br><span class="line">  <span class="comment">// `tagName` is uppercase in HTML, but lowercase in XML.</span></span><br><span class="line">  <span class="keyword">var</span> isFrameset = body &amp;&amp; !<span class="regexp">/body/i</span>.test(body.tagName);</span><br><span class="line">  body = isFrameset ? getNextBodyElement(body) : body;</span><br><span class="line">  <span class="comment">// If `body` is itself scrollable, it is not the `scrollingElement`.</span></span><br><span class="line">  <span class="keyword">return</span> body &amp;&amp; isScrollable(body) ? <span class="literal">null</span> : body;</span><br><span class="line">&#125;;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>正确实现规范的话就是返回根元素 <code>document.documentElement</code>，比如 HTML 里的 <code>&lt;html&gt;</code>，否则返回 <code>body</code>。</p>
-<h2 id="isCompliant">
-<a href="#isCompliant" class="headerlink" title="isCompliant"></a>isCompliant</h2>
+<h2 id="isCompliant"><a href="#isCompliant" class="headerlink" title="isCompliant"></a>isCompliant</h2>
 <p>这里就是先判断浏览器有没有正确实现了规范。看看怎么判断的：</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// Note: standards mode / quirks mode can be toggled at runtime via</span></div><div class="line"><span class="comment">// `document.write`.</span></div><div class="line"><span class="keyword">var</span> isCompliantCached;</div><div class="line"><span class="keyword">var</span> isCompliant = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> isStandardsMode = <span class="regexp">/^CSS1/</span>.test(<span class="built_in">document</span>.compatMode);</div><div class="line">  <span class="keyword">if</span> (!isStandardsMode) &#123;</div><div class="line">    <span class="comment">// In quirks mode, the result is equivalent to the non-compliant</span></div><div class="line">    <span class="comment">// standards mode behavior.</span></div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (isCompliantCached === <span class="keyword">void</span> <span class="number">0</span>) &#123;</div><div class="line">    <span class="comment">// When called for the first time, check whether the browser is</span></div><div class="line">    <span class="comment">// standard-compliant, and cache the result.</span></div><div class="line">    <span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</div><div class="line">    iframe.style.height = <span class="string">'1px'</span>;</div><div class="line">    (<span class="built_in">document</span>.body || <span class="built_in">document</span>.documentElement || <span class="built_in">document</span>).appendChild(iframe);</div><div class="line">    <span class="keyword">var</span> doc = iframe.contentWindow.document;</div><div class="line">    doc.write(<span class="string">'&lt;!DOCTYPE html&gt;&lt;div style="height:9999em"&gt;x&lt;/div&gt;'</span>);</div><div class="line">    doc.close();</div><div class="line">    isCompliantCached = doc.documentElement.scrollHeight &gt; doc.body.scrollHeight;</div><div class="line">    iframe.parentNode.removeChild(iframe);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> isCompliantCached;</div><div class="line">&#125;;</div></pre>
+<pre><span class="line"><span class="comment">// Note: standards mode / quirks mode can be toggled at runtime via</span></span><br><span class="line"><span class="comment">// `document.write`.</span></span><br><span class="line"><span class="keyword">var</span> isCompliantCached;</span><br><span class="line"><span class="keyword">var</span> isCompliant = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> isStandardsMode = <span class="regexp">/^CSS1/</span>.test(<span class="built_in">document</span>.compatMode);</span><br><span class="line">  <span class="keyword">if</span> (!isStandardsMode) &#123;</span><br><span class="line">    <span class="comment">// In quirks mode, the result is equivalent to the non-compliant</span></span><br><span class="line">    <span class="comment">// standards mode behavior.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (isCompliantCached === <span class="keyword">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// When called for the first time, check whether the browser is</span></span><br><span class="line">    <span class="comment">// standard-compliant, and cache the result.</span></span><br><span class="line">    <span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">    iframe.style.height = <span class="string">'1px'</span>;</span><br><span class="line">    (<span class="built_in">document</span>.body || <span class="built_in">document</span>.documentElement || <span class="built_in">document</span>).appendChild(iframe);</span><br><span class="line">    <span class="keyword">var</span> doc = iframe.contentWindow.document;</span><br><span class="line">    doc.write(<span class="string">'&lt;!DOCTYPE html&gt;&lt;div style="height:9999em"&gt;x&lt;/div&gt;'</span>);</span><br><span class="line">    doc.close();</span><br><span class="line">    isCompliantCached = doc.documentElement.scrollHeight &gt; doc.body.scrollHeight;</span><br><span class="line">    iframe.parentNode.removeChild(iframe);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> isCompliantCached;</span><br><span class="line">&#125;;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>document.compatMode</code> 是用来判断浏览器是 Standards Mode 还是 Quirks Mode，分别取值为 <code>CSS1Compat</code>和
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>document.compatMode</code> 是用来判断浏览器是 Standards Mode 还是 Quirks Mode，分别取值为 <code>CSS1Compat</code>和
 <code>BackCompat</code>。</p>
 <p>作者也说了 <code>document.write</code> 可以在运行时修改模式，所以每次都要判断一遍。</p>
 <p>然后就用一个 iframe 来测试了，哇蛮重的。好处只能说是通用了。</p>
 <p>Standards Mode 下根元素的 <code>scrollHeight</code> 比 <code>body</code> 高就可以说明正确的实现了规范。</p>
 <p>因为这么重所以测试了一遍之后就把结果存起来了，以后就直接用。</p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 从这里也对 <code>document.body</code> 有了
-<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body"
-target="_blank">新的认识</a>：</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 从这里也对 <code>document.body</code> 有了<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body" target="_blank">新的认识</a>：</p>
 <blockquote>
 <p>Returns the <code>&lt;body&gt;</code> or <code>&lt;frameset&gt;</code> node of the current document, or null if no such element exists.</p>
 </blockquote>
 <p><code>&lt;frameset&gt;</code> 这种过时的东西没什么兴趣深入了解，直接看看怎么获取 <code>body</code> 的：</p>
-<h2 id="Body">
-<a href="#Body" class="headerlink" title="Body"></a>Body</h2>
+<h2 id="Body"><a href="#Body" class="headerlink" title="Body"></a>Body</h2>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isBodyElement</span>(<span class="params">element</span>) </span>&#123;</div><div class="line">  <span class="comment">// The `instanceof` check gives the correct result for e.g. `body` in a</span></div><div class="line">  <span class="comment">// non-HTML namespace.</span></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.HTMLBodyElement) &#123;</div><div class="line">    <span class="keyword">return</span> element <span class="keyword">instanceof</span> HTMLBodyElement;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// Fall back to a `tagName` check for old browsers.</span></div><div class="line">  <span class="keyword">return</span> <span class="regexp">/body/i</span>.test(element.tagName);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNextBodyElement</span>(<span class="params">frameset</span>) </span>&#123;</div><div class="line">  <span class="comment">// We use this function to be correct per spec in case `document.body` is</span></div><div class="line">  <span class="comment">// a `frameset` but there exists a later `body`. Since `document.body` is</span></div><div class="line">  <span class="comment">// a `frameset`, we know the root is an `html`, and there was no `body`</span></div><div class="line">  <span class="comment">// before the `frameset`, so we just need to look at siblings after the</span></div><div class="line">  <span class="comment">// `frameset`.</span></div><div class="line">  <span class="keyword">var</span> current = frameset;</div><div class="line">  <span class="keyword">while</span> (current = current.nextSibling) &#123;</div><div class="line">    <span class="keyword">if</span> (current.nodeType == <span class="number">1</span> &amp;&amp; isBodyElement(current)) &#123;</div><div class="line">      <span class="keyword">return</span> current;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// No `body` found.</span></div><div class="line">  <span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isBodyElement</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// The `instanceof` check gives the correct result for e.g. `body` in a</span></span><br><span class="line">  <span class="comment">// non-HTML namespace.</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.HTMLBodyElement) &#123;</span><br><span class="line">    <span class="keyword">return</span> element <span class="keyword">instanceof</span> HTMLBodyElement;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Fall back to a `tagName` check for old browsers.</span></span><br><span class="line">  <span class="keyword">return</span> <span class="regexp">/body/i</span>.test(element.tagName);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNextBodyElement</span>(<span class="params">frameset</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// We use this function to be correct per spec in case `document.body` is</span></span><br><span class="line">  <span class="comment">// a `frameset` but there exists a later `body`. Since `document.body` is</span></span><br><span class="line">  <span class="comment">// a `frameset`, we know the root is an `html`, and there was no `body`</span></span><br><span class="line">  <span class="comment">// before the `frameset`, so we just need to look at siblings after the</span></span><br><span class="line">  <span class="comment">// `frameset`.</span></span><br><span class="line">  <span class="keyword">var</span> current = frameset;</span><br><span class="line">  <span class="keyword">while</span> (current = current.nextSibling) &#123;</span><br><span class="line">    <span class="keyword">if</span> (current.nodeType == <span class="number">1</span> &amp;&amp; isBodyElement(current)) &#123;</span><br><span class="line">      <span class="keyword">return</span> current;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// No `body` found.</span></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>通过 <code>nextSibling</code> 循环排查跳过一个个 <code>frameset</code>。<code>nodeType == 1</code> 表示 <code>Node.ELEMENT_NODE</code>，这个节点是个元素。</p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 通过 <code>element instanceof window.HTMLBodyElement</code> 可以正确判断 <code>body</code> 元素。</p>
-<h2 id="isScrollable">
-<a href="#isScrollable" class="headerlink" title="isScrollable"></a>isScrollable</h2>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 通过 <code>element instanceof window.HTMLBodyElement</code> 可以正确判断 <code>body</code> 元素。</p>
+<h2 id="isScrollable"><a href="#isScrollable" class="headerlink" title="isScrollable"></a>isScrollable</h2>
 <p>找到了 <code>body</code> 接下来就看 <code>isScrollable</code> 干了什么：</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isScrollable</span>(<span class="params">body</span>) </span>&#123;</div><div class="line">  <span class="comment">// A `body` element is scrollable if `body` and `html` both have</span></div><div class="line">  <span class="comment">// non-`visible` overflow and are both being rendered.</span></div><div class="line">  <span class="keyword">var</span> bodyStyle = computeStyle(body);</div><div class="line">  <span class="keyword">var</span> htmlStyle = computeStyle(<span class="built_in">document</span>.documentElement);</div><div class="line">  <span class="keyword">return</span> bodyStyle.overflow != <span class="string">'visible'</span> &amp;&amp; htmlStyle.overflow != <span class="string">'visible'</span> &amp;&amp;</div><div class="line">    isRendered(bodyStyle) &amp;&amp; isRendered(htmlStyle);</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isScrollable</span>(<span class="params">body</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// A `body` element is scrollable if `body` and `html` both have</span></span><br><span class="line">  <span class="comment">// non-`visible` overflow and are both being rendered.</span></span><br><span class="line">  <span class="keyword">var</span> bodyStyle = computeStyle(body);</span><br><span class="line">  <span class="keyword">var</span> htmlStyle = computeStyle(<span class="built_in">document</span>.documentElement);</span><br><span class="line">  <span class="keyword">return</span> bodyStyle.overflow != <span class="string">'visible'</span> &amp;&amp; htmlStyle.overflow != <span class="string">'visible'</span> &amp;&amp;</span><br><span class="line">    isRendered(bodyStyle) &amp;&amp; isRendered(htmlStyle);</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -282,38 +260,36 @@ target="_blank">新的认识</a>：</p>
 <blockquote>
 <p><strong>Note</strong>: When programmatically setting scrollTop on the relevant HTML element, even when overflow has the hidden value an element may still need to scroll.</p>
 </blockquote>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 所以 <code>overflow</code> 是 <code>hidden</code> 也是可滚动的。</p>
-<h3 id="window-getComputedStyle">
-<a href="#window-getComputedStyle" class="headerlink" title="window.getComputedStyle"></a>window.getComputedStyle</h3>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 所以 <code>overflow</code> 是 <code>hidden</code> 也是可滚动的。</p>
+<h3 id="window-getComputedStyle"><a href="#window-getComputedStyle" class="headerlink" title="window.getComputedStyle"></a>window.getComputedStyle</h3>
 <p>然后就是这个 <code>computeStyle</code>：</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeStyle</span>(<span class="params">element</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.getComputedStyle) &#123;</div><div class="line">    <span class="comment">// Support Firefox &lt; 4 which throws on a single parameter.</span></div><div class="line">    <span class="keyword">return</span> getComputedStyle(element, <span class="literal">null</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// Support Internet Explorer &lt; 9.</span></div><div class="line">  <span class="keyword">return</span> element.currentStyle;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">computeStyle</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">window</span>.getComputedStyle) &#123;</span><br><span class="line">    <span class="comment">// Support Firefox &lt; 4 which throws on a single parameter.</span></span><br><span class="line">    <span class="keyword">return</span> getComputedStyle(element, <span class="literal">null</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Support Internet Explorer &lt; 9.</span></span><br><span class="line">  <span class="keyword">return</span> element.currentStyle;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>window.getComputedStyle()</code> 与 <code>HTMLElement.style</code> 不一样在于前者可以动态得到元素所有的 CSS 属性，包括默认的值，而后者只能得到
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>window.getComputedStyle()</code> 与 <code>HTMLElement.style</code> 不一样在于前者可以动态得到元素所有的 CSS 属性，包括默认的值，而后者只能得到
 <em>inline</em> CSS 属性。但前者是只读的，后者可以设值。</p>
-<h3 id="isRendered">
-<a href="#isRendered" class="headerlink" title="isRendered"></a>isRendered</h3>
+<h3 id="isRendered"><a href="#isRendered" class="headerlink" title="isRendered"></a>isRendered</h3>
 <p>然后再看 <code>isRendered</code> 怎么判断：</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isRendered</span>(<span class="params">style</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> style.display != <span class="string">'none'</span> &amp;&amp; !(style.visibility == <span class="string">'collapse'</span> &amp;&amp;</div><div class="line">    <span class="regexp">/^table-(.+-group|row|column)$/</span>.test(style.display));</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isRendered</span>(<span class="params">style</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> style.display != <span class="string">'none'</span> &amp;&amp; !(style.visibility == <span class="string">'collapse'</span> &amp;&amp;</span><br><span class="line">    /^table-(.+-group|row|column)$/.test(style.display));</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -336,25 +312,24 @@ table. For XUL elements, the computed size of the element is always zero, regard
 </ul>
 </blockquote>
 <p>前两个比较常见，<code>hidden</code> 依然是占位置的所以属于渲染。</p>
-<p><span class="github-emoji" title=":white_check_mark:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>collapse</code> 是专门为表格行列元素快速隐藏做优化的，对它们来说效果等同于 <code>display: none</code>，所以会影响滚动高度。</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>collapse</code> 是专门为表格行列元素快速隐藏做优化的，对它们来说效果等同于 <code>display: none</code>，所以会影响滚动高度。</p>
 <p>于是后半段代码相当于找出下面几种元素，然后看是不是 <code>collapse</code> 的：</p>
 <p></p>
 <figure class="highlight css">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-column</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-column-group</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-footer-group</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-header-group</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-row</span>;</div><div class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-row-group</span>;</div></pre>
+<pre><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-column</span>;</span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-column-group</span>;</span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-footer-group</span>;</span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-header-group</span>;</span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-row</span>;</span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-row-group</span>;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h1 id="总结">
-<a href="#总结" class="headerlink" title="总结"></a>总结</h1>
-<p>可以看到这个 polyfill 代码虽然不算太长，但也干了很多事情，算是比较重的。但考虑到还在用老浏览器的人，能用就很给面子了是吧哈哈。从中也学了许多新知识，都打钩了注意到了吗 <span class="github-emoji" title=":smile:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v8">&#x1f604;</span> 。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
+<p>可以看到这个 polyfill 代码虽然不算太长，但也干了很多事情，算是比较重的。但考虑到还在用老浏览器的人，能用就很给面子了是吧哈哈。从中也学了许多新知识，都打钩了注意到了吗 <span class="github-emoji" title="smile" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v8">&#x1f604;</span> 。</p>
 </div>
 </div>
 <footer class="article-footer">
@@ -365,12 +340,7 @@ table. For XUL elements, the computed size of the element is always zero, regard
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读源码/">闲读源码</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2016/05/12/understanding-this/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">JavaScript This 的六道坎</div></a>
-<a href="/2016/03/20/understanding-anki/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">理解 Anki 基础概念</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2016/05/12/understanding-this/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">JavaScript This 的六道坎</div></a><a href="/2016/03/20/understanding-anki/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">理解 Anki 基础概念</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -414,8 +384,7 @@ class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

@@ -29,46 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
-
-首先
-
-this is all about context.
-
-this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。
-大佬可以分为六层，层数越高权力越大，this只会认最大的。
-
-第一层：世界尽头
-权力最小的大佬是作为备胎的存在，在普通情况">
+<meta name="description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。 首先  this is all about context.  this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。 大佬可以分为六层，层数越高权力越大，this只会认最大的。 第一层：世界尽头 权力最小的大佬是作为备胎的存在，在普通情况下就">
+<meta name="keywords" content="Understanding JavaScript,Recommended,This">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript This 的六道坎">
 <meta property="og:url" content="https://blog.crimx.com/2016/05/12/understanding-this/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
-
-首先
-
-this is all about context.
-
-this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。
-大佬可以分为六层，层数越高权力越大，this只会认最大的。
-
-第一层：世界尽头
-权力最小的大佬是作为备胎的存在，在普通情况">
+<meta property="og:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。 首先  this is all about context.  this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。 大佬可以分为六层，层数越高权力越大，this只会认最大的。 第一层：世界尽头 权力最小的大佬是作为备胎的存在，在普通情况下就">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-01-26T11:01:38.170Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript This 的六道坎">
-<meta name="twitter:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。
-
-首先
-
-this is all about context.
-
-this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。
-大佬可以分为六层，层数越高权力越大，this只会认最大的。
-
-第一层：世界尽头
-权力最小的大佬是作为备胎的存在，在普通情况">
+<meta name="twitter:description" content="鉴于this风骚的运作方式，对this的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。 首先  this is all about context.  this说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。 大佬可以分为六层，层数越高权力越大，this只会认最大的。 第一层：世界尽头 权力最小的大佬是作为备胎的存在，在普通情况下就">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -98,22 +70,12 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/architecture-1851496_1920-portrait.jpg') 51.15% 50.10%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==') 51.15% 50.10%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -127,15 +89,11 @@ this说白了就是找大佬，找拥有当前上下文（context）的对象（
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/architecture-1851496_1920-portrait.jpg') 51.15% 50.10%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==') 51.15% 50.10%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFBgf/xAAlEAABBAIABQUBAAAAAAAAAAABAAIDBAURExUhMVEUMjNBU5H/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/8QAGhEBAAIDAQAAAAAAAAAAAAAAABESAQIiQf/aAAwDAQACEQMRAD8A75pGgFMkzdXRaJAHa6JdTN1zCC+YOPkI9CvtCn86p/qEJlLj1/IyXqz4IJi3Q+QFIw2QfioOFYmdKXe0n6Ui3HPQpzuin6M6a13S8JJay1aUPmA4fbbVGderKnmra8+g8xoWN9FY/dv8QqnLOr//2Q==') 51.15% 50.10%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">JavaScript This 的六道坎</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2016/05/12/understanding-this/" class="article-date"><time datetime="2016-05-11T16:00:00.000Z" itemprop="datePublished">2016-05-12</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2016/05/12/understanding-this/" class="article-date"><time datetime="2016-05-11T16:00:00.000Z" itemprop="datePublished">2016-05-12</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -166,32 +124,29 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
 <p>鉴于<code>this</code>风骚的运作方式，对<code>this</code>的理解是永不过时的话题，本文试图通过将其大卸六块来钉住这个磨人的妖精。</p>
-<h1 id="首先">
-<a href="#首先" class="headerlink" title="首先"></a>首先</h1>
+<h1 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h1>
 <blockquote>
 <p><code>this</code> is all about context.</p>
 </blockquote>
 <p><code>this</code>说白了就是找大佬，找拥有当前上下文（context）的对象（context object）。</p>
 <p>大佬可以分为六层，层数越高权力越大，<code>this</code>只会认最大的。</p>
-<h2 id="第一层：世界尽头">
-<a href="#第一层：世界尽头" class="headerlink" title="第一层：世界尽头"></a>第一层：世界尽头</h2>
+<h2 id="第一层：世界尽头"><a href="#第一层：世界尽头" class="headerlink" title="第一层：世界尽头"></a>第一层：世界尽头</h2>
 <p>权力最小的大佬是作为备胎的存在，在普通情况下就是全局，浏览器里就是<code>window</code>；在<code>use strict</code>的情况下就是<code>undefined</code>。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showStrictThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">  'use strict'</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line">showStrictThis() <span class="comment">// undefined</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showStrictThis</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">  'use strict'</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showThis() <span class="comment">// window</span></span><br><span class="line">showStrictThis() <span class="comment">// undefined</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="第二层：点石成金">
-<a href="#第二层：点石成金" class="headerlink" title="第二层：点石成金"></a>第二层：点石成金</h2>
+<h2 id="第二层：点石成金"><a href="#第二层：点石成金" class="headerlink" title="第二层：点石成金"></a>第二层：点石成金</h2>
 <p>第二层大佬说白了就是找这个函数前面的点<code>.</code>。</p>
 <p>如果用到<code>this</code>的那个函数是属于某个 context object 的，那么这个 context object 绑定到<code>this</code>。</p>
 <p>比如下面的例子，<code>boss</code>是<code>returnThis</code>的 context object ，或者说<code>returnThis</code>属于<code>boss</code>。</p>
@@ -200,10 +155,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> boss = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss.returnThis() === boss <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> boss = &#123;</span><br><span class="line">  name: <span class="string">'boss'</span>,</span><br><span class="line">  returnThis () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">boss.returnThis() === boss <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -215,10 +170,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> boss1.returnThis()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss3 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss3'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">var</span> returnThis = boss1.returnThis</div><div class="line">    <span class="keyword">return</span> returnThis()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss1.returnThis() <span class="comment">// boss1</span></div><div class="line">boss2.returnThis() <span class="comment">// ?</span></div><div class="line">boss3.returnThis() <span class="comment">// ?</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> boss1 = &#123;</span><br><span class="line">  name: <span class="string">'boss1'</span>,</span><br><span class="line">  returnThis () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss2 = &#123;</span><br><span class="line">  name: <span class="string">'boss2'</span>,</span><br><span class="line">  returnThis () &#123;</span><br><span class="line">    <span class="keyword">return</span> boss1.returnThis()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss3 = &#123;</span><br><span class="line">  name: <span class="string">'boss3'</span>,</span><br><span class="line">  returnThis () &#123;</span><br><span class="line">    <span class="keyword">var</span> returnThis = boss1.returnThis</span><br><span class="line">    <span class="keyword">return</span> returnThis()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">boss1.returnThis() <span class="comment">// boss1</span></span><br><span class="line">boss2.returnThis() <span class="comment">// ?</span></span><br><span class="line">boss3.returnThis() <span class="comment">// ?</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -234,69 +189,65 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  <span class="attr">returnThis</span>: boss1.returnThis</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss2.returnThis() <span class="comment">//boss2</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> boss1 = &#123;</span><br><span class="line">  name: <span class="string">'boss1'</span>,</span><br><span class="line">  returnThis () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss2 = &#123;</span><br><span class="line">  name: <span class="string">'boss2'</span>,</span><br><span class="line">  returnThis: boss1.returnThis</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">boss2.returnThis() <span class="comment">//boss2</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>没错，只要让使用<code>this</code>的函数是属于<code>boss2</code>就行。</p>
-<h2 id="第三层：指腹为婚">
-<a href="#第三层：指腹为婚" class="headerlink" title="第三层：指腹为婚"></a>第三层：指腹为婚</h2>
+<h2 id="第三层：指腹为婚"><a href="#第三层：指腹为婚" class="headerlink" title="第三层：指腹为婚"></a>第三层：指腹为婚</h2>
 <p>第三层大佬是<code>Object.prototype.call</code>和<code>Object.prototype.apply</code>，它们可以通过参数指定<code>this</code>。（注意<code>this</code>是不可以直接赋值的哦，<code>this = 2</code>会报<code>ReferenceError</code>。）</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line"></div><div class="line">returnThis() <span class="comment">// window</span></div><div class="line">returnThis.call(boss1) <span class="comment">// boss1</span></div><div class="line">returnThis.apply(boss1) <span class="comment">// boss1</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</span><br><span class="line"></span><br><span class="line">returnThis() <span class="comment">// window</span></span><br><span class="line">returnThis.call(boss1) <span class="comment">// boss1</span></span><br><span class="line">returnThis.apply(boss1) <span class="comment">// boss1</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="第四层：海誓山盟">
-<a href="#第四层：海誓山盟" class="headerlink" title="第四层：海誓山盟"></a>第四层：海誓山盟</h2>
+<h2 id="第四层：海誓山盟"><a href="#第四层：海誓山盟" class="headerlink" title="第四层：海誓山盟"></a>第四层：海誓山盟</h2>
 <p>第四层大佬是<code>Object.prototype.bind</code>，他不但通过一个新函数来提供永久的绑定，还会覆盖第三层大佬的命令。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</div><div class="line"></div><div class="line">boss1returnThis() <span class="comment">// boss1</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123; <span class="attr">name</span>: <span class="string">'boss2'</span> &#125;</div><div class="line">boss1returnThis.call(boss2) <span class="comment">// still boss1</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">returnThis</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</span><br><span class="line"></span><br><span class="line">boss1returnThis() <span class="comment">// boss1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss2 = &#123; <span class="attr">name</span>: <span class="string">'boss2'</span> &#125;</span><br><span class="line">boss1returnThis.call(boss2) <span class="comment">// still boss1</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="第五层：内有乾坤">
-<a href="#第五层：内有乾坤" class="headerlink" title="第五层：内有乾坤"></a>第五层：内有乾坤</h2>
+<h2 id="第五层：内有乾坤"><a href="#第五层：内有乾坤" class="headerlink" title="第五层：内有乾坤"></a>第五层：内有乾坤</h2>
 <p>一个比较容易忽略的会绑定<code>this</code>的地方就是<code>new</code>。当我们<code>new</code>一个函数时，就会自动把<code>this</code>绑定在新对象上，然后再调用这个函数。它会覆盖<code>bind</code>的绑定。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line">showThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</div><div class="line">showThis.call(boss1) <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</div><div class="line">boss1showThis() <span class="comment">// boss1</span></div><div class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showThis</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showThis() <span class="comment">// window</span></span><br><span class="line"><span class="keyword">new</span> showThis() <span class="comment">// showThis</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1 = &#123; <span class="attr">name</span>: <span class="string">'boss1'</span> &#125;</span><br><span class="line">showThis.call(boss1) <span class="comment">// boss1</span></span><br><span class="line"><span class="keyword">new</span> showThis.call(boss1) <span class="comment">// TypeError</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1showThis = showThis.bind(boss1)</span><br><span class="line">boss1showThis() <span class="comment">// boss1</span></span><br><span class="line"><span class="keyword">new</span> boss1showThis() <span class="comment">// showThis</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="第六层：军令如山">
-<a href="#第六层：军令如山" class="headerlink" title="第六层：军令如山"></a>第六层：军令如山</h2>
+<h2 id="第六层：军令如山"><a href="#第六层：军令如山" class="headerlink" title="第六层：军令如山"></a>第六层：军令如山</h2>
 <p>最后一个法力无边的大佬就是 ES2015 的箭头函数。箭头函数里的<code>this</code>不再妖艳，被永远封印到当前词法作用域之中，称作 Lexical this ，在代码运行前就可以确定。没有其他大佬可以覆盖。</p>
 <p>这样的好处就是方便让回调函数的<code>this</code>使用当前的作用域，不怕引起混淆。</p>
 <p>所以对于箭头函数，只要看它在哪里创建的就行。</p>
@@ -306,10 +257,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span> (<span class="params">cb</span>) </span>&#123;</div><div class="line">  cb()</div><div class="line">&#125;</div><div class="line"></div><div class="line">callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// window</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  <span class="attr">callback</span>: callback,</div><div class="line">  callback2 () &#123;</div><div class="line">    callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss1.callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// still window</span></div><div class="line">boss1.callback2(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// boss1</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span> (<span class="params">cb</span>) </span>&#123;</span><br><span class="line">  cb()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// window</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1 = &#123;</span><br><span class="line">  name: <span class="string">'boss1'</span>,</span><br><span class="line">  callback: callback,</span><br><span class="line">  callback2 () &#123;</span><br><span class="line">    callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">boss1.callback(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// still window</span></span><br><span class="line">boss1.callback2(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="built_in">console</span>.log(<span class="keyword">this</span>) &#125;) <span class="comment">// boss1</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -321,18 +272,17 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> returnThis = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></div><div class="line"></div><div class="line">returnThis() <span class="comment">// window</span></div><div class="line"><span class="keyword">new</span> returnThis() <span class="comment">// TypeError</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss1'</span>,</div><div class="line">  returnThis () &#123;</div><div class="line">    <span class="keyword">var</span> func = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></div><div class="line">    <span class="keyword">return</span> func()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">returnThis.call(boss1) <span class="comment">// still window</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</div><div class="line">boss1returnThis() <span class="comment">// still window</span></div><div class="line"></div><div class="line">boss1.returnThis() <span class="comment">// boss1</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> boss2 = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'boss2'</span>,</div><div class="line">  <span class="attr">returnThis</span>: boss1.returnThis</div><div class="line">&#125;</div><div class="line"></div><div class="line">boss2.returnThis() <span class="comment">// boss2</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> returnThis = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></span><br><span class="line"></span><br><span class="line">returnThis() <span class="comment">// window</span></span><br><span class="line"><span class="keyword">new</span> returnThis() <span class="comment">// TypeError</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1 = &#123;</span><br><span class="line">  name: <span class="string">'boss1'</span>,</span><br><span class="line">  returnThis () &#123;</span><br><span class="line">    <span class="keyword">var</span> func = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">return</span> func()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">returnThis.call(boss1) <span class="comment">// still window</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss1returnThis = returnThis.bind(boss1)</span><br><span class="line">boss1returnThis() <span class="comment">// still window</span></span><br><span class="line"></span><br><span class="line">boss1.returnThis() <span class="comment">// boss1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> boss2 = &#123;</span><br><span class="line">  name: <span class="string">'boss2'</span>,</span><br><span class="line">  returnThis: boss1.returnThis</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">boss2.returnThis() <span class="comment">// boss2</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>如果你不知道最后为什么会是 boss2，继续理解“对于箭头函数，只要看它在哪里创建”这句话。</p>
-<h1 id="参考">
-<a href="#参考" class="headerlink" title="参考"></a>参考</h1>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1>
 <ol>
 <li>Mozilla Developer Network</li>
 <li>Kyle Simpson, <em>this &amp; object prototypes</em></li>
@@ -347,12 +297,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/This/">This</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
-<nav id="article-nav"><a href="/2016/05/27/sublime-text-title-case/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Sublime Text Title Case 快捷键</div></a>
-<a href="/2016/04/18/document-scrollingelement-polyfill/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">闲读源码：ScrollingElement Polyfill</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2016/05/27/sublime-text-title-case/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Sublime Text Title Case 快捷键</div></a><a href="/2016/04/18/document-scrollingelement-polyfill/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">闲读源码：ScrollingElement Polyfill</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -396,8 +341,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

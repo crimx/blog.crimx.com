@@ -29,94 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="ES2015 为函数加入了方便的默认参数语法。
-
-
-
-
-
-123
-
-
-function foo (x = 1) &amp;#123;  // ...&amp;#125;
-
-
-
-
-
-很方便是吧，但每件新东西总有坑。
-
-TDZ
-
-
-
-
-
-1234567
-
-
-var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceError: x is n">
+<meta name="description" content="ES2015 为函数加入了方便的默认参数语法。      123   function foo (x = 1) &amp;#123;  // ...&amp;#125;      很方便是吧，但每件新东西总有坑。 TDZ      1234567   var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceError: x is no">
+<meta name="keywords" content="Understanding JavaScript,Recommended,Function,TDZ,Parameters,Arguments">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入 ES2015 默认参数">
 <meta property="og:url" content="https://blog.crimx.com/2017/01/22/es2015-default-parameters/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="ES2015 为函数加入了方便的默认参数语法。
-
-
-
-
-
-123
-
-
-function foo (x = 1) &amp;#123;  // ...&amp;#125;
-
-
-
-
-
-很方便是吧，但每件新东西总有坑。
-
-TDZ
-
-
-
-
-
-1234567
-
-
-var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceError: x is n">
+<meta property="og:description" content="ES2015 为函数加入了方便的默认参数语法。      123   function foo (x = 1) &amp;#123;  // ...&amp;#125;      很方便是吧，但每件新东西总有坑。 TDZ      1234567   var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceError: x is no">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-10-13T11:20:51.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入 ES2015 默认参数">
-<meta name="twitter:description" content="ES2015 为函数加入了方便的默认参数语法。
-
-
-
-
-
-123
-
-
-function foo (x = 1) &amp;#123;  // ...&amp;#125;
-
-
-
-
-
-很方便是吧，但每件新东西总有坑。
-
-TDZ
-
-
-
-
-
-1234567
-
-
-var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceError: x is n">
+<meta name="twitter:description" content="ES2015 为函数加入了方便的默认参数语法。      123   function foo (x = 1) &amp;#123;  // ...&amp;#125;      很方便是吧，但每件新东西总有坑。 TDZ      1234567   var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceError: x is no">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -146,22 +70,12 @@ var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceErro
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/landscape-615429_1920-portrait.jpg') 31.22% 46.87%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAUGAgME/8QAKxAAAQQAAwYFBQAAAAAAAAAAAQACAwQFERIGExYhIlIUMUFCUVNhYpGS/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIDBP/EABwRAAICAgMAAAAAAAAAAAAAAAABEiECAxExUf/aAAwDAQACEQMRAD8Ah6lOxSeyOaGRmo8swr/BdlsJkgNu612XuLuQWVrEKm6AmczpOZJHMLlsbTUblbcRuc4D0b5LPs3Nqhljx2PeHdj++P8ApCjvGVfpuQpTyDQiuOIc7U4kfkUikxE0rTXQAfcBLbeK2JT1OK0YdJqt9eZzWmFWBsoeJJfg/pCNMfYEKUF4Kf/Z') 31.22% 46.87%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -175,15 +89,11 @@ var x = 1function foo (x = x) &amp;#123;  // ...&amp;#125;foo() // ReferenceErro
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/landscape-615429_1920-portrait.jpg') 31.22% 46.87%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAUGAgME/8QAKxAAAQQAAwYFBQAAAAAAAAAAAQACAwQFERIGExYhIlIUMUFCUVNhYpGS/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIDBP/EABwRAAICAgMAAAAAAAAAAAAAAAABEiECAxExUf/aAAwDAQACEQMRAD8Ah6lOxSeyOaGRmo8swr/BdlsJkgNu612XuLuQWVrEKm6AmczpOZJHMLlsbTUblbcRuc4D0b5LPs3Nqhljx2PeHdj++P8ApCjvGVfpuQpTyDQiuOIc7U4kfkUikxE0rTXQAfcBLbeK2JT1OK0YdJqt9eZzWmFWBsoeJJfg/pCNMfYEKUF4Kf/Z') 31.22% 46.87%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAUGAgME/8QAKxAAAQQAAwYFBQAAAAAAAAAAAQACAwQFERIGExYhIlIUMUFCUVNhYpGS/8QAFwEAAwEAAAAAAAAAAAAAAAAAAQIDBP/EABwRAAICAgMAAAAAAAAAAAAAAAABEiECAxExUf/aAAwDAQACEQMRAD8Ah6lOxSeyOaGRmo8swr/BdlsJkgNu612XuLuQWVrEKm6AmczpOZJHMLlsbTUblbcRuc4D0b5LPs3Nqhljx2PeHdj++P8ApCjvGVfpuQpTyDQiuOIc7U4kfkUikxE0rTXQAfcBLbeK2JT1OK0YdJqt9eZzWmFWBsoeJJfg/pCNMfYEKUF4Kf/Z') 31.22% 46.87%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">深入 ES2015 默认参数</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/01/22/es2015-default-parameters/" class="article-date"><time datetime="2017-01-21T16:00:00.000Z" itemprop="datePublished">2017-01-22</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/01/22/es2015-default-parameters/" class="article-date"><time datetime="2017-01-21T16:00:00.000Z" itemprop="datePublished">2017-01-22</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -221,37 +131,35 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x = <span class="number">1</span></span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x = <span class="number">1</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>很方便是吧，但每件新东西总有坑。</p>
-<h2 id="TDZ">
-<a href="#TDZ" class="headerlink" title="TDZ"></a>TDZ</h2>
+<h2 id="TDZ"><a href="#TDZ" class="headerlink" title="TDZ"></a>TDZ</h2>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x = x</span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">foo() <span class="comment">// ReferenceError: x is not defined</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x = x</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo() <span class="comment">// ReferenceError: x is not defined</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<p>这个是最早见的坑，已经有不少文章指出了是个 TDZ (Temporal Dead Zone) 的问题。我找了大量资料，大部分文章基本是参考自<a href="http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/comment-page-1/#tdz-temporal-dead-zone-for-parameters" target="_blank">这篇</a>，它指出了 TDZ 但没有说明为什么。唯有<a
-href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇文章</a>引用了规范，但论据和结论牛头对了马嘴。</p>
+<p>这个是最早见的坑，已经有不少文章指出了是个 TDZ (Temporal Dead Zone) 的问题。我找了大量资料，大部分文章基本是参考自<a href="http://dmitrysoshnikov.com/ecmascript/es6-notes-default-values-of-parameters/comment-page-1/#tdz-temporal-dead-zone-for-parameters" target="_blank">这篇</a>，它指出了 TDZ 但没有说明为什么。唯有
+<a href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇文章</a>引用了规范，但论据和结论牛头对了马嘴。</p>
 <p>本着强迫症的精神，亲自去啃了一遍规范，现在把思路整理出来。其它关于 JavaScript 的文章可以看这里<a href="https://blog.crimx.com/tags/Understanding-JavaScript/" target="_blank">https://blog.crimx.com/tags/Understanding-JavaScript/</a>。</p>
-<h3 id="TDZ-基本">
-<a href="#TDZ-基本" class="headerlink" title="TDZ 基本"></a>TDZ 基本</h3>
+<h3 id="TDZ-基本"><a href="#TDZ-基本" class="headerlink" title="TDZ 基本"></a>TDZ 基本</h3>
 <p>先简单说一下什么是 TDZ。一般最开始见到这个词都是跟 <code>let</code> 和 <code>const</code> 挂钩。</p>
 <p>两者不会像 <code>var</code> 一样抬升，但它们又会占领了所在的作用域的<em>整个部分</em>，于是这个作用域在 <code>let</code> 和 <code>const</code> 声明之前的部分就会有一个<em>死区</em>，AKA 占着茅坑不拉屎。</p>
 <p></p>
@@ -259,10 +167,10 @@ href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span></div><div class="line"></div><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> x = <span class="number">2</span> <span class="comment">// 这是 OK 的，这个作用域只有一个 x</span></div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">let</span> x = <span class="number">2</span> <span class="comment">// 这是 OK 的，这个作用域只有一个 x</span></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -273,10 +181,10 @@ href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span></div><div class="line"></div><div class="line">&#123;</div><div class="line">  x = <span class="number">4</span> <span class="comment">// ReferenceError 茅坑已被占</span></div><div class="line">  <span class="keyword">let</span> x = <span class="number">2</span></div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  x = <span class="number">4</span> <span class="comment">// ReferenceError 茅坑已被占</span></span><br><span class="line">  <span class="keyword">let</span> x = <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -287,18 +195,17 @@ href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> x = <span class="number">3</span> <span class="comment">// SyntaxError 不能重复声明</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> x = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> x = <span class="number">3</span> <span class="comment">// SyntaxError 不能重复声明</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>对作用域不太熟悉的可以参考一下我以前的一些<a href="https://blog.crimx.com/tags/Scope/" target="_blank"><strong>笔记</strong></a>。</p>
-<h3 id="默认参数-TDZ">
-<a href="#默认参数-TDZ" class="headerlink" title="默认参数 TDZ"></a><del>默认参数 TDZ</del></h3>
+<h3 id="默认参数-TDZ"><a href="#默认参数-TDZ" class="headerlink" title="默认参数 TDZ"></a><del>默认参数 TDZ</del></h3>
 <p><del>在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的步骤 27.c.i.2 可以看到：</del></p>
 <blockquote>
 <p><del>Let status be envRec.CreateMutableBinding(n).</del></p>
@@ -313,8 +220,7 @@ href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇
 <p><del>The concrete Environment Record method GetBindingValue for module Environment Records returns the value of its bound identifier whose name is the value of the argument N. However, if the binding is an indirect binding the value of the target binding is returned. <em>If the binding exists but is uninitialized a ReferenceError is thrown</em>, regardless of the value of S.</del></p>
 </blockquote>
 <p><del>所以带默认参数的时候才会有 TDZ 。</del></p>
-<h3 id="x-x">
-<a href="#x-x" class="headerlink" title="x = x"></a>x = x</h3>
+<h3 id="x-x"><a href="#x-x" class="headerlink" title="x = x"></a>x = x</h3>
 <p>参数的处理在规范 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a> 的 23、24 和 25，将参数当做数组解构处理。</p>
 <p>在 <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-destructuring-binding-patterns-runtime-semantics-iteratorbindinginitialization" target="_blank">IteratorBindingInitialization</a> 中，参数按照各种情况处理。 <code>x = x</code> 属于 SingleNameBinding ，在 6.a
 和 6.b 中 GetValue 会试图对右 x 取值（Initializer），从而触发 Reference Error 。</p>
@@ -322,8 +228,7 @@ href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇
 <p>a. Let defaultValue be the result of evaluating Initializer. b. Let v be <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-getvalue" target="_blank">GetValue</a>(defaultValue).</p>
 </blockquote>
 <p>就像 <code>let x = x</code> 一样，先遇到左边的 <code>x</code> ，开始占茅坑。然后遇到等号，因为等号是右往左运算的，所以就继续看右边，发现了 <code>x</code> 。这是一个读取的行为，但这个作用域的 <code>x</code> 茅坑已经被左边的 <code>x</code> 占了，而且伦家还没完事呢。所以右边的 <code>x</code> 就踩了死区，引发 Reference Error 。</p>
-<h2 id="中间作用域">
-<a href="#中间作用域" class="headerlink" title="中间作用域"></a>中间作用域</h2>
+<h2 id="中间作用域"><a href="#中间作用域" class="headerlink" title="中间作用域"></a>中间作用域</h2>
 <p>眼光锐利的朋友很可能发现了，我在前一步提到了作用域被占了，那么这个作用域是什么作用域？</p>
 <p>这是一个中间作用域，介于函数所在的作用域和函数内部的作用域。</p>
 <p><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-functiondeclarationinstantiation" target="_blank">9.2.12 FunctionDeclarationInstantiation(func, argumentsList)</a></p>
@@ -332,18 +237,17 @@ href="http://code.wileam.com/default-value-n-params-env/" target="_blank">这篇
 the function body is also instantiated. If the function’s formal parameters do not include any default value initializers then the body declarations are instantiated in the same Environment Record as the parameters. <em>If default value parameter initializers exist, a second Environment Record is created for the body declarations.</em>Formal
 parameters and functions are initialized as part of FunctionDeclarationInstantiation. All other bindings are initialized during evaluation of the function body.</p>
 </blockquote>
-<h3 id="为什么">
-<a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3>
+<h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3>
 <p>为什么需要夹个新作用域？这主要是为了防止默认参数里面的表达式会被函数内部的变量污染。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> x = <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">y = (</span>) =&gt; <span class="title">x</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> x = <span class="literal">false</span></div><div class="line">  <span class="keyword">return</span> y()</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo() <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> x = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">y = (</span>) =&gt; <span class="title">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> x = <span class="literal">false</span></span><br><span class="line">  <span class="keyword">return</span> y()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo() <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -351,18 +255,17 @@ parameters and functions are initialized as part of FunctionDeclarationInstantia
 <p></p>
 <p>如果默认参数没有中间作用域，函数 <code>() =&gt; x</code> 就会跟 <code>var x = false</code> 共用一个作用域，<code>x</code> 就会被 shadow 掉，<code>foo()</code> 就会返回 <code>false</code> ，函数里面的变量泄露了，明显违背默认参数的本意。</p>
 <p>这个 bug 可以在 Firefox 51 之前的版本观察到（目前稳定版是 50.1.0）。</p>
-<h2 id="解构参数">
-<a href="#解构参数" class="headerlink" title="解构参数"></a>解构参数</h2>
+<h2 id="解构参数"><a href="#解构参数" class="headerlink" title="解构参数"></a>解构参数</h2>
 <p>解构 Destructured 也是相当好用的新家庭成员，还可以跟默认参数结合使用。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">&#123;x = <span class="number">1</span>, y&#125;</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> [x, y]</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo(&#123; <span class="attr">y</span>: <span class="number">5</span> &#125;) <span class="comment">// [1, 5]</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">&#123;x = <span class="number">1</span>, y&#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [x, y]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(&#123; <span class="attr">y</span>: <span class="number">5</span> &#125;) <span class="comment">// [1, 5]</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -373,10 +276,10 @@ parameters and functions are initialized as part of FunctionDeclarationInstantia
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">let</span> [x = <span class="number">1</span>, y] = []   <span class="comment">// x = 1, y = undefined</span></div><div class="line">;[x = <span class="number">1</span>, y] = [<span class="number">3</span>, <span class="number">5</span>]  <span class="comment">// x = 3, y = 5</span></div><div class="line">;(&#123;<span class="attr">text</span>: x = <span class="number">1</span>&#125; = &#123;&#125;) <span class="comment">// x = 1</span></div><div class="line">;(&#123;<span class="attr">text</span>: x = <span class="number">1</span>&#125; = &#123; <span class="attr">text</span>: <span class="number">2</span> &#125;) <span class="comment">// x = 2</span></div></pre>
+<pre><span class="line"><span class="keyword">let</span> [x = <span class="number">1</span>, y] = []   <span class="comment">// x = 1, y = undefined</span></span><br><span class="line">;[x = <span class="number">1</span>, y] = [<span class="number">3</span>, <span class="number">5</span>]  <span class="comment">// x = 3, y = 5</span></span><br><span class="line">;(&#123;<span class="attr">text</span>: x = <span class="number">1</span>&#125; = &#123;&#125;) <span class="comment">// x = 1</span></span><br><span class="line">;(&#123;<span class="attr">text</span>: x = <span class="number">1</span>&#125; = &#123; <span class="attr">text</span>: <span class="number">2</span> &#125;) <span class="comment">// x = 2</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -394,12 +297,7 @@ parameters and functions are initialized as part of FunctionDeclarationInstantia
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TDZ/">TDZ</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
-<nav id="article-nav"><a href="/2017/02/19/vue-webpack2-unit-testing/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">倒腾 Vue Webpack2 单元测试</div></a>
-<a href="/2017/01/01/new-blog-released/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">新年新博客！</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/02/19/vue-webpack2-unit-testing/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">倒腾 Vue Webpack2 单元测试</div></a><a href="/2017/01/01/new-blog-released/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">新年新博客！</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -443,8 +341,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

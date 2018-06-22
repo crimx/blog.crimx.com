@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2018/06/22/select-cursor-word/</loc>
+        <lastmod>2018-06-22T04:00:24.567Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2018/04/03/understanding-render-props-in-react/</loc>
         <lastmod>2018-04-03T09:32:52.996Z</lastmod>
         <changefreq>weekly</changefreq>

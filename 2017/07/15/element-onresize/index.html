@@ -29,28 +29,21 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？
-相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。
-然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。
-最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta name="description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？ 相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。 然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。 最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta name="keywords" content="Recommended,闲读规范,闲读源码,Resize">
 <meta property="og:type" content="article">
 <meta property="og:title" content="巧妙监测元素尺寸变化">
 <meta property="og:url" content="https://blog.crimx.com/2017/07/15/element-onresize/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？
-相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。
-然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。
-最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta property="og:description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？ 相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。 然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。 最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://blog.crimx.com/images/post/element-onresize/1.gif">
 <meta property="og:image" content="https://blog.crimx.com/images/post/element-onresize/2.gif">
 <meta property="og:image" content="https://blog.crimx.com/images/post/element-onresize/3.gif">
 <meta property="og:updated_time" content="2017-07-16T16:26:27.449Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="巧妙监测元素尺寸变化">
-<meta name="twitter:description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？
-相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。
-然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。
-最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
+<meta name="twitter:description" content="在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？ 相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。 然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个七年前的）现在还有人用。 最后便是这个，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像之前一样逐行逐块地">
 <meta name="twitter:image" content="https://blog.crimx.com/images/post/element-onresize/1.gif">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
@@ -81,22 +74,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/fly-agaric-451766_1920-portrait.jpg') 35.82% 47.53%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAqEAABAwIFAgUFAAAAAAAAAAABAAIDBBIFBhETQRQhBxYxVKEXQlJhYv/EABgBAAMBAQAAAAAAAAAAAAAAAAIDBQEE/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAIBAwQREiExUSP/2gAMAwEAAhEDEQA/AJ+CeHMrJr5qjbj4HK6B+Q4BrZWkk/pL02bupiBNM+0/cPRbVma+gpWSmE6O9FIl3luuS1FvbKu2eDPyM/33whTvqM723yhb9fANLT0Wy1i0NbSNo4ackxt1d2TGYdmbC4HQyxnQm5nIUDBMVfhW8aWNouFpuHChVlZPHM9wcDe49kaqstmDla9Z6cU56KFsP8IUbfl/IITtBOYP/9k=') 35.82% 47.53%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -110,15 +93,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/fly-agaric-451766_1920-portrait.jpg') 35.82% 47.53%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAqEAABAwIFAgUFAAAAAAAAAAABAAIDBBIFBhETQRQhBxYxVKEXQlJhYv/EABgBAAMBAQAAAAAAAAAAAAAAAAIDBQEE/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAIBAwQREiExUSP/2gAMAwEAAhEDEQA/AJ+CeHMrJr5qjbj4HK6B+Q4BrZWkk/pL02bupiBNM+0/cPRbVma+gpWSmE6O9FIl3luuS1FvbKu2eDPyM/33whTvqM723yhb9fANLT0Wy1i0NbSNo4ackxt1d2TGYdmbC4HQyxnQm5nIUDBMVfhW8aWNouFpuHChVlZPHM9wcDe49kaqstmDla9Z6cU56KFsP8IUbfl/IITtBOYP/9k=') 35.82% 47.53%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAqEAABAwIFAgUFAAAAAAAAAAABAAIDBBIFBhETQRQhBxYxVKEXQlJhYv/EABgBAAMBAQAAAAAAAAAAAAAAAAIDBQEE/8QAHhEAAgEEAwEAAAAAAAAAAAAAAAIBAwQREiExUSP/2gAMAwEAAhEDEQA/AJ+CeHMrJr5qjbj4HK6B+Q4BrZWkk/pL02bupiBNM+0/cPRbVma+gpWSmE6O9FIl3luuS1FvbKu2eDPyM/33whTvqM723yhb9fANLT0Wy1i0NbSNo4ackxt1d2TGYdmbC4HQyxnQm5nIUDBMVfhW8aWNouFpuHChVlZPHM9wcDe49kaqstmDla9Z6cU56KFsP8IUbfl/IITtBOYP/9k=') 35.82% 47.53%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">巧妙监测元素尺寸变化</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/07/15/element-onresize/" class="article-date"><time datetime="2017-07-14T16:00:00.000Z" itemprop="datePublished">2017-07-15</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/07/15/element-onresize/" class="article-date"><time datetime="2017-07-14T16:00:00.000Z" itemprop="datePublished">2017-07-15</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -149,18 +128,13 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <p>在往下读之前不妨先想一下，你会怎么实现？如何知道元素的尺寸发生变化了？</p>
 <p>相信很多人第一反应是 resize 事件，但这个只是 document view 变化才会触发。</p>
 <p>然后就是轮询，反复查询值变化了没有。开销不是一般的大，但像这样的库（比如这个<a href="https://github.com/cowboy/jquery-resize" target="_blank">七年前的</a>）现在还有人用。</p>
-<p>最后便是<a href="https://github.com/marcj/css-element-queries" target="_blank">这个</a>，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像<a href="/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/">之前</a>一样逐行逐块地分析，而是着重原理，对应
-<a href="https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js#L100"
-target="_blank">这部分</a>的源码。</p>
-<h2 id="整体思路">
-<a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h2>
+<p>最后便是<a href="https://github.com/marcj/css-element-queries" target="_blank">这个</a>，号称 event based 无性能问题，便去观摩了一番源码。代码本身没什么惊喜，所以本文不会像<a href="/tags/%E9%97%B2%E8%AF%BB%E6%BA%90%E7%A0%81/">之前</a>一样逐行逐块地分析，而是着重原理，对应<a href="https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js#L100" target="_blank">这部分</a>的源码。</p>
+<h2 id="整体思路"><a href="#整体思路" class="headerlink" title="整体思路"></a>整体思路</h2>
 <p>这个方法的主要思想是在被监测元素里包裹一个跟元素位置大小相同的隐藏块。隐藏块可以滚动，并有一个远远大于它的子元素。当被监测元素尺寸变化时期望能触发隐藏块的滚动事件。</p>
 <p>这个方法听起来很简单是不是，但如果你直接这么实现会发现时而行时而不行，问题就在于触发滚动事件的条件。</p>
-<h2 id="如何计算滚动？">
-<a href="#如何计算滚动？" class="headerlink" title="如何计算滚动？"></a>如何计算滚动？</h2>
+<h2 id="如何计算滚动？"><a href="#如何计算滚动？" class="headerlink" title="如何计算滚动？"></a>如何计算滚动？</h2>
 <p>这是我觉得这个话题值得写成文章的一个有趣点。我们理所当然地看待滚动，但有没有想过它是怎么计算的呢？</p>
-<h3 id="发生滚动的时机">
-<a href="#发生滚动的时机" class="headerlink" title="发生滚动的时机"></a>发生滚动的时机</h3>
+<h3 id="发生滚动的时机"><a href="#发生滚动的时机" class="headerlink" title="发生滚动的时机"></a>发生滚动的时机</h3>
 <p>有问题当然要去请教规范老师。</p>
 <p>第一步我们需要知道什么时候才会发生滚动，首先一个题外话，overflow 为 hidden 也是可以滚动的，<a href="/2016/04/18/document-scrollingelement-polyfill/">另外一篇</a>分析里也遇到过。</p>
 <p>在<a href="https://www.w3.org/TR/cssom-view-1/#scrolling-events" target="_blank">这里</a>提到滚动事件发生的时机，但说得有点笼统</p>
@@ -192,8 +166,7 @@ target="_blank">这部分</a>的源码。</p>
 </blockquote>
 <p>最后一步<a href="https://www.w3.org/TR/cssom-view-1/#perform-a-scroll" target="_blank">“perform a scroll”</a>才会真正触发滚动事件。</p>
 <p>第五步便是问题关键，位置相同的时候，滚动事件不会发生。</p>
-<h3 id="重排">
-<a href="#重排" class="headerlink" title="重排"></a>重排</h3>
+<h3 id="重排"><a href="#重排" class="headerlink" title="重排"></a>重排</h3>
 <p>根据前面的整体思路，当被监测元素尺寸发生变化时，隐藏元素也跟着变化。于是引发了 Layout/Reflow 使到重新计算滚动位置 <em>position</em>。</p>
 <p>但这时也许你会发现 <em>position</em> 根本没有变化，如图一。</p>
 <p><img src="/images/post/element-onresize/1.gif" alt="图一"></p>
@@ -202,10 +175,10 @@ target="_blank">这部分</a>的源码。</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">  <span class="selector-class">.parent</span> &#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">overflow</span>: scroll;</div><div class="line">    <span class="attribute">background</span>: red;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">margin</span>: auto;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="selector-class">.child</span> &#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">200%</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">200%</span>;</div><div class="line">    <span class="attribute">background</span>: blue;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="selector-class">.msg</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">370px</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-50%);</div><div class="line">    <span class="attribute">text-align</span>: center;</div><div class="line">  &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">  <span class="keyword">var</span> parent = <span class="built_in">document</span>.querySelector(<span class="string">'.parent'</span>)</div><div class="line">  <span class="keyword">var</span> child = <span class="built_in">document</span>.querySelector(<span class="string">'.child'</span>)</div><div class="line">  <span class="keyword">var</span> msg1 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg1'</span>)</div><div class="line">  <span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</div><div class="line"></div><div class="line">  parent.scrollTop = <span class="number">1000</span></div><div class="line">  parent.scrollLeft = <span class="number">1000</span></div><div class="line"></div><div class="line">  <span class="keyword">var</span> eventCount = <span class="number">0</span></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">log</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    msg1.innerText = <span class="string">`scrollTop: <span class="subst">$&#123;parent.scrollTop&#125;</span>, scrollLeft: <span class="subst">$&#123;parent.scrollLeft&#125;</span>`</span></div><div class="line">    msg2.innerText = <span class="string">`<span class="subst">$&#123;eventCount&#125;</span> scroll event<span class="subst">$&#123;eventCount &gt; <span class="number">1</span> ? <span class="string">'s were'</span> : <span class="string">' was'</span>&#125;</span> triggered`</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  log()</div><div class="line"></div><div class="line">  parent.addEventListener(<span class="string">'scroll'</span>, () =&gt; &#123;</div><div class="line">    eventCount += <span class="number">1</span></div><div class="line">    log()</div><div class="line">  &#125;)</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre>
+<pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.parent</span> &#123;</span></span><br><span class="line"><span class="undefined">    height: 100px;</span></span><br><span class="line"><span class="undefined">    width: 100px;</span></span><br><span class="line"><span class="undefined">    overflow: scroll;</span></span><br><span class="line"><span class="undefined">    background: red;</span></span><br><span class="line"><span class="undefined">    position: absolute;</span></span><br><span class="line"><span class="undefined">    top: 0;</span></span><br><span class="line"><span class="undefined">    left: 0;</span></span><br><span class="line"><span class="undefined">    bottom: 0;</span></span><br><span class="line"><span class="undefined">    right: 0;</span></span><br><span class="line"><span class="undefined">    margin: auto;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.child</span> &#123;</span></span><br><span class="line"><span class="undefined">    height: 200%;</span></span><br><span class="line"><span class="undefined">    width: 200%;</span></span><br><span class="line"><span class="undefined">    background: blue;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="css">  <span class="selector-class">.msg</span> &#123;</span></span><br><span class="line"><span class="undefined">    position: absolute;</span></span><br><span class="line"><span class="undefined">    top: 370px;</span></span><br><span class="line"><span class="undefined">    left: 50%;</span></span><br><span class="line"><span class="undefined">    transform: translateX(-50%);</span></span><br><span class="line"><span class="undefined">    text-align: center;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"msg2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> parent = <span class="built_in">document</span>.querySelector(<span class="string">'.parent'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> child = <span class="built_in">document</span>.querySelector(<span class="string">'.child'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> msg1 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg1'</span>)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  parent.scrollTop = 1000</span></span><br><span class="line"><span class="undefined">  parent.scrollLeft = 1000</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">var</span> eventCount = <span class="number">0</span></span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="keyword">function</span> <span class="title">log</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    msg1.innerText = <span class="string">`scrollTop: <span class="subst">$&#123;parent.scrollTop&#125;</span>, scrollLeft: <span class="subst">$&#123;parent.scrollLeft&#125;</span>`</span></span></span><br><span class="line"><span class="javascript">    msg2.innerText = <span class="string">`<span class="subst">$&#123;eventCount&#125;</span> scroll event<span class="subst">$&#123;eventCount &gt; <span class="number">1</span> ? <span class="string">'s were'</span> : <span class="string">' was'</span>&#125;</span> triggered`</span></span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  log()</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">  parent.addEventListener(<span class="string">'scroll'</span>, () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">    eventCount += 1</span></span><br><span class="line"><span class="undefined">    log()</span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -221,10 +194,10 @@ target="_blank">这部分</a>的源码。</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">/* ... */</span></div><div class="line"><span class="selector-class">.child</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* ... */</span></div></pre>
+<pre><span class="line"><span class="comment">/* ... */</span></span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* ... */</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -235,10 +208,10 @@ target="_blank">这部分</a>的源码。</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// .....</span></div><div class="line"><span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</div><div class="line"></div><div class="line">parent.scrollTop = <span class="number">1000</span></div><div class="line">parent.scrollLeft = <span class="number">1000</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> eventCount = <span class="number">0</span></div><div class="line"><span class="comment">// ....</span></div></pre>
+<pre><span class="line"><span class="comment">// .....</span></span><br><span class="line"><span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</span><br><span class="line"></span><br><span class="line">parent.scrollTop = <span class="number">1000</span></span><br><span class="line">parent.scrollLeft = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> eventCount = <span class="number">0</span></span><br><span class="line"><span class="comment">// ....</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -248,8 +221,7 @@ target="_blank">这部分</a>的源码。</p>
 <p>可以观察滚动发生，我们期望容器达到最大时 x 和 y 都没有达到最小值，所以子元素的大小须比容器最大值要大。</p>
 <p>动图同时也可观察到容器变小时没反应。按上面的公式也很容易知道，容器变小了，差值变大了，所以最小值还是 x 和 y，故不触发滚动。</p>
 <p>怎么办呢？</p>
-<h3 id="物尽其用">
-<a href="#物尽其用" class="headerlink" title="物尽其用"></a>物尽其用</h3>
+<h3 id="物尽其用"><a href="#物尽其用" class="headerlink" title="物尽其用"></a>物尽其用</h3>
 <p>再看回公式，我们希望容器变小时，差值也变小。那么只能是让 scrolling area 也跟着变小了。如果子元素大小改为百分比行不？我们来证明一下。</p>
 <p>设容器宽度为 <code>x1</code> 或者 <code>x2</code>，其中 <code>x2 &gt; x1</code>，子元素大小为 <code>n * x1</code> 或 <code>n * x2</code>，因我们不设 padding，则有</p>
 <p></p>
@@ -257,10 +229,10 @@ target="_blank">这部分</a>的源码。</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">n * x1 - x1 &lt; n * x2 - x2</div><div class="line">↓</div><div class="line">(n - <span class="number">1</span>) * x1 &lt; (n - <span class="number">1</span>) * x2</div><div class="line">↓</div><div class="line">n &gt; <span class="number">1</span></div></pre>
+<pre><span class="line">n * x1 - x1 &lt; n * x2 - x2</span><br><span class="line">↓</span><br><span class="line">(n - <span class="number">1</span>) * x1 &lt; (n - <span class="number">1</span>) * x2</span><br><span class="line">↓</span><br><span class="line">n &gt; <span class="number">1</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -273,10 +245,10 @@ target="_blank">这部分</a>的源码。</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">(n - <span class="number">1</span>) * <span class="number">1</span> &gt;= <span class="number">1</span></div><div class="line">↓</div><div class="line">n &gt;= <span class="number">2</span></div></pre>
+<pre><span class="line">(n - <span class="number">1</span>) * <span class="number">1</span> &gt;= <span class="number">1</span></span><br><span class="line">↓</span><br><span class="line">n &gt;= <span class="number">2</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -289,10 +261,10 @@ target="_blank">这部分</a>的源码。</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">/* ... */</span></div><div class="line"><span class="selector-class">.child</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">200%</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">200%</span>;</div><div class="line">&#125;</div><div class="line"><span class="comment">/* ... */</span></div></pre>
+<pre><span class="line"><span class="comment">/* ... */</span></span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">200%</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* ... */</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -303,10 +275,10 @@ target="_blank">这部分</a>的源码。</p>
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// .....</span></div><div class="line"><span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</div><div class="line"></div><div class="line">parent.scrollTop = <span class="number">1000</span></div><div class="line">parent.scrollLeft = <span class="number">1000</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> eventCount = <span class="number">0</span></div><div class="line"><span class="comment">// ....</span></div></pre>
+<pre><span class="line"><span class="comment">// .....</span></span><br><span class="line"><span class="keyword">var</span> msg2 = <span class="built_in">document</span>.querySelector(<span class="string">'.msg2'</span>)</span><br><span class="line"></span><br><span class="line">parent.scrollTop = <span class="number">1000</span></span><br><span class="line">parent.scrollLeft = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> eventCount = <span class="number">0</span></span><br><span class="line"><span class="comment">// ....</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -314,8 +286,7 @@ target="_blank">这部分</a>的源码。</p>
 <p></p>
 <p>同时也说明百分比不能监测容器变大，因为 <code>0 &lt; n &lt; 1</code> 与 <code>n &gt;= 1 + 1/Max</code> 矛盾，可自行证明。</p>
 <p>所以，结合两个方式就可以监测元素扩大与缩小变化。</p>
-<h2 id="代码">
-<a href="#代码" class="headerlink" title="代码"></a>代码</h2>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2>
 <p>原理搞通之后代码就不难了，我<a href="https://codepen.io/straybugs/full/mwgWad/" target="_blank">这里</a>另外重新实现了一遍，修改了隐藏块的创建方式以及加入 <a href="https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md" target="_blank">passive events</a> 优化滚动。Demo 里拖动一个块改变大小另一个会同步变化，可以看到非常的流畅。</p>
 <p></p>
 <p><iframe class="iframe-defer" height="408" scrolling="no" title="Sync Twin Boxes" src="//codepen.io/straybugs/embed/mwgWad/?height=408&theme-id=0&default-tab=result&embed-version=2" frameborder="no" allowtransparency="true" allowfullscreen="true" style="width: 100%">See the Pen <a href="https://codepen.io/straybugs/pen/mwgWad/" target="_blank">Sync Twin Boxes</a> by CRIMX (<a href="https://codepen.io/straybugs" target="_blank">@straybugs</a>) on <a href="https://codepen.io" target="_blank">CodePen</a>.</iframe></p>
@@ -329,12 +300,7 @@ target="_blank">这部分</a>的源码。</p>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读源码/">闲读源码</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2017/08/12/proto-prototype/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Prototype 与 __Proto__ 的爱恨情仇</div></a>
-<a href="/2017/07/06/manachers-algorithm/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">Manacher 马拉车算法</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/08/12/proto-prototype/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Prototype 与 __Proto__ 的爱恨情仇</div></a><a href="/2017/07/06/manachers-algorithm/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Manacher 马拉车算法</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -378,8 +344,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

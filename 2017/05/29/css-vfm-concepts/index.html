@@ -29,32 +29,19 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。
-
-Element 与 Box
-
-
-第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docu">
+<meta name="description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。 Element 与 Box   第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docum">
+<meta name="keywords" content="CSS,闲读规范,Box Model,Visual Formatting Model">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS VFM 中易混淆的名词概念">
 <meta property="og:url" content="https://blog.crimx.com/2017/05/29/css-vfm-concepts/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。
-
-Element 与 Box
-
-
-第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docu">
+<meta property="og:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。 Element 与 Box   第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docum">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://blog.crimx.com/images/post/box-model.png">
 <meta property="og:updated_time" content="2017-07-03T08:51:36.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS VFM 中易混淆的名词概念">
-<meta name="twitter:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。
-
-Element 与 Box
-
-
-第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docu">
+<meta name="twitter:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。 Element 与 Box   第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docum">
 <meta name="twitter:image" content="https://blog.crimx.com/images/post/box-model.png">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
@@ -85,22 +72,12 @@ Element 与 Box
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -114,15 +91,11 @@ Element 与 Box
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">CSS VFM 中易混淆的名词概念</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2017/05/29/css-vfm-concepts/" class="article-date"><time datetime="2017-05-28T16:00:00.000Z" itemprop="datePublished">2017-05-29</time></a>
-<a rel="license" class="cc-license-wrapper"
-href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2017/05/29/css-vfm-concepts/" class="article-date"><time datetime="2017-05-28T16:00:00.000Z" itemprop="datePublished">2017-05-29</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -145,10 +118,8 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <article id="post-css-vfm-concepts" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<p><span class="github-emoji" title=":warning:" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v8">&#x26a0;</span>第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的<a href="http://book.mixu.net/css/" target="_blank">笔记</a>，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。</p>
-<h2
-id="Element-与-Box">
-<a href="#Element-与-Box" class="headerlink" title="Element 与 Box"></a>Element 与 Box</h2>
+<p><span class="github-emoji" title="warning" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v8">&#x26a0;</span>第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的<a href="http://book.mixu.net/css/" target="_blank">笔记</a>，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。</p>
+<h2 id="Element-与-Box"><a href="#Element-与-Box" class="headerlink" title="Element 与 Box"></a>Element 与 Box</h2>
 <ul>
 <li>
 <p>第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 document tree （文档树）的节点，Box 则是指元素根据 VFM 和 Box Model 生成的盒子。一个元素可能生成零个或多个盒子。</p>
@@ -158,8 +129,7 @@ id="Element-与-Box">
 </li>
 </ul>
 <p><img src="/images/post/box-model.png" alt="box-model"></p>
-<h2 id="Block-level-Element">
-<a href="#Block-level-Element" class="headerlink" title="Block-level Element"></a>Block-level Element</h2>
+<h2 id="Block-level-Element"><a href="#Block-level-Element" class="headerlink" title="Block-level Element"></a>Block-level Element</h2>
 <ul>
 <li>
 <p>display 值为 &#39;block/list-item/table&#39; 的元素叫 <em>block-level element</em>。</p>
@@ -177,8 +147,7 @@ id="Element-与-Box">
 <p>同时是 block-level box 和 block container box 的盒子也叫做 <em>block box</em>。</p>
 </li>
 </ul>
-<h2 id="Inline-level-element">
-<a href="#Inline-level-element" class="headerlink" title="Inline-level element"></a>Inline-level element</h2>
+<h2 id="Inline-level-element"><a href="#Inline-level-element" class="headerlink" title="Inline-level element"></a>Inline-level element</h2>
 <ul>
 <li>
 <p>display 值为 &#39;inline/inline-table/inline-block&#39; 的元素叫 <em>inline-level element</em>。</p>
@@ -197,8 +166,7 @@ id="Element-与-Box">
 <p>Inline-level boxes 打横排成一行行的 <em>line boxes</em>。</p>
 </li>
 </ul>
-<h2 id="Flow">
-<a href="#Flow" class="headerlink" title="Flow"></a>Flow</h2>
+<h2 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h2>
 <ul>
 <li>
 <p><em>Out-of-flow</em> 的元素指 absolutely positioned elements, floated elements 和 root element。</p>
@@ -216,12 +184,7 @@ id="Element-与-Box">
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual-Formatting-Model/">Visual Formatting Model</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2017/07/03/value-calculation-of-css-properties/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">CSS 属性值计算</div></a>
-<a href="/2017/04/29/pure-css-relative-aside/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">纯 CSS 实现浮动介绍</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/07/03/value-calculation-of-css-properties/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">CSS 属性值计算</div></a><a href="/2017/04/29/pure-css-relative-aside/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">纯 CSS 实现浮动介绍</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -265,8 +228,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

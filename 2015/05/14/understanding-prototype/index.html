@@ -29,31 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。
-
-混淆
-混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。
-首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。
-然后是">
+<meta name="description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。 混淆 混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。 首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。 然后是">
+<meta name="keywords" content="Understanding JavaScript,Recommended,Prototype">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解 Prototype">
 <meta property="og:url" content="https://blog.crimx.com/2015/05/14/understanding-prototype/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。
-
-混淆
-混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。
-首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。
-然后是">
+<meta property="og:description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。 混淆 混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。 首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。 然后是">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2016-12-28T11:04:11.297Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解 Prototype">
-<meta name="twitter:description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。
-
-混淆
-混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。
-首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。
-然后是">
+<meta name="twitter:description" content="Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。 混淆 混淆主要是因为 [[prototype]] 和 prototype 名字长得太像。看回以前总结的模拟继承笔记，基本就是照搬书，压根没搞清楚。 首先是 [[prototype]]， 每个对象都会有 [[prototype]]属性，它的本质就是指向另外一个对象。 然后是">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -83,22 +70,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/railway-1245906_1920-portrait.jpg') 54.19% 60.43%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACgQAAEDAgQEBwAAAAAAAAAAAAEAAgMEEQUSMUETFFFSFSEjU2Fxkf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAwL/xAAXEQEBAQEAAAAAAAAAAAAAAAAAERIB/9oADAMBAAIRAxEAPwDZjK0bhQqvFoqcWBDndFn8GP1s9eGOlOVx06J/Ep3Mns19z9qeldLZ467sQqLztT1QjRXqPAIGznI/1DoRslYgwxu86gF53Kh00kVIziGPM46fCbra+OWAuMRzbG6UanBeX32fqFxOff2hCIK//9k=') 54.19% 60.43%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -112,15 +89,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/railway-1245906_1920-portrait.jpg') 54.19% 60.43%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACgQAAEDAgQEBwAAAAAAAAAAAAEAAgMEEQUSMUETFFFSFSEjU2Fxkf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAwL/xAAXEQEBAQEAAAAAAAAAAAAAAAAAERIB/9oADAMBAAIRAxEAPwDZjK0bhQqvFoqcWBDndFn8GP1s9eGOlOVx06J/Ep3Mns19z9qeldLZ467sQqLztT1QjRXqPAIGznI/1DoRslYgwxu86gF53Kh00kVIziGPM46fCbra+OWAuMRzbG6UanBeX32fqFxOff2hCIK//9k=') 54.19% 60.43%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAIDBAYHBf/EACgQAAEDAgQEBwAAAAAAAAAAAAEAAgMEEQUSMUETFFFSFSEjU2Fxkf/EABcBAAMBAAAAAAAAAAAAAAAAAAABAwL/xAAXEQEBAQEAAAAAAAAAAAAAAAAAERIB/9oADAMBAAIRAxEAPwDZjK0bhQqvFoqcWBDndFn8GP1s9eGOlOVx06J/Ep3Mns19z9qeldLZ467sQqLztT1QjRXqPAIGznI/1DoRslYgwxu86gF53Kh00kVIziGPM46fCbra+OWAuMRzbG6UanBeX32fqFxOff2hCIK//9k=') 54.19% 60.43%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">理解 Prototype</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/05/14/understanding-prototype/" class="article-date"><time datetime="2015-05-13T16:00:00.000Z" itemprop="datePublished">2015-05-14</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2015/05/14/understanding-prototype/" class="article-date"><time datetime="2015-05-13T16:00:00.000Z" itemprop="datePublished">2015-05-14</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -151,46 +124,40 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
 <p>Prototype 初看很好理解，实际上很容易混淆。而且因为不影响平时使用，一直没用动力去了解，长时间都是在一知半解的状态。</p>
-<h2 id="混淆">
-<a href="#混淆" class="headerlink" title="混淆"></a>混淆</h2>
+<h2 id="混淆"><a href="#混淆" class="headerlink" title="混淆"></a>混淆</h2>
 <p>混淆主要是因为 <code>[[prototype]]</code> 和 <code>prototype</code> 名字长得太像。看回以前总结的模拟继承<a href="/2014/07/27/javascript-inheritance">笔记</a>，基本就是照搬书，压根没搞清楚。</p>
 <p>首先是 <code>[[prototype]]</code>， <strong>每个对象</strong>都会有 <code>[[prototype]]</code>属性，它的本质就是指向另外一个对象。</p>
 <p>然后是 <code>prototype</code>。<code>prototype</code> 是 <code>function</code> 对象特有的属性。每个 <code>function</code> 都有一个 <code>prototype</code>（同时也会有 <code>[[prototype]]</code>）。<code>prototype</code> 里有个叫 <code>constructor</code> 的属性，一般情况下就是指回这个 <code>function</code>。</p>
-<h2
-id="获取">
-<a href="#获取" class="headerlink" title="获取"></a>获取</h2>
+<h2 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h2>
 <p>ES5 提供 <code>Object.getPrototypeOf()</code> 方法来获取一个对象的 <code>[[prototype]]</code>；也可以访问 <code>Object.prototype.__proto__</code>，而且这个很早就存在了，但在 ES2015 才标准化。</p>
-<h2 id="创建">
-<a href="#创建" class="headerlink" title="创建"></a>创建</h2>
-<h3 id="New">
-<a href="#New" class="headerlink" title="New"></a>New</h3>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2>
+<h3 id="New"><a href="#New" class="headerlink" title="New"></a>New</h3>
 <p>当 <code>new</code> 一个 <code>function</code> 的时候，返回的那个新对象里的 <code>[[prototype]]</code> 就会指向这个 <code>function</code> 的 <code>prototype</code>。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person()</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.getPrototypeOf(p) === Person.prototype <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person()</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf(p) === Person.prototype <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h3 id="Object-create">
-<a href="#Object-create" class="headerlink" title="Object.create()"></a>Object.create()</h3>
+<h3 id="Object-create"><a href="#Object-create" class="headerlink" title="Object.create()"></a>Object.create()</h3>
 <p>ES5 提供了 <code>Object.create()</code> 方法来创建对象，它的第一个参数就是 <code>prototype</code> ，创建的新对象的 <code>[[prototype]]</code> 会指向这个参数。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.getPrototypeOf(<span class="built_in">Object</span>.create(obj)) === obj <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf(<span class="built_in">Object</span>.create(obj)) === obj <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -205,20 +172,18 @@ id="获取">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">create</span> (<span class="params">proto<span class="regexp">/* , 第二个参数 */</span></span>) </span>&#123;</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  <span class="keyword">var</span> Fn = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</div><div class="line">  Fn.prototype = proto || &#123;&#125;</div><div class="line">  <span class="keyword">var</span> obj = <span class="keyword">new</span> Fn()</div><div class="line">  <span class="comment">// ...</span></div><div class="line">  <span class="keyword">return</span> obj</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = &#123;&#125;</div><div class="line"></div><div class="line"><span class="built_in">Object</span>.getPrototypeOf(create(obj)) === obj <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">create</span> (<span class="params">proto<span class="regexp">/* , 第二个参数 */</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">var</span> Fn = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  Fn.prototype = proto || &#123;&#125;</span><br><span class="line">  <span class="keyword">var</span> obj = <span class="keyword">new</span> Fn()</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">return</span> obj</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf(create(obj)) === obj <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h3 id="Object-setPrototypeOf">
-<a href="#Object-setPrototypeOf" class="headerlink" title="Object.setPrototypeOf()"></a>Object.setPrototypeOf()</h3>
+<h3 id="Object-setPrototypeOf"><a href="#Object-setPrototypeOf" class="headerlink" title="Object.setPrototypeOf()"></a>Object.setPrototypeOf()</h3>
 <p>ES2015 增加了 <code>Object.setPrototypeOf()</code> 来设定对象的 <code>[[prototype]]</code>，但是尽量不要用，可能会有<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf" target="_blank">性能问题</a>。</p>
-<h2 id="判断">
-<a href="#判断" class="headerlink" title="判断"></a>判断</h2>
+<h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2>
 <p><code>instanceof</code> 和 <code>isPrototypeOf()</code> 都可以判断，但两者不一样。</p>
 <p><code>object instanceof constructor</code> 沿着 <code>constructor.prototype</code> 来搜。也就是说 <code>constructor</code> 只能是函数。</p>
 <p><code>prototypeObj.isPrototypeOf(object)</code> 是基于对象，不一定是函数。</p>
@@ -227,17 +192,16 @@ id="获取">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Father</span> (<span class="params"></span>) </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> Father()</div><div class="line"></div><div class="line">f <span class="keyword">instanceof</span> Father <span class="comment">// true</span></div><div class="line">f <span class="keyword">instanceof</span> Father.prototype <span class="comment">// Error</span></div><div class="line">Father.prototype.isPrototypeOf(f) <span class="comment">// true</span></div><div class="line">Father.isPrototypeOf(f) <span class="comment">// false</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span> (<span class="params"></span>) </span>&#123;&#125;</div><div class="line">Child.prototype = f</div><div class="line"></div><div class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child()</div><div class="line">c <span class="keyword">instanceof</span> Father <span class="comment">// true</span></div><div class="line">c <span class="keyword">instanceof</span> f <span class="comment">// Error</span></div><div class="line">f.isPrototypeOf(c) <span class="comment">// true</span></div><div class="line">Father.isPrototypeOf(c) <span class="comment">// fasle</span></div><div class="line">Father.prototype.isPrototypeOf(f) <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Father</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> Father()</span><br><span class="line"></span><br><span class="line">f <span class="keyword">instanceof</span> Father <span class="comment">// true</span></span><br><span class="line">f <span class="keyword">instanceof</span> Father.prototype <span class="comment">// Error</span></span><br><span class="line">Father.prototype.isPrototypeOf(f) <span class="comment">// true</span></span><br><span class="line">Father.isPrototypeOf(f) <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">Child.prototype = f</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child()</span><br><span class="line">c <span class="keyword">instanceof</span> Father <span class="comment">// true</span></span><br><span class="line">c <span class="keyword">instanceof</span> f <span class="comment">// Error</span></span><br><span class="line">f.isPrototypeOf(c) <span class="comment">// true</span></span><br><span class="line">Father.isPrototypeOf(c) <span class="comment">// fasle</span></span><br><span class="line">Father.prototype.isPrototypeOf(f) <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="继承">
-<a href="#继承" class="headerlink" title="继承"></a>继承</h2>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2>
 <p><code>Child.prototype = Father.prototype</code> 不久好了么，收工。</p>
 <p>这里的问题看出来了么。这种方式最大的问题是当在 <code>Child</code> 的 <code>prototype</code> 上增加一些属性的时候，会影响到 <code>Father</code> 去了，因为它们是同个对象。</p>
 <p>那好吧，<code>Child.prototype = new Father()</code> 搞定。</p>
@@ -248,10 +212,10 @@ id="获取">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Father</span> (<span class="params"></span>) </span>&#123;&#125;</div><div class="line">Father.prototype.isHandsome = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span> (<span class="params"></span>) </span>&#123;&#125;</div><div class="line"></div><div class="line">Child.prototype = <span class="built_in">Object</span>.create(Father.prototype)</div><div class="line">Child.prototype.constructor = Child</div><div class="line"></div><div class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child()</div><div class="line"></div><div class="line">c.isHandsome() <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Father</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">Father.prototype.isHandsome = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span> (<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Child.prototype = <span class="built_in">Object</span>.create(Father.prototype)</span><br><span class="line">Child.prototype.constructor = Child</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Child()</span><br><span class="line"></span><br><span class="line">c.isHandsome() <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -266,12 +230,7 @@ id="获取">
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Recommended/">Recommended</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 </ul>
-<nav id="article-nav"><a href="/2016/02/13/router-time-reset/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">路由器时间同步服务器</div></a>
-<a href="/2015/04/21/should-array-length-be-cached-or-not/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">JavaScript 有必要缓存 for 循环中的 Array.length 吗？</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2016/02/13/router-time-reset/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">路由器时间同步服务器</div></a><a href="/2015/04/21/should-array-length-be-cached-or-not/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">JavaScript 有必要缓存 for 循环中的 Array.length 吗？</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -315,8 +274,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

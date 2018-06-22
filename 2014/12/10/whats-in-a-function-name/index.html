@@ -29,22 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="原文：What&amp;#39;s in a Function Name?（2014-11-25）
-每次为 JSHint 提交代码我都会学到一些 JavaScript 的新东西。最近的一次知识之旅中我接触到了函数对象的 name 属性。
-JSHint 有一个很有意思但很少人知道的功能：代码分析报告。当以编程方式使用时，JSHint 会返回一个对象，描述已分析代码的数据。它包括（但不限于）代码中函数对象的信">
+<meta name="description" content="原文：What&amp;#39;s in a Function Name?（2014-11-25） 每次为 JSHint 提交代码我都会学到一些 JavaScript 的新东西。最近的一次知识之旅中我接触到了函数对象的 name 属性。 JSHint 有一个很有意思但很少人知道的功能：代码分析报告。当以编程方式使用时，JSHint 会返回一个对象，描述已分析代码的数据。它包括（但不限于）代码中函数对象的信">
+<meta name="keywords" content="Translation,Understanding JavaScript,闲读规范,Function">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript 函数名里面有什么？">
 <meta property="og:url" content="https://blog.crimx.com/2014/12/10/whats-in-a-function-name/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="原文：What&amp;#39;s in a Function Name?（2014-11-25）
-每次为 JSHint 提交代码我都会学到一些 JavaScript 的新东西。最近的一次知识之旅中我接触到了函数对象的 name 属性。
-JSHint 有一个很有意思但很少人知道的功能：代码分析报告。当以编程方式使用时，JSHint 会返回一个对象，描述已分析代码的数据。它包括（但不限于）代码中函数对象的信">
+<meta property="og:description" content="原文：What&amp;#39;s in a Function Name?（2014-11-25） 每次为 JSHint 提交代码我都会学到一些 JavaScript 的新东西。最近的一次知识之旅中我接触到了函数对象的 name 属性。 JSHint 有一个很有意思但很少人知道的功能：代码分析报告。当以编程方式使用时，JSHint 会返回一个对象，描述已分析代码的数据。它包括（但不限于）代码中函数对象的信">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-07-03T08:52:44.354Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript 函数名里面有什么？">
-<meta name="twitter:description" content="原文：What&amp;#39;s in a Function Name?（2014-11-25）
-每次为 JSHint 提交代码我都会学到一些 JavaScript 的新东西。最近的一次知识之旅中我接触到了函数对象的 name 属性。
-JSHint 有一个很有意思但很少人知道的功能：代码分析报告。当以编程方式使用时，JSHint 会返回一个对象，描述已分析代码的数据。它包括（但不限于）代码中函数对象的信">
+<meta name="twitter:description" content="原文：What&amp;#39;s in a Function Name?（2014-11-25） 每次为 JSHint 提交代码我都会学到一些 JavaScript 的新东西。最近的一次知识之旅中我接触到了函数对象的 name 属性。 JSHint 有一个很有意思但很少人知道的功能：代码分析报告。当以编程方式使用时，JSHint 会返回一个对象，描述已分析代码的数据。它包括（但不限于）代码中函数对象的信">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -74,22 +70,12 @@ JSHint 有一个很有意思但很少人知道的功能：代码分析报告。�
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -103,15 +89,11 @@ JSHint 有一个很有意思但很少人知道的功能：代码分析报告。�
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">JavaScript 函数名里面有什么？</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/12/10/whats-in-a-function-name/" class="article-date"><time datetime="2014-12-09T16:00:00.000Z" itemprop="datePublished">2014-12-10</time></a>
-<a rel="license"
-class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/12/10/whats-in-a-function-name/" class="article-date"><time datetime="2014-12-09T16:00:00.000Z" itemprop="datePublished">2014-12-10</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -142,10 +124,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">jshint(<span class="string">'function myFn() &#123;&#125;'</span>);</div><div class="line"><span class="built_in">console</span>.log(jshint.data().functions);</div><div class="line"><span class="comment">/*</span></div><div class="line">  [&#123;</div><div class="line">    name: 'myFn',</div><div class="line">    param: undefined,</div><div class="line">    line: 1,</div><div class="line">    character: 15,</div><div class="line">    last: 1,</div><div class="line">    lastcharacter: 19,</div><div class="line">    metrics: &#123; complexity: 1, parameters: 0, statements: 0 &#125;</div><div class="line">  &#125;]</div><div class="line"> */</div></pre>
+<pre><span class="line">jshint(<span class="string">'function myFn() &#123;&#125;'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(jshint.data().functions);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  [&#123;</span></span><br><span class="line"><span class="comment">    name: 'myFn',</span></span><br><span class="line"><span class="comment">    param: undefined,</span></span><br><span class="line"><span class="comment">    line: 1,</span></span><br><span class="line"><span class="comment">    character: 15,</span></span><br><span class="line"><span class="comment">    last: 1,</span></span><br><span class="line"><span class="comment">    lastcharacter: 19,</span></span><br><span class="line"><span class="comment">    metrics: &#123; complexity: 1, parameters: 0, statements: 0 &#125;</span></span><br><span class="line"><span class="comment">  &#125;]</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -162,8 +144,7 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 </ul>
 </blockquote>
 <p>我得知这个功能在与一个不相关的 bug 一起工作时会出错。更困扰我的是，我发现自己以前对 JavaScript 函数名的理解完全是错误的。对我的三观质疑了几个小时（“名字意味着什么？”、“我是真实存在的么？”....）之后，我决定开始研究这个 issue 并一劳永逸地学习正确的理解。下面是我所学到的东西。</p>
-<h2 id="你以为自己知道">
-<a href="#你以为自己知道" class="headerlink" title="你以为自己知道..."></a>你以为自己知道...</h2>
+<h2 id="你以为自己知道"><a href="#你以为自己知道" class="headerlink" title="你以为自己知道..."></a>你以为自己知道...</h2>
 <p>首先我该解释一下我一开始对 name 如何在 JavaScript 中分配的误解。</p>
 <p>我以前只知道函数对象间的一个区别 —— 函数声明与函数表达式。前者需要一个标识符，所以我通常认为这是一个“命名函数”：</p>
 <p></p>
@@ -171,10 +152,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -186,10 +167,10 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">&#125;());</div></pre>
+<pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;());</span><br></pre>
 </td>
 </tr>
 </table>
@@ -198,21 +179,18 @@ class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/"
 <p>这种推断在直觉上是合理的，因为它用了直白的词语定义如“命名的”和“匿名的”。这也许可以解释为何不止我一个人存在这个误解。事实上：现在的 JavaScript （ECMAScript 5.1 或缩写 ES5）对于函数的 <code>name</code> 属性并没有明确的说明。稍微看看这个<a href="http://es5.github.io/#x13" target="_blank">相关的说明</a>可以支持我的观点。我们一般认为命名函数表达式中的标识符会指向“name”，实际上它只会被用在环境记录（environment
 record）中创建一个入口（entry），（跟 <code>var</code> 声明一样）。除此以外的说明都会存在平台特定的细微差异。</p>
 <p>（三观已崩溃）</p>
-<h2 id="你根本不知道">
-<a href="#你根本不知道" class="headerlink" title="...你根本不知道"></a>...你根本不知道</h2>
-<p>碰巧下一代 JavaScript （即 ES6 ，<a href="https://people.mozilla.org/~jorendorff/es6-draft.html" target="_blank">工作草案在这里</a>）的说明中明确了函数 <code>name</code> 属性的初始化。很方便的是，它完全是依赖于一个叫
-<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-setfunctionname"
-target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-abstract-operations" target="_blank">抽象操作</a>。学习函数名赋值的来龙去脉其实就是简单（虽然也比较无聊）地去研究草案中关于这个操作的所有文献。对于平台实现者来说这必不可少，但对于我们来说，稍微学习几个例子就足够了。</p>
+<h2 id="你根本不知道"><a href="#你根本不知道" class="headerlink" title="...你根本不知道"></a>...你根本不知道</h2>
+<p>碰巧下一代 JavaScript （即 ES6 ，<a href="https://people.mozilla.org/~jorendorff/es6-draft.html" target="_blank">工作草案在这里</a>）的说明中明确了函数 <code>name</code> 属性的初始化。很方便的是，它完全是依赖于一个叫 <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-setfunctionname" target="_blank">SetFunctionName</a>的<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-abstract-operations" target="_blank">抽象操作</a>。学习函数名赋值的来龙去脉其实就是简单（虽然也比较无聊）地去研究草案中关于这个操作的所有文献。对于平台实现者来说这必不可少，但对于我们来说，稍微学习几个例子就足够了。</p>
 <p>首先，这个规范形式化了一些我们可以预料到的行为：</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// 函数形式 ........................ `name` 属性的值</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunc</span>(<span class="params"></span>) </span>&#123;&#125;                  <span class="comment">// 'myFunc;</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;());                    <span class="comment">// ''</span></div></pre>
+<pre><span class="line"><span class="comment">// 函数形式 ........................ `name` 属性的值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myFunc</span>(<span class="params"></span>) </span>&#123;&#125;                  <span class="comment">// 'myFunc;</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;());                    <span class="comment">// ''</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -224,10 +202,10 @@ target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jore
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// 函数形式 ........................ `name` 属性的值</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Function</span>();                       <span class="comment">// 'anonymous'</span></div><div class="line"><span class="keyword">var</span> toVar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;            <span class="comment">// 'toVar'</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;).bind();               <span class="comment">// 'bound'</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  <span class="attr">myMethod</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,            <span class="comment">// 'myMethod'</span></div><div class="line">  get myGetter() &#123;&#125;,                  <span class="comment">// 'get myGetter'</span></div><div class="line">  set mySetter(value) &#123;&#125;              <span class="comment">// 'set mySetter'</span></div><div class="line">&#125;;</div></pre>
+<pre><span class="line"><span class="comment">// 函数形式 ........................ `name` 属性的值</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Function</span>();                       <span class="comment">// 'anonymous'</span></span><br><span class="line"><span class="keyword">var</span> toVar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;            <span class="comment">// 'toVar'</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;).bind();               <span class="comment">// 'bound'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  myMethod: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;,            <span class="comment">// 'myMethod'</span></span><br><span class="line">  get myGetter() &#123;&#125;,                  <span class="comment">// 'get myGetter'</span></span><br><span class="line">  set mySetter(value) &#123;&#125;              <span class="comment">// 'set mySetter'</span></span><br><span class="line">&#125;;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -241,10 +219,10 @@ target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jore
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="comment">// 函数形式 ........................ `name` 属性的值</span></div><div class="line"><span class="keyword">let</span> toLet = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;            <span class="comment">// 'toLet'</span></div><div class="line"><span class="keyword">const</span> toConst = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;        <span class="comment">// 'toConst'</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;          <span class="comment">// 'default'</span></div><div class="line"><span class="function"><span class="keyword">function</span>* <span class="title">myGenerator</span>(<span class="params"></span>) </span>&#123;&#125;            <span class="comment">// 'myGenerator'</span></div><div class="line"><span class="keyword">new</span> GeneratorFunction() &#123;&#125;            <span class="comment">// 'anonymous'</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  [<span class="string">'exp'</span> + <span class="string">'ression'</span>]: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;, <span class="comment">// 'expression'</span></div><div class="line">  myConciseMethod() &#123;&#125;,               <span class="comment">// 'myConciseMethod'</span></div><div class="line">  *myGeneratorMethod() &#123;&#125;             <span class="comment">// 'myGeneratorMethod'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>() &#123;&#125;                    <span class="comment">// 'MyClass'</span></div><div class="line">  myClassMethod() &#123;&#125;                  <span class="comment">// 'myClassMethod'</span></div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="comment">// 函数形式 ........................ `name` 属性的值</span></span><br><span class="line"><span class="keyword">let</span> toLet = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;            <span class="comment">// 'toLet'</span></span><br><span class="line"><span class="keyword">const</span> toConst = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;        <span class="comment">// 'toConst'</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;          <span class="comment">// 'default'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">myGenerator</span>(<span class="params"></span>) </span>&#123;&#125;            <span class="comment">// 'myGenerator'</span></span><br><span class="line"><span class="keyword">new</span> GeneratorFunction() &#123;&#125;            <span class="comment">// 'anonymous'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  [<span class="string">'exp'</span> + <span class="string">'ression'</span>]: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;, <span class="comment">// 'expression'</span></span><br><span class="line">  myConciseMethod() &#123;&#125;,               <span class="comment">// 'myConciseMethod'</span></span><br><span class="line">  *myGeneratorMethod() &#123;&#125;             <span class="comment">// 'myGeneratorMethod'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;&#125;                    <span class="comment">// 'MyClass'</span></span><br><span class="line">  myClassMethod() &#123;&#125;                  <span class="comment">// 'myClassMethod'</span></span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -256,18 +234,17 @@ target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jore
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyClass</span>(<span class="params"></span>) </span>&#123;&#125;</div><div class="line">MyClass.prototype.constructor === MyClass;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyClass</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">MyClass.prototype.constructor === MyClass;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>这个原则同样适用于 ES6 ，即便构造函数体与 <code>class</code> 关键字出现在不同的表达式中。</p>
-<h2 id="标准偏差">
-<a href="#标准偏差" class="headerlink" title="标准偏差"></a>标准偏差</h2>
+<h2 id="标准偏差"><a href="#标准偏差" class="headerlink" title="标准偏差"></a>标准偏差</h2>
 <p>手中有了完整的规格书，我们就可以重新看看 JSHint 中函数名推断的过程。注意它也不是一模一样照搬实现的，有些地方我们是故意做得跟规范不同。</p>
 <p>「表达式」：很多情况下，实现者会直接以表达式的结果去调用 <code>SetFunctionName</code> 。（如：“设 <code>propKey</code> 为对 <code>PropertyName</code> 求值的结果。[…] <code>SetFunctionName(propValue, propKey)</code> 。”）且因为 JSHint 是一个静态分析工具，它不会对检测的代码做任何计算（见文末）。所以这种情况下，我们会报告此函数的 <code>name</code>为“(expression)”。</p>
 <p>「未命名」：规范要求“若 <code>description</code> 值为 <strong>undefined</strong> ，则 <code>name</code> 值取空字符串。”这里意思是类似下面的函数声明：</p>
@@ -276,10 +253,10 @@ target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jore
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">&#125;)();</div></pre>
+<pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre>
 </td>
 </tr>
 </table>
@@ -287,11 +264,10 @@ target="_blank">SetFunctionName</a> 的<a href="https://people.mozilla.org/~jore
 <p></p>
 <p>其 <code>name</code> 值应该为 “” 。但我们决定对这种函数的 <code>name</code> 报告为“(empty)”。因为 JSHint 这个工具的目的是协助开发者而不是 JavaScript runtime ，我们觉得在这种情况下将规范作重新解释是可以接受的。具体来说：JSHint 在其报告中赋予函数的名字不会引起兼容性问题，所以我们实现了不同的行为，因为这样做更有帮助。</p>
 <p><a href="https://github.com/jshint/jshint/pull/1971" target="_blank">改进的函数名推断已经在 JSHint 的 master 分支中 landed 了</a>，可以展望它会出现在下个 release 中。</p>
-<h2 id="其它名字的函数">
-<a href="#其它名字的函数" class="headerlink" title="其它名字的函数"></a>其它名字的函数</h2>
+<h2 id="其它名字的函数"><a href="#其它名字的函数" class="headerlink" title="其它名字的函数"></a>其它名字的函数</h2>
 <p>我从不厌倦去阅读下一代 JavaScript 的各种炫酷新特性。即便如此，对比起 generator、class、module 和 promise ，函数名的确显得有些过时。悲观者甚至会认为这是语言中的一个没有必要的累赘。但正如任何优秀的标准，这个新特性实际上也是一种现实需求的体现。</p>
-<p>报错的栈跟踪里需要函数名。缺少函数名推断的情况下，平台一般会用一些通用的替换值如“(anonymous function)”去报告没有名字的函数。这往往会从整体上削弱了栈跟踪的实用性。现在的一些性能检测工具和控制台会识别一个叫 <code>displayName</code> 的非标准值，并在栈跟踪时回退到该值。<a href="https://medium.com/@cramforce/on-the-awesomeness-of-fn-displayname-9511933a714a" target="_blank">Malte Ubl 最近也赞成将此纳入 JavaScript 库代码</a>，<a
-href="https://github.com/emberjs/ember.js/blob/43423f6acd1abd4ffb0de6afb744d4897ae2f768/packages/ember-metal/lib/logger.js#L20" target="_blank">Ember.js 也对此稍作尝试</a>。</p>
+<p>报错的栈跟踪里需要函数名。缺少函数名推断的情况下，平台一般会用一些通用的替换值如“(anonymous function)”去报告没有名字的函数。这往往会从整体上削弱了栈跟踪的实用性。现在的一些性能检测工具和控制台会识别一个叫 <code>displayName</code> 的非标准值，并在栈跟踪时回退到该值。<a href="https://medium.com/@cramforce/on-the-awesomeness-of-fn-displayname-9511933a714a" target="_blank">Malte Ubl 最近也赞成将此纳入 JavaScript 库代码</a>，
+<a href="https://github.com/emberjs/ember.js/blob/43423f6acd1abd4ffb0de6afb744d4897ae2f768/packages/ember-metal/lib/logger.js#L20" target="_blank">Ember.js 也对此稍作尝试</a>。</p>
 <p>但随着 runtime 实现了新功能，诸如此类的非标准方法就变得没什么必要了。这个小小的改变可以帮助开发者专注于着手解决问题而无需担心怎么减少调试陷阱。所以即使在即将到来的各种 JavaScript 会议中你不太可能会见到标题为“ES6 中的函数名推断”之类的演讲，这个小小的特性依然值得庆祝。</p>
 <ul>
 <li>JSHint 的确会<a href="https://github.com/jshint/jshint/blob/d0b3cfd935c9445f14b37ea9694d8a172a52739a/src/jshint.js#L2335-L2348" target="_blank">对封闭字符串做连接操作</a>，但这基本算不上是代码执行。</li>
@@ -305,12 +281,7 @@ href="https://github.com/emberjs/ember.js/blob/43423f6acd1abd4ffb0de6afb744d4897
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2015/02/27/duoshuo-email/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">多说评论邮件提醒</div></a>
-<a href="/2014/11/08/stream-adventure-html-stream-trumpet/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">Stream-Adventure HTML-Stream 中对 Trumpet 的理解</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2015/02/27/duoshuo-email/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">多说评论邮件提醒</div></a><a href="/2014/11/08/stream-adventure-html-stream-trumpet/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">Stream-Adventure HTML-Stream 中对 Trumpet 的理解</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -354,8 +325,7 @@ class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

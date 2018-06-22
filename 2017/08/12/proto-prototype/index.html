@@ -29,26 +29,19 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。
-先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。
-然后来看一个两个神的故事：
-首先在 ECMAScript 星球，万物起源于 the Enginee">
+<meta name="description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。 先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。 然后来看一个两个神的故事： 首先在 ECMAScript 星球，万物起源于 the Enginee">
+<meta name="keywords" content="Understanding JavaScript,Recommended,闲读规范">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Prototype 与 __Proto__ 的爱恨情仇">
 <meta property="og:url" content="https://blog.crimx.com/2017/08/12/proto-prototype/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。
-先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。
-然后来看一个两个神的故事：
-首先在 ECMAScript 星球，万物起源于 the Enginee">
+<meta property="og:description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。 先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。 然后来看一个两个神的故事： 首先在 ECMAScript 星球，万物起源于 the Enginee">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://blog.crimx.com/images/post/object-prototype.jpg">
 <meta property="og:updated_time" content="2017-08-13T02:51:28.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Prototype 与 __Proto__ 的爱恨情仇">
-<meta name="twitter:description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。
-先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。
-然后来看一个两个神的故事：
-首先在 ECMAScript 星球，万物起源于 the Enginee">
+<meta name="twitter:description" content="经历了上次的《JavaScript This 的六道坎》 发现编故事有点上瘾，而且记忆效果也不错哈哈，今天继续唠叨一下 prototype 与 __proto__ 的爱恨情仇。 先理解两者的一个本质区别，prototype 是函数独有的，是人为设定的；__proto__ 是所有对象都有的，是继承的。 然后来看一个两个神的故事： 首先在 ECMAScript 星球，万物起源于 the Enginee">
 <meta name="twitter:image" content="https://blog.crimx.com/images/post/object-prototype.jpg">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
@@ -79,22 +72,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-196644-portrait.jpg') 26.93% 43.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAUGAwIH/8QAKhAAAQMCAggHAAAAAAAAAAAAAQACAwQRBRIGFCEyQVJxkRUWIjFRU5L/xAAXAQEBAQEAAAAAAAAAAAAAAAACAwAB/8QAGxEBAAIDAQEAAAAAAAAAAAAAAQACERMUMWH/2gAMAwEAAhEDEQA/APX3VkbTvX6JNjWCUeONzFhEwGxyZtY0bAwX4rVrmx2LiAkgmIhauSQ3kR/MUK616Dnb3QhqJXfec0lRBX04mhcDf4WFfRSTxBrZMgv6uigdFcXmwiWSmdeWO127fZNq/SCpqyY9xh4BDeBKc1m2DyPfCqH7R+kKNzHmd3Qt0s7x/Z//2Q==') 26.93% 43.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -108,15 +91,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/post/cover/pexels-photo-196644-portrait.jpg') 26.93% 43.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAUGAwIH/8QAKhAAAQMCAggHAAAAAAAAAAAAAQACAwQRBRIGFCEyQVJxkRUWIjFRU5L/xAAXAQEBAQEAAAAAAAAAAAAAAAACAwAB/8QAGxEBAAIDAQEAAAAAAAAAAAAAAQACERMUMWH/2gAMAwEAAhEDEQA/APX3VkbTvX6JNjWCUeONzFhEwGxyZtY0bAwX4rVrmx2LiAkgmIhauSQ3kR/MUK616Dnb3QhqJXfec0lRBX04mhcDf4WFfRSTxBrZMgv6uigdFcXmwiWSmdeWO127fZNq/SCpqyY9xh4BDeBKc1m2DyPfCqH7R+kKNzHmd3Qt0s7x/Z//2Q==') 26.93% 43.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAUGAwIH/8QAKhAAAQMCAggHAAAAAAAAAAAAAQACAwQRBRIGFCEyQVJxkRUWIjFRU5L/xAAXAQEBAQEAAAAAAAAAAAAAAAACAwAB/8QAGxEBAAIDAQEAAAAAAAAAAAAAAQACERMUMWH/2gAMAwEAAhEDEQA/APX3VkbTvX6JNjWCUeONzFhEwGxyZtY0bAwX4rVrmx2LiAkgmIhauSQ3kR/MUK616Dnb3QhqJXfec0lRBX04mhcDf4WFfRSTxBrZMgv6uigdFcXmwiWSmdeWO127fZNq/SCpqyY9xh4BDeBKc1m2DyPfCqH7R+kKNzHmd3Qt0s7x/Z//2Q==') 26.93% 43.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">Prototype 与 __Proto__ 的爱恨情仇</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/08/12/proto-prototype/" class="article-date"><time datetime="2017-08-11T16:00:00.000Z" itemprop="datePublished">2017-08-12</time></a>
-<a rel="license" class="cc-license-wrapper"
-href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a>
-</div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2017/08/12/proto-prototype/" class="article-date"><time datetime="2017-08-11T16:00:00.000Z" itemprop="datePublished">2017-08-12</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -136,7 +115,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <p>先理解两者的一个本质区别，<code>prototype</code> 是函数独有的，是人为设定的；<code>__proto__</code> 是所有对象都有的，是继承的。</p>
 <p>然后来看一个两个神的故事：</p>
 <p>首先在 ECMAScript 星球，万物起源于 the Engineers，哦不，是一个叫 <a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-object-prototype-object" target="_blank">%ObjectPrototype%</a> 的 intrinsic object，也就是 <strong>Object.prototype</strong>。它是万物的尽头，继承于虚无，
-<code>Object.prototype.__proto__</code> 为 <code>null</code>。</p>
+<code>Object.prototype.__proto__</code>为 <code>null</code>。</p>
 <p><img src="/images/post/object-prototype.jpg" alt="objectprototype"></p>
 <p>接着由其衍生出第二神，另外一个 intrinsic object <a href="http://www.ecma-international.org/ecma-262/7.0/#sec-properties-of-the-function-prototype-object" target="_blank">%FunctionPrototype%</a>，也就是 <strong>Function.prototype</strong>。于是有</p>
 <p></p>
@@ -144,10 +123,10 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div></pre>
+<pre><span class="line">1</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="built_in">Function</span>.prototype.__proto__ === <span class="built_in">Object</span>.prototype <span class="comment">// true</span></div></pre>
+<pre><span class="line"><span class="built_in">Function</span>.prototype.__proto__ === <span class="built_in">Object</span>.prototype <span class="comment">// true</span></span><br></pre>
 </td>
 </tr>
 </table>
@@ -166,12 +145,7 @@ href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="Thi
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Understanding-JavaScript/">Understanding JavaScript</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
 </ul>
-<nav id="article-nav"><a href="/2017/09/20/new-dom-nodes-detection/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">检测 DOM 结点插入</div></a>
-<a href="/2017/07/15/element-onresize/" id="article-nav-older"
-class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">巧妙监测元素尺寸变化</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2017/09/20/new-dom-nodes-detection/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">检测 DOM 结点插入</div></a><a href="/2017/07/15/element-onresize/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">巧妙监测元素尺寸变化</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -215,8 +189,7 @@ class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>

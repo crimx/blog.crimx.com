@@ -29,14 +29,14 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="原文：A first-person engine in 265 lines（2014-6-11）
-今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。N">
+<meta name="description" content="原文：A first-person engine in 265 lines（2014-6-11） 今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。N">
+<meta name="keywords" content="Translation,JavaScript,Game">
 <meta property="og:type" content="article">
 <meta property="og:title" content="265行代码实现第一人称引擎">
 <meta property="og:url" content="https://blog.crimx.com/2014/06/11/a-first-person-engine-in-265-lines/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="原文：A first-person engine in 265 lines（2014-6-11）
-今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。N">
+<meta property="og:description" content="原文：A first-person engine in 265 lines（2014-6-11） 今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。N">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="https://blog.crimx.com/images/post/first-person-engine/raycaster-result.gif">
 <meta property="og:image" content="https://blog.crimx.com/images/post/first-person-engine/raycaster-idea.png">
 <meta property="og:image" content="https://blog.crimx.com/images/post/first-person-engine/raycaster-grid.png">
@@ -44,8 +44,7 @@
 <meta property="og:updated_time" content="2016-12-29T11:44:09.303Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="265行代码实现第一人称引擎">
-<meta name="twitter:description" content="原文：A first-person engine in 265 lines（2014-6-11）
-今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。N">
+<meta name="twitter:description" content="原文：A first-person engine in 265 lines（2014-6-11） 今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。N">
 <meta name="twitter:image" content="https://blog.crimx.com/images/post/first-person-engine/raycaster-result.gif">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
@@ -76,22 +75,12 @@
 <div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
 <div class="site-menu-inner-wrapper">
-<div class="menu-logo">
-<a class="icon-logo" href="/"></a>
-</div>
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
 <ul class="menu-social-icons">
-<li>
-<a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a>
-</li>
-<li>
-<a class="icon-github" href="//github.com/crimx" target="_blank"></a>
-</li>
-<li>
-<a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a>
-</li>
-<li>
-<a class="icon-rss" href="/atom.xml"></a>
-</li>
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
 </ul>
 <ul class="menu-navs">
 <li><a href="/categories/">Categories</a></li>
@@ -105,13 +94,11 @@
 <div class="site-menu-mask"></div>
 <div class="main-content">
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
-<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
-<a class="cover-logo" href="/"></a>
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
 <h1 class="site-title" itemprop="name">265行代码实现第一人称引擎</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/06/11/a-first-person-engine-in-265-lines/" class="article-date"><time datetime="2014-06-10T16:00:00.000Z" itemprop="datePublished">2014-06-11</time></a><a
-rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2014/06/11/a-first-person-engine-in-265-lines/" class="article-date"><time datetime="2014-06-10T16:00:00.000Z" itemprop="datePublished">2014-06-11</time></a><a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
@@ -148,47 +135,44 @@ rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licens
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
 <p>原文：<a href="http://www.playfuljs.com/a-first-person-engine-in-265-lines/" target="_blank">A first-person engine in 265 lines</a>（2014-6-11）</p>
-<p>今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。Notch 认为它够好，我就认为它够好！ 【<a href="http://www.playfuljs.com/demos/raycaster" target="_blank">Demo (arrow keys / touch)</a>】【<a
-href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycaster.html" target="_blank">Source</a>】</p>
+<p>今天，让我们进入一个可以伸手触摸的世界吧。在这篇文章里，我们将从零开始快速完成一次第一人称探索。本文没有涉及复杂的数学计算，只用到了光线投射技术。你可能已经见识过这种技术了，比如《上古卷轴2 : 匕首雨》、《毁灭公爵3D》还有 Notch Persson 最近在 ludum dare 上的参赛作品。Notch 认为它够好，我就认为它够好！ 【<a href="http://www.playfuljs.com/demos/raycaster" target="_blank">Demo (arrow keys / touch)</a>】【
+<a href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycaster.html" target="_blank">Source</a>】</p>
 <p><img src="/images/post/first-person-engine/raycaster-result.gif" alt="raycaster-result"></p>
 <p>用了光线投射就像开挂一样，作为一名懒得出油的程序员，我表示非常喜欢。你可以舒畅地浸入到3D环境中而不受“真3D”复杂性的束缚。举例来说，光线投射算法消耗线性时间，所以不用优化也可以加载一个巨大的世界，它执行的速度跟小型世界一样快。水平面被定义成简单的网格而不是多边形网面树，所以即使没有 3D 建模基础或数学博士学位也可以直接投入进去学习。</p>
 <p>利用这些技巧很容易就可以做一些让人嗨爆的事情。15分钟之后，你会到处拍下你办公室的墙壁，然后检查你的 HR 文档看有没有规则禁止“工作场所枪战建模”。</p>
-<h2 id="玩家">
-<a href="#玩家" class="headerlink" title="玩家"></a>玩家</h2>
+<h2 id="玩家"><a href="#玩家" class="headerlink" title="玩家"></a>玩家</h2>
 <p>我们从何处投射光线？这就是玩家对象（Palyer）的作用，只需要三个属性 x，y，direction。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Player</span>(<span class="params">x, y, direction</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.x = x;</div><div class="line">  <span class="keyword">this</span>.y = y;</div><div class="line">  <span class="keyword">this</span>.direction = direction;</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Player</span>(<span class="params">x, y, direction</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.x = x;</span><br><span class="line">  <span class="keyword">this</span>.y = y;</span><br><span class="line">  <span class="keyword">this</span>.direction = direction;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="地图">
-<a href="#地图" class="headerlink" title="地图"></a>地图</h2>
+<h2 id="地图"><a href="#地图" class="headerlink" title="地图"></a>地图</h2>
 <p>我们将地图存作简单的二维数组。数组中，0代表没墙，1代表有墙。你还可以做得更复杂些，比如给墙设任意高度，或者将多个墙高度数据——“楼层（stories）”打包进数组。但作为我们的第一次尝试，用0-1就足够了。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Map</span>(<span class="params">size</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.size = size;</div><div class="line">  <span class="keyword">this</span>.wallGrid = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(size * size);</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Map</span>(<span class="params">size</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.size = size;</span><br><span class="line">  <span class="keyword">this</span>.wallGrid = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(size * size);</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="投射一束光线">
-<a href="#投射一束光线" class="headerlink" title="投射一束光线"></a>投射一束光线</h2>
+<h2 id="投射一束光线"><a href="#投射一束光线" class="headerlink" title="投射一束光线"></a>投射一束光线</h2>
 <p>这里就是窍门：光线投射引擎不会一次性绘制出整个场景。相反，它把场景分成独立的列然后一条一条地渲染。每一列都代表从玩家特定角度投射出的一条光线。如果光线碰到墙壁，引擎会计算玩家到墙的距离然后在该列中画出一个矩形。矩形的高度取决于光线的长度——越远则越短。</p>
 <p><img src="/images/post/first-person-engine/raycaster-idea.png" alt="raycaster-idea"></p>
 <p>绘画的光线越多，显示效果就会越平滑。</p>
@@ -199,10 +183,10 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> angle = <span class="keyword">this</span>.fov * (column / <span class="keyword">this</span>.resolution - <span class="number">0.5</span>);</div><div class="line"><span class="keyword">var</span> ray = map.cast(player, player.direction + angle, <span class="keyword">this</span>.range);</div></pre>
+<pre><span class="line"><span class="keyword">var</span> angle = <span class="keyword">this</span>.fov * (column / <span class="keyword">this</span>.resolution - <span class="number">0.5</span>);</span><br><span class="line"><span class="keyword">var</span> ray = map.cast(player, player.direction + angle, <span class="keyword">this</span>.range);</span><br></pre>
 </td>
 </tr>
 </table>
@@ -217,10 +201,10 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ray</span>(<span class="params">origin</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> stepX = step(sin, cos, origin.x, origin.y);</div><div class="line">  <span class="keyword">var</span> stepY = step(cos, sin, origin.y, origin.x, <span class="literal">true</span>);</div><div class="line">  <span class="keyword">var</span> nextStep = stepX.length2 &lt; stepY.length2</div><div class="line">    ? inspect(stepX, <span class="number">1</span>, <span class="number">0</span>, origin.distance, stepX.y)</div><div class="line">    : inspect(stepY, <span class="number">0</span>, <span class="number">1</span>, origin.distance, stepY.x);</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (nextStep.distance &gt; range) <span class="keyword">return</span> [origin];</div><div class="line">  <span class="keyword">return</span> [origin].concat(ray(nextStep));</div><div class="line">&#125;</div></pre>
+<pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ray</span>(<span class="params">origin</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> stepX = step(sin, cos, origin.x, origin.y);</span><br><span class="line">  <span class="keyword">var</span> stepY = step(cos, sin, origin.y, origin.x, <span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">var</span> nextStep = stepX.length2 &lt; stepY.length2</span><br><span class="line">    ? inspect(stepX, <span class="number">1</span>, <span class="number">0</span>, origin.distance, stepX.y)</span><br><span class="line">    : inspect(stepY, <span class="number">0</span>, <span class="number">1</span>, origin.distance, stepY.x);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (nextStep.distance &gt; range) <span class="keyword">return</span> [origin];</span><br><span class="line">  <span class="keyword">return</span> [origin].concat(ray(nextStep));</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -232,10 +216,10 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> dx = run &gt; <span class="number">0</span> ? <span class="built_in">Math</span>.floor(x + <span class="number">1</span>) - x : <span class="built_in">Math</span>.ceil(x - <span class="number">1</span>) - x;</div><div class="line"><span class="keyword">var</span> dy = dx * (rise / run);</div></pre>
+<pre><span class="line"><span class="keyword">var</span> dx = run &gt; <span class="number">0</span> ? <span class="built_in">Math</span>.floor(x + <span class="number">1</span>) - x : <span class="built_in">Math</span>.ceil(x - <span class="number">1</span>) - x;</span><br><span class="line"><span class="keyword">var</span> dy = dx * (rise / run);</span><br></pre>
 </td>
 </tr>
 </table>
@@ -249,10 +233,10 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> z = distance * <span class="built_in">Math</span>.cos(angle);</div><div class="line"><span class="keyword">var</span> wallHeight = <span class="keyword">this</span>.height * height / z;</div></pre>
+<pre><span class="line"><span class="keyword">var</span> z = distance * <span class="built_in">Math</span>.cos(angle);</span><br><span class="line"><span class="keyword">var</span> wallHeight = <span class="keyword">this</span>.height * height / z;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -262,8 +246,7 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <p>额，这里用 cos 是怎么回事？如果直接使用原来的距离，就会产生一种超广角的效果（鱼眼镜头）。为什么？想象你正面向一面墙，墙的左右边缘离你的距离比墙中心要远。于是原本直的墙中心就会膨胀起来了！为了以我们真实所见的效果去渲染墙面，我们通过投射的每条光线一起构建了一个三角形，通过 cos 算出垂直距离。如图：</p>
 <p><img src="/images/post/first-person-engine/raycaster-distance.png" alt="raycaster-distance"></p>
 <p>我向你保证，这里已经是本文最难的数学啦。</p>
-<h2 id="渲染出来">
-<a href="#渲染出来" class="headerlink" title="渲染出来"></a>渲染出来</h2>
+<h2 id="渲染出来"><a href="#渲染出来" class="headerlink" title="渲染出来"></a>渲染出来</h2>
 <p>我们用摄像头对象 Camera 从玩家视角画出地图的每一帧。当我们从左往右扫过屏幕时它会负责渲染每一列。</p>
 <p>在绘制墙壁之前，我们先渲染一个天空盒（skybox）——就是一张大的背景图，有星星和地平线，画完墙后我们还会在前景放个武器。</p>
 <p></p>
@@ -271,10 +254,10 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">Camera.prototype.render = <span class="function"><span class="keyword">function</span>(<span class="params">player, map</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.drawSky(player.direction, map.skybox, map.light);</div><div class="line">  <span class="keyword">this</span>.drawColumns(player, map);</div><div class="line">  <span class="keyword">this</span>.drawWeapon(player.weapon, player.paces);</div><div class="line">&#125;;</div></pre>
+<pre><span class="line">Camera.prototype.render = <span class="function"><span class="keyword">function</span>(<span class="params">player, map</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.drawSky(player.direction, map.skybox, map.light);</span><br><span class="line">  <span class="keyword">this</span>.drawColumns(player, map);</span><br><span class="line">  <span class="keyword">this</span>.drawWeapon(player.weapon, player.paces);</span><br><span class="line">&#125;;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -292,106 +275,98 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <p>射程决定了我们能看多远，即光线长度的最大值</p>
 </li>
 </ul>
-<h2 id="组合起来">
-<a href="#组合起来" class="headerlink" title="组合起来"></a>组合起来</h2>
+<h2 id="组合起来"><a href="#组合起来" class="headerlink" title="组合起来"></a>组合起来</h2>
 <p>使用控制对象 Controls 监听方向键（和触摸事件）。使用游戏循环对象 GameLoop 调用 requestAnimationFrame 请求渲染帧。这里的 gameloop 只有三行</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">oop.start(<span class="function"><span class="keyword">function</span> <span class="title">frame</span>(<span class="params">seconds</span>) </span>&#123;</div><div class="line">  map.update(seconds);</div><div class="line">  player.update(controls.states, map, seconds);</div><div class="line">  camera.render(player, map);</div><div class="line">&#125;);</div></pre>
+<pre><span class="line">oop.start(<span class="function"><span class="keyword">function</span> <span class="title">frame</span>(<span class="params">seconds</span>) </span>&#123;</span><br><span class="line">  map.update(seconds);</span><br><span class="line">  player.update(controls.states, map, seconds);</span><br><span class="line">  camera.render(player, map);</span><br><span class="line">&#125;);</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h2 id="细节">
-<a href="#细节" class="headerlink" title="细节"></a>细节</h2>
-<h3 id="雨滴">
-<a href="#雨滴" class="headerlink" title="雨滴"></a>雨滴</h3>
+<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2>
+<h3 id="雨滴"><a href="#雨滴" class="headerlink" title="雨滴"></a>雨滴</h3>
 <p>雨滴是用大量随机放置的短墙模拟的。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line"><span class="keyword">var</span> rainDrops = <span class="built_in">Math</span>.pow(<span class="built_in">Math</span>.random(), <span class="number">3</span>) * s;</div><div class="line"><span class="keyword">var</span> rain = (rainDrops &gt; <span class="number">0</span>) &amp;&amp; <span class="keyword">this</span>.project(<span class="number">0.1</span>, angle, step.distance);</div><div class="line"></div><div class="line">ctx.fillStyle = <span class="string">'#ffffff'</span>;</div><div class="line">ctx.globalAlpha = <span class="number">0.15</span>;</div><div class="line"><span class="keyword">while</span> (--rainDrops &gt; <span class="number">0</span>) ctx.fillRect(left, <span class="built_in">Math</span>.random() * rain.top, <span class="number">1</span>, rain.height);</div></pre>
+<pre><span class="line"><span class="keyword">var</span> rainDrops = <span class="built_in">Math</span>.pow(<span class="built_in">Math</span>.random(), <span class="number">3</span>) * s;</span><br><span class="line"><span class="keyword">var</span> rain = (rainDrops &gt; <span class="number">0</span>) &amp;&amp; <span class="keyword">this</span>.project(<span class="number">0.1</span>, angle, step.distance);</span><br><span class="line"></span><br><span class="line">ctx.fillStyle = <span class="string">'#ffffff'</span>;</span><br><span class="line">ctx.globalAlpha = <span class="number">0.15</span>;</span><br><span class="line"><span class="keyword">while</span> (--rainDrops &gt; <span class="number">0</span>) ctx.fillRect(left, <span class="built_in">Math</span>.random() * rain.top, <span class="number">1</span>, rain.height);</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>这里没有画出墙完全的宽度，而是画了一个像素点的宽度。</p>
-<h3 id="照明和闪电">
-<a href="#照明和闪电" class="headerlink" title="照明和闪电"></a>照明和闪电</h3>
+<h3 id="照明和闪电"><a href="#照明和闪电" class="headerlink" title="照明和闪电"></a>照明和闪电</h3>
 <p>照明其实就是明暗处理。所有的墙都是以完全亮度画出来，然后覆盖一个带有一定不透明度的黑色矩形。不透明度决定于距离与墙的方向（N/S/E/W）。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">ctx.fillStyle = <span class="string">'#000000'</span>;</div><div class="line">ctx.globalAlpha = <span class="built_in">Math</span>.max((step.distance + step.shading) / <span class="keyword">this</span>.lightRange - map.light, <span class="number">0</span>);</div><div class="line">ctx.fillRect(left, wall.top, width, wall.height);</div></pre>
+<pre><span class="line">ctx.fillStyle = <span class="string">'#000000'</span>;</span><br><span class="line">ctx.globalAlpha = <span class="built_in">Math</span>.max((step.distance + step.shading) / <span class="keyword">this</span>.lightRange - map.light, <span class="number">0</span>);</span><br><span class="line">ctx.fillRect(left, wall.top, width, wall.height);</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>要模拟闪电，map.light 随机达到2然后再快速地淡出。</p>
-<h3 id="碰撞检测">
-<a href="#碰撞检测" class="headerlink" title="碰撞检测"></a>碰撞检测</h3>
+<h3 id="碰撞检测"><a href="#碰撞检测" class="headerlink" title="碰撞检测"></a>碰撞检测</h3>
 <p>要防止玩家穿墙，我们只要用他要到的位置跟地图比较。分开检查 x 和 y 玩家就可以靠着墙滑行。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">Player.prototype.walk = <span class="function"><span class="keyword">function</span>(<span class="params">distance, map</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> dx = <span class="built_in">Math</span>.cos(<span class="keyword">this</span>.direction) * distance;</div><div class="line">  <span class="keyword">var</span> dy = <span class="built_in">Math</span>.sin(<span class="keyword">this</span>.direction) * distance;</div><div class="line">  <span class="keyword">if</span> (map.get(<span class="keyword">this</span>.x + dx, <span class="keyword">this</span>.y) &lt;= <span class="number">0</span>) <span class="keyword">this</span>.x += dx;</div><div class="line">  <span class="keyword">if</span> (map.get(<span class="keyword">this</span>.x, <span class="keyword">this</span>.y + dy) &lt;= <span class="number">0</span>) <span class="keyword">this</span>.y += dy;</div><div class="line">&#125;;</div></pre>
+<pre><span class="line">Player.prototype.walk = <span class="function"><span class="keyword">function</span>(<span class="params">distance, map</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> dx = <span class="built_in">Math</span>.cos(<span class="keyword">this</span>.direction) * distance;</span><br><span class="line">  <span class="keyword">var</span> dy = <span class="built_in">Math</span>.sin(<span class="keyword">this</span>.direction) * distance;</span><br><span class="line">  <span class="keyword">if</span> (map.get(<span class="keyword">this</span>.x + dx, <span class="keyword">this</span>.y) &lt;= <span class="number">0</span>) <span class="keyword">this</span>.x += dx;</span><br><span class="line">  <span class="keyword">if</span> (map.get(<span class="keyword">this</span>.x, <span class="keyword">this</span>.y + dy) &lt;= <span class="number">0</span>) <span class="keyword">this</span>.y += dy;</span><br><span class="line">&#125;;</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
-<h3 id="墙壁贴图">
-<a href="#墙壁贴图" class="headerlink" title="墙壁贴图"></a>墙壁贴图</h3>
+<h3 id="墙壁贴图"><a href="#墙壁贴图" class="headerlink" title="墙壁贴图"></a>墙壁贴图</h3>
 <p>没有贴图（texture）的墙面看起来会比较无趣。但我们怎么把贴图的某个部分对应到特定的列上？这其实很简单：取交叉点坐标的小数部分。</p>
 <p></p>
 <figure class="highlight javascript">
 <table>
 <tr>
 <td class="gutter">
-<pre><div class="line">1</div><div class="line">2</div></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
 </td>
 <td class="code">
-<pre><div class="line">step.offset = offset - <span class="built_in">Math</span>.floor(offset);</div><div class="line"><span class="keyword">var</span> textureX = <span class="built_in">Math</span>.floor(texture.width * step.offset);</div></pre>
+<pre><span class="line">step.offset = offset - <span class="built_in">Math</span>.floor(offset);</span><br><span class="line"><span class="keyword">var</span> textureX = <span class="built_in">Math</span>.floor(texture.width * step.offset);</span><br></pre>
 </td>
 </tr>
 </table>
 </figure>
 <p></p>
 <p>举例来说，一面墙上的交点为（10,8.2），于是取小数部分0.2。这意味着交点离墙左边缘20%远（8），离墙右边缘80%远（9）。所以我们用 0.2 * texture.width 得出贴图的 x 坐标。</p>
-<h2 id="试一试">
-<a href="#试一试" class="headerlink" title="试一试"></a>试一试</h2>
+<h2 id="试一试"><a href="#试一试" class="headerlink" title="试一试"></a>试一试</h2>
 <p>在<a href="http://www.playfuljs.com/demos/raycaster" target="_blank">恐怖废墟</a>中逛一逛。</p>
 <p>还有人扩展了<a href="http://www.playfuljs.com/demos/raycaster-community" target="_blank">社区版</a>。</p>
 <ul>
 <li><a href="https://github.com/ctolsen" target="_blank">ctolsen</a>添加了 <a href="https://github.com/hunterloftis/playfuljs/pull/3" target="_blank">WASD 方向键</a>。</li>
 </ul>
 <p><a href="https://github.com/walle" target="_blank">Fredrik Wallgren</a> 实现了 <a href="https://github.com/walle/raycaster" target="_blank">Java 移植</a>。</p>
-<h2 id="接下来做什么？">
-<a href="#接下来做什么？" class="headerlink" title="接下来做什么？"></a>接下来做什么？</h2>
+<h2 id="接下来做什么？"><a href="#接下来做什么？" class="headerlink" title="接下来做什么？"></a>接下来做什么？</h2>
 <p>因为光线投射器是如此地快速、简单，你可以快速地实现许多想法。你可以做个地牢探索者（Dungeon Crawler）、第一人称射手、或者侠盗飞车式沙盒。靠！常数级的时间消耗真让我想做一个老式的大型多人在线角色扮演游戏，包含大量的、程序自动生成的世界。这里有一些带你起步的难题：</p>
 <ul>
 <li>
@@ -411,14 +386,12 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 </li>
 </ul>
 <p>同往常一样，如果你造了什么炫爆的东西或者有什么相关的研究要分享，发 <a href="mailto:hunter@hunterloftis.com" target="_blank">email</a> 给我或 <a href="http://twitter.com/hunterloftis" target="_blank">tweet</a> 我，我会分享给大家的。</p>
-<h2 id="讨论">
-<a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2>
+<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2>
 <p>Hacker News 上的<a href="https://news.ycombinator.com/item?id=7842037" target="_blank">讨论</a>。</p>
 <ul>
 <li><a href="http://simulationcorner.net/index.php?page=comanche" target="_blank">Raycasting in Comanche</a> -高度地图光线投射超棒的例子。</li>
 </ul>
-<h2 id="感谢">
-<a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2>
 <p>本来打算写两个钟的文章结果写了三周。没有以下小伙伴的帮助我是不可能写完这篇文章的：</p>
 <ul>
 <li><a href="http://twitter.com/snodgrass23" target="_blank">Jim Snodgrass</a>: editing &amp; feedback</li>
@@ -437,12 +410,7 @@ href="https://github.com/hunterloftis/playfuljs/blob/master/content/demos/raycas
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
 <li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Translation/">Translation</a></li>
 </ul>
-<nav id="article-nav"><a href="/2014/06/13/anchors/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Qt Quick 笔记 - Anchors</div></a>
-<a href="/2014/05/22/learn-node-js-completely-and-with-confidence/"
-id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong>
-<div class="article-nav-title">不侧漏精通 Node.js</div>
-</a>
-</nav>
+<nav id="article-nav"><a href="/2014/06/13/anchors/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">Qt Quick 笔记 - Anchors</div></a><a href="/2014/05/22/learn-node-js-completely-and-with-confidence/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">不侧漏精通 Node.js</div></a></nav>
 </footer>
 </article>
 <section id="comments">
@@ -486,8 +454,7 @@ id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-
 </li>
 </ul>
 <div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
-<div
-class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
 </footer>
 </div>
 </div>
