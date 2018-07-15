@@ -730,13 +730,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/React/</loc>
-        <lastmod>2018-04-03T09:32:52.996Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Recommended/</loc>
         <lastmod>2018-06-22T08:18:15.040Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -745,7 +738,14 @@
 
     <url>
         <loc>https://blog.crimx.com/tags/JavaScript/</loc>
-        <lastmod>2018-06-22T08:18:15.040Z</lastmod>
+        <lastmod>2018-07-15T10:53:27.954Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/React/</loc>
+        <lastmod>2018-07-15T10:53:27.954Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

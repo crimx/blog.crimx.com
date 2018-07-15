@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
-<title>CSS VFM 中易混淆的名词概念 | CRIMX</title>
+<title>React 黑魔法之 Portal + SyntheticEvent + Iframe | CRIMX</title>
 <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
@@ -29,20 +29,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
-<meta name="description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。 Element 与 Box   第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docum">
-<meta name="keywords" content="CSS,闲读规范,Box Model,Visual Formatting Model">
+<meta name="description" content="在实现划词扩展的时候，查词面板等模块需要植入到源网页，为了更方便地隔离样式污染，植入的模块均使用了 &amp;lt;iframe&amp;gt; 包装。在前一个 Vue 实现的版本 Saladict 5 中，有几个不太舒服的小小小小地方：  &amp;lt;iframe&amp;gt; 内外事件不通。 &amp;lt;iframe&amp;gt; 内外环境不一样，变量不能共用，需要 postMessage 交流。 Vue 组件必须要有一个根元素">
+<meta name="keywords" content="JavaScript,React">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSS VFM 中易混淆的名词概念">
-<meta property="og:url" content="https://blog.crimx.com/2017/05/29/css-vfm-concepts/index.html">
+<meta property="og:title" content="React 黑魔法之 Portal + SyntheticEvent + Iframe">
+<meta property="og:url" content="https://blog.crimx.com/2018/07/15/react-dark-magic-portal-synthetic-event-iframe/index.html">
 <meta property="og:site_name" content="CRIMX">
-<meta property="og:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。 Element 与 Box   第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docum">
+<meta property="og:description" content="在实现划词扩展的时候，查词面板等模块需要植入到源网页，为了更方便地隔离样式污染，植入的模块均使用了 &amp;lt;iframe&amp;gt; 包装。在前一个 Vue 实现的版本 Saladict 5 中，有几个不太舒服的小小小小地方：  &amp;lt;iframe&amp;gt; 内外事件不通。 &amp;lt;iframe&amp;gt; 内外环境不一样，变量不能共用，需要 postMessage 交流。 Vue 组件必须要有一个根元素">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://blog.crimx.com/images/post/box-model.png">
-<meta property="og:updated_time" content="2017-07-03T08:51:36.722Z">
+<meta property="og:updated_time" content="2018-07-15T10:53:27.954Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSS VFM 中易混淆的名词概念">
-<meta name="twitter:description" content="&amp;#x26a0;第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的笔记，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。 Element 与 Box   第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 docum">
-<meta name="twitter:image" content="https://blog.crimx.com/images/post/box-model.png">
+<meta name="twitter:title" content="React 黑魔法之 Portal + SyntheticEvent + Iframe">
+<meta name="twitter:description" content="在实现划词扩展的时候，查词面板等模块需要植入到源网页，为了更方便地隔离样式污染，植入的模块均使用了 &amp;lt;iframe&amp;gt; 包装。在前一个 Vue 实现的版本 Saladict 5 中，有几个不太舒服的小小小小地方：  &amp;lt;iframe&amp;gt; 内外事件不通。 &amp;lt;iframe&amp;gt; 内外环境不一样，变量不能共用，需要 postMessage 交流。 Vue 组件必须要有一个根元素">
 <meta name="twitter:creator" content="@straybugs">
 <link rel="stylesheet" href="/static/style.css">
 <!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
@@ -93,102 +91,55 @@
 <header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
 <div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
 <div class="title-wrapper">
-<h1 class="site-title" itemprop="name">CSS VFM 中易混淆的名词概念</h1>
+<h1 class="site-title" itemprop="name">React 黑魔法之 Portal + SyntheticEvent + Iframe</h1>
 <div class="article-meta">
-<div class="article-category"><a class="article-category-link" href="/categories/CSS/">CSS</a></div><a href="/2017/05/29/css-vfm-concepts/" class="article-date"><time datetime="2017-05-28T16:00:00.000Z" itemprop="datePublished">2017-05-29</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2018/07/15/react-dark-magic-portal-synthetic-event-iframe/" class="article-date"><time datetime="2018-07-14T16:00:00.000Z" itemprop="datePublished">2018-07-15</time></a><a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
 </div>
 </header>
 <div class="tagline-wrap">
 <section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
-<blockquote class="tagline-content">"When your values are clear to you, making decisions becomes easier."</blockquote>
-<footer class="tagline-cite"><cite>Roy E. Disney</cite></footer>
+<blockquote class="tagline-content">"One of the things I loved about working on 'Portal' was that we'd get emails from people saying, 'I love to play first-person shooters but my girlfriend won't play them with me. But I got her to play 'Portal' and she had a blast.'"</blockquote>
+<footer class="tagline-cite"><cite>Kim Swift</cite></footer>
 </section>
 </div>
 <div class="toc-mousearea"></div>
 <div class="toc-wrapper">
-<div class="toc-container">
-<ol class="toc">
-<li class="toc-item toc-level-2"><a class="toc-link" href="#Element-与-Box"><span class="toc-text">Element 与 Box</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#Block-level-Element"><span class="toc-text">Block-level Element</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#Inline-level-element"><span class="toc-text">Inline-level element</span></a></li>
-<li class="toc-item toc-level-2"><a class="toc-link" href="#Flow"><span class="toc-text">Flow</span></a></li>
-</ol>
+<div class="toc-container"></div>
 </div>
-</div>
-<article id="post-css-vfm-concepts" class="article--post" itemscope="" itemprop="blogPost">
+<article id="post-react-dark-magic-portal-synthetic-event-iframe" class="article--post" itemscope="" itemprop="blogPost">
 <div class="article-inner js-no-wrap-menu">
 <div class="article-entry postify" itemprop="articleBody">
-<p><span class="github-emoji" title="warning" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/26a0.png?v8">&#x26a0;</span>第一遍看 CSS2.1 VFM（Visual Formatting Model）是看别人整理的<a href="http://book.mixu.net/css/" target="_blank">笔记</a>，辅助理解很不错，但是在名词概念上作者跳过了一些或者打乱了顺序，所以现在看回文档时发现当初有一些理解不太正确。于是在这篇文章将这些概念系统整理了一遍。</p>
-<h2 id="Element-与-Box"><a href="#Element-与-Box" class="headerlink" title="Element 与 Box"></a>Element 与 Box</h2>
+<p>在实现划词扩展的时候，查词面板等模块需要植入到源网页，为了更方便地隔离样式污染，植入的模块均使用了 <code>&lt;iframe&gt;</code> 包装。在前一个 Vue 实现的版本 Saladict 5 中，有几个不太舒服的小小小小地方：</p>
+<ol>
+<li><code>&lt;iframe&gt;</code> 内外事件不通。</li>
+<li><code>&lt;iframe&gt;</code> 内外环境不一样，变量不能共用，需要 <code>postMessage</code> 交流。</li>
+<li>Vue 组件必须要有一个根元素，且 <code>v-if</code> 隐藏之后元素原地还是会留下注释标记。在浏览器审查元素时看起来不太干净。</li>
+</ol>
+<p>当然这个不影响呈现效果，所以当时也不怎么纠结了。然而后来在逛 React 文档的时候，意外发现了 <a href="https://reactjs.org/docs/portals.html" target="_blank">Portal</a> 这个神器。</p>
+<p>Portal 精妙的地方在于从 React 的角度（也是代码作者的角度），组件可以保持原来的结构，但实际可以渲染到任意地方（甚至是<a href="https://hackernoon.com/using-a-react-16-portal-to-do-something-cool-2a2d627b0202" target="_blank">其它窗口</a>！）。</p>
+<p>更令人拍案叫绝的是， <a href="https://reactjs.org/docs/events.html" target="_blank">SyntheticEvent</a> 也是抽象到 React 层的，所以组件事件捕获冒泡全正常使用。</p>
+<p>对于 <code>&lt;iframe&gt;</code> 需要做些小改变，<a href="https://github.com/iphong/react-portal-frame/blob/c6d42b7bfdb07eb4b3f908912356846970f713f2/src/index.js#L151-L153" target="_blank">有人发现</a>，只需要把 <code>&lt;body&gt;</code> 组件上所有事件 <code>null</code> 掉即可。</p>
+<p>这样就方便地解决了前两个小痛点了！</p>
+<p>最后一点的解决方式是在组件不显示的时候将 Portal 的载体元素 <code>remove</code> 掉，显示时再 <code>appendChild</code> 回去。甚至配合动画也非常简单，在动画结束时 <code>remove</code> 即可。</p>
+<p>最后如果对实现感兴趣的话可以参考：</p>
 <ul>
-<li>
-<p>第一个概念是 Element （元素）与 Box （盒子）。用 Element 的时候是指 document tree （文档树）的节点，Box 则是指元素根据 VFM 和 Box Model 生成的盒子。一个元素可能生成零个或多个盒子。</p>
-</li>
-<li>
-<p>Box Model 描述了一个矩形的盒子。每个盒子都有 content area，可能有 padding, border, margin areas。</p>
-</li>
+<li><a href="https://github.com/crimx/ext-saladict/blob/dev/src/components/PortalFrame.tsx" target="_blank">封装的 PortalFrame 组件</a>。</li>
+<li><a href="https://github.com/crimx/ext-saladict/blob/5242bbf596a88a04b5ea067a4b4f3989e80d46ef/src/content/components/DictPanelPortal/index.tsx#L285-L290" target="_blank">在 PortalFrame 外部监听内部事件</a>。</li>
+<li><a href="https://github.com/crimx/ext-saladict/blob/dev/src/content/components/SaladBowlPortal/index.tsx" target="_blank">与动画组件配合移除载体元素</a>。</li>
 </ul>
-<p><img src="/images/post/box-model.png" alt="box-model"></p>
-<h2 id="Block-level-Element"><a href="#Block-level-Element" class="headerlink" title="Block-level Element"></a>Block-level Element</h2>
-<ul>
-<li>
-<p>display 值为 &#39;block/list-item/table&#39; 的元素叫 <em>block-level element</em>。</p>
-</li>
-<li>
-<p>每个 block-level element 都会生成一个 principal <em>block-level box</em> （list-item 还会生成其它盒子）。</p>
-</li>
-<li>
-<p>除了 table box 和 replaced element，block-level box 都是 <em>block container box</em>。</p>
-<p>Block container box 要么只包含 block-level boxes （宣布了 BFC），要么只包含 inline-level boxes （宣布了 IFC）。（BFC: Block Formatting Context, IFC: Inline Formatting Context）</p>
-<p>（Block-level box 指的是这个盒子本身，它参与的是 BFC；而 block container box 说的是这个盒子内部，宣布了 BFC 或 IFC）。</p>
-<p>反过来 block container box 则不一定是 block-level box，还可以是 non-replaced inline block 和 non-replaced table cell（即这些盒子参与 IFC ，内部也可以宣布 BFC 或 IFC）。</p>
-</li>
-<li>
-<p>同时是 block-level box 和 block container box 的盒子也叫做 <em>block box</em>。</p>
-</li>
-</ul>
-<h2 id="Inline-level-element"><a href="#Inline-level-element" class="headerlink" title="Inline-level element"></a>Inline-level element</h2>
-<ul>
-<li>
-<p>display 值为 &#39;inline/inline-table/inline-block&#39; 的元素叫 <em>inline-level element</em>。</p>
-</li>
-<li>
-<p>Inline-level element 会生成 <em>inline-level box</em>。</p>
-</li>
-<li>
-<p>display 为 &#39;inline&#39; 的 non-replaced element 生成的盒子也叫 <em>inline box</em>，指其内部参与的与其自身所在的是同个 IFC。</p>
-<p>（同样，Inline-level box 说的是盒子本身，inline box 说的是盒子内部）。</p>
-</li>
-<li>
-<p>不是 inline box 的 inline-level box （如 replaced inline-level element, inline-block element, inline-table element）叫做 <em>atomic inline-level box</em>，它们以不透明的方式参与到 IFC 中，内部不参与自身所在的 IFC。</p>
-</li>
-<li>
-<p>Inline-level boxes 打横排成一行行的 <em>line boxes</em>。</p>
-</li>
-</ul>
-<h2 id="Flow"><a href="#Flow" class="headerlink" title="Flow"></a>Flow</h2>
-<ul>
-<li>
-<p><em>Out-of-flow</em> 的元素指 absolutely positioned elements, floated elements 和 root element。</p>
-</li>
-<li>
-<p><em>In-flow</em> 指不是 out-of-flow 的元素。</p>
-</li>
-</ul>
+<p>值得一提的是，也有人吸取灵感实现了 Vue 版的 <a href="https://github.com/LinusBorg/portal-vue" target="_blank">Portal</a>。然而这个功能<a href="https://github.com/vuejs/vue/issues/4841" target="_blank">没有得到官方青睐</a>，只是社区实现。由于没有内核权限，相比于 React Portal 这仅是部分实现。</p>
 </div>
 </div>
 <footer class="article-footer">
 <ul class="article-tag-list">
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Box-Model/">Box Model</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Visual-Formatting-Model/">Visual Formatting Model</a></li>
-<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/闲读规范/">闲读规范</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li>
 </ul>
-<nav id="article-nav"><a href="/2017/07/03/value-calculation-of-css-properties/" id="article-nav-newer" class="article-nav-link-wrap"><strong class="article-nav-caption">newer</strong><div class="article-nav-title">CSS 属性值计算</div></a><a href="/2017/04/29/pure-css-relative-aside/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">纯 CSS 实现浮动介绍</div></a></nav>
+<nav id="article-nav"><a href="/2018/06/22/select-cursor-word/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">选中鼠标附近的文字</div></a></nav>
 </footer>
 </article>
 <section id="comments">
-<div id="disqus_thread" data-url="https://blog.crimx.com/2017/05/29/css-vfm-concepts/" data-identifier="2017/05/29/css-vfm-concepts/" data-src="//crimx.disqus.com/embed.js">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2018/07/15/react-dark-magic-portal-synthetic-event-iframe/" data-identifier="2018/07/15/react-dark-magic-portal-synthetic-event-iframe/" data-src="//crimx.disqus.com/embed.js">
 <div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
 </section>
 <div class="menu-icon"><i class="menu-icon__logo"></i></div>

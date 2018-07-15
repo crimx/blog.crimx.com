@@ -211,12 +211,13 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 </table>
 </figure>
 <p></p>
-<p>:white_check_mark: <code>document.compatMode</code> 是用来判断浏览器是 Standards Mode 还是 Quirks Mode，分别取值为 <code>CSS1Compat</code> 和 <code>BackCompat</code>。</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>document.compatMode</code> 是用来判断浏览器是 Standards Mode 还是 Quirks Mode，分别取值为 <code>CSS1Compat</code>和
+<code>BackCompat</code>。</p>
 <p>作者也说了 <code>document.write</code> 可以在运行时修改模式，所以每次都要判断一遍。</p>
 <p>然后就用一个 iframe 来测试了，哇蛮重的。好处只能说是通用了。</p>
 <p>Standards Mode 下根元素的 <code>scrollHeight</code> 比 <code>body</code> 高就可以说明正确的实现了规范。</p>
 <p>因为这么重所以测试了一遍之后就把结果存起来了，以后就直接用。</p>
-<p>:white_check_mark: 从这里也对 <code>document.body</code> 有了<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body" target="_blank">新的认识</a>：</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 从这里也对 <code>document.body</code> 有了<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/body" target="_blank">新的认识</a>：</p>
 <blockquote>
 <p>Returns the <code>&lt;body&gt;</code> or <code>&lt;frameset&gt;</code> node of the current document, or null if no such element exists.</p>
 </blockquote>
@@ -237,7 +238,7 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 </figure>
 <p></p>
 <p>通过 <code>nextSibling</code> 循环排查跳过一个个 <code>frameset</code>。<code>nodeType == 1</code> 表示 <code>Node.ELEMENT_NODE</code>，这个节点是个元素。</p>
-<p>:white_check_mark: 通过 <code>element instanceof window.HTMLBodyElement</code> 可以正确判断 <code>body</code> 元素。</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 通过 <code>element instanceof window.HTMLBodyElement</code> 可以正确判断 <code>body</code> 元素。</p>
 <h2 id="isScrollable"><a href="#isScrollable" class="headerlink" title="isScrollable"></a>isScrollable</h2>
 <p>找到了 <code>body</code> 接下来就看 <code>isScrollable</code> 干了什么：</p>
 <p></p>
@@ -259,7 +260,7 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 <blockquote>
 <p><strong>Note</strong>: When programmatically setting scrollTop on the relevant HTML element, even when overflow has the hidden value an element may still need to scroll.</p>
 </blockquote>
-<p>:white_check_mark: 所以 <code>overflow</code> 是 <code>hidden</code> 也是可滚动的。</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> 所以 <code>overflow</code> 是 <code>hidden</code> 也是可滚动的。</p>
 <h3 id="window-getComputedStyle"><a href="#window-getComputedStyle" class="headerlink" title="window.getComputedStyle"></a>window.getComputedStyle</h3>
 <p>然后就是这个 <code>computeStyle</code>：</p>
 <p></p>
@@ -276,7 +277,8 @@ Web developers can use it to get the right element to use for scrolling APIs, wi
 </table>
 </figure>
 <p></p>
-<p>:white_check_mark: <code>window.getComputedStyle()</code> 与 <code>HTMLElement.style</code> 不一样在于前者可以动态得到元素所有的 CSS 属性，包括默认的值，而后者只能得到 <em>inline</em> CSS 属性。但前者是只读的，后者可以设值。</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>window.getComputedStyle()</code> 与 <code>HTMLElement.style</code> 不一样在于前者可以动态得到元素所有的 CSS 属性，包括默认的值，而后者只能得到
+<em>inline</em> CSS 属性。但前者是只读的，后者可以设值。</p>
 <h3 id="isRendered"><a href="#isRendered" class="headerlink" title="isRendered"></a>isRendered</h3>
 <p>然后再看 <code>isRendered</code> 怎么判断：</p>
 <p></p>
@@ -310,7 +312,7 @@ table. For XUL elements, the computed size of the element is always zero, regard
 </ul>
 </blockquote>
 <p>前两个比较常见，<code>hidden</code> 依然是占位置的所以属于渲染。</p>
-<p>:white_check_mark: <code>collapse</code> 是专门为表格行列元素快速隐藏做优化的，对它们来说效果等同于 <code>display: none</code>，所以会影响滚动高度。</p>
+<p><span class="github-emoji" title="white_check_mark" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2705.png?v8">&#x2705;</span> <code>collapse</code> 是专门为表格行列元素快速隐藏做优化的，对它们来说效果等同于 <code>display: none</code>，所以会影响滚动高度。</p>
 <p>于是后半段代码相当于找出下面几种元素，然后看是不是 <code>collapse</code> 的：</p>
 <p></p>
 <figure class="highlight css">
@@ -327,7 +329,7 @@ table. For XUL elements, the computed size of the element is always zero, regard
 </figure>
 <p></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
-<p>可以看到这个 polyfill 代码虽然不算太长，但也干了很多事情，算是比较重的。但考虑到还在用老浏览器的人，能用就很给面子了是吧哈哈。从中也学了许多新知识，都打钩了注意到了吗 :smile: 。</p>
+<p>可以看到这个 polyfill 代码虽然不算太长，但也干了很多事情，算是比较重的。但考虑到还在用老浏览器的人，能用就很给面子了是吧哈哈。从中也学了许多新知识，都打钩了注意到了吗 <span class="github-emoji" title="smile" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f604.png?v8">&#x1f604;</span> 。</p>
 </div>
 </div>
 <footer class="article-footer">

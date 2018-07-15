@@ -137,7 +137,7 @@
 <h3 id="锚节点与焦节点"><a href="#锚节点与焦节点" class="headerlink" title="锚节点与焦节点"></a>锚节点与焦节点</h3>
 <p>在 <code>Selection</code> 对象中还保存了两个重要信息，<code>anchorNode</code> 和 <code>focusNode</code>，分别代表选择产生那一刻的节点和选择结束时的节点，而 <code>anchorOffset</code> 和 <code>focusOffset</code> 则保存了选择在这两个节点里的偏移值。</p>
 <p>这时你可能马上就想到第一个方案：这不就好办了么，有了首尾节点和偏移，就可以获取句子的头部和尾部，再把选择文本作为中间，整个句子不就出来了么。</p>
-<p>当然不会这么简单哈:stuck_out_tongue:。</p>
+<p>当然不会这么简单哈<span class="github-emoji" title="stuck_out_tongue" data-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f61b.png?v8">&#x1f61b;</span>。</p>
 <h3 id="强调一下"><a href="#强调一下" class="headerlink" title="强调一下"></a>强调一下</h3>
 <p>一般情况下，<code>anchorNode</code> 和 <code>focusNode</code> 都是 <code>Text</code> 节点（而且因为这里处理的是文本，所以其它情况也会直接忽略），可以考虑这种情况：</p>
 <p></p>
