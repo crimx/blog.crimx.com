@@ -1,0 +1,426 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>如何文明提交代码 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="程序员最烦的几件事：写测试，变量命名，还有填代码提交信息（commit message）。翻几个开源项目遍马上可以回味那作文凑字数的青春时光。 其实 commit message 的作用远不止如此，经过简单的配置便可无痛成为代码提交的文明公民。 Commit Message 的作用 最起码的一点，项目的提交历史是其他人（包括未来的自己）了解项目的一个重要途径。好的提交历史可以方便其他人参与进来，也">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何文明提交代码">
+<meta property="og:url" content="https://blog.crimx.com/2018/09/24/be-a-commitizen/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="程序员最烦的几件事：写测试，变量命名，还有填代码提交信息（commit message）。翻几个开源项目遍马上可以回味那作文凑字数的青春时光。 其实 commit message 的作用远不止如此，经过简单的配置便可无痛成为代码提交的文明公民。 Commit Message 的作用 最起码的一点，项目的提交历史是其他人（包括未来的自己）了解项目的一个重要途径。好的提交历史可以方便其他人参与进来，也">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?maxAge=2592000">
+<meta property="og:image" content="https://img.shields.io/badge/Conventional%20Commits-1.0.0-brightgreen.svg?maxAge=2592000">
+<meta property="og:updated_time" content="2018-09-24T15:28:34.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何文明提交代码">
+<meta name="twitter:description" content="程序员最烦的几件事：写测试，变量命名，还有填代码提交信息（commit message）。翻几个开源项目遍马上可以回味那作文凑字数的青春时光。 其实 commit message 的作用远不止如此，经过简单的配置便可无痛成为代码提交的文明公民。 Commit Message 的作用 最起码的一点，项目的提交历史是其他人（包括未来的自己）了解项目的一个重要途径。好的提交历史可以方便其他人参与进来，也">
+<meta name="twitter:image" content="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?maxAge=2592000">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
+<ul class="menu-social-icons">
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">如何文明提交代码</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/Tools/">Tools</a></div><a href="/2018/09/24/be-a-commitizen/" class="article-date"><time datetime="2018-09-23T16:00:00.000Z" itemprop="datePublished">2018-09-24</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"Every good citizen adds to the strength of a nation."</blockquote>
+<footer class="tagline-cite"><cite>Gordon B. Hinckley</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Commit-Message-的作用"><span class="toc-text">Commit Message 的作用</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#选择风格"><span class="toc-text">选择风格</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#才不要又记什么规则"><span class="toc-text">才不要又记什么规则</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#Lint-一-Lint-万无一失"><span class="toc-text">Lint 一 Lint 万无一失</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#自动更新"><span class="toc-text">自动更新</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#小红花贴起来"><span class="toc-text">小红花贴起来</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#完整配置"><span class="toc-text">完整配置</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-be-a-commitizen" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>程序员最烦的几件事：写测试，变量命名，还有填代码提交信息（commit message）。翻几个开源项目遍马上可以回味那作文凑字数的青春时光。</p>
+<p>其实 commit message 的作用远不止如此，经过简单的配置便可无痛成为代码提交的文明公民。</p>
+<h2 id="Commit-Message-的作用"><a href="#Commit-Message-的作用" class="headerlink" title="Commit Message 的作用"></a>Commit Message 的作用</h2>
+<p>最起码的一点，项目的提交历史是其他人（包括未来的自己）了解项目的一个重要途径。好的提交历史可以方便其他人参与进来，也可以方便自己快速定位问题。</p>
+<p>此外，提交信息还可以用来触发 CI 构建，自动生成 CHANGELOG ，版本自动语义化提升…… 只需要一点点配置就可以干这么多，真是懒人必备。</p>
+<h2 id="选择风格"><a href="#选择风格" class="headerlink" title="选择风格"></a>选择风格</h2>
+<p>跟 Code Style 一样，Commit Message 也有各种风格。如果没什么特殊癖好推荐用基于 Angular ， 后独立开来的 <a href="https://www.conventionalcommits.org/" target="_blank">Conventional Commits</a> 风格。 它也基本是各个工具的默认配置，所以搭配起来不需要折腾。</p>
+<h2 id="才不要又记什么规则"><a href="#才不要又记什么规则" class="headerlink" title="才不要又记什么规则"></a>才不要又记什么规则</h2>
+<p>虽然规则不多，但不一定能随时记住，特别是对新人，必须要有友好的方式提交。</p>
+<p>commitizen 是一个很好的选择，通过命令行回答几个问题即可填完信息，减轻了记忆负担。 它是一个通用的工具，通过插件方式支持各种风格。我们选择 Conventional 需要安装 <a href="https://github.com/commitizen/cz-cli#adapters" target="_blank">cz-conventional-changelog</a> 。</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">npm install --save-dev commitizen cz-conventional-changelog</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>然后配置 <code>package.json</code> 就可以通过 <code>npm run commit</code> 提交。</p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"commit"</span>: <span class="string">"git-cz"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>另外 VSCode 用户也可以用 <a href="https://github.com/KnisterPeter/vscode-commitizen" target="_blank">vscode-commitizen</a> ， 通过 <code>ctrl+shift+p</code> 或 <code>command+shift+p</code> 提交。</p>
+<h2 id="Lint-一-Lint-万无一失"><a href="#Lint-一-Lint-万无一失" class="headerlink" title="Lint 一 Lint 万无一失"></a>Lint 一 Lint 万无一失</h2>
+<p>没错，Commit Message 也有 Linter ，可对 Commit Message 进行检验，杜绝打字手残和浑水摸鱼。</p>
+<p>这里用 commitlint 配合 husky 实现自动检测。</p>
+<p>commitlint 也是通用的工具，需要同时安装风格配置。 husky 可以方便使用 git hooks ，在 commit 时触发 commitlint 。</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">npm install --save-dev @commitlint/cli @commitlint/config-conventional husky</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>项目根新建 <code>commitlint.config.js</code></p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  extends: [<span class="string">'@commitlint/config-conventional'</span>]</span><br><span class="line">&#125;</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>配置 <code>package.json</code></p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"husky"</span>: &#123;</span><br><span class="line">    <span class="attr">"hooks"</span>: &#123;</span><br><span class="line">      <span class="attr">"commit-msg"</span>: <span class="string">"commitlint -E HUSKY_GIT_PARAMS"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="自动更新"><a href="#自动更新" class="headerlink" title="自动更新"></a>自动更新</h2>
+<p>最后安装 <a href="https://github.com/conventional-changelog/standard-version" target="_blank">standard-version</a> 实现自动生成 CHANGELOG 和版本自动语义化提升。</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">npm install --save-dev standard-version</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>配置 <code>package.json</code></p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"release"</span>: <span class="string">"standard-version"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>第一次发布时可以用以下命令重置</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">npm run release -- --first-release</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>以后直接 <code>npm run release</code> 即可。</p>
+<p>也可以手动指定版本：</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line"># npm run script</span><br><span class="line">npm run release -- --release-as minor</span><br><span class="line"># Or</span><br><span class="line">npm run release -- --release-as 1.1.0</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="小红花贴起来"><a href="#小红花贴起来" class="headerlink" title="小红花贴起来"></a>小红花贴起来</h2>
+<p><a href="http://commitizen.github.io/cz-cli/" target="_blank"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?maxAge=2592000" alt="Commitizen friendly"></a></p>
+<p><a href="https://conventionalcommits.org" target="_blank"><img src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-brightgreen.svg?maxAge=2592000" alt="Conventional Commits"></a></p>
+<p>在 README 中加入小徽章可方便其他人了解风格。</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?maxAge=2592000)](http://commitizen.github.io/cz-cli/)</span><br><span class="line">[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-brightgreen.svg?maxAge=2592000)](https://conventionalcommits.org)</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<h2 id="完整配置"><a href="#完整配置" class="headerlink" title="完整配置"></a>完整配置</h2>
+<p>安装</p>
+<p></p>
+<figure class="highlight plain">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">npm install --save-dev commitizen cz-conventional-changelog @commitlint/cli @commitlint/config-conventional husky standard-version</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>配置 <code>package.json</code></p>
+<p></p>
+<figure class="highlight json">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"commit"</span>: <span class="string">"git-cz"</span>,</span><br><span class="line">    <span class="attr">"release"</span>: <span class="string">"standard-version"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"husky"</span>: &#123;</span><br><span class="line">    <span class="attr">"hooks"</span>: &#123;</span><br><span class="line">      <span class="attr">"commit-msg"</span>: <span class="string">"commitlint -E HUSKY_GIT_PARAMS"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>项目根新建 <code>commitlint.config.js</code></p>
+<p></p>
+<figure class="highlight javascript">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  extends: [<span class="string">'@commitlint/config-conventional'</span>]</span><br><span class="line">&#125;</span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>【完】</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li>
+</ul>
+<nav id="article-nav"><a href="/2018/07/15/react-dark-magic-portal-synthetic-event-iframe/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">React 黑魔法之 Portal + SyntheticEvent + Iframe</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2018/09/24/be-a-commitizen/" data-identifier="2018/09/24/be-a-commitizen/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>

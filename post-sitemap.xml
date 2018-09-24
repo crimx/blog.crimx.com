@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://blog.crimx.com/2018/09/24/be-a-commitizen/</loc>
+        <lastmod>2018-09-24T15:28:34.895Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://blog.crimx.com/2018/07/15/react-dark-magic-portal-synthetic-event-iframe/</loc>
         <lastmod>2018-07-15T10:53:27.954Z</lastmod>
         <changefreq>weekly</changefreq>
