@@ -268,14 +268,14 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Sublime-Text-2/</loc>
+        <loc>https://blog.crimx.com/tags/Tips/</loc>
         <lastmod>2016-12-29T17:34:58.441Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Tips/</loc>
+        <loc>https://blog.crimx.com/tags/Sublime-Text-2/</loc>
         <lastmod>2016-12-29T17:34:58.441Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -520,13 +520,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/Translation/</loc>
-        <lastmod>2017-07-03T08:52:44.354Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/Font/</loc>
         <lastmod>2017-07-03T08:52:51.869Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -730,13 +723,6 @@
     </url>
 
     <url>
-        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
-        <lastmod>2018-07-15T10:53:27.954Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://blog.crimx.com/tags/React/</loc>
         <lastmod>2018-07-15T10:53:27.954Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -746,6 +732,20 @@
     <url>
         <loc>https://blog.crimx.com/tags/Git/</loc>
         <lastmod>2018-09-24T15:28:34.895Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/Translation/</loc>
+        <lastmod>2018-11-13T16:58:34.528Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.crimx.com/tags/JavaScript/</loc>
+        <lastmod>2018-11-13T16:58:34.528Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

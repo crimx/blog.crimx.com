@@ -1,0 +1,365 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+<title>V8 中的快属性 | CRIMX</title>
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="alternate" href="atom.xml" title="CRIMX" type="application/atom+xml">
+<meta name="description" content="译自：Fast properties in V8（2017-08-30） 本文我们将解释 V8 内部如何处理 JavaScript 属性（properties）。从 JavaScript 的角度来看属性只有少数的区别。JavaScript 对象通常跟字典（dictionaris）差不多，以字符串为键，任意对象为值。尽管规范确实对迭代过程中的整数索引属性与其他属性作了区分，但除此以外，不同属性表现基">
+<meta name="keywords" content="Translation,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="V8 中的快属性">
+<meta property="og:url" content="https://blog.crimx.com/2018/11/25/v8-fast-properties/index.html">
+<meta property="og:site_name" content="CRIMX">
+<meta property="og:description" content="译自：Fast properties in V8（2017-08-30） 本文我们将解释 V8 内部如何处理 JavaScript 属性（properties）。从 JavaScript 的角度来看属性只有少数的区别。JavaScript 对象通常跟字典（dictionaris）差不多，以字符串为键，任意对象为值。尽管规范确实对迭代过程中的整数索引属性与其他属性作了区分，但除此以外，不同属性表现基">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/jsobject.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/hidden-class.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/adding-properties.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/transitions.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/transition-trees.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/in-object-properties.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/fast-vs-slow-properties.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/hole.png">
+<meta property="og:image" content="https://v8.dev/_img/fast-properties/elements-accessor.png">
+<meta property="og:updated_time" content="2018-11-13T16:58:34.528Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="V8 中的快属性">
+<meta name="twitter:description" content="译自：Fast properties in V8（2017-08-30） 本文我们将解释 V8 内部如何处理 JavaScript 属性（properties）。从 JavaScript 的角度来看属性只有少数的区别。JavaScript 对象通常跟字典（dictionaris）差不多，以字符串为键，任意对象为值。尽管规范确实对迭代过程中的整数索引属性与其他属性作了区分，但除此以外，不同属性表现基">
+<meta name="twitter:image" content="https://v8.dev/_img/fast-properties/jsobject.png">
+<meta name="twitter:creator" content="@straybugs">
+<link rel="stylesheet" href="/static/style.css">
+<!-- <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script> -->
+<script>
+;
+(function() {
+    var h = document.getElementsByTagName('html')[0]
+    h.className = (' ' + h.className + ' ').replace(' no-js ', ' ').slice(1, -1)
+}())
+</script>
+<!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<!--[if lt IE 9]>
+    <p class="browser-warning" style="position:fixed;z-index:999999;top:0;left:0;right:0;padding:10px;text-align:center;color:red;background:yellow;">Why are you still using old version of IE??? Go and <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
+    <style>
+      .site-menu-inner-wrapper{top:0;}
+      .site-container{padding-top:45px;}
+      .site-tags{font-size:14px;}
+    </style>
+  <![endif]-->
+<div class="site-container">
+<div class="site-menu js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-menu-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div>
+<div class="site-menu-inner-wrapper">
+<div class="menu-logo"><a class="icon-logo" href="/"></a></div>
+<ul class="menu-social-icons">
+<li><a class="icon-weibo" href="//www.weibo.com/bananajaward" target="_blank"></a></li>
+<li><a class="icon-github" href="//github.com/crimx" target="_blank"></a></li>
+<li><a class="icon-mail" href="mailto:%73%74%72%61%79%62%75%67%73%40%67%6D%61%69%6C%2E%63%6F%6D" target="_blank"></a></li>
+<li><a class="icon-rss" href="/atom.xml"></a></li>
+</ul>
+<ul class="menu-navs">
+<li><a href="/categories/">Categories</a></li>
+<li><a href="/archives/">Archives</a></li>
+<li><a href="/tags/">Tags</a></li>
+<li><a href="/search/">Search</a></li>
+<li><a href="/about/">About</a></li>
+</ul>
+</div>
+</div>
+<div class="site-menu-mask"></div>
+<div class="main-content">
+<header class="site-cover js-progressive-bg-container" style="background: url('/images/cover/pexels-photo-19031-portrait.jpg') 33.69% 46.93%/cover">
+<div class="site-cover-bg-thumb js-progressive-bg-thumbnail" style="background: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeABEDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMFBgcE/8QAKRAAAQMDAQUJAAAAAAAAAAAAAgABAwQFESESEzFBUhUWIiMyM1FTYf/EABYBAQEBAAAAAAAAAAAAAAAAAAIBBP/EABsRAAMAAgMAAAAAAAAAAAAAAAABEQISEyEx/9oADAMBAAIRAxEAPwBNFergFY5SPz9KulPezkpxJh14PlZoV3i8sox8b83Xed4mGJiEm044RaoscoaN2mhZn3kqOpCmguVFIra1oQaOMsv8pVPc5GjeN5H1/VHe6Dm/HKSTbEj4dL0z1om9+X2oUHvD6kK9kp//2Q==') 33.69% 46.93%/cover"></div><a class="cover-logo" href="/"></a>
+<div class="title-wrapper">
+<h1 class="site-title" itemprop="name">V8 中的快属性</h1>
+<div class="article-meta">
+<div class="article-category"><a class="article-category-link" href="/categories/JavaScript/">JavaScript</a></div><a href="/2018/11/25/v8-fast-properties/" class="article-date"><time datetime="2018-11-24T16:00:00.000Z" itemprop="datePublished">2018-11-25</time></a> <a rel="license" class="cc-license-wrapper" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" title="This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."><svg class="cc-license" fill="#fff"><use xlink:href="/images/symbol-defs.svg#icon-cc-license"/></svg></a></div>
+</div>
+</header>
+<div class="tagline-wrap">
+<section class="tagline"><svg class="tagline-icon-quote" fill="#bdc3c7"><use xlink:href="/images/symbol-defs.svg#icon-quote"/></svg>
+<blockquote class="tagline-content">"Ambition is a dream with a V8 engine."</blockquote>
+<footer class="tagline-cite"><cite>Elvis Presley</cite></footer>
+</section>
+</div>
+<div class="toc-mousearea"></div>
+<div class="toc-wrapper">
+<div class="toc-container">
+<ol class="toc">
+<li class="toc-item toc-level-2"><a class="toc-link" href="#命名属性与元素"><span class="toc-text">命名属性与元素</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#隐藏类和描述符数组"><span class="toc-text">隐藏类和描述符数组</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#三种不同的命名属性"><span class="toc-text">三种不同的命名属性</span></a></li>
+<li class="toc-item toc-level-2"><a class="toc-link" href="#元素与数组索引属性"><span class="toc-text">元素与数组索引属性</span></a></li>
+</ol>
+</div>
+</div>
+<article id="post-v8-fast-properties" class="article--post" itemscope="" itemprop="blogPost">
+<div class="article-inner js-no-wrap-menu">
+<div class="article-entry postify" itemprop="articleBody">
+<p>译自：<a href="https://v8.dev/blog/fast-properties/" target="_blank">Fast properties in V8</a>（2017-08-30）</p>
+<p>本文我们将解释 V8 内部如何处理 JavaScript 属性（properties）。从 JavaScript 的角度来看属性只有少数的区别。JavaScript 对象通常跟字典（dictionaris）差不多，以字符串为键，任意对象为值。尽管规范确实对<a href="https://tc39.github.io/ecma262/#sec-ordinaryownpropertykeys" target="_blank">迭代过程中</a>的整数索引属性与其他属性作了区分，但除此以外，不同属性表现基本是一致的，不管是不是整数索引。</p>
+<p>然而，在底层 V8 的确依赖了一些不同的属性表示方式，这是出于性能和内存考虑的。本文我们将解释 V8 如何在提供快属性访问的同时支持动态添加属性。理解属性如何工作对解释 V8 <a href="http://mrale.ph/blog/2012/06/03/explaining-js-vms-in-js-inline-caches.html" target="_blank">内联缓存</a>之类的优化原理是必不可少的。</p>
+<p>本文解释了整数索引与命名属性的不同处理方式。随后我们展示了 V8 如何在添加命名属性同时维护隐藏类（HiddenClasses），以提供快速的方式识别一个对象的形状（shape）。接着我们继续深入了解命名属性是如何根据使用方式来进行优化，以支持快速访问和快速修改。最后部分我们详细介绍了 V8 如何处理整数索引属性或数组索引。</p>
+<h2 id="命名属性与元素"><a href="#命名属性与元素" class="headerlink" title="命名属性与元素"></a>命名属性与元素</h2>
+<p>首先我们来分析一个简单的对象 <code>{a: &quot;foo&quot;, b: &quot;bar&quot;}</code>。这个对象有两个命名属性，<code>&quot;a&quot;</code> 和 <code>&quot;b&quot;</code>，没有任何整数索引作属性名。数组索引属性（array-indexed properties），常叫元素（elements），在数组中非常重要。比如数组 <code>[&quot;foo&quot;, &quot;bar&quot;]</code>有两个数组索引属性：0
+与值 &quot;foo&quot; ，和 1 与值 &quot;bar&quot;。 这是 V8 如何处理属性的第一个主要区别。</p>
+<p>下图展示了一个基本 JavaScript 对象在内存中是什么样的。</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/jsobject.png" alt=""></figure>
+<p></p>
+<p>元素和属性被保存在两个独立的数据结构中。两者的使用方式通常不一样，故这能让添加和访问属性或元素更加高效。</p>
+<p>元素主要被用在各种 <a href="https://tc39.github.io/ecma262/#sec-properties-of-the-array-prototype-object" target="_blank"><code>Array.prototype</code> 方法</a>中，如 <code>pop</code> 或者 <code>slice</code>。考虑到这些函数都是连续地访问属性，V8 内部还将它们表示为简单的数组，大多数情况下都是如此。本文后面还会解释到有时我们如何切换到基于稀疏字典的表示来节省内存。</p>
+<p>命名属性也是通过类似的方式存在另外的数组中。但是，跟元素不同，我们不能简单地通过键来推断出它们在属性数组中的位置，我们需要一些额外的元数据。在 V8 中每个 JavaScript 对象都关联了一个隐藏类（HiddenClasses）。隐藏类保存了对象的形状信息，以及从属性名称到属性索引的映射。复杂的使用情况下我们有时会用字典来存属性而不是简单的数组。我们会在专门的部分再作详细地解释。</p>
+<p><strong>本节要点:</strong></p>
+<ul>
+<li>数组索引属性被保存在独立的元素存储中。</li>
+<li>命名属性被保存在属性存储中。</li>
+<li>元素和属性可以是数组或者字典。</li>
+<li>每个 JavaScript 对象都有相应的隐藏类来记录该对象的形状信息。</li>
+</ul>
+<h2 id="隐藏类和描述符数组"><a href="#隐藏类和描述符数组" class="headerlink" title="隐藏类和描述符数组"></a>隐藏类和描述符数组</h2>
+<p>在解释了元素和命名属性的一般区别之后，我们需要看看隐藏类在 V8 中是如何工作的。隐藏类保存了与对象相关的元信息，包括对象上的属性数和对象原型的引用。隐藏类在概念上与典型面向对象编程语言中的类相似。但是，在基于原型的语言（如 JavaScript）中，通常不可能预先知道类。因此，在这种情况下，V8 的隐藏类是动态创建的，并随着对象的变化而动态更新。隐藏类充当了对象形状的标识符，因此是 V8 优化编译器和内联缓存非常重要的组成部分。比如优化编译器可以直接内联属性访问，如果它可以通过隐藏类来确保对象结构是兼容的。</p>
+<p>我们来看看隐藏类的重要部分。</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/hidden-class.png" alt=""></figure>
+<p></p>
+<p>在 V8 中，JavaScript 对象的第一个字段指向隐藏类（事实上，任何在 V8 堆上且由垃圾收集器管理的对象都是这种情况）。在属性中，最重要的信息是第三位字段，它保存了属性数以及描述符数组的指针。描述符数组包含了有关命名属性的信息，例如名称本身以及值保存的位置。注意我们不会在此处跟踪整数索引属性，故描述符数组中没有相关条目。</p>
+<p>对于隐藏类的基本判断标准是，具有相同结构的对象（如属性命名相同且顺序相同）共享相同的隐藏类。为了实现这一点，对象在添加属性后我们将使用不同的隐藏类。在下面的示例中，我们从一个空对象开始并添加三个命名属性。</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/adding-properties.png" alt=""></figure>
+<p></p>
+<p>每次添加新属性时，对象的隐藏类都会被更改。在引擎的底层，V8 创建了一个将隐藏类链接在一起的转换树（transiton tree）。当你向一个空对象添加属性（如“a”）时，V8 会知道要采用哪个隐藏类。如果以相同的顺序添加相同的属性，此转换树会确保最后得到的是相同的最终隐藏类。以下示例显示，即使我们在其间添加了简单的索引属性，我们还是得到了相同的转换树。</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/transitions.png" alt=""></figure>
+<p></p>
+<p>然而，如果我们创建一个添加了不同属性的新对象，如属性 <code>&quot;d&quot;</code>，则 V8 会为新的隐藏类创建一个单独的分支。</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/transition-trees.png" alt=""></figure>
+<p></p>
+<p><strong>本节要点:</strong></p>
+<ul>
+<li>具有相同结构的对象（相同顺序相同属性）具有相同的隐藏类。</li>
+<li>默认情况下，每添加新的命名属性都会导致一个新的隐藏类被创建。</li>
+<li>添加数组索引属性不会创建新的隐藏类。</li>
+</ul>
+<h2 id="三种不同的命名属性"><a href="#三种不同的命名属性" class="headerlink" title="三种不同的命名属性"></a>三种不同的命名属性</h2>
+<p>在概述了 V8 如何使用隐藏类跟踪对象的形状之后，让我们深入了解这些属性的实际存储方式。正如上面介绍中所解释的，属性有两种基本类型：命名和索引。以下部分先介绍命名属性。</p>
+<p>一个简单的对象如 <code>{a：1，b：2}</code> 在 V8 中可以有多种内部表示。虽然 JavaScript 对象在外部看来或多或少类似于简单的字典，但 V8 试图避免使用字典，因为它们妨碍了某些优化，如<a href="https://en.wikipedia.org/wiki/Inline_caching" target="_blank">内联缓存</a>，我们会在其它文章中再作解释。</p>
+<p><strong>对象与普通属性：</strong> V8 支持所谓的对象内属性（in-object properties），指这些属性直接存储在对象本身上。它们在 V8 可用的属性中是最快的，因为它们不需要间接层就可以访问。对象内属性的数量由对象的初始大小预先确定。如果添加的属性超出了对象分配的空间，则它们将被保存在属性存储中。属性存储多了一层间接层，但可以自由地扩容。</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/in-object-properties.png" alt=""></figure>
+<p></p>
+<p><strong>快属性与慢属性：</strong> 下一个重要区别是快属性和慢属性。通常，我们将保存在线性属性存储中的属性定义为“快”。只需通过属性存储中的索引即可访问快属性。要从属性名称获取属性存储中的实际位置，我们必须查看隐藏类上的描述符数组，如前面所述。</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/fast-vs-slow-properties.png" alt=""></figure>
+<p></p>
+<p>但是，如果从对象中添加和删除大量属性，则可能会产生大量时间和内存开销来维护描述符数组和隐藏类。因此 V8 还支持所谓的慢属性。带慢属性的对象内部会有独立的词典作为属性存储。所有的属性元信息不再保存在隐藏类的描述符数组中，而是直接保存在属性字典中。因此无需更新隐藏类即可添加和删除属性。由于内联缓存不适用于字典属性，故后者通常比快属性慢。</p>
+<p><strong>本节要点:</strong></p>
+<ul>
+<li>有三种不同的命名属性类型：对象内属性、快属性和慢属性（字典）。
+<ol>
+<li>对象属性直接保存在对象本身上，并提供最快的访问。</li>
+<li>快属性保存在属性存储中，所有元信息都存储在隐藏类的描述符数组中。</li>
+<li>慢属性保存在内部独立的属性字典中，不再通过隐藏类共享元信息。</li>
+</ol>
+</li>
+<li>慢属性允许高效的属性删除和添加，但访问速度比其它两种类型慢。</li>
+</ul>
+<h2 id="元素与数组索引属性"><a href="#元素与数组索引属性" class="headerlink" title="元素与数组索引属性"></a>元素与数组索引属性</h2>
+<p>到目前为止，我们一直在讨论命名属性，而忽略了常用于数组的整数索引属性。处理整数索引属性并不比命名属性简单。尽管所有索引属性都是在元素存储中单独保存，但不同类型的元素也有 <a href="https://cs.chromium.org/chromium/src/v8/src/elements-kind.h?q=elements-kind.h&amp;sq=package:chromium&amp;dr&amp;l=14" target="_blank">20</a> 种！</p>
+<p><strong>挤满的还是带空隙的元素：</strong> V8 做的第一个主要区分看是元素后备存储（elements backing store）是挤满的（packed）还是带空隙的（holey）。当索引元素被删除，又或者如，没有被定义，后备存储中就会出现空隙。如一个简单的例子 <code>[1,,3]</code>，其中的第二个条目就是一个空隙。以下示例说明了此问题：</p>
+<p></p>
+<figure class="highlight js">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line"><span class="keyword">const</span> o = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];</span><br><span class="line"><span class="built_in">console</span>.log(o[<span class="number">1</span>]);          <span class="comment">// 打印 'b'.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> o[<span class="number">1</span>];                <span class="comment">// 在元素存储中引入空隙</span></span><br><span class="line"><span class="built_in">console</span>.log(o[<span class="number">1</span>]);          <span class="comment">// 打印 'undefined'，属性 1 不存在</span></span><br><span class="line">o.__proto__ = &#123;<span class="number">1</span>: <span class="string">'B'</span>&#125;;     <span class="comment">// 在原型中定义属性 1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(o[<span class="number">0</span>]);          <span class="comment">// 打印 'a'.</span></span><br><span class="line"><span class="built_in">console</span>.log(o[<span class="number">1</span>]);          <span class="comment">// 打印 'B'.</span></span><br><span class="line"><span class="built_in">console</span>.log(o[<span class="number">2</span>]);          <span class="comment">// 打印 'c'.</span></span><br><span class="line"><span class="built_in">console</span>.log(o[<span class="number">3</span>]);          <span class="comment">// 打印 undefined</span></span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/hole.png" alt=""></figure>
+<p></p>
+<p>简而言之，如果接收方（receiver）上没有发现属性，我们就必须沿着原型链继续查找。鉴于元素是内部独立的（比如，我们不会在隐藏类上保存有关当前索引属性的信息），我们需要一个特殊值，称为 _hole，来标记不存在的属性。这对于数组函数的性能是至关重要的。如果我们知道没有空隙，即元素存储是挤满的，我们就可以直接在当前域执行操作而无需沿着原型链做昂贵的查找。</p>
+<p><strong>快元素还是字典元素：</strong> V8 对元素做的第二个主要区分是看它们是在快速模式还是字典模式。快元素是简单的虚拟机内部数组，其中的属性索引映射到元素存储中的索引。然而，这种简单的表示对于非常大的稀疏/带空隙的数组而言是相当浪费的，其中只有很少的条目被占用。在这种情况下，我们使用基于字典的表示来节省内存，但代价是访问速度稍慢：</p>
+<p></p>
+<figure class="highlight js">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line"><span class="keyword">const</span> sparseArray = [];</span><br><span class="line">sparseArray[<span class="number">9999</span>] = <span class="string">'foo'</span>; <span class="comment">// 创建了一个基于字典元素的数组</span></span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>在这个例子中，开辟一个包含一万条目的完整数组会相当浪费。相反，V8 会创建一个字典来存储键-值-描述符三元组。在这个例子中，键是 <code>&#39;9999&#39;</code>，值是 <code>&#39;foo&#39;</code>，默认描述符被使用。由于我们没有办法在隐藏类上保存描述符的详细信息，故只要你使用了自定义描述符去定义索引属性，V8 就会采用慢元素：</p>
+<p></p>
+<figure class="highlight js">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line"><span class="keyword">const</span> array = [];</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(array, <span class="number">0</span>, &#123;<span class="attr">value</span>: <span class="string">'fixed'</span> configurable: <span class="literal">false</span>&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(array[<span class="number">0</span>]);      <span class="comment">// 打印 'fixed'。</span></span><br><span class="line">array[<span class="number">0</span>] = <span class="string">'other value'</span>;   <span class="comment">// 不能重写索引 0。</span></span><br><span class="line"><span class="built_in">console</span>.log(array[<span class="number">0</span>]);      <span class="comment">// 依然打印 'fixed'。</span></span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p>在这个例子中，我们在数组上添加了一个不可配置的属性。该信息保存在慢元素字典三元组的描述符部分中。需要注意的是，在带有慢元素的对象上数组函数的执行速度会慢很多。</p>
+<p><strong>小整数和双浮点元素：</strong> 对于快元素，V8 中还有另一个重要的区分。比如一个常见的例子，只在一个数组中放整数，那么垃圾回收器就不必查看数组，因为整数被直接编码为所谓的小整数（Smis）。另一个特例是只包含双浮点数（double）的数组。与小整数不同，浮点数通常表示为占据多个字（word）的完整对象。然而，在 V8 中，纯双浮点数的数组会使用原生双精度浮点数来保存，以减少内存和性能开销。以下例子列出了小整数和双浮点元素的四个示例：</p>
+<p></p>
+<figure class="highlight js">
+<table>
+<tr>
+<td class="gutter">
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre>
+</td>
+<td class="code">
+<pre><span class="line"><span class="keyword">const</span> a1 = [<span class="number">1</span>,   <span class="number">2</span>, <span class="number">3</span>];  <span class="comment">// 挤满小整数</span></span><br><span class="line"><span class="keyword">const</span> a2 = [<span class="number">1</span>,    , <span class="number">3</span>];  <span class="comment">// 带空隙小整数，a2[1] 从原型中读取</span></span><br><span class="line"><span class="keyword">const</span> b1 = [<span class="number">1.1</span>, <span class="number">2</span>, <span class="number">3</span>];  <span class="comment">// 挤满双浮点</span></span><br><span class="line"><span class="keyword">const</span> b2 = [<span class="number">1.1</span>,  , <span class="number">3</span>];  <span class="comment">// 带空隙双浮点，b2[1] 从原型中读取</span></span><br></pre>
+</td>
+</tr>
+</table>
+</figure>
+<p></p>
+<p><strong>特殊元素：</strong> 到目前为止，我们已经涵盖了 20 种不同元素中的 7 种。为简单起见，我们排除了 9 种 TypedArrays 相关的元素类型，2 种 String 包装器相关的，还有 2 种参数对象相关的特殊类型。</p>
+<p><strong>元素访问器：</strong> 正如你所想的，我们并不太热衷于在 C++ 中给<a href="https://v8.dev/blog/elements-kinds" target="_blank">元素种类</a>一个个对应地写 20 多遍数组函数。这里就需要一些 C++ 魔术。我们不是一遍又一遍地实现数组函数，而是构建了元素访问器 <code>ElementsAccessor</code>，这样我们大多情况下只需要实现简单的函数来从后备存储中访问元素。<code>ElementsAccessor</code>依赖于
+<a href="https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern" target="_blank">CRTP</a> 来创建每个数组函数的专用版本。因此，如果在数组上调用类似 <code>slice</code> 的方法，V8 内部会调用 C++ 编写的内置函数，并通过 <code>ElementsAccessor</code> 调度到函数的专用版本：</p>
+<p></p>
+<figure><img src="https://v8.dev/_img/fast-properties/elements-accessor.png" alt=""></figure>
+<p></p>
+<p><strong>本节要点:</strong></p>
+<ul>
+<li>索引属性和元素有快速和字典模式。</li>
+<li>快属性可以是挤满的（packed），也可以包含空隙（holes）表示索引属性被删除。</li>
+<li>不同类型的元素根据其内容专门优化，以加速数组函数并减少垃圾回收器开销。</li>
+</ul>
+<p>了解属性如何工作是 V8 中许多优化的关键。对于 JavaScript 开发者来说，许多这样的内部决策都不是直接可见的，但它们解释了为什么某些代码模式比其它的更快。更改属性或元素类型通常会导致 V8 创建一个不同的隐藏类，这可能导致类型污染<a href="http://mrale.ph/blog/2015/01/11/whats-up-with-monomorphism.html" target="_blank">阻止 V8 生成最优代码</a>。请继续关注有关 V8 虚拟机内部工作原理的更多文章。</p>
+</div>
+</div>
+<footer class="article-footer">
+<ul class="article-tag-list">
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li>
+<li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Translation/">Translation</a></li>
+</ul>
+<nav id="article-nav"><a href="/2018/09/24/be-a-commitizen/" id="article-nav-older" class="article-nav-link-wrap"><strong class="article-nav-caption">older</strong><div class="article-nav-title">如何文明提交代码</div></a></nav>
+</footer>
+</article>
+<section id="comments">
+<div id="disqus_thread" data-url="https://blog.crimx.com/2018/11/25/v8-fast-properties/" data-identifier="2018/11/25/v8-fast-properties/" data-src="//crimx.disqus.com/embed.js">
+<div class="no-comments">您还在局域网。 ——来自隔墙相望的评论</div><noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank">comments powered by Disqus.</a></noscript></div>
+</section>
+<div class="menu-icon"><i class="menu-icon__logo"></i></div>
+<footer class="site-footer">
+<ul class="recommended-post">
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+<li class="recommended-post__item">
+<a class="recommended-post__link" href="#">
+<div class="recommended-post__cover js-progressive-bg-container">
+<div class="recommended-post__thumbnail js-progressive-bg-thumbnail"></div>
+</div>
+<h1 class="recommended-post__title"></h1>
+</a>
+</li>
+</ul>
+<div class="site-description">I <a href="https://github.com/crimx/" target="_blank">code</a>, <a href="http://codepen.io/straybugs/" target="_blank">design</a>, <a href="https://twitter.com/straybugs/" target="_blank">tweet</a> &amp; <a href="https://blog.crimx.com" target="_blank">blog</a>.</div>
+<div class="copyright">© COPYRIGHT 2016 · Designed &amp; Wrote With <svg class="icon-heart"><use xlink:href="/images/symbol-defs.svg#icon-heart"/></svg></div>
+</footer>
+</div>
+</div>
+<script src="/static/bundle.js"></script>
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-49163616-3', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics --><noscript><style>.noscript-warning {
+      position: fixed;
+      z-index: 999999;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      padding: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background: orange;
+      text-align: center;
+    }</style><div class="noscript-warning">This site works best with JavaScript enabled</div></noscript></body>
+
+</html>
