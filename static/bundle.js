@@ -4,6 +4,9 @@ return t&&(!n.e||t.e==n.e)&&(!n.ns||a.test(t.ns))&&(!o||e(t.fn)===e(o))&&(!s||t.
 ;(function () {
 
 const warning = document.createElement('div')
+warning.style.position = 'relative'
+warning.style.zIndex = '999999999'
+warning.style.textAlign = 'center'
 warning.style.padding = '1.5em 1em'
 warning.style.color = '#111'
 warning.style.background = '#FFEB3B'
